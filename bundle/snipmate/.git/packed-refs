@@ -1,0 +1,4 @@
+# pack-refs with: peeled 
+5a461cfb634f26d0d237e71b4da2899e2015c986 refs/remotes/origin/nested_snips
+2b77164b4d489e3ecd7a7dc5ef5c80733d2a110e refs/remotes/origin/nested_placeholders
+f5a75d075d3c005ebe69e3f5e56cf99516e8aa3b refs/remotes/origin/master

@@ -1,0 +1,31 @@
+# Subroutine
+snippet sub
+	subroutine ${1:name}(${2})
+	  !
+	  ! KYL, `strftime("%Y-%m-%d")`
+	  !
+	  implicit none${3}
+	end subroutine $1
+
+snippet func
+	function ${1:name}(${2:i,j,k})
+	  !
+	  ! KYL, `strftime("%Y-%m-%d")`
+	  !
+	  implicit none
+	  ${3:integer} :: $1
+	  ${4:integer} :: $2
+	  ${5}
+	end function $1
+
+snippet if
+	if (${1:conditional}) then
+	  ${2}
+	else
+	  ${3}
+	endif
+
+snippet do
+	do ${1}=${2},${3}
+	  ${4}
+	enddo
