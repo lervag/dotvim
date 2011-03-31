@@ -1,3 +1,4 @@
+undofiles/.*
 backup/.*
 view/.*
 .*\.pyc
