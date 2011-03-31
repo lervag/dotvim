@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-
 bundles = [ 
   {:name => 'gundo',
    :url => "http://bitbucket.org/sjl/gundo.vim",
