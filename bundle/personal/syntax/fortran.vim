@@ -1,18 +1,17 @@
 " Vim syntax file
 " Header: {{{1
 " Language:	Fortran95 (and Fortran90, Fortran77, F and elf90)
-" Version:	0.88-1
-" URL:		http://www.unb.ca/chem/ajit/syntax/fortran.vim
-" Last Change:	2009 Dec. 01
+" Version:	0.89
+" Last Change:	2010 July 21
 " Maintainer:	Ajit J. Thakkar (ajit AT unb.ca); <http://www.unb.ca/chem/ajit/>
 "            	Karl Yngve Lervåg (fixed if syntax)
-" Usage:	Do :help fortran-syntax from Vim
+" Usage:	For instructions, do :help fortran-syntax from Vim
 " Credits:
 "  Version 0.1 was based on the fortran 77 syntax file by Mario Eusebio and
 "  Preben Guldberg. Useful suggestions were made by: Andrej Panjkov,
 "  Bram Moolenaar, Thomas Olsen, Michael Sternberg, Christian Reile,
 "  Walter Dieudonné, Alexander Wagner, Roman Bertle, Charles Rendleman,
-"  and Andrew Griffiths. For instructions on use, do :help fortran from vim
+"  Andrew Griffiths, Joe Krahn, and Hendrik Merx.
 
 " Settings: {{{1
 let fortran_dialect="f90"
@@ -83,25 +82,25 @@ if !exists("b:fortran_fixed_source")
   else
     " f90 and f95 allow both fixed and free source form.
     " Assume fixed source form unless signs of free source form
-    " are detected in the first five columns of the first b:lmax lines.
+    " are detected in the first five columns of the first s:lmax lines.
     " Detection becomes more accurate and time-consuming if more lines
     " are checked. Increase the limit below if you keep lots of comments at
     " the very top of each file and you have a fast computer.
-    let b:lmax = 250
-    if ( b:lmax > line("$") )
-      let b:lmax = line("$")
+    let s:lmax = 500
+    if ( s:lmax > line("$") )
+      let s:lmax = line("$")
     endif
     let b:fortran_fixed_source = 1
-    let b:ln=1
-    while b:ln <= b:lmax
-      let b:test = strpart(getline(b:ln),0,5)
-      if b:test[0] !~ '[Cc*!#]' && b:test !~ '^ \+[!#]' && b:test =~ '[^ 0-9\t]'
+    let s:ln=1
+    while s:ln <= s:lmax
+      let s:test = strpart(getline(s:ln),0,5)
+      if s:test !~ '^[Cc*]' && s:test !~ '^ *[!#]' && s:test =~ '[^ 0-9\t]' && s:test !~ '^[ 0-9]*\t'
 	let b:fortran_fixed_source = 0
 	break
       endif
-      let b:ln = b:ln + 1
+      let s:ln = s:ln + 1
     endwhile
-    unlet b:lmax b:ln b:test
+    unlet! s:lmax s:ln s:test
   endif
 endif
 
@@ -134,8 +133,6 @@ syn match   fortranUnitHeader	"\<end\>"
 syn match fortranType		"\<character\>"
 syn match fortranType		"\<complex\>"
 syn match fortranType		"\<integer\>"
-syn match fortranType		"\<real\>"
-syn match fortranType		"\<logical\>"
 syn keyword fortranType		intrinsic
 syn match fortranType		"\<implicit\>"
 syn keyword fortranStructure	dimension
@@ -143,7 +140,6 @@ syn keyword fortranStorageClass	parameter save
 syn match fortranUnitHeader	"\<subroutine\>"
 syn keyword fortranCall		call
 syn match fortranUnitHeader	"\<function\>"
-syn match fortranFunctionType	"\(elemental \|pure \|recursive \)\=\s*\(real \|integer \|logical \|complex \)\s*\(\<function\>\)\@="
 syn match fortranUnitHeader	"\<program\>"
 syn keyword fortranKeyword	return stop
 syn keyword fortranConditional	else then
@@ -182,8 +178,10 @@ syn keyword fortran77Intrinsic	abs acos aimag aint anint asin atan atan2 char cm
 syn match fortran77Intrinsic	"\<len\s*[(,]"me=s+3
 syn match fortran77Intrinsic	"\<real\s*("me=s+4
 syn match fortranType		"\<implicit\s\+real"
+syn match fortranType		"^\s*real\>"
 syn match fortran90Intrinsic	"\<logical\s*("me=s+7
 syn match fortranType		"\<implicit\s\+logical"
+syn match fortranType		"^\s*logical\>"
 
 "Numbers of various sorts
 " Integers
@@ -222,7 +220,8 @@ endif
 
 syn keyword fortranTypeEx	external
 syn keyword fortranIOEx		format
-syn keyword fortranKeywordEx	continue
+syn match fortranKeywordEx	"\<continue\>"
+syn match fortranKeyword	"^\s*\d\+\s\+continue\>"
 syn match fortranKeywordEx	"\<go\s*to\>"
 syn region fortranStringEx	start=+'+ end=+'+ contains=fortranContinueMark,fortranLeftMargin,fortranSerialNumber
 syn keyword fortran77IntrinsicEx	dim lge lgt lle llt mod
@@ -305,6 +304,40 @@ if b:fortran_dialect == "f95" || b:fortran_dialect == "F"
   endif
 endif
 
+if b:fortran_dialect == "f95"
+  " F2003
+  syn keyword fortran03Intrinsic        command_argument_count get_command get_command_argument get_environment_variable is_iostat_end is_iostat_eor move_alloc new_line selected_char_kind same_type_as extends_type_of
+  " ISO_C_binding
+  syn keyword fortran03Constant         c_null_char c_alert c_backspace c_form_feed c_new_line c_carriage_return c_horizontal_tab c_vertical_tab
+  syn keyword fortran03Constant         c_int c_short c_long c_long_long c_signed_char c_size_t c_int8_t c_int16_t c_int32_t c_int64_t c_int_least8_t c_int_least16_t c_int_least32_t c_int_least64_t c_int_fast8_t c_int_fast16_t c_int_fast32_t c_int_fast64_t c_intmax_t C_intptr_t c_float c_double c_long_double c_float_complex c_double_complex c_long_double_complex c_bool c_char c_null_ptr c_null_funptr
+  syn keyword fortran03Intrinsic        iso_c_binding c_loc c_funloc c_associated  c_f_pointer c_f_procpointer
+  syn keyword fortran03Type             c_ptr c_funptr
+  " ISO_Fortran_env
+  syn keyword fortran03Constant         iso_fortran_env character_storage_size error_unit file_storage_size input_unit iostat_end iostat_eor numeric_storage_size output_unit
+  " IEEE_arithmetic
+  syn keyword fortran03Intrinsic        ieee_arithmetic ieee_support_underflow_control ieee_get_underflow_mode ieee_set_underflow_mode
+
+  syn keyword fortran03ReadWrite	flush wait
+  syn keyword fortran03IO	        decimal round iomsg
+  syn keyword fortran03Type             asynchronous nopass non_overridable pass protected volatile abstract extends import
+  syn keyword fortran03Type             non_intrinsic value bind deferred generic final enumerator class
+  syn match fortran03Type               "\<associate\>"
+  syn match fortran03Type               "\<end\s*associate"
+  syn match fortran03Type               "\<enum\s*,\s*bind\s*(\s*c\s*)"
+  syn match fortran03Type               "\<end\s*enum"
+  syn match fortran03Conditional	"\<select\s*type"
+  syn match fortran03Conditional        "\<type\s*is\>"
+  syn match fortran03UnitHeader         "\<abstract\s*interface\>"
+  syn match fortran03Operator           "\([\|]\)"
+
+  " F2008
+  syn keyword fortran08Intrinsic        acosh asinh atanh bessel_j0 bessel_j1 bessel_jn bessel_y0 bessel_y1 bessel_yn erf erfc erfc_scaled gamma log_gamma hypot norm2
+  syn keyword fortran08Intrinsic        atomic_define atomic_ref execute_command_line leadz trailz storage_size merge_bits
+  syn keyword fortran08Intrinsic        bge bgt ble blt dshiftl dshiftr findloc iall iany iparity image_index lcobound ucobound maskl maskr num_images parity popcnt poppar shifta shiftl shiftr this_image
+  syn keyword fortran08IO               newunit
+  syn keyword fortran08Type             contiguous
+endif
+
 syn cluster fortranCommentGroup contains=fortranTodo
 
 if (b:fortran_fixed_source == 1)
@@ -315,7 +348,7 @@ if (b:fortran_fixed_source == 1)
     syn match fortranLabelError	"^.\{-,4}[^0-9 ]" contains=fortranTab
     syn match fortranLabelError	"^.\{4}\d\S"
   endif
-  syn match fortranComment		excludenl "^[!c*].*$" contains=@fortranCommentGroup
+  syn match fortranComment		excludenl "^[!c*].*$" contains=@fortranCommentGroup,@spell
   syn match fortranLeftMargin		transparent "^ \{5}"
   syn match fortranContinueMark		display "^.\{5}\S"lc=5
 else
@@ -339,9 +372,9 @@ syn match	cInclude		"^\s*#\s*include\>\s*["<]" contains=cIncluded
 if exists("fortran_fold") || exists("fortran_more_precise")
   syn sync fromstart
 elseif (b:fortran_fixed_source == 0)
-  syn sync linecont "&" minlines=20
+  syn sync linecont "&" minlines=30
 else
-  syn sync minlines=20
+  syn sync minlines=30
 endif
 
 " Folding: {{{1
@@ -352,15 +385,18 @@ if version >= 600 && exists("fortran_fold")
     syn region fortranModule transparent fold keepend start="^\s*module\s\+\(procedure\)\@!\z(\a\w*\)" skip="^\([!c*]\|\s*#\).*$" excludenl end="\<end\s*\(module\(\s\+\z1\>\)\=\|$\)" contains=ALLBUT,fortranProgram
     syn region fortranFunction transparent fold keepend extend start="^\s*\(elemental \|pure \|recursive \)\=\s*\(\(\(real \|integer \|logical \|complex \|double \s*precision \)\s*\((\(\s*kind\s*=\)\=\s*\w\+\s*)\)\=\)\|type\s\+(\s*\w\+\s*) \|character \((\(\s*len\s*=\)\=\s*\d\+\s*)\|(\(\s*kind\s*=\)\=\s*\w\+\s*)\)\=\)\=\s*function\s\+\z(\a\w*\)" skip="^\([!c*]\|\s*#\).*$" excludenl end="\<end\s*\($\|function\(\s\+\z1\>\)\=\)" contains=ALLBUT,fortranProgram,fortranModule
     syn region fortranSubroutine transparent fold keepend extend start="^\s*\(elemental \|pure \|recursive \)\=\s*subroutine\s\+\z(\a\w*\)" skip="^\([!c*]\|\s*#\).*$" excludenl end="\<end\s*\($\|subroutine\(\s\+\z1\>\)\=\)" contains=ALLBUT,fortranProgram,fortranModule
-    syn region fortranBlockData transparent fold keepend start="\<block\s*data\s\+\z(\a\w*\)" skip="^\([!c*]\|\s*#\).*$" excludenl end="\<end\s*\($\|block\s*data\(\s\+\z1\>\)\=\)" contains=ALLBUT,fortranProgram,fortranModule,fortranSubroutine,fortranFunction,fortran77Loop,fortranCase,fortran90Loop,fortranIfBlock
+    syn region fortranBlockData transparent fold keepend start="\<block\s*data\(\s\+\z(\a\w*\)\)\=" skip="^\([!c*]\|\s*#\).*$" excludenl end="\<end\s*\($\|block\s*data\(\s\+\z1\>\)\=\)" contains=ALLBUT,fortranProgram,fortranModule,fortranSubroutine,fortranFunction,fortran77Loop,fortranCase,fortran90Loop,fortranIfBlock
     syn region fortranInterface transparent fold keepend extend start="^\s*interface\>" skip="^\([!c*]\|\s*#\).*$" excludenl end="\<end\s*interface\>" contains=ALLBUT,fortranProgram,fortranModule,fortran77Loop,fortranCase,fortran90Loop,fortranIfBlock
+    syn region fortranTypeDef transparent fold keepend extend start="^\s*type\s*\(,\s*\(public\|private\)\)\=\s*::" skip="^\([!c*]\|\s*#\).*$" excludenl end="\<end\s*type\>" contains=ALLBUT,fortranProgram,fortranModule,fortran77Loop,fortranCase,fortran90Loop,fortranIfBlock
   else
-    syn region fortranProgram transparent fold keepend start="^\s*program\s\+\z(\a\w*\)" skip="^\s*[!#].*$" excludenl end="\<end\s*\(program\(\s\+\z1\>\)\=\|$\)" contains=ALLBUT,fortranModule
-    syn region fortranModule transparent keepend start="^\s*module\s\+\(procedure\)\@!\z(\a\w*\)" skip="^\s*[!#].*$" excludenl end="\<end\s*\(module\(\s\+\z1\>\)\=\|$\)" contains=ALLBUT,fortranProgram
+    " Note: Don't want to fold the program or module
+    "syn region fortranProgram transparent fold keepend start="^\s*program\s\+\z(\a\w*\)" skip="^\s*[!#].*$" excludenl end="\<end\s*\(program\(\s\+\z1\>\)\=\|$\)" contains=ALLBUT,fortranModule
+    "syn region fortranModule transparent fold keepend start="^\s*module\s\+\(procedure\)\@!\z(\a\w*\)" skip="^\s*[!#].*$" excludenl end="\<end\s*\(module\(\s\+\z1\>\)\=\|$\)" contains=ALLBUT,fortranProgram
     syn region fortranFunction transparent fold keepend extend start="^\s*\(elemental \|pure \|recursive \)\=\s*\(\(\(real \|integer \|logical \|complex \|double \s*precision \)\s*\((\(\s*kind\s*=\)\=\s*\w\+\s*)\)\=\)\|type\s\+(\s*\w\+\s*) \|character \((\(\s*len\s*=\)\=\s*\d\+\s*)\|(\(\s*kind\s*=\)\=\s*\w\+\s*)\)\=\)\=\s*function\s\+\z(\a\w*\)" skip="^\s*[!#].*$" excludenl end="\<end\s*\($\|function\(\s\+\z1\>\)\=\)" contains=ALLBUT,fortranProgram,fortranModule
     syn region fortranSubroutine transparent fold keepend extend start="^\s*\(elemental \|pure \|recursive \)\=\s*subroutine\s\+\z(\a\w*\)" skip="^\s*[!#].*$" excludenl end="\<end\s*\($\|subroutine\(\s\+\z1\>\)\=\)" contains=ALLBUT,fortranProgram,fortranModule
-    syn region fortranBlockData transparent fold keepend start="\<block\s*data\s\+\z(\a\w*\)" skip="^\s*[!#].*$" excludenl end="\<end\s*\($\|block\s*data\(\s\+\z1\>\)\=\)" contains=ALLBUT,fortranProgram,fortranModule,fortranSubroutine,fortranFunction,fortran77Loop,fortranCase,fortran90Loop,fortranIfBlock
+    syn region fortranBlockData transparent fold keepend start="\<block\s*data\(\s\+\z(\a\w*\)\)\=" skip="^\s*[!#].*$" excludenl end="\<end\s*\($\|block\s*data\(\s\+\z1\>\)\=\)" contains=ALLBUT,fortranProgram,fortranModule,fortranSubroutine,fortranFunction,fortran77Loop,fortranCase,fortran90Loop,fortranIfBlock
     syn region fortranInterface transparent fold keepend extend start="^\s*interface\>" skip="^\s*[!#].*$" excludenl end="\<end\s*interface\>" contains=ALLBUT,fortranProgram,fortranModule,fortran77Loop,fortranCase,fortran90Loop,fortranIfBlock
+    syn region fortranTypeDef transparent fold keepend extend start="^\s*type\s*\(,\s*\(public\|private\)\)\=\s*::" skip="^\s*[!#].*$" excludenl end="\<end\s*type\>" contains=ALLBUT,fortranProgram,fortranModule,fortran77Loop,fortranCase,fortran90Loop,fortranIfBlock
   endif
 
   if exists("fortran_fold_conditionals")
@@ -372,8 +408,10 @@ if version >= 600 && exists("fortran_fold")
     else
       syn region fortran77Loop transparent fold keepend start="\<do\s\+\z(\d\+\)" end="^\s*\z1\>" contains=ALLBUT,fortranUnitHeader,fortranStructure,fortranStorageClass,fortranType,fortranProgram,fortranModule,fortranSubroutine,fortranFunction,fortranBlockData
       syn region fortran90Loop transparent fold keepend extend start="\(\<end\s\+\)\@<!\<do\(\s\+\a\|\s*$\)" skip="^\s*[!#].*$" excludenl end="\<end\s*do\>" contains=ALLBUT,fortranUnitHeader,fortranStructure,fortranStorageClass,fortranType,fortranProgram,fortranModule,fortranSubroutine,fortranFunction,fortranBlockData
-      syn region fortranIfBlock fold keepend extend start="^\s*\<if\s*(\(.*&.*\|\n\)*.*)\s*then\>" skip="^\s*[!#].*$" end="\<end\s*if\>" contains=ALLBUT,fortranUnitHeader,fortranStructure,fortranStorageClass,fortranType,fortranProgram,fortranModule,fortranSubroutine,fortranFunction,fortranBlockData
+
+      " Note: Updated.
       "syn region fortranIfBlock transparent fold keepend extend start="\(\<e\(nd\|lse\)\s\+\)\@<!\<if\s*(.\+)\s*then\>" skip="^\s*[!#].*$" end="\<end\s*if\>" contains=ALLBUT,fortranUnitHeader,fortranStructure,fortranStorageClass,fortranType,fortranProgram,fortranModule,fortranSubroutine,fortranFunction,fortranBlockData
+      syn region fortranIfBlock transparent fold keepend extend start="^\s*\<if\s*(\(.*&.*\|\n\)*.*)\s*then\>" skip="^\s*[!#].*$" end="\<end\s*if\>" contains=ALLBUT,fortranUnitHeader,fortranStructure,fortranStorageClass,fortranType,fortranProgram,fortranModule,fortranSubroutine,fortranFunction,fortranBlockData
       syn region fortranCase transparent fold keepend extend start="\<select\s*case\>" skip="^\s*[!#].*$" end="\<end\s*select\>" contains=ALLBUT,fortranUnitHeader,fortranStructure,fortranStorageClass,fortranType,fortranProgram,fortranModule,fortranSubroutine,fortranFunction,fortranBlockData
     endif
   endif
@@ -408,27 +446,41 @@ if version >= 508 || !exists("did_fortran_syn_inits")
   " fortranMultiCommentLines
   HiLink fortranKeyword 	Keyword
   HiLink fortranConstructName	Identifier
+  HiLink fortran03Conditional	fortranConditional
   HiLink fortranConditional	Conditional
   HiLink fortranRepeat		Repeat
   HiLink fortranTodo		Todo
-  HiLink fortranContinueMark	Todo
+  if (b:fortran_fixed_source == 1)
+    HiLink fortranContinueMark	Todo
+  else
+    HiLink fortranContinueMark	Keyword
+  endif
   HiLink fortranString		String
   HiLink fortranNumber		Number
+  HiLink fortran03Operator	fortranOperator
   HiLink fortranOperator	Operator
   HiLink fortranBoolean		Boolean
   HiLink fortranLabelError	Error
   HiLink fortranObsolete	Todo
+  HiLink fortran03Type  	fortranType
+  HiLink fortran08Type	        fortranType
   HiLink fortranType		Type
   HiLink fortranStructure	Type
   HiLink fortranStorageClass	StorageClass
-  HiLink fortranCall		fortranUnitHeader
-  HiLink fortranFunctionType	fortran90Intrinsic
+  HiLink fortranCall		Function
+  HiLink fortran03UnitHeader	fortranUnitHeader
   HiLink fortranUnitHeader	fortranPreCondit
+  HiLink fortran03ReadWrite	fortranReadWrite
   HiLink fortranReadWrite	Keyword
+  HiLink fortran03IO		fortranIO
+  HiLink fortran08IO		fortranIO
   HiLink fortranIO		Keyword
   HiLink fortran95Intrinsic	fortran90Intrinsic
   HiLink fortran77Intrinsic	fortran90Intrinsic
   HiLink fortran90Intrinsic	Function
+  HiLink fortran03Intrinsic	Function
+  HiLink fortran08Intrinsic	Function
+  HiLink fortran03Constant	Function
 
   if ( b:fortran_dialect == "elf" || b:fortran_dialect == "F" )
     HiLink fortranKeywordOb	fortranObsolete
