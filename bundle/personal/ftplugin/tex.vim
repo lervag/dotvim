@@ -9,6 +9,7 @@ end
 " Define some settings
 let g:Tex_DefaultTargetFormat='pdf'
 let g:Tex_UseEditorSettingInDVIViewer = 1
+let g:Tex_MultipleCompileFormats='dvi,pdf'
 let g:Tex_ViewRule_pdf = 'okular'
 let g:Tex_ViewRule_dvi = 'okular'
 let g:Tex_ViewRule_ps  = 'okular'
