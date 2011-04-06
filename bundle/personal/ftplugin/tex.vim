@@ -1,18 +1,15 @@
-
 " Conceal options
-if v:version >= 730
+if v:version >= 703
   set cole=2
-  hi Conceal guibg=black guifg=white
+  "hi Conceal guibg=black guifg=white
   let g:tex_conceal="adgm"
 end
 
 " Define some settings
 let g:Tex_DefaultTargetFormat='pdf'
-let g:Tex_UseEditorSettingInDVIViewer = 1
 let g:Tex_MultipleCompileFormats='dvi,pdf'
 let g:Tex_ViewRule_pdf = 'okular'
 let g:Tex_ViewRule_dvi = 'okular'
-let g:Tex_ViewRule_ps  = 'okular'
 let g:Tex_CompileRule_pdf = 'pdflatex -synctex=1 -interaction=nonstopmode $*'
 let g:Tex_BIBINPUTS = $HOME
 let g:Tex_Com_sqrt = "\\sqrt[<++>]{<++>}<++>"
@@ -23,6 +20,21 @@ let g:Tex_FoldedEnvironments = "verbatim,comment,eq,gather,scope,multline,"
 let g:Tex_FoldedSections = "part,chapter,section,subsection,"
       \ . "subsubsection,paragraph,%%fakesection"
 let g:Tex_FoldedMisc="preamble,<<<"
+
+" Add mapping to be able to select a single paragraph, and to format it
+map <silent> <expr> { LaTeXStartOfParagraph()
+map <silent> <expr> } LaTeXEndOfParagraph()
+map <silent> gwp :call LaTeXFormatParagraph()<CR>
+vmap p {o}
+
+" Add mapping for latexmk
+map <silent> <Leader>lm :call Start_latexmk()<CR>
+function! Start_latexmk()
+  normal \ls
+  let cdcmd = "cd " . expand("%:h") . "; "
+  let latexmkcmd = "latexmk -pvc -silent"
+  silent execute "ScreenShell " . cdcmd . latexmkcmd
+endfunction
 
 " Create a handy function and autocommand for automagically formatting LaTeX
 "augroup LaTexTidy
