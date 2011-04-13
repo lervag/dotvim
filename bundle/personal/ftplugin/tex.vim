@@ -1,9 +1,3 @@
-" Conceal options
-if v:version >= 703
-  set cole=2
-  "hi Conceal guibg=black guifg=white
-  let g:tex_conceal="adgm"
-end
 
 " Define some settings
 let g:Tex_DefaultTargetFormat='pdf'
