@@ -84,7 +84,7 @@ endfunction
 
 function! LaTeXFormatParagraph()
   let cpp = getpos('.')
-  normal vpgw
+  normal vpgq
   call setpos('.', cpp)
 endfunction
 " vim: fdm=marker
