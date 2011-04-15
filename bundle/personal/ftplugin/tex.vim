@@ -1,5 +1,4 @@
-
-" Define some settings
+"{{{1 Define some settings
 let g:Tex_DefaultTargetFormat='pdf'
 let g:Tex_MultipleCompileFormats='dvi,pdf'
 let g:Tex_ViewRule_pdf = 'okular'
@@ -15,13 +14,13 @@ let g:Tex_FoldedSections = "part,chapter,section,subsection,"
       \ . "subsubsection,paragraph,%%fakesection"
 let g:Tex_FoldedMisc="preamble,<<<"
 
-" Add mapping to be able to select a single paragraph, and to format it
+"{{{1 Add mapping to be able to select a single paragraph, and to format it
 map <silent> <expr> { LaTeXStartOfParagraph()
 map <silent> <expr> } LaTeXEndOfParagraph()
 map <silent> gwp :call LaTeXFormatParagraph()<CR>
 vmap p {o}
 
-" Add mapping for latexmk
+"{{{1 Add mapping for latexmk
 map <silent> <Leader>lm :call Start_latexmk()<CR>
 function! Start_latexmk()
   normal \ls
@@ -30,7 +29,7 @@ function! Start_latexmk()
   silent execute "ScreenShell " . cdcmd . latexmkcmd
 endfunction
 
-" Create a handy function and autocommand for automagically formatting LaTeX
+"{{{1 Create a handy function and autocommand for automagically formatting LaTeX
 "augroup LaTexTidy
   "autocmd!
   "autocmd InsertLeave *.tex :call TidyAndResetCursor()
@@ -48,7 +47,7 @@ function! TidyAndResetCursor()
   call setpos('.', cp)
 endfunctio
 
-function! LaTeXStartOfParagraph()
+function! LaTeXStartOfParagraph()               "{{{1
   let delimitors = ['begin', 'end', '\(sub\)*section', 'label']
   let pattern = '^$\|^\s*\(\\' . join(delimitors,'\|\\') . '\)'
   let cpp = getpos('.')
@@ -63,7 +62,7 @@ function! LaTeXStartOfParagraph()
   endif
 endfunction
 
-function! LaTeXEndOfParagraph()
+function! LaTeXEndOfParagraph()               "{{{1
   let delimitors = ['begin', 'end', '\(sub\)*section', 'label']
   let pattern = '^$\|^\s*\(\\' . join(delimitors,'\|\\') . '\)'
   let cpp = getpos('.')
@@ -82,9 +81,10 @@ function! LaTeXEndOfParagraph()
   endif
 endfunction
 
-function! LaTeXFormatParagraph()
+function! LaTeXFormatParagraph()              "{{{1
   let cpp = getpos('.')
   normal vpgq
   call setpos('.', cpp)
 endfunction
+" {{{1 Modeline
 " vim: fdm=marker
