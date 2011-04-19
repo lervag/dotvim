@@ -48,7 +48,7 @@ function! TidyAndResetCursor()
 endfunctio
 
 function! LaTeXStartOfParagraph()               "{{{1
-  let delimitors = ['begin', 'end', '\(sub\)*section', 'label']
+  let delimitors = ['begin', 'end', '\(sub\)*section', 'label', '%']
   let pattern = '^$\|^\s*\(\\' . join(delimitors,'\|\\') . '\)'
   let cpp = getpos('.')
   let spp = searchpos(pattern,'b')
@@ -63,7 +63,7 @@ function! LaTeXStartOfParagraph()               "{{{1
 endfunction
 
 function! LaTeXEndOfParagraph()               "{{{1
-  let delimitors = ['begin', 'end', '\(sub\)*section', 'label']
+  let delimitors = ['begin', 'end', '\(sub\)*section', 'label', '%']
   let pattern = '^$\|^\s*\(\\' . join(delimitors,'\|\\') . '\)'
   let cpp = getpos('.')
   call searchpos(pattern)
