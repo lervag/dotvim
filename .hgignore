@@ -7,3 +7,6 @@ view/.*
 .*\.log
 .*\Makefile
 .netrwhist
+.*/.git/objects.*
+.*/.git/FETCH_HEAD
+.*/.git/ORIG_HEAD

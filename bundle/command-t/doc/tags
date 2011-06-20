@@ -33,6 +33,7 @@ g:CommandTCursorRightMap	command-t.txt	/*g:CommandTCursorRightMap*
 g:CommandTCursorStartMap	command-t.txt	/*g:CommandTCursorStartMap*
 g:CommandTDeleteMap	command-t.txt	/*g:CommandTDeleteMap*
 g:CommandTMatchWindowAtTop	command-t.txt	/*g:CommandTMatchWindowAtTop*
+g:CommandTMatchWindowReverse	command-t.txt	/*g:CommandTMatchWindowReverse*
 g:CommandTMaxDepth	command-t.txt	/*g:CommandTMaxDepth*
 g:CommandTMaxFiles	command-t.txt	/*g:CommandTMaxFiles*
 g:CommandTMaxHeight	command-t.txt	/*g:CommandTMaxHeight*

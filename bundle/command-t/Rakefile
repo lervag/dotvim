@@ -12,6 +12,12 @@ def version
   `git describe`.chomp
 end
 
+def rubygems_version
+  # RubyGems will barf if we try to pass an intermediate version number
+  # like "1.1b2-10-g61a374a", so no choice but to abbreviate it
+  `git describe --abbrev=0`.chomp
+end
+
 def yellow
   "\033[33m"
 end
@@ -78,6 +84,8 @@ task :help do
 The general release sequence is:
 
   rake prerelease
+  rake gem
+  rake push
   bin/rake upload:all
   rake archive
 
@@ -193,4 +201,14 @@ task :archive => :vimball do
      "git commit -s -m 'Add #{v} release vimball' && " +
      'git checkout @{-1} && ' +
      'git stash pop || true'
+end
+
+desc 'Create the ruby gem package'
+task :gem => :check_tag do
+  sh "gem build command-t.gemspec"
+end
+
+desc 'Push gem to Gemcutter ("gem push")'
+task :push => :gem do
+  sh "gem push command-t-#{rubygems_version}.gem"
 end
