@@ -149,7 +149,7 @@ endif
 let s:NERDTreeBufName = 'NERD_tree_'
 
 let s:tree_wid = 2
-let s:tree_markup_reg = '^[ `|]*[\-+~▾▸ ]*'
+let s:tree_markup_reg = '^[ `|]*[\-+~▾▸ ]\+'
 let s:tree_up_dir_line = '.. (up a dir)'
 
 "the number to add to the nerd tree buffer name to make the buf name unique
@@ -991,7 +991,7 @@ function! s:TreeFileNode.getLineNum()
     "the path components we have matched so far
     let pathcomponents = [substitute(b:NERDTreeRoot.path.str({'format': 'UI'}), '/ *$', '', '')]
     "the index of the component we are searching for
-    let curPathComponent = 1
+    let curPathComponent = 0
 
     let fullpath = self.path.str({'format': 'UI'})
 
@@ -2029,7 +2029,7 @@ function! s:Path.copy(dest)
 
     let dest = s:Path.WinToUnixPath(a:dest)
 
-    let cmd = g:NERDTreeCopyCmd . " " . self.str() . " " . dest
+    let cmd = g:NERDTreeCopyCmd . " " . escape(self.str(), s:escape_chars) . " " . escape(dest, s:escape_chars)
     let success = system(cmd)
     if success != 0
         throw "NERDTree.CopyError: Could not copy ''". self.str() ."'' to: '" . a:dest . "'"
@@ -3448,7 +3448,7 @@ function! s:setupSyntaxHighlighting()
     syn match NERDTreeExecFile  #[|` ].*\*\($\| \)# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark
     syn match NERDTreeFile  #|-.*# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark,NERDTreeExecFile
     syn match NERDTreeFile  #`-.*# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark,NERDTreeExecFile
-    syn match NERDTreeCWD #^/.*$#
+    syn match NERDTreeCWD #^[</].*$#
 
     "highlighting for bookmarks
     syn match NERDTreeBookmark # {.*}#hs=s+1
@@ -3672,19 +3672,17 @@ function! s:checkForActivate()
     let currentNode = s:TreeFileNode.GetSelected()
     if currentNode != {}
         let startToCur = strpart(getline(line(".")), 0, col("."))
-        let char = strpart(startToCur, strlen(startToCur)-1, 1)
 
-        "if they clicked a dir, check if they clicked on the + or ~ sign
-        "beside it
         if currentNode.path.isDirectory
-            if startToCur =~# s:tree_markup_reg . '$' && char =~# '[+~]'
+            if startToCur =~# s:tree_markup_reg . '$' && startToCur =~# '[+~▾▸]$'
                 call s:activateNode(0)
                 return
             endif
         endif
 
         if (g:NERDTreeMouseMode ==# 2 && currentNode.path.isDirectory) || g:NERDTreeMouseMode ==# 3
-            if char !~# s:tree_markup_reg && startToCur !~# '\/$'
+            let char = strpart(startToCur, strlen(startToCur)-1, 1)
+            if char !~# s:tree_markup_reg
                 call s:activateNode(0)
                 return
             endif
