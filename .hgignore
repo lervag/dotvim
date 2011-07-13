@@ -10,3 +10,5 @@ view/.*
 .*/.git/objects.*
 .*/.git/FETCH_HEAD
 .*/.git/ORIG_HEAD
+.*/.git/logs/.*
+.*/.git/refs/.*
