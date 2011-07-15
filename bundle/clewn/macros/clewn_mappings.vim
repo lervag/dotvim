@@ -86,6 +86,7 @@ function! s:Toggle()
 	    call s:Map_vim_old()
 	else
 	    call s:Map_vim_70()
+            setlocal columns=82
 	endif
 
 	echohl ErrorMsg

@@ -21,8 +21,6 @@ if has("balloon_eval")
     set balloondelay=100
 endif
 
-setlocal columns=82
-
 augroup clewn
 autocmd!
 " set options for gdb-variables.gdbvar
