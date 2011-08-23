@@ -7,8 +7,17 @@
 "             it and/or modify it under the terms of the Do What The Fuck You
 "             Want To Public License, Version 2, as published by Sam Hocevar.
 "             See http://sam.zoy.org/wtfpl/COPYING for more details.
+"Note:        This syntax checker uses gfortran with the option -fsyntax-only
+"             to check for errors and warnings. Additional flags may be
+"             supplied through both local and global variables,
+"               b:syntastic_fortran_flags,
+"               g:syntastic_fortran_flags.
+"             This is particularly useful when the source requires module files
+"             in order to compile (that is when it needs modules defined in
+"             separate files).
 "
 "============================================================================
+
 if exists("loaded_fortran_syntax_checker")
     finish
 endif
@@ -19,9 +28,17 @@ if !executable("gfortran")
     finish
 endif
 
+if !exists('g:syntastic_fortran_flags')
+    g:syntastic_fortran_flags = ''
+endif
+
 function! SyntaxCheckers_fortran_GetLocList()
-    let makeprg = 'gfortran -fsyntax-only ' . shellescape(expand('%')) . '  '
-    let makeprg = 'gfortran -I../objects/debug_gfortran_Linux -fsyntax-only ' . shellescape(expand('%'))
-    let errorformat =  '%E%f:%l.%c:,%-G%p^,%ZError: %m'
+    let makeprg  = 'gfortran -fsyntax-only'
+    let makeprg .= g:syntastic_fortran_flags
+    if exists('b:syntastic_fortran_flags')
+        let makeprg .= b:syntastic_fortran_flags
+    endif
+    let makeprg .= ' ' . shellescape(expand('%'))
+    let errorformat = '%-C %#,%-C  %#%.%#,%A%f:%l.%c:,%Z%m,%G%.%#'
     return SyntasticMake({ 'makeprg': makeprg, 'errorformat': errorformat })
 endfunction
