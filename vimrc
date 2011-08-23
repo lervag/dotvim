@@ -328,6 +328,10 @@ let delimitMate_balance_matchpairs = 1
 let delimitMate_expand_space       = 1
 let delimitMate_excluded_regions   = "Comments,String"
 
+"{{{2 syntactics
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_stl_format = '[%E{Err: %e}%B{, }%W{Warn: %w}]'
+
 "{{{1 Functions
 function! LaTeXSettings()                                                 "{{{2
   " For all tex files use forward slash in filenames
