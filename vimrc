@@ -136,7 +136,7 @@ endfunction
 
 "{{{1 Gui and colorscheme options
 if has("gui_running")
-  set lines=999
+  set lines=80
   set guioptions=aegirLt
   set guifont=Monospace\ 10
 endif
@@ -331,6 +331,14 @@ let delimitMate_excluded_regions   = "Comments,String"
 "{{{2 syntactics
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_stl_format = '[%E{Err: %e}%B{, }%W{Warn: %w}]'
+
+" Set flags for fortran compilation
+let g:syntastic_fortran_flags = ' -fdefault-real-8'
+let g:syntastic_fortran_flags .= ' -Wall -Wextra'
+let g:syntastic_fortran_flags .= ' -I' . expand('%:h')
+let g:syntastic_fortran_flags .= ' -I' . expand('%:h') . '/..'
+let g:syntastic_fortran_flags .= ' -I' . expand('%:h') .
+      \ '/../objects/debug_gfortran_Linux'
 
 "{{{1 Functions
 function! LaTeXSettings()                                                 "{{{2
