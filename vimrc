@@ -1,7 +1,6 @@
 " Setup for VIM: The number one text editor!
 " -----------------------------------------------------------------------------
 " Author: Karl Yngve Lervåg
-" Date: 2011-05-30
 "
 "{{{1 Activate pathogen
 if !exists("pathogen_loaded")
@@ -62,21 +61,91 @@ set diffopt=filler,context:4,foldcolumn:2,horizontal
 set completeopt=menuone,menu,longest
 set grepprg=ack-grep
 set list lcs=tab:>-,trail:-,nbsp:-
+set cursorline
+
+"{{{1 Statusline
+set laststatus=2
+set statusline=[%n]\ %t                         " tail of the filename
+set statusline+=\ %m                            " modified flag
+set statusline+=[%{strlen(&fenc)?&fenc:'none'}, " file encoding
+set statusline+=%{&ff}                          " file format
+set statusline+=%Y                              " filetype
+set statusline+=%H                              " help file flag
+set statusline+=%R                              " read only flag
+set statusline+=%{StatuslineLongLineWarning()}
+set statusline+=%q                              " quickfix-tag
+set statusline+=%w                              " preview-tag
+set statusline+=%=                              " left/right separator
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+set statusline+=(%c,                            " cursor column
+set statusline+=%l/%L)                          " cursor line/total lines
+set statusline+=\ %P                            " percent through file
+
+" Recalculate the long line warning when idle and after saving
+autocmd cursorhold,bufwritepost * unlet! b:statusline_long_line_warning
+
+" Return a warning for "long lines" where "long" is either &textwidth or 80 (if
+" no &textwidth is set)
+"
+" Return ']' if no long lines
+" Return ',#x,my,$z] if long lines are found, were x is the number of long
+" lines, y is the median length of the long lines and z is the length of the
+" longest line
+function! StatuslineLongLineWarning()
+  if !exists("b:statusline_long_line_warning")
+    let long_line_lens = s:LongLines()
+    if len(long_line_lens) > 0
+      let b:statusline_long_line_warning = "," .
+            \ '#' . len(long_line_lens) . "," .
+            \ 'm' . s:Median(long_line_lens) . "," .
+            \ '$' . max(long_line_lens) . "]"
+    else
+      let b:statusline_long_line_warning = "]"
+    endif
+  endif
+  return b:statusline_long_line_warning
+endfunction
+
+" Return a list containing the lengths of the long lines in this buffer
+function! s:LongLines()
+  let threshold = (&tw ? &tw : 80)
+  let spaces = repeat(" ", &ts)
+  let long_line_lens = []
+  let i = 1
+  while i <= line("$")
+    let len = strlen(substitute(getline(i), '\t', spaces, 'g'))
+    if len > threshold
+      call add(long_line_lens, len)
+    endif
+    let i += 1
+  endwhile
+  return long_line_lens
+endfunction
+
+" Find the median of the given array of numbers
+function! s:Median(nums)
+  let nums = sort(a:nums)
+  let l = len(nums)
+  if l % 2 == 1
+    let i = (l-1) / 2
+    return nums[i]
+  else
+    return (nums[l/2] + nums[(l/2)-1]) / 2
+  endif
+endfunction
 
 "{{{1 Gui and colorscheme options
 if has("gui_running")
-  set lines=50
-  set guioptions=aegirLt 
+  set lines=999
+  set guioptions=aegirLt
   set guifont=Monospace\ 10
 endif
 
-set background=light
-if has("gui_running")
-  colorscheme solarized
-  nnoremap <F5> :call ToggleBackground()<cr>
-else
-  colorscheme default
-endif
+set background=dark
+let g:solarized_contrast="high"
+colorscheme solarized
 
 "{{{1 OS-specific options (including backup and undofile options)
 set backup
@@ -158,6 +227,9 @@ augroup SpecificAutocommands
   au FileType python syn keyword pythonDecorator True None False self
 augroup END
 "{{{1 Key mappings (general)
+" Exit insert mode
+inoremap jkj <Esc>
+
 " Open certain files with ,v...
 map ,vv :e $MYVIMRC<cr>
 map ,vs :e  ~/.vim/snippets/<cr>
@@ -181,10 +253,13 @@ map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
 
-" Other stuff
-noremap Y y$
+" Navigate folds
 map <c-j> zcjzo
 map <c-k> zckzo
+nnoremap <space> za
+
+" Other stuff
+noremap Y y$
 imap <silent> <c-r><c-d> <c-r>=strftime("%e %b %Y")<CR>
 imap <silent> <c-r><c-t> <c-r>=strftime("%l:%M %p")<CR>
 map <F12> ggVGg? " encypt the file (toggle)
@@ -250,16 +325,15 @@ let g:ConqueTerm_ExecFileKey = ',cf'
 let g:ConqueTerm_CloseOnEnd = 1
 let g:ConqueTerm_TERM = 'xterm'
 
+"{{{2 delimitMate
+let delimitMate_balance_matchpairs = 1
+let delimitMate_expand_space       = 1
+let delimitMate_excluded_regions   = "Comments,String"
+
+"{{{2 syntastic
+let syntastic_auto_loc_list=1
+
 "{{{1 Functions
-function! ToggleBackground()                                             "{{{2
-  if (g:solarized_style=="dark")
-    let g:solarized_style="light"
-    colorscheme solarized
-  else
-    let g:solarized_style="dark"
-    colorscheme solarized
-  endif
-endfunction
 function! LaTeXSettings()                                                 "{{{2
   " For all tex files use forward slash in filenames
   setlocal shellslash nocindent
@@ -299,8 +373,9 @@ function! ChooseVCSCommandType()                                          "{{{2
   endif
 endfunction
 function! ChooseLanguage()                                                "{{{2
-  let choice = 
-        \confirm("Choose Language", "&Bokmaal\n&Nynorsk\nEnglish &GB\nEnglish &USA")
+  let choice =
+        \ confirm("Choose Language",
+        \ "&Bokmaal\n&Nynorsk\nEnglish &GB\nEnglish &USA")
   if choice == 1
     set spelllang=nb
   elseif choice == 2
