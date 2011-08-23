@@ -4,9 +4,9 @@
 "
 "{{{1 Activate pathogen
 if !exists("pathogen_loaded")
-  filetype off
-  call pathogen#runtime_append_all_bundles()
-  call pathogen#helptags()
+  call pathogen#infect()
+  syntax on
+  filetype plugin indent on
   let pathogen_loaded = 1
 endif
 
