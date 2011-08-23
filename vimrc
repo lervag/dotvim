@@ -5,8 +5,6 @@
 "{{{1 Activate pathogen
 if !exists("pathogen_loaded")
   call pathogen#infect()
-  syntax on
-  filetype plugin indent on
   let pathogen_loaded = 1
 endif
 
