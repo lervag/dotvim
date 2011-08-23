@@ -73,10 +73,10 @@ set statusline+=%R                              " read only flag
 set statusline+=%{StatuslineLongLineWarning()}
 set statusline+=%q                              " quickfix-tag
 set statusline+=%w                              " preview-tag
-set statusline+=%=                              " left/right separator
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+set statusline+=%=                              " left/right separator
 set statusline+=(%c,                            " cursor column
 set statusline+=%l/%L)                          " cursor line/total lines
 set statusline+=\ %P                            " percent through file
@@ -108,7 +108,7 @@ endfunction
 
 " Return a list containing the lengths of the long lines in this buffer
 function! s:LongLines()
-  let threshold = (&tw ? &tw : 80)
+  let threshold = (&tw ? &tw + 1 : 80)
   let spaces = repeat(" ", &ts)
   let long_line_lens = []
   let i = 1
@@ -327,9 +327,6 @@ let g:ConqueTerm_TERM = 'xterm'
 let delimitMate_balance_matchpairs = 1
 let delimitMate_expand_space       = 1
 let delimitMate_excluded_regions   = "Comments,String"
-
-"{{{2 syntastic
-let syntastic_auto_loc_list=1
 
 "{{{1 Functions
 function! LaTeXSettings()                                                 "{{{2
