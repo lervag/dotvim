@@ -4,6 +4,7 @@
 "
 "{{{1 Activate pathogen
 if !exists("pathogen_loaded")
+  source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
   call pathogen#infect()
   let pathogen_loaded = 1
 endif
