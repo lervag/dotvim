@@ -61,6 +61,7 @@ set completeopt=menuone,menu,longest
 set grepprg=ack-grep
 set list lcs=tab:>-,trail:-,nbsp:-
 set cursorline
+set autochdir
 
 "{{{1 Statusline
 set laststatus=2
@@ -338,8 +339,8 @@ let g:syntastic_fortran_flags = ' -fdefault-real-8'
 let g:syntastic_fortran_flags .= ' -Wall -Wextra'
 let g:syntastic_fortran_flags .= ' -I' . expand('%:h')
 let g:syntastic_fortran_flags .= ' -I' . expand('%:h') . '/..'
-let g:syntastic_fortran_flags .= ' -I' . expand('%:h') .
-      \ '/../objects/debug_gfortran_Linux'
+let g:syntastic_fortran_flags .= ' -I' . expand('~/') .
+      \ 'koder/levelZ/objects/debug_gfortran_Linux'
 
 "{{{1 Functions
 function! LaTeXSettings()                                                 "{{{2
