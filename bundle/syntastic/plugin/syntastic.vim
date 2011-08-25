@@ -20,7 +20,7 @@ let g:loaded_syntastic_plugin = 1
 let s:running_windows = has("win16") || has("win32") || has("win64")
 
 if !s:running_windows
-    let s:uname = system('uname')
+    let s:isfreebase = system('uname')
 endif
 
 if !exists("g:syntastic_enable_signs") || !has('signs')
@@ -89,6 +89,17 @@ function! s:UpdateErrors()
             lclose
         endif
     endif
+endfunction
+
+function! s:ToggleErrors()
+    redir =>buflist
+    silent! ls
+    redir END
+    for bufnum in filter(split(buflist, '\n'), 'v:val =~ "Location List"')
+        lclose
+        return
+    endfor
+    call s:ShowLocList()
 endfunction
 
 "detect and cache all syntax errors in this buffer
@@ -204,6 +215,7 @@ function! s:ShowLocList()
 endfunction
 
 command Errors call s:ShowLocList()
+command ToggleErrors call s:ToggleErrors()
 
 "return a string representing the state of buffer according to
 "g:syntastic_stl_format
@@ -262,7 +274,7 @@ function! SyntasticMake(options)
     let old_shell = &shell
     let old_errorformat = &errorformat
 
-    if !s:running_windows && (s:uname !~ "FreeBSD")
+    if !s:running_windows && (s:isfreebase !~ "FreeBSD")
         "this is a hack to stop the screen needing to be ':redraw'n when
         "when :lmake is run. Otherwise the screen flickers annoyingly
         let &shellpipe='&>'
