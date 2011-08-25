@@ -79,7 +79,7 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 set statusline+=%=                              " left/right separator
-set statusline+=(%c,                            " cursor column
+set statusline+=(%v,                            " cursor column
 set statusline+=%l/%L)                          " cursor line/total lines
 set statusline+=\ %P                            " percent through file
 
@@ -139,7 +139,7 @@ endfunction
 "{{{1 Gui and colorscheme options
 if has("gui_running")
   set lines=80
-  set guioptions=aegirLt
+  set guioptions=aegiLt
   set guifont=Monospace\ 10
 endif
 
@@ -337,6 +337,7 @@ let g:syntastic_stl_format = '[%E{Err: %e}%B{, }%W{Warn: %w}]'
 " Set flags for fortran compilation
 let g:syntastic_fortran_flags = ' -fdefault-real-8'
 let g:syntastic_fortran_flags .= ' -Wall -Wextra'
+let g:syntastic_fortran_flags .= ' -J/tmp'
 let g:syntastic_fortran_flags .= ' -I' . expand('%:h')
 let g:syntastic_fortran_flags .= ' -I' . expand('%:h') . '/..'
 let g:syntastic_fortran_flags .= ' -I' . expand('~/') .
