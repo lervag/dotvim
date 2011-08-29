@@ -331,8 +331,9 @@ let delimitMate_expand_space       = 1
 let delimitMate_excluded_regions   = "Comments,String"
 
 "{{{2 syntactics
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 2
 let g:syntastic_stl_format = '[%E{Err: %e}%B{, }%W{Warn: %w}]'
+let g:syntastic_disabled_filetypes = ['tex']
 
 " Set flags for fortran compilation
 let g:syntastic_fortran_flags = ' -fdefault-real-8'
