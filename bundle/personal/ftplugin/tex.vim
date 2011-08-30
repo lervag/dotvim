@@ -6,10 +6,11 @@ let g:Tex_ViewRule_dvi = 'okular'
 let g:Tex_CompileRule_pdf = 'pdflatex -synctex=1 -interaction=nonstopmode $*'
 let g:Tex_BIBINPUTS = $HOME
 let g:Tex_Com_sqrt = "\\sqrt[<++>]{<++>}<++>"
-let g:Tex_FoldedEnvironments = "verbatim,comment,eq,gather,scope,multline,"
-      \ . "tikzpicture,align,figure,table,thebibliography,keywords,"
-      \ . "itemize,enumerate,frame,abstract,titlepage,"
-      \ . "task,answer,exercise"
+let g:Tex_FoldedEnvironments =
+      \   "verbatim,comment,split,eq,gather,multline,align,"
+      \ . "itemize,enumerate,scope,tikzpicture,figure,table,thebibliography,"
+      \ . "columns,textblock,frame,exercise,answer,task,"
+      \ . "thebibliography,keywords,abstract,titlepage"
 let g:Tex_FoldedSections = "part,chapter,section,subsection,"
       \ . "subsubsection,paragraph,%%fakesection"
 let g:Tex_FoldedMisc="preamble,<<<"

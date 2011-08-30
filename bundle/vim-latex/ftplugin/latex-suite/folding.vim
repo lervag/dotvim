@@ -340,10 +340,11 @@ endfunction
 " }}}
 " TexFoldTextFunction: create fold text for folds {{{
 function! TexFoldTextFunction()
-	let leadingSpace = matchstr('                                       ', ' \{,'.indent(v:foldstart).'}')
+	let leadingSpace = matchstr('                                       ',
+				\ ' \{,'.indent(v:foldstart).'}')
 	if getline(v:foldstart) =~ '^\s*\\begin{'
 		let header = matchstr(getline(v:foldstart),
-							\ '^\s*\\begin{\zs\([:alpha:]*\)[^}]*\ze}')
+						\ '^\s*\\begin{\zs\([:alpha:]*\)[^}]*\ze}')
 		let caption = ''
 		let label = ''
 		let i = v:foldstart
@@ -365,19 +366,34 @@ function! TexFoldTextFunction()
 				" newline or a }-character
 				let label = substitute(label, '\([^}]*\)}.*$', '\1', '')
 			end
-
 			let i = i + 1
 		endwhile
 
-		let ftxto = foldtext()
-		" if no caption found, then use the second line.
+		" If no caption found, decide based on type of environment
 		if caption == ''
-			let caption = getline(v:foldstart + 1)
+			if getline(v:foldstart) =~ '^\s*\\begin{frame}{'
+				let caption = matchstr(getline(v:foldstart),
+								\ '^\s*\\begin{.*}{\zs\(.*\)\ze}')
+			elseif getline(v:foldstart) =~ '^\s*\\begin{.*}{'
+				let caption = matchstr(getline(v:foldstart),
+								\ '^\s*\\begin{.*}\zs{\(.*\)')
+			elseif getline(v:foldstart) =~ '\\begin{' .
+						\ '\(align\|eq\|multline\|gather\)'
+				let caption = getline(v:foldstart + 1)
+			end
 		end
 
-		let retText = matchstr(ftxto, '^[^:]*').': '.header.
-						\ ' ('.label.'): '.caption
-		return leadingSpace.retText
+		if label != ''
+			let label = ' (' . label . ')'
+		end
+		if caption != ''
+			let label = label . ': '
+			let caption = matchstr(caption, '^\s*\zs.*')
+		end
+
+		let ftxto = leadingSpace . matchstr(foldtext(), '^[^:]*').': ' 
+		let retText = ftxto . header . label . caption
+		return retText
 
 	elseif getline(v:foldstart) =~ '^%' && getline(v:foldstart) !~ '^%%fake'
 		let ftxto = foldtext()
@@ -385,6 +401,24 @@ function! TexFoldTextFunction()
 	elseif getline(v:foldstart) =~ '^\s*\\document\(class\|style\).*{'
 		let ftxto = leadingSpace.foldtext()
 		return substitute(ftxto, ':', ': Preamble: ', '')
+	elseif getline(v:foldstart) =~ '^\s*\\\(sub\)*section\*\?{'
+		let ftxto = leadingSpace . matchstr(foldtext(), '^[^:]*').': ' 
+		let header = matchstr(getline(v:foldstart),
+						\ '^\s*\\\zs\(sub\)*section\*\?\ze{')
+		let label = ''
+		if getline(v:foldstart+1) =~ '\\label'
+			let label = matchstr(getline(i), '\\label{\zs.*')
+			let label = substitute(label, '\([^}]*\)}.*$', '\1', '')
+			let label = ' (' . label . ')'
+		end
+		let caption = matchstr(getline(v:foldstart),
+							\ '^\s*\\.*section{\zs.*\ze}')
+		if caption != ''
+			let label = label . ': '
+			let caption = matchstr(caption, '^\s*\zs.*')
+		end
+		let retText = ftxto . header . label . caption
+		return retText
 	else
 		return leadingSpace.foldtext()
 	end
