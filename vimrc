@@ -59,7 +59,7 @@ set spelllang=en_gb
 set diffopt=filler,context:4,foldcolumn:2,horizontal
 set completeopt=menuone,menu,longest
 set grepprg=ack-grep
-set list lcs=tab:>-,trail:-,nbsp:-
+set list lcs=tab:>\ ,trail:\ ,nbsp:%,extends:>,precedes:<
 set cursorline
 set autochdir
 
