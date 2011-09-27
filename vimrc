@@ -86,7 +86,7 @@ set statusline+=\ %P                            " percent through file
 if has("gui_running")
   set lines=80
   set guioptions=aegiLt
-  set guifont=Monospace\ 10
+  set guifont=Monospace\ 9
 endif
 
 set background=dark
