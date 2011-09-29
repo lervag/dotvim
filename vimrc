@@ -204,6 +204,10 @@ map <c-j> zcjzo
 map <c-k> zckzo
 nnoremap <space> za
 
+" Visual shifting
+vnoremap < <gv
+vnoremap > >gv
+
 " Other stuff
 noremap Y y$
 imap <silent> <c-r><c-d> <c-r>=strftime("%e %b %Y")<CR>
@@ -217,6 +221,8 @@ map ,gg :grep <C-R>=expand(expand("<cword>") . " " . expand("%:h"))<CR><CR>
 map ,go :botright cwindow<CR>
 map ,gp :cprev<CR>
 map ,gn :cnext<CR>
+
+"command Preview ...
 
 "{{{1 Plugin settings
 "{{{2 Ack settings
