@@ -10,9 +10,9 @@ Installation
 
 Install to `~/.vim/autoload/pathogen.vim`.  Or copy and paste:
 
-    mkdir -p ~/.vim/autoload ~/.vim/bundle
-    curl https://raw.github.com/tpope/vim-pathogen/HEAD/autoload/pathogen.vim \
-      > ~/.vim/autoload/pathogen.vim
+    mkdir -p ~/.vim/autoload ~/.vim/bundle; \
+    curl -so ~/.vim/autoload/pathogen.vim \
+        https://raw.github.com/tpope/vim-pathogen/HEAD/autoload/pathogen.vim
 
 If you don't have `curl`, use `wget -O -` instead.
 
@@ -104,7 +104,7 @@ Here's the full list of commands:
 * `:Vread`
 
 All but `:Vedit` automatically `:lcd` to the target's runtime path.  To
-surpress that behavior, use a `!`, and to `:lcd` with `:Vedit`, use
+suppress that behavior, use a `!`, and to `:lcd` with `:Vedit`, use
 `:Vopen` instead.
 
 FAQ
@@ -115,7 +115,11 @@ FAQ
 Sure, stick it under `~/.vim/bundle`, and prepend the following to your
 vimrc:
 
-    source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
+    runtime bundle/vim-pathogen/autoload/pathogen.vim
+
+Or if your bundles are somewhere other than `~/.vim` (say, `~/src/vim`):
+
+    source ~/src/vim/bundle/vim-pathogen/autoload/pathogen.vim
 
 > Will you accept these 14 pull requests adding a `.gitignore` for
 > `tags` so I don't see untracked changes in my dot files repository?
@@ -168,4 +172,5 @@ you're feeling especially charitable, follow [tpope](http://tpo.pe/) on
 License
 -------
 
-Distributable under the same terms as Vim itself.  See `:help license`.
+Copyright (c) Tim Pope.  Distributed under the same terms as Vim itself.
+See `:help license`.
