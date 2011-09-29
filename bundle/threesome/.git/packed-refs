@@ -1,0 +1,13 @@
+# pack-refs with: peeled 
+67ed75030c78bb898e0af2c07497c16f249e40eb refs/tags/v0.2.0
+436131031275ea97cab7bf46967f65e3f0995528 refs/tags/v0.1.1
+fc323941d45e3c58e0b5a8df611b030e27e7e402 refs/tags/v0.1.0
+c273b8a2fc8d6e92fda2c46e9987c8539d25c124 refs/tags/v0.0.8
+1d0df2a72bc64b0167f413e3d5a5eba62b22510d refs/tags/v0.0.7
+cdfef536e8bce4478e9ecd3e277ef96538cb5f94 refs/tags/v0.0.6
+7dac7b10016415b15621bc11a34fcd8bae989e33 refs/tags/v0.0.5
+8fe212e51b7171df1fb71a9d19404c951da32908 refs/tags/v0.0.4
+fb88a41e5f90d7ee82591e175d08c3999bd88078 refs/tags/v0.0.2
+352effc80c2e11b2bc743f853f6e7a3bed2352a7 refs/tags/v0.0.1
+d50c38dd2ca7bc0b0414d11824b93c4cb927b2f7 refs/tags/semver
+389e0f55f14ccde138b7b5fb3690ee3c2059589d refs/remotes/origin/master

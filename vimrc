@@ -43,6 +43,7 @@ set incsearch
 set scrolloff=10
 set showcmd
 set columns=80
+set colorcolumn=80
 set autoindent
 set nocindent
 set softtabstop=2
@@ -84,7 +85,7 @@ set statusline+=\ %P                            " percent through file
 
 "{{{1 Gui and colorscheme options
 if has("gui_running")
-  set lines=80
+  set lines=56
   set guioptions=aegiLt
   set guifont=Monospace\ 9
 endif
@@ -200,9 +201,9 @@ map <leader>sa zg
 map <leader>s? z=
 
 " Navigate folds
-map <c-j> zcjzo
-map <c-k> zckzo
-nnoremap <space> za
+nmap ,, zcjzo
+nmap .. zckzo
+nmap <space> za
 
 " Visual shifting
 vnoremap < <gv
