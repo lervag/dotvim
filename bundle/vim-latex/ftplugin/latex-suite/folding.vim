@@ -407,7 +407,7 @@ function! TexFoldTextFunction()
 						\ '^\s*\\\zs\(sub\)*section\*\?\ze{')
 		let label = ''
 		if getline(v:foldstart+1) =~ '\\label'
-			let label = matchstr(getline(i), '\\label{\zs.*')
+			let label = matchstr(getline(v:foldstart+1), '\\label{\zs.*')
 			let label = substitute(label, '\([^}]*\)}.*$', '\1', '')
 			let label = ' (' . label . ')'
 		end

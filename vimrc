@@ -202,7 +202,7 @@ map <leader>s? z=
 
 " Navigate folds
 nmap ,, zcjzo
-nmap .. zckzo
+nmap ,. zckzo
 nmap <space> za
 
 " Visual shifting
