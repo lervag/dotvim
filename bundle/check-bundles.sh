@@ -9,5 +9,4 @@ for dir in *; do
   else
     echo "- No repo in $dir"
   fi
-  rm -r **/.git/objects
 done
