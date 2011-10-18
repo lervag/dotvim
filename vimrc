@@ -126,6 +126,7 @@ augroup GeneralAutocommands
 
   " Reload settings when changed
   autocmd bufwritepost .vimrc source $MYVIMRC
+  autocmd bufwritepost .vimrc :normal 10zo
 
   " Set omnifunction if it is not already specified
   if exists("+omnifunc")
@@ -279,9 +280,16 @@ let g:ConqueTerm_CloseOnEnd = 1
 let g:ConqueTerm_TERM = 'xterm'
 
 "{{{2 delimitMate
+" General options
 let delimitMate_balance_matchpairs = 1
 let delimitMate_expand_space       = 1
 let delimitMate_excluded_regions   = "Comments,String"
+let delimitMate_matchpairs         = "(:),[:],{:}"
+let delimitMate_quotes             = "\" '"
+let delimitMate_excluded_ft        = "txt"
+
+" Tweak for some file types
+au FileType vim let b:delimitMate_quotes = "'"
 
 "{{{2 syntactics
 let g:syntastic_auto_loc_list = 2
