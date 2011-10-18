@@ -16,10 +16,14 @@ let g:Tex_FoldedSections = "part,chapter,section,subsection,"
 let g:Tex_FoldedMisc="preamble,<<<"
 
 "{{{1 Add mapping to be able to select a single paragraph, and to format it
-map <silent> <expr> { LaTeXStartOfParagraph()
-map <silent> <expr> } LaTeXEndOfParagraph()
-map <silent> gwp :call LaTeXFormatParagraph()<CR>
-vmap p {o}
+noremap <silent> <expr> { LaTeXStartOfParagraph()
+noremap <silent> <expr> } LaTeXEndOfParagraph()
+noremap <silent> gwp :call LaTeXFormatParagraph()<CR>
+vnoremap p {o}
+vmap <silent>ip <esc>{v}
+vmap <silent>ap <esc>{v}
+onoremap <silent>ap :normal vap<CR>
+onoremap <silent>ip :normal vip<CR>
 
 "{{{1 Add mapping for latexmk
 map <silent> <Leader>lm :call Start_latexmk()<CR>
@@ -47,6 +51,7 @@ function! TidyAndResetCursor()
   set nocursorline
   call setpos('.', cp)
 endfunctio
+
 
 function! LaTeXStartOfParagraph()               "{{{1
   let delimitors = ['begin', 'end', '\(sub\)*section', 'label', '%']
