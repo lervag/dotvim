@@ -581,7 +581,7 @@ function! s:StartTerminal(command)
   elseif terminal =~ '\<\(gnome-terminal\|terminal\|terminator\)\>'
     let result = system(terminal . ' -e "' . a:command . '" &')
   else
-    let result = system(terminal . ' -e ' . a:command . ' &')
+    let result = system(terminal . ' -e "' . a:command . '" &')
   endif
 
   return result
@@ -739,6 +739,7 @@ endfunction " }}}
 function s:screenGnuScreen.bootstrap(server, sessionfile, cmd) dict " {{{
   let vertical = s:orientation == 'vertical' ? 'Vertical' : ''
   exec 'silent! !screen -S ' . g:ScreenShellSession .
+    \ g:ScreenShellScreenInitArgs .
     \ ' vim ' . a:server .
     \ '-c "silent source ' . escape(a:sessionfile, ' ') . '" ' .
     \ '-c "ScreenShell' . vertical . ' ' . a:cmd . '"'
@@ -749,7 +750,7 @@ function s:screenGnuScreen.newSessionName() dict " {{{
 endfunction " }}}
 
 function s:screenGnuScreen.newTerminal() dict " {{{
-  return s:StartTerminal('screen -S ' . g:ScreenShellSession)
+  return s:StartTerminal('screen -S ' . g:ScreenShellSession . g:ScreenShellScreenInitArgs)
 endfunction " }}}
 
 function s:screenGnuScreen.newTerminalMulti() dict " {{{
@@ -757,7 +758,7 @@ function s:screenGnuScreen.newTerminalMulti() dict " {{{
 endfunction " }}}
 
 function s:screenGnuScreen.newTerminalResume() dict " {{{
-  return s:StartTerminal('screen -r ' . g:ScreenShellSession)
+  return s:StartTerminal('screen -r ' . g:ScreenShellSession . g:ScreenShellScreenInitArgs)
 endfunction " }}}
 
 function s:screenGnuScreen.newWindow(focus) dict " {{{
@@ -974,7 +975,7 @@ function s:screenTmux.send(value) dict " {{{
   call writefile(lines, tmp)
   try
     let result = self.focus()
-    if v:shell_error
+    if v:shell_error || (type(result) == 0 && result == 0)
       return result
     endif
     let result = self.exec(printf(
@@ -1012,7 +1013,16 @@ function s:screenTmux.focus() dict " {{{
   endif
 
   if !g:ScreenShellExternal
-    let result = self.exec('select-pane -t ' . g:ScreenShellTmuxPane)
+    let panes = []
+    let result = self.exec('list-panes')
+    let panes = filter(
+      \ split(result, "\n"),
+      \ 'v:val =~ " ' . g:ScreenShellTmuxPane . '\\>"')
+    if len(panes)
+      let result = self.exec('select-pane -t ' . g:ScreenShellTmuxPane)
+    else
+      return 0
+    endif
   endif
   return result
 endfunction " }}}
@@ -1023,7 +1033,7 @@ endfunction " }}}
 
 function s:screenTmux.close(type) dict " {{{
   let result = self.focus()
-  if v:shell_error
+  if v:shell_error || (type(result) == 0 && result == 0)
     return result
   endif
   return self.exec('kill-pane')
@@ -1039,7 +1049,7 @@ function s:screenTmux.exec(cmd) dict " {{{
 
   " hack to account for apparent bug in tmux when redirecting stdout to a file
   " when attempting to list windows
-  if cmd =~ 'list-windows'
+  if cmd =~ 'list-\(windows\|panes\)'
     let cmd .= ' | cat'
   endif
 
