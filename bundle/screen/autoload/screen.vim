@@ -578,10 +578,10 @@ function! s:StartTerminal(command)
   " gnome-terminal, terminal (from xfce), and terminator need quotes around
   " the screen call, but konsole and rxvt based terms (urxvt, aterm, mrxvt,
   " etc.), and most others that I've tested don't work properly with quotes.
-  elseif terminal =~ '\<\(gnome-terminal\|terminal\|terminator\)\>'
+  elseif terminal =~ '\<\(\(gnome-\|xfce4-\)\?terminal\|terminator\)\>'
     let result = system(terminal . ' -e "' . a:command . '" &')
   else
-    let result = system(terminal . ' -e "' . a:command . '" &')
+    let result = system(terminal . ' -e ' . a:command . ' &')
   endif
 
   return result
