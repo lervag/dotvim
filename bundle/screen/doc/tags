@@ -7,8 +7,10 @@ g:ScreenShellExternal	screen.txt	/*g:ScreenShellExternal*
 g:ScreenShellHeight	screen.txt	/*g:ScreenShellHeight*
 g:ScreenShellInitialFocus	screen.txt	/*g:ScreenShellInitialFocus*
 g:ScreenShellQuitOnVimExit	screen.txt	/*g:ScreenShellQuitOnVimExit*
+g:ScreenShellScreenInitArgs	screen.txt	/*g:ScreenShellScreenInitArgs*
 g:ScreenShellServerName	screen.txt	/*g:ScreenShellServerName*
 g:ScreenShellTerminal	screen.txt	/*g:ScreenShellTerminal*
+g:ScreenShellTmuxInitArgs	screen.txt	/*g:ScreenShellTmuxInitArgs*
 g:ScreenShellWidth	screen.txt	/*g:ScreenShellWidth*
 screen	screen.txt	/*screen*
 screen-256color	screen.txt	/*screen-256color*

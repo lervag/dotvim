@@ -231,46 +231,9 @@ map ,gn :cnext<CR>
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 let g:ackhighlight=1
 
-"{{{2 Enhanced commentify settings
-let g:EnhCommentifyUserBindings='Yes'
-
-"{{{2 Supertab
-let g:SuperTabRetainCompletionDuration = "session"
-let g:SuperTabDefaultCompletionType    = "context"
-let g:SuperTabCompletionContexts       = ['s:ContextText', 's:ContextDiscover']
-let g:SuperTabContextDiscoverDiscovery =
-      \ ["&completefunc:<c-x><c-u>", "&omnifunc:<c-x><c-o>"]
-
-"{{{2 VCSCommand
-let VCSCommandSplit = 'horizontal'
-if v:version < 700
-  let VCSCommandDisableAll='1'
-end
-map ,cc :call ChooseVCSCommandType()<cr>
-
 "{{{2 Command-t
 nmap <silent> <Leader>tt :CommandT<CR>
 nmap <silent> <Leader>t :CommandT 
-
-"{{{2 Tabular
-nmap <silent> <Leader>tl :Tab<cr>
-
-"{{{2 Gundo
-let g:gundo_width=60
-map <S-u> :GundoToggle<cr>
-
-"{{{2 NERDTree
-map ,nt :NERDTreeToggle<CR>
-let NERDTreeChDirMode=2
-let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$', '\.hg$', '\.swp$']
-let NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$',  '\~$']
-let NERDTreeShowBookmarks=1
-
-"{{{2 NERDCommenter
-let NERDBlockComIgnoreEmpty = 0
-let NERDCommentWholeLinesInVMode=1
-let NERDCreateDefaultMappings=0
-map <C-A-c> <plug>NERDCommenterToggle
 
 "{{{2 ConqueTerm
 let g:ConqueTerm_SendVisKey = ',cc'
@@ -291,6 +254,32 @@ let delimitMate_excluded_ft        = "txt"
 " Tweak for some file types
 au FileType vim let b:delimitMate_quotes = "'"
 
+"{{{2 Enhanced commentify settings
+let g:EnhCommentifyUserBindings='Yes'
+
+"{{{2 Gundo
+let g:gundo_width=60
+map <S-u> :GundoToggle<cr>
+
+"{{{2 NERDCommenter
+let NERDBlockComIgnoreEmpty = 0
+let NERDCommentWholeLinesInVMode=1
+let NERDCreateDefaultMappings=0
+map <C-A-c> <plug>NERDCommenterToggle
+
+"{{{2 NERDTree
+map ,nt :NERDTreeToggle<CR>
+let NERDTreeChDirMode=2
+let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$', '\.hg$', '\.swp$']
+let NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$',  '\~$']
+let NERDTreeShowBookmarks=1
+
+"{{{2 Supertab
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabContextDefaultCompletionType = "<c-x><c-n>"
+let g:SuperTabRetainCompletionDuration = "session"
+let g:SuperTabLongestEnhanced = 1
+
 "{{{2 syntactics
 let g:syntastic_auto_loc_list = 2
 let g:syntastic_stl_format = '[%E{Err: %e}%B{, }%W{Warn: %w}]'
@@ -304,6 +293,16 @@ let g:syntastic_fortran_flags .= ' -I' . expand('%:h')
 let g:syntastic_fortran_flags .= ' -I' . expand('%:h') . '/..'
 let g:syntastic_fortran_flags .= ' -I' . expand('~/') .
       \ 'koder/levelZ/objects/debug_gfortran_Linux'
+
+"{{{2 Tabular
+nmap <silent> <Leader>tl :Tab<cr>
+
+"{{{2 VCSCommand
+let VCSCommandSplit = 'horizontal'
+if v:version < 700
+  let VCSCommandDisableAll='1'
+end
+map ,cc :call ChooseVCSCommandType()<cr>
 
 "{{{1 Functions
 function! LaTeXSettings()                                                 "{{{2
