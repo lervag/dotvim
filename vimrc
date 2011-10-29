@@ -252,7 +252,8 @@ let delimitMate_quotes             = "\" '"
 let delimitMate_excluded_ft        = "txt"
 
 " Tweak for some file types
-au FileType vim let b:delimitMate_quotes = "'"
+au FileType vim  let b:delimitMate_quotes = "'"
+au FileType lisp let b:delimitMate_quotes = '"'
 
 "{{{2 Enhanced commentify settings
 let g:EnhCommentifyUserBindings='Yes'
@@ -284,6 +285,7 @@ let g:SuperTabLongestEnhanced = 1
 let g:syntastic_auto_loc_list = 2
 let g:syntastic_stl_format = '[%E{Err: %e}%B{, }%W{Warn: %w}]'
 let g:syntastic_disabled_filetypes = ['tex']
+let g:syntastic_enabled = 1
 
 " Set flags for fortran compilation
 let g:syntastic_fortran_flags = ' -fdefault-real-8'
@@ -293,6 +295,17 @@ let g:syntastic_fortran_flags .= ' -I' . expand('%:h')
 let g:syntastic_fortran_flags .= ' -I' . expand('%:h') . '/..'
 let g:syntastic_fortran_flags .= ' -I' . expand('~/') .
       \ 'koder/levelZ/objects/debug_gfortran_Linux'
+
+function! SyntasticToggle()
+  if g:syntastic_enabled
+    SyntasticDisable
+    let g:syntastic_enabled = 0
+  else
+    SyntasticEnable
+    let g:syntastic_enabled = 1
+  endif
+endfunction
+map <leader>st :call SyntasticToggle()<cr>
 
 "{{{2 Tabular
 nmap <silent> <Leader>tl :Tab<cr>
