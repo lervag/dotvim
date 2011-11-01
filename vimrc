@@ -126,7 +126,7 @@ augroup GeneralAutocommands
 
   " Reload settings when changed
   autocmd bufwritepost .vimrc source $MYVIMRC
-  autocmd bufwritepost .vimrc :normal 10zo
+  autocmd bufwritepost .vimrc :normal zx
 
   " Set omnifunction if it is not already specified
   if exists("+omnifunc")
@@ -244,7 +244,6 @@ let g:ConqueTerm_TERM = 'xterm'
 
 "{{{2 delimitMate
 " General options
-let delimitMate_balance_matchpairs = 1
 let delimitMate_expand_space       = 1
 let delimitMate_excluded_regions   = "Comments,String"
 let delimitMate_matchpairs         = "(:),[:],{:}"
