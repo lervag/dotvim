@@ -64,6 +64,9 @@ set list lcs=tab:>\ ,trail:\ ,nbsp:%,extends:>,precedes:<
 set cursorline
 set autochdir
 
+" Some lisp additions
+set lispwords+=alet,alambda,dlambda,aif
+
 "{{{1 Statusline
 set laststatus=2
 set statusline=[%n]\ %t                         " tail of the filename
@@ -173,6 +176,9 @@ augroup SpecificAutocommands
 
   " Python
   au FileType python syn keyword pythonDecorator True None False self
+
+  " Makefile
+  au FileType make set nolist
 augroup END
 "{{{1 Key mappings (general)
 " Exit insert mode
