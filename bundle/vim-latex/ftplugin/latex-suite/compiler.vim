@@ -392,9 +392,9 @@ function! Tex_ForwardSearchLaTeX()
 
 			elseif viewer == "okular"
 
-				" EDIT: Use okular for pdfs!
-				"let execString = 'silent! !okular '.mainfnameRoot.'.dvi\#src:'.line('.').expand("%")
-				let execString = 'silent! !okular --unique '.mainfnameRoot.'.pdf\#src:'.line('.').expand("%")
+				let execString = 'silent! !okular --unique '
+							\ . mainfnameRoot
+							\ . '.pdf\#src:'.line('.')."%:p:h/./%:."
 
 			endif
 

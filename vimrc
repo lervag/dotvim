@@ -1,6 +1,6 @@
 " Setup for VIM: The number one text editor!
 " -----------------------------------------------------------------------------
-" Author: Karl Yngve Lerv�g
+" Author: Karl Yngve Lervåg
 "
 "{{{1 Activate pathogen
 if !exists("pathogen_loaded")
@@ -180,6 +180,7 @@ augroup SpecificAutocommands
   " Makefile
   au FileType make set nolist
 augroup END
+
 "{{{1 Key mappings (general)
 " Exit insert mode
 inoremap jkj <Esc>
@@ -230,7 +231,29 @@ map ,go :botright cwindow<CR>
 map ,gp :cprev<CR>
 map ,gn :cnext<CR>
 
-"command Preview ...
+" Keep search matches in the middle of the window
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Open a Quickfix window for the last search.
+nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
+
+" Ack for the last search.
+nnoremap <silent> <leader>? :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
+
+" Error navigation {{{2
+"
+"             Location List     QuickFix Window
+"            (e.g. Syntastic)     (e.g. Ack)
+"            ----------------------------------
+" Next      |     M-k               M-Down     |
+" Previous  |     M-l                M-Up      |
+"            ----------------------------------
+"
+nnoremap ˚ :lnext<cr>zvzz
+nnoremap ¬ :lprevious<cr>zvzz
+nnoremap <m-Down> :cnext<cr>zvzz
+nnoremap <m-Up> :cprevious<cr>zvzz
 
 "{{{1 Plugin settings
 "{{{2 Ack settings
@@ -420,7 +443,7 @@ endfunction
 "{{{1 Footer
 "
 " -----------------------------------------------------------------------------
-" Copyright, Karl Yngve Lerv�g (c) 2008 - 2011
+" Copyright, Karl Yngve Lervåg (c) 2008 - 2011
 " -----------------------------------------------------------------------------
 " vim: foldmethod=marker:ff=unix
 "
