@@ -2,26 +2,24 @@
 " -----------------------------------------------------------------------------
 " Author: Karl Yngve Lervåg
 "
-"{{{1 Activate pathogen
+"{{{1 Preamble
+filetype off
 if !exists("pathogen_loaded")
   source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
   call pathogen#infect()
   let pathogen_loaded = 1
 endif
-
-"{{{1 All the general options
 filetype plugin indent on
-syntax on
 set nocompatible
+
+"{{{1 General options
+"{{{2 Basic
 set history=1000
 set confirm
 set winaltkeys=no
-set wildmode=longest,list:longest
 set ruler
 set lazyredraw
 set mouse=
-set ignorecase
-set smartcase
 if &foldmethod == ""
   set foldmethod=syntax
 endif
@@ -30,78 +28,49 @@ set foldcolumn=0
 set hidden
 set modelines=5
 set tags+=tags;/
-set fillchars=fold:\ 
+set fillchars=fold:\ ,diff:⣿
 set complete+=U
-set thesaurus+=~/.vim/thesaurus/mythesaurus.txt
-set spellfile+=~/.vim/spell/mywords.latin1.add
-set spellfile+=~/.vim/spell/mywords.utf-8.add
-set showmatch
 set matchtime=2
 set matchpairs+=<:>
-set nohlsearch
-set incsearch
-set scrolloff=10
 set showcmd
-set columns=80
-set colorcolumn=80
+set backspace=indent,eol,start
 set autoindent
 set nocindent
-set softtabstop=2
-set shiftwidth=2
-set textwidth=79
-set formatoptions=tcrq1n
-set formatlistpat=^\\s*\\(\\(\\d\\+\\\|[a-z]\\)[.:)]\\\|[-*]\\)\\s\\+
-set formatprg=par\ -w79jrq
 set fileformat=unix
-set wrap linebreak showbreak=\ 
 set smarttab
-set expandtab
 set spelllang=en_gb
 set diffopt=filler,context:4,foldcolumn:2,horizontal
 set completeopt=menuone,menu,longest
 set grepprg=ack-grep
-set list lcs=tab:>\ ,trail:\ ,nbsp:%,extends:>,precedes:<
+set list
+set listchars=tab:▸\ ,trail:\ ,nbsp:%,extends:❯,precedes:❮
 set cursorline
 set autochdir
+set cpoptions+=J
+set autoread
+set wildmode=longest,list:longest
 
-" Some lisp additions
-set lispwords+=alet,alambda,dlambda,aif
+" Make Vim able to edit crontab files again.
+set backupskip=/tmp/*,/private/tmp/*" 
 
-"{{{1 Statusline
-set laststatus=2
-set statusline=[%n]\ %t                         " tail of the filename
-set statusline+=\ %m                            " modified flag
-set statusline+=[%{strlen(&fenc)?&fenc:'none'}, " file encoding
-set statusline+=%{&ff}                          " file format
-set statusline+=%Y                              " filetype
-set statusline+=%H                              " help file flag
-set statusline+=%R]                             " read only flag
-set statusline+=%q                              " quickfix-tag
-set statusline+=%w                              " preview-tag
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-set statusline+=%=                              " left/right separator
-set statusline+=(%v,                            " cursor column
-set statusline+=%l/%L)                          " cursor line/total lines
-set statusline+=\ %P                            " percent through file
+"{{{2 Tabs, spaces, wrapping
+set softtabstop=2
+set shiftwidth=2
+set textwidth=79
+set columns=80
+set colorcolumn=80
+set expandtab
+set wrap
+set linebreak
+set showbreak=↪
+set formatoptions=tcrq1n
+set formatlistpat=^\\s*\\(\\(\\d\\+\\\|[a-z]\\)[.:)]\\\|[-*]\\)\\s\\+
+set formatprg=par\ -w79jrq
 
-"{{{1 Gui and colorscheme options
-if has("gui_running")
-  set lines=56
-  set guioptions=aegiLt
-  set guifont=Monospace\ 9
-endif
-
-set background=dark
-let g:solarized_contrast="high"
-colorscheme solarized
-
-"{{{1 OS-specific options (including backup and undofile options)
+"{{{2 Backup and Undofile
 set backup
 if has("unix")
   set clipboard=autoselect
-  set backspace=indent,eol,start
   set backupdir=$HOME/.vim/backup
   set directory=$HOME/.vim/backup
 elseif has("win32")
@@ -121,6 +90,62 @@ if v:version >= 703
     set undodir=$VIM/undofiles
   endif
 end
+
+"{{{2 Spellfile, thesaurus, similar
+set thesaurus+=~/.vim/thesaurus/mythesaurus.txt
+set spellfile+=~/.vim/spell/mywords.latin1.add
+set spellfile+=~/.vim/spell/mywords.utf-8.add
+
+"{{{2 Gui and colorscheme options
+syntax on
+if has("gui_running")
+  set lines=56
+  set guioptions=aegiLt
+  set guifont=Monospace\ 9
+endif
+
+set background=dark
+let g:solarized_contrast="high"
+colorscheme solarized
+
+"{{{2 Searching and movement
+
+" Use sane regexes.
+nnoremap / /\v
+vnoremap / /\v
+
+set ignorecase
+set smartcase
+set nohlsearch
+set incsearch
+set showmatch
+
+set scrolloff=10
+set virtualedit+=block
+
+runtime macros/matchit.vim
+
+noremap j gj
+noremap k gk
+
+"{{{1 Statusline
+set laststatus=2
+set statusline=[%n]\ %t                         " tail of the filename
+set statusline+=\ %m                            " modified flag
+set statusline+=[%{strlen(&fenc)?&fenc:'none'}, " file encoding
+set statusline+=%{&ff}                          " file format
+set statusline+=%Y                              " filetype
+set statusline+=%H                              " help file flag
+set statusline+=%R]                             " read only flag
+set statusline+=%q                              " quickfix-tag
+set statusline+=%w                              " preview-tag
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+set statusline+=%=                              " left/right separator
+set statusline+=(%v,                            " cursor column
+set statusline+=%l/%L)                          " cursor line/total lines
+set statusline+=\ %P                            " percent through file
 
 "{{{1 Autocommands
 "{{{2 General autocommands
@@ -149,6 +174,9 @@ augroup GeneralAutocommands
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \   exe "normal! g`\"" |
         \ endif
+
+  " Resize splits when the window is resized
+  autocmd VimResized * exe "normal! \<c-w>="
 augroup END
 
 "{{{2 Specific autocommands
@@ -181,7 +209,7 @@ augroup SpecificAutocommands
   au FileType make set nolist
 augroup END
 
-"{{{1 Key mappings (general)
+"{{{1 General key mappings
 " Exit insert mode
 inoremap jkj <Esc>
 
@@ -208,11 +236,6 @@ map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
 
-" Navigate folds
-nmap ,, zcjzo
-nmap ,. zckzo
-nmap <space> za
-
 " Visual shifting
 vnoremap < <gv
 vnoremap > >gv
@@ -231,15 +254,29 @@ map ,go :botright cwindow<CR>
 map ,gp :cprev<CR>
 map ,gn :cnext<CR>
 
-" Keep search matches in the middle of the window
-nnoremap n nzzzv
-nnoremap N Nzzzv
-
 " Open a Quickfix window for the last search.
 nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
 
 " Ack for the last search.
 nnoremap <silent> <leader>? :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
+
+" Navigate folds
+nmap ,, zcjzo
+nmap ,. zckzo
+nmap <space> za
+
+" Keep search matches in the middle of the window
+nnoremap n nzzzv:call PulseCursorLine()<cr>
+nnoremap N Nzzzv:call PulseCursorLine()<cr>
+
+" Easier to type, and I never use the default behavior.
+noremap H ^
+noremap L g_
+
+" Turn off stupid keys
+noremap  <F1> <nop>
+inoremap <F1> <nop>
+nnoremap K <nop>
 
 " Error navigation {{{2
 "
@@ -254,6 +291,33 @@ nnoremap ˚ :lnext<cr>zvzz
 nnoremap ¬ :lprevious<cr>zvzz
 nnoremap <m-Down> :cnext<cr>zvzz
 nnoremap <m-Up> :cprevious<cr>zvzz
+
+"{{{1 Shell command
+
+" Thanks to Steve Losh for this
+function! s:ExecuteInShell(command) " {{{
+    let command = join(map(split(a:command), 'expand(v:val)'))
+    let winnr = bufwinnr('^' . command . '$')
+    silent! execute  winnr < 0 ? 'botright new ' . fnameescape(command)
+                             \ : winnr . 'wincmd w'
+    setlocal buftype=nowrite
+          \ bufhidden=wipe
+          \ nobuflisted noswapfile nowrap nonumber
+    echo 'Execute ' . command . '...'
+    silent! execute 'silent %!'. command
+    silent! redraw
+    silent! execute 'au BufUnload <buffer> execute bufwinnr('
+          \ . bufnr('#') . ') . ''wincmd w'''
+    silent! execute 'nnoremap <silent> <buffer>'
+          \ . ' <LocalLeader>r :call <SID>ExecuteInShell('
+          \ . command . ')<CR>:AnsiEsc<CR>'
+    silent! execute 'nnoremap <silent> <buffer> q :q<CR>'
+    silent! execute 'AnsiEsc'
+    echo 'Shell command ' . command . ' executed.'
+endfunction " }}}
+
+command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
+nnoremap <leader>! :Shell 
 
 "{{{1 Plugin settings
 "{{{2 Ack settings
@@ -289,6 +353,34 @@ let g:EnhCommentifyUserBindings='Yes'
 "{{{2 Gundo
 let g:gundo_width=60
 map <S-u> :GundoToggle<cr>
+
+"{{{2 Lisp (built-in)
+
+set lispwords+=alet,alambda,dlambda,aif
+let g:lisp_rainbow = 1
+
+"{{{2 Rainbox Parentheses
+
+nnoremap <leader>R :RainbowParenthesesToggle<cr>
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+let g:rbpt_max = 16
 
 "{{{2 Supertab
 let g:SuperTabDefaultCompletionType = "context"
@@ -407,6 +499,56 @@ function! AskQuit (msg, proposed_action)                                  "{{{2
     exit
   endif
 endfunction
+
+function! PulseCursorLine()                                               "{{{2
+    let current_window = winnr()
+
+    windo set nocursorline
+    execute current_window . 'wincmd w'
+
+    setlocal cursorline
+
+    redir => old_hi
+        silent execute 'hi CursorLine'
+    redir END
+    let old_hi = split(old_hi, '\n')[0]
+    let old_hi = substitute(old_hi, 'xxx', '', '')
+
+    hi CursorLine guibg=#2a2a2a ctermbg=233
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#333333 ctermbg=235
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#3a3a3a ctermbg=237
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#444444 ctermbg=239
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#3a3a3a ctermbg=237
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#333333 ctermbg=235
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#2a2a2a ctermbg=233
+    redraw
+    sleep 20m
+
+    execute 'hi ' . old_hi
+
+    windo set cursorline
+    execute current_window . 'wincmd w'
+endfunction
+
+" }}}
 "{{{1 Footer
 "
 " -----------------------------------------------------------------------------
