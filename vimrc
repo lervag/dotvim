@@ -290,19 +290,6 @@ let g:EnhCommentifyUserBindings='Yes'
 let g:gundo_width=60
 map <S-u> :GundoToggle<cr>
 
-"{{{2 NERDCommenter
-let NERDBlockComIgnoreEmpty = 0
-let NERDCommentWholeLinesInVMode=1
-let NERDCreateDefaultMappings=0
-map <C-A-c> <plug>NERDCommenterToggle
-
-"{{{2 NERDTree
-map ,nt :NERDTreeToggle<CR>
-let NERDTreeChDirMode=2
-let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$', '\.hg$', '\.swp$']
-let NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$',  '\~$']
-let NERDTreeShowBookmarks=1
-
 "{{{2 Supertab
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-n>"
@@ -312,28 +299,8 @@ let g:SuperTabLongestEnhanced = 1
 "{{{2 syntactics
 let g:syntastic_auto_loc_list = 2
 let g:syntastic_stl_format = '[%E{Err: %e}%B{, }%W{Warn: %w}]'
-let g:syntastic_disabled_filetypes = ['tex']
+let g:syntastic_disabled_filetypes = ['tex', 'fortran']
 let g:syntastic_enabled = 1
-
-" Set flags for fortran compilation
-let g:syntastic_fortran_flags = ' -fdefault-real-8'
-let g:syntastic_fortran_flags .= ' -Wall -Wextra'
-let g:syntastic_fortran_flags .= ' -J/tmp'
-let g:syntastic_fortran_flags .= ' -I' . expand('%:h')
-let g:syntastic_fortran_flags .= ' -I' . expand('%:h') . '/..'
-let g:syntastic_fortran_flags .= ' -I' . expand('~/') .
-      \ 'koder/levelZ/objects/debug_gfortran_Linux'
-
-function! SyntasticToggle()
-  if g:syntastic_enabled
-    SyntasticDisable
-    let g:syntastic_enabled = 0
-  else
-    SyntasticEnable
-    let g:syntastic_enabled = 1
-  endif
-endfunction
-map <leader>st :call SyntasticToggle()<cr>
 
 "{{{2 Tabular
 nmap <silent> <Leader>tl :Tab<cr>
