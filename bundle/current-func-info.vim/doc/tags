@@ -1,0 +1,17 @@
+cfi	cfi.txt	/*cfi*
+cfi#create_finder()	cfi.txt	/*cfi#create_finder()*
+cfi#format()	cfi.txt	/*cfi#format()*
+cfi#get_func_name()	cfi.txt	/*cfi#get_func_name()*
+cfi#load()	cfi.txt	/*cfi#load()*
+cfi#supported_filetype()	cfi.txt	/*cfi#supported_filetype()*
+cfi-changelog	cfi.txt	/*cfi-changelog*
+cfi-contents	cfi.txt	/*cfi-contents*
+cfi-functions	cfi.txt	/*cfi-functions*
+cfi-interface	cfi.txt	/*cfi-interface*
+cfi-introduction	cfi.txt	/*cfi-introduction*
+cfi-variables	cfi.txt	/*cfi-variables*
+cfi.txt	cfi.txt	/*cfi.txt*
+current-func-info	cfi.txt	/*current-func-info*
+g:cfi_disable	cfi.txt	/*g:cfi_disable*
+g:cfi_php_show_params	cfi.txt	/*g:cfi_php_show_params*
+g:loaded_cfi_ftplugin	cfi.txt	/*g:loaded_cfi_ftplugin*
