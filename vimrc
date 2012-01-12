@@ -102,6 +102,8 @@ if has("gui_running")
   set lines=56
   set guioptions=aegiLt
   set guifont=Monospace\ 9
+else
+  set t_Co=256
 endif
 
 set background=dark
@@ -130,22 +132,24 @@ noremap k gk
 
 "{{{1 Statusline
 set laststatus=2
-set statusline=[%n]\ %t                         " tail of the filename
-set statusline+=\ %m                            " modified flag
-set statusline+=[%{strlen(&fenc)?&fenc:'none'}, " file encoding
-set statusline+=%{&ff}                          " file format
-set statusline+=%Y                              " filetype
-set statusline+=%H                              " help file flag
-set statusline+=%R]                             " read only flag
-set statusline+=%q                              " quickfix-tag
-set statusline+=%w                              " preview-tag
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-set statusline+=%=                              " left/right separator
-set statusline+=(%v,                            " cursor column
-set statusline+=%l/%L)                          " cursor line/total lines
-set statusline+=\ %P                            " percent through file
+if !exists("g:Powerline_loaded")
+  set statusline=[%n]\ %t                         " tail of the filename
+  set statusline+=\ %m                            " modified flag
+  set statusline+=[%{strlen(&fenc)?&fenc:'none'}, " file encoding
+  set statusline+=%{&ff}                          " file format
+  set statusline+=%Y                              " filetype
+  set statusline+=%H                              " help file flag
+  set statusline+=%R]                             " read only flag
+  set statusline+=%q                              " quickfix-tag
+  set statusline+=%w                              " preview-tag
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
+  set statusline+=%=                              " left/right separator
+  set statusline+=(%v,                            " cursor column
+  set statusline+=%l/%L)                          " cursor line/total lines
+  set statusline+=\ %P                            " percent through file
+end
 
 "{{{1 Autocommands
 "{{{2 General autocommands
@@ -266,8 +270,8 @@ nmap ,. zckzo
 nmap <space> za
 
 " Keep search matches in the middle of the window
-nnoremap n nzzzv:call PulseCursorLine()<cr>
-nnoremap N Nzzzv:call PulseCursorLine()<cr>
+nnoremap <silent> n nzzzv:call PulseCursorLine()<cr>
+nnoremap <silent> N Nzzzv:call PulseCursorLine()<cr>
 
 " Easier to type, and I never use the default behavior.
 noremap H ^
@@ -347,9 +351,6 @@ let delimitMate_excluded_ft        = "txt"
 au FileType vim  let b:delimitMate_quotes = "'"
 au FileType lisp let b:delimitMate_quotes = '"'
 
-"{{{2 Enhanced commentify settings
-let g:EnhCommentifyUserBindings='Yes'
-
 "{{{2 Gundo
 let g:gundo_width=60
 map <S-u> :GundoToggle<cr>
@@ -358,6 +359,10 @@ map <S-u> :GundoToggle<cr>
 
 set lispwords+=alet,alambda,dlambda,aif
 let g:lisp_rainbow = 1
+
+"{{{2 Powerline
+
+let g:Powerline_symbols = "unicode"
 
 "{{{2 Rainbox Parentheses
 
@@ -395,7 +400,14 @@ let g:syntastic_disabled_filetypes = ['tex', 'fortran']
 let g:syntastic_enabled = 1
 
 "{{{2 Tabular
-nmap <silent> <Leader>tl :Tab<cr>
+if exists(":Tabularize")
+  nmap ,a= :Tabularize /=<cr>
+  vmap ,a= :Tabularize /=<cr>
+  nmap ,a: :Tabularize /:\zs<cr>
+  vmap ,a: :Tabularize /:\zs<cr>
+  nmap ,aa :Tabularize /
+  vmap ,aa :Tabularize /
+endif
 
 "{{{2 VCSCommand
 let VCSCommandSplit = 'horizontal'
