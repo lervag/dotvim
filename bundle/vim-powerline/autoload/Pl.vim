@@ -15,7 +15,7 @@
 			\ }
 		\ },
 		\ 'unicode': {
-			\   'dividers': [ [0x25b6], [0x276f], [0x25c0], [0x276e]  ]
+			\   'dividers': [ [0x2596], [0x276f], [0x2597], [0x276e]  ]
 			\ , 'symbols' : {
 				\   'branch'  : [0x26a1]
 				\ , 'ro'      : [0x2613]
