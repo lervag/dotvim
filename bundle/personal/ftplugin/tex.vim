@@ -14,6 +14,7 @@ let g:Tex_FoldedEnvironments =
 let g:Tex_FoldedSections = "part,chapter,section,subsection,"
       \ . "subsubsection,paragraph,%%fakesection"
 let g:Tex_FoldedMisc="preamble,<<<"
+let g:tex_comment_nospell=1
 
 "{{{1 Add mapping to be able to select a single paragraph, and to format it
 noremap <silent> <expr> { LaTeXStartOfParagraph()

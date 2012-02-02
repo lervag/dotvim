@@ -392,9 +392,13 @@ function! Tex_ForwardSearchLaTeX()
 
 			elseif viewer == "okular"
 
-				let execString = 'silent! !okular --unique '
+				let execString = "silent! !okular --unique \""
 							\ . mainfnameRoot
-							\ . '.pdf\#src:'.line('.')."%:p:h/./%:."
+							\ . ".pdf\\\#src:"
+							\ . line('.')
+							\ . expand("%:p:h")
+							\ . "/./"
+							\ . expand("%:.") . "\""
 
 			endif
 
