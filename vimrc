@@ -7,6 +7,7 @@ filetype off
 if !exists("pathogen_loaded")
   source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
   call pathogen#infect()
+  call pathogen#helptags()
   let pathogen_loaded = 1
 endif
 filetype plugin indent on
@@ -156,10 +157,6 @@ end
 augroup GeneralAutocommands
   autocmd!
 
-  " Reload settings when changed
-  autocmd bufwritepost .vimrc source $MYVIMRC
-  autocmd bufwritepost .vimrc :normal zx
-
   " Set omnifunction if it is not already specified
   if exists("+omnifunc")
     autocmd Filetype *
@@ -249,6 +246,9 @@ noremap Y y$
 imap <silent> <c-r><c-d> <c-r>=strftime("%e %b %Y")<CR>
 imap <silent> <c-r><c-t> <c-r>=strftime("%l:%M %p")<CR>
 map <F12> ggVGg? " encypt the file (toggle)
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
+      \ . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+      \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
@@ -328,16 +328,30 @@ nnoremap <leader>! :Shell
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 let g:ackhighlight=1
 
-"{{{2 Command-t
-nmap <silent> <Leader>tt :CommandT<CR>
-nmap <silent> <Leader>t :CommandT 
-
 "{{{2 ConqueTerm
 let g:ConqueTerm_SendVisKey = ',cc'
 let g:ConqueTerm_SendFileKey = ',ca'
 let g:ConqueTerm_ExecFileKey = ',cf'
 let g:ConqueTerm_CloseOnEnd = 1
 let g:ConqueTerm_TERM = 'xterm'
+
+"{{{2 Ctrl P
+let g:ctrlp_map = '<leader>tt'
+let g:ctrlp_cmd = 'CtrlPMRU'
+nmap <silent> <Leader>tf :CtrlP<cr>
+nmap <silent> <Leader>th :CtrlP /home/lervag<cr>
+nmap <silent> <Leader>tv :CtrlP /home/lervag/.vim<cr>
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_match_window_bottom = 0
+let g:ctrlp_match_window_reversed = 0
+let g:ctrlp_max_height = 25
+let g:ctrlp_dotfiles = 0
+let g:ctrlp_follow_symlinks = 1
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.hg$\|\.svn$\|.vim\/undofiles$\|\.vim\/backup$',
+  \ 'file': '\.exe$\|\.so$\|\.dll$\|documents\/ntnu\/phd',
+  \}
+let g:ctrlp_extensions = ['tag', 'quickfix', 'dir']
 
 "{{{2 delimitMate
 " General options
