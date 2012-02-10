@@ -30,8 +30,10 @@ endf
 " Public {{{1
 fu! ctrlp#quickfix#init()
 	let g:ctrlp_nolimit = 1
+	if !hlexists('CtrlPqfLineCol')
+		hi link CtrlPqfLineCol Search
+	en
 	sy match CtrlPqfLineCol '|\zs\d\+:\d\+\ze|'
-	hi def link CtrlPqfLineCol Search
 	retu map(getqflist(), 's:lineout(v:val)')
 endf
 
@@ -43,7 +45,7 @@ fu! ctrlp#quickfix#accept(mode, str)
 	let cmd = md == 't' ? 'tabe' : md == 'h' ? 'new' : md == 'v' ? 'vne'
 		\ : ctrlp#normcmd('e')
 	let cmd = cmd == 'e' && &modified ? 'hid e' : cmd
-	sil! exe cmd.' '.ctrlp#fnesc(filpath)
+	exe cmd.' '.ctrlp#fnesc(filpath)
 	cal cursor(items[2], items[3]) | sil! norm! zvzz
 endf
 

@@ -6,4 +6,5 @@
 :LAckAdd	ack.txt	/*:LAckAdd*
 ack	ack.txt	/*ack*
 ack-author	ack.txt	/*ack-author*
+ack-mappings	ack.txt	/*ack-mappings*
 ack.txt	ack.txt	/*ack.txt*

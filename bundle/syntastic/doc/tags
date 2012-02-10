@@ -5,6 +5,7 @@
 'syntastic_enable_balloons'	syntastic.txt	/*'syntastic_enable_balloons'*
 'syntastic_enable_highlighting'	syntastic.txt	/*'syntastic_enable_highlighting'*
 'syntastic_enable_signs'	syntastic.txt	/*'syntastic_enable_signs'*
+'syntastic_loc_list_height'	syntastic.txt	/*'syntastic_loc_list_height'*
 'syntastic_mode_map'	syntastic.txt	/*'syntastic_mode_map'*
 'syntastic_quiet_warnings'	syntastic.txt	/*'syntastic_quiet_warnings'*
 'syntastic_stl_format'	syntastic.txt	/*'syntastic_stl_format'*

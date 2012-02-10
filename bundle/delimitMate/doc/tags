@@ -17,6 +17,7 @@
 'delimitMate_expand_space'	delimitMate.txt	/*'delimitMate_expand_space'*
 'delimitMate_matchpairs'	delimitMate.txt	/*'delimitMate_matchpairs'*
 'delimitMate_nesting_quotes'	delimitMate.txt	/*'delimitMate_nesting_quotes'*
+'delimitMate_offByDefault'	delimitMate.txt	/*'delimitMate_offByDefault'*
 'delimitMate_quotes'	delimitMate.txt	/*'delimitMate_quotes'*
 'delimitMate_smart_matchpairs'	delimitMate.txt	/*'delimitMate_smart_matchpairs'*
 'delimitMate_smart_quotes'	delimitMate.txt	/*'delimitMate_smart_quotes'*

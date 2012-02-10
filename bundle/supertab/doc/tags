@@ -1,5 +1,6 @@
 g:SuperTabCompletionContexts	supertab.txt	/*g:SuperTabCompletionContexts*
 g:SuperTabContextDefaultCompletionType	supertab.txt	/*g:SuperTabContextDefaultCompletionType*
+g:SuperTabCrClosePreview	supertab.txt	/*g:SuperTabCrClosePreview*
 g:SuperTabCrMapping	supertab.txt	/*g:SuperTabCrMapping*
 g:SuperTabDefaultCompletionType	supertab.txt	/*g:SuperTabDefaultCompletionType*
 g:SuperTabLongestEnhanced	supertab.txt	/*g:SuperTabLongestEnhanced*
@@ -16,6 +17,7 @@ supertab-contextdefault	supertab.txt	/*supertab-contextdefault*
 supertab-contextdiscover	supertab.txt	/*supertab-contextdiscover*
 supertab-contextexample	supertab.txt	/*supertab-contextexample*
 supertab-contexttext	supertab.txt	/*supertab-contexttext*
+supertab-crclosepreview	supertab.txt	/*supertab-crclosepreview*
 supertab-crmapping	supertab.txt	/*supertab-crmapping*
 supertab-defaultcompletion	supertab.txt	/*supertab-defaultcompletion*
 supertab-duration	supertab.txt	/*supertab-duration*

@@ -2,7 +2,7 @@
 " File:          autoload/ctrlp.vim
 " Description:   Fuzzy file, buffer, mru and tag finder.
 " Author:        Kien Nguyen <github.com/kien>
-" Version:       1.6.9
+" Version:       1.7.1
 " =============================================================================
 
 " Static variables {{{1
@@ -18,7 +18,7 @@ fu! s:opts()
 		\ 'g:ctrlp_dotfiles':              ['s:dotfiles', 1],
 		\ 'g:ctrlp_extensions':            ['s:extensions', []],
 		\ 'g:ctrlp_follow_symlinks':       ['s:folsym', 0],
-		\ 'g:ctrlp_highlight_match':       ['s:mathi', [1, 'Identifier']],
+		\ 'g:ctrlp_highlight_match':       ['s:mathi', [1, 'CtrlPMatch']],
 		\ 'g:ctrlp_jump_to_buffer':        ['s:jmptobuf', 2],
 		\ 'g:ctrlp_lazy_update':           ['s:lazy', 0],
 		\ 'g:ctrlp_match_window_bottom':   ['s:mwbottom', 1],
@@ -116,7 +116,7 @@ fu! s:opts()
 	" Global options
 	let s:glbs = { 'magic': 1, 'to': 1, 'tm': 0, 'sb': 1, 'hls': 0, 'im': 0,
 		\ 'report': 9999, 'sc': 0, 'ss': 0, 'siso': 0, 'mfd': 200, 'mouse': 'n',
-		\ 'gcr': 'a:blinkon0', 'ic': 1, 'scs': 1 }
+		\ 'gcr': 'a:blinkon0', 'ic': 1, 'scs': 1, 'lmap': '' }
 	if s:lazy
 		cal extend(s:glbs, { 'ut': ( s:lazy > 1 ? s:lazy : 250 ) })
 	en
@@ -134,6 +134,18 @@ let s:fpats = {
 	\ '^\\\(zs\|ze\|<\|>\)': '^\\\(zs\|ze\|<\|>\)',
 	\ '^\S\*$': '\*',
 	\ '^\S\\?$': '\\?',
+	\ }
+
+" Highlight groups
+let s:hlgrps = {
+	\ 'NoEntries': 'Error',
+	\ 'Mode1': 'Character',
+	\ 'Mode2': 'LineNr',
+	\ 'Stats': 'Function',
+	\ 'Match': 'Identifier',
+	\ 'PrtBase': 'Comment',
+	\ 'PrtText': 'Normal',
+	\ 'PrtCursor': 'Constant',
 	\ }
 " * Open & Close {{{1
 fu! s:Open()
@@ -159,7 +171,8 @@ fu! s:Open()
 endf
 
 fu! s:Close()
-	try | noa bun! | cat | noa clo! | endt
+	try | noa bun!
+	cat | noa clo! | endt
 	cal s:unmarksigns()
 	for key in keys(s:glbs)
 		sil! exe 'let &'.key.' = s:glb_'.key
@@ -195,8 +208,8 @@ fu! ctrlp#clra(...)
 	cal ctrlp#clr()
 endf
 
-fu! ctrlp#reset()
-	if ( has('dialog_gui') || has('dialog_con') ) &&
+fu! ctrlp#reset(...)
+	if !exists('a:1') && ( has('dialog_gui') || has('dialog_con') ) &&
 		\ confirm("Reset and apply new options?", "&OK\n&Cancel") != 1 | retu | en
 	cal s:opts()
 	cal ctrlp#utils#opts()
@@ -213,7 +226,8 @@ fu! s:Files()
 			cal s:GlobPath(cwd, 0)
 		el
 			sil! cal ctrlp#progress('Indexing...')
-			try | cal s:UserCmd(cwd, lscmd) | cat | retu [] | endt
+			try | cal s:UserCmd(cwd, lscmd)
+			cat | retu [] | endt
 		en
 		" Remove base directory
 		cal ctrlp#rmbasedir(g:ctrlp_allfiles)
@@ -298,8 +312,9 @@ endf
 fu! s:MatchIt(items, pat, limit, mfunc)
 	let newitems = []
 	for item in a:items
-		try | if call(a:mfunc, [item, a:pat]) >= 0 | cal add(newitems, item) | en
-		cat | brea | endt
+		try | if call(a:mfunc, [item, a:pat]) >= 0
+			cal add(newitems, item)
+		en | cat | brea | endt
 		if a:limit > 0 && len(newitems) >= a:limit | brea | en
 	endfo
 	retu newitems
@@ -319,7 +334,7 @@ fu! s:MatchedItems(items, pat, limit)
 	retu newitems
 endf
 fu! s:SplitPattern(str) "{{{1
-	let str = s:sanstail(a:str)
+	let str = a:str
 	if s:migemo && s:regexp && len(str) > 0 && executable('cmigemo')
 		let str = s:migemo(str)
 	en
@@ -388,15 +403,13 @@ fu! s:Update(str)
 	" Get the previous string if existed
 	let oldstr = exists('s:savestr') ? s:savestr : ''
 	" Get the new string sans tail
-	let notail = substitute(a:str, '\\\\', '\', 'g')
-	let notail = substitute(notail, '\\\@<!:\([^:]\|\\:\)*$', '', '')
-	let notail = substitute(notail, '\\\ze:', '', 'g')
+	let str = s:sanstail(a:str)
 	" Stop if the string's unchanged
-	if notail == oldstr && !empty(notail) && !exists('s:force')
+	if str == oldstr && !empty(str) && !exists('s:force')
 		retu
 	en
-	let pat = s:SplitPattern(a:str)
-	let lines = exists('g:ctrlp_nolimit') && empty(notail) ? copy(g:ctrlp_lines)
+	let pat = s:SplitPattern(str)
+	let lines = exists('g:ctrlp_nolimit') && empty(str) ? copy(g:ctrlp_lines)
 		\ : s:MatchedItems(g:ctrlp_lines, pat, s:mxheight)
 	cal s:Render(lines, pat)
 endf
@@ -420,9 +433,9 @@ fu! s:BuildPrompt(upd, ...)
 	sil! cal ctrlp#statusline()
 	" Toggling
 	let [hiactive, hicursor, base] = exists('a:1') && !a:1
-		\ ? ['Comment', 'Comment', tr(base, '>', '-')]
-		\ : ['Normal', 'Constant', base]
-	let hibase = 'Comment'
+		\ ? ['CtrlPPrtBase', 'CtrlPPrtBase', tr(base, '>', '-')]
+		\ : ['CtrlPPrtText', 'CtrlPPrtCursor', base]
+	let hibase = 'CtrlPPrtBase'
 	" Build it
 	redr
 	exe 'echoh' hibase '| echon "'.base.'"
@@ -444,22 +457,22 @@ endf
 
 fu! s:PrtAdd(char)
 	unl! s:hstgot
-	let s:prompt[0] = s:prompt[0] . a:char
+	let s:prompt[0] .= a:char
 	cal s:BuildPrompt(1)
 endf
 
 fu! s:PrtBS()
 	unl! s:hstgot
 	let [prt, s:matches] = [s:prompt, 1]
-	let prt[0] = strpart(prt[0], -1, strlen(prt[0]))
+	let prt[0] = substitute(prt[0], '.$', '', '')
 	cal s:BuildPrompt(1)
 endf
 
 fu! s:PrtDelete()
 	unl! s:hstgot
 	let [prt, s:matches] = [s:prompt, 1]
-	let prt[1] = strpart(prt[2], 0, 1)
-	let prt[2] = strpart(prt[2], 1)
+	let prt[1] = matchstr(prt[2], '^.')
+	let prt[2] = substitute(prt[2], '^.', '', '')
 	cal s:BuildPrompt(1)
 endf
 
@@ -501,30 +514,28 @@ fu! s:PrtCurLeft()
 	if !empty(s:prompt[0])
 		let prt = s:prompt
 		let prt[2] = prt[1] . prt[2]
-		let prt[1] = strpart(prt[0], strlen(prt[0]) - 1)
-		let prt[0] = strpart(prt[0], -1, strlen(prt[0]))
+		let prt[1] = matchstr(prt[0], '.$')
+		let prt[0] = substitute(prt[0], '.$', '', '')
 	en
 	cal s:BuildPrompt(0)
 endf
 
 fu! s:PrtCurRight()
 	let prt = s:prompt
-	let prt[0] = prt[0] . prt[1]
-	let prt[1] = strpart(prt[2], 0, 1)
-	let prt[2] = strpart(prt[2], 1)
+	let prt[0] .= prt[1]
+	let prt[1] = matchstr(prt[2], '^.')
+	let prt[2] = substitute(prt[2], '^.', '', '')
 	cal s:BuildPrompt(0)
 endf
 
 fu! s:PrtCurStart()
-	let prt = s:prompt
-	let str = join(prt, '')
-	let [prt[0], prt[1], prt[2]] = ['', strpart(str, 0, 1), strpart(str, 1)]
+	let str = join(s:prompt, '')
+	let s:prompt = ['', matchstr(str, '^.'), substitute(str, '^.', '', '')]
 	cal s:BuildPrompt(0)
 endf
 
 fu! s:PrtCurEnd()
-	let prt = s:prompt
-	let [prt[0], prt[1], prt[2]] = [join(prt, ''), '', '']
+	let s:prompt = [join(s:prompt, ''), '', '']
 	cal s:BuildPrompt(0)
 endf
 
@@ -666,11 +677,11 @@ fu! s:ToggleType(dir)
 	let s:itemtype = s:walker(g:ctrlp_builtins + ext, s:itemtype, a:dir)
 	if s:byfname && !s:ispathitem() | let s:byfname = 0 | en
 	unl! g:ctrlp_nolimit
-	cal s:SetLines(s:itemtype)
-	cal s:PrtSwitcher()
 	if has('syntax') && exists('g:syntax_on')
 		cal s:syntax()
 	en
+	cal s:SetLines(s:itemtype)
+	cal s:PrtSwitcher()
 endf
 
 fu! s:PrtSwitcher()
@@ -965,12 +976,12 @@ fu! ctrlp#statusline()
 		let args = [focus, byfname, s:regexp, prv, item, nxt, marked]
 		let &l:stl = call(s:status['main'], args)
 	el
-		let item    = '%#Character# '.item.' %*'
-		let focus   = '%#LineNr# '.focus.' %*'
-		let byfname = '%#Character# '.byfname.' %*'
-		let regex   = s:regexp  ? '%#LineNr# regex %*' : ''
+		let item    = '%#CtrlPMode1# '.item.' %*'
+		let focus   = '%#CtrlPMode2# '.focus.' %*'
+		let byfname = '%#CtrlPMode1# '.byfname.' %*'
+		let regex   = s:regexp  ? '%#CtrlPMode2# regex %*' : ''
 		let slider  = ' <'.prv.'>={'.item.'}=<'.nxt.'>'
-		let dir     = ' %=%<%#LineNr# '.getcwd().' %*'
+		let dir     = ' %=%<%#CtrlPMode2# '.getcwd().' %*'
 		let &l:stl  = focus.byfname.regex.slider.marked.dir
 	en
 endf
@@ -983,7 +994,7 @@ endf
 fu! ctrlp#progress(enum)
 	if has('macunix') || has('mac') | sl 1m | en
 	let &l:stl = has_key(s:status, 'prog') ? call(s:status['prog'], [a:enum])
-		\ : '%#Function# '.a:enum.' %* %=%<%#LineNr# '.getcwd().' %*'
+		\ : '%#CtrlPStats# '.a:enum.' %* %=%<%#CtrlPMode2# '.getcwd().' %*'
 	redr
 endf
 " Paths {{{2
@@ -1114,11 +1125,16 @@ fu! ctrlp#setdir(path, ...)
 endf
 " Highlighting {{{2
 fu! s:syntax()
-	sy match CtrlPNoEntries '^ == NO ENTRIES ==$'
-	sy match CtrlPLinePre '^>'
-	hi link CtrlPNoEntries Error
-	if hlexists('Normal')
+	for [ke, va] in items(s:hlgrps) | if !hlexists('CtrlP'.ke)
+		exe 'hi link CtrlP'.ke va
+	en | endfo
+	if !hlexists('CtrlPLinePre')
+		\ && synIDattr(synIDtrans(hlID('Normal')), 'bg') !~ '^-1$\|^$'
 		sil! exe 'hi CtrlPLinePre '.( has("gui_running") ? 'gui' : 'cterm' ).'fg=bg'
+	en
+	sy match CtrlPNoEntries '^ == NO ENTRIES ==$'
+	if hlexists('CtrlPLinePre')
+		sy match CtrlPLinePre '^>'
 	en
 endf
 
@@ -1126,13 +1142,15 @@ fu! s:highlight(pat, grp)
 	cal clearmatches()
 	if !empty(a:pat) && s:ispathitem()
 		let pat = s:regexp ? substitute(a:pat, '\\\@<!\^', '^> \\zs', 'g') : a:pat
-		" Match only filename
 		if s:byfname
+			" Match only filename
 			let pat = substitute(pat, '\[\^\(.\{-}\)\]\\{-}', '[^\\/\1]\\{-}', 'g')
-			let pat = substitute(pat, '$', '\\ze[^\\/]*$', 'g')
+			let pat = substitute(pat, '\$\@<!$', '\\ze[^\\/]*$', 'g')
 		en
 		cal matchadd(a:grp, '\c'.pat)
-		cal matchadd('CtrlPLinePre', '^>')
+		if hlexists('CtrlPLinePre')
+			cal matchadd('CtrlPLinePre', '^>')
+		en
 	en
 endf
 
@@ -1345,7 +1363,7 @@ fu! s:openfile(cmd, filpath, ...)
 	let cmd = a:cmd =~ '^[eb]$' && &modified ? 'hid '.a:cmd : a:cmd
 	let cmd = cmd =~ '^tab' ? tabpagenr('$').cmd : cmd
 	let tail = a:0 ? a:1 : s:tail()
-	sil! exe cmd.tail.' '.ctrlp#fnesc(a:filpath)
+	exe cmd.tail.' '.ctrlp#fnesc(a:filpath)
 	if !empty(tail)
 		sil! norm! zvzz
 	en
@@ -1474,9 +1492,11 @@ fu! ctrlp#init(type, ...)
 	cal s:Open()
 	cal s:SetWD(a:0 ? a:1 : '')
 	cal s:MapKeys()
+	if has('syntax') && exists('g:syntax_on')
+		cal s:syntax()
+	en
 	cal s:SetLines(a:type)
 	cal s:BuildPrompt(1)
-	if has('syntax') && exists('g:syntax_on') | cal s:syntax() | en
 endf
 if has('autocmd') "{{{1
 	aug CtrlPAug

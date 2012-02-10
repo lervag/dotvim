@@ -8,6 +8,8 @@ g:ScreenShellHeight	screen.txt	/*g:ScreenShellHeight*
 g:ScreenShellInitialFocus	screen.txt	/*g:ScreenShellInitialFocus*
 g:ScreenShellQuitOnVimExit	screen.txt	/*g:ScreenShellQuitOnVimExit*
 g:ScreenShellScreenInitArgs	screen.txt	/*g:ScreenShellScreenInitArgs*
+g:ScreenShellSendPrefix	screen.txt	/*g:ScreenShellSendPrefix*
+g:ScreenShellSendSuffix	screen.txt	/*g:ScreenShellSendSuffix*
 g:ScreenShellServerName	screen.txt	/*g:ScreenShellServerName*
 g:ScreenShellTerminal	screen.txt	/*g:ScreenShellTerminal*
 g:ScreenShellTmuxInitArgs	screen.txt	/*g:ScreenShellTmuxInitArgs*
@@ -21,10 +23,14 @@ screen-focus	screen.txt	/*screen-focus*
 screen-gotchas	screen.txt	/*screen-gotchas*
 screen-impl	screen.txt	/*screen-impl*
 screen-intro	screen.txt	/*screen-intro*
+screen-ipython	screen.txt	/*screen-ipython*
 screen-mappings	screen.txt	/*screen-mappings*
 screen-options	screen.txt	/*screen-options*
+screen-quit	screen.txt	/*screen-quit*
 screen-quitonexit	screen.txt	/*screen-quitonexit*
 screen-scriptintegration	screen.txt	/*screen-scriptintegration*
+screen-send	screen.txt	/*screen-send*
+screen-sendprefix	screen.txt	/*screen-sendprefix*
 screen-servername	screen.txt	/*screen-servername*
 screen-shell	screen.txt	/*screen-shell*
 screen-shell-vertical	screen.txt	/*screen-shell-vertical*

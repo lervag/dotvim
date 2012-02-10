@@ -58,9 +58,9 @@ function! s:init() "{{{
 
 	" matchpairs
 	call s:option_init("matchpairs", string(&matchpairs)[1:-2])
-	call s:option_init("matchpairs_list", split(b:_l_delimitMate_matchpairs, ','))
-	call s:option_init("left_delims", split(b:_l_delimitMate_matchpairs, ':.,\='))
-	call s:option_init("right_delims", split(b:_l_delimitMate_matchpairs, ',\=.:'))
+	call s:option_init("matchpairs_list", map(split(b:_l_delimitMate_matchpairs, ','), 'split(v:val, '':'')'))
+	call s:option_init("left_delims", map(copy(b:_l_delimitMate_matchpairs_list), 'v:val[0]'))
+	call s:option_init("right_delims", map(copy(b:_l_delimitMate_matchpairs_list), 'v:val[1]'))
 
 	" quotes
 	call s:option_init("quotes", "\" ' `")
@@ -168,6 +168,7 @@ function! s:Unmap() " {{{
 				\ b:_l_delimitMate_apostrophes_list +
 				\ ['<BS>', '<S-BS>', '<Del>', '<CR>', '<Space>', '<S-Tab>', '<Esc>'] +
 				\ ['<Up>', '<Down>', '<Left>', '<Right>', '<LeftMouse>', '<RightMouse>'] +
+				\ ['<C-Left>', '<C-Right>'] +
 				\ ['<Home>', '<End>', '<PageUp>', '<PageDown>', '<S-Down>', '<S-Up>', '<C-G>g']
 
 	for map in imaps
@@ -237,7 +238,9 @@ function! s:DelimitMateDo(...) "{{{
 	call s:init()
 
 	" Now, add magic:
-	call s:Map()
+	if !exists("g:delimitMate_offByDefault") || !g:delimitMate_offByDefault
+		call s:Map()
+	endif
 
 	if a:0 > 0
 		echo "delimitMate has been reset."
@@ -352,7 +355,7 @@ function! s:ExtraMappings() "{{{
 		silent! imap <unique> <buffer> <Del> <Plug>delimitMateDel
 	endif
 	" Flush the char buffer on movement keystrokes or when leaving insert mode:
-	for map in ['Esc', 'Left', 'Right', 'Home', 'End']
+	for map in ['Esc', 'Left', 'Right', 'Home', 'End', 'C-Left', 'C-Right']
 		exec 'inoremap <silent> <Plug>delimitMate'.map.' <C-R>=<SID>Finish()<CR><'.map.'>'
 		if !hasmapto('<Plug>delimitMate'.map, 'i')
 			exec 'silent! imap <unique> <buffer> <'.map.'> <Plug>delimitMate'.map
