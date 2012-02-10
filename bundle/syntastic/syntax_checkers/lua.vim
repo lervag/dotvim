@@ -47,15 +47,11 @@ function! SyntaxCheckers_lua_GetLocList()
     let makeprg = 'luac -p ' . shellescape(expand('%'))
     let errorformat =  'luac: %#%f:%l: %m'
 
-    let loclist = SyntasticMake({ 'makeprg': makeprg, 'errorformat': errorformat })
+    let loclist = SyntasticMake({ 'makeprg': makeprg,
+                                \ 'errorformat': errorformat,
+                                \ 'defaults': { 'bufnr': bufnr(''), 'type': 'E' } })
 
-    let bufn = bufnr('')
-    for pos in loclist
-        let pos['bufnr'] = bufn
-        let pos['type'] = 'E'
-    endfor
-
-    call syntastic#HighlightErrors(loclist, function("SyntaxCheckers_lua_Term"))
+    call SyntasticHighlightErrors(loclist, function("SyntaxCheckers_lua_Term"))
 
     return loclist
 endfunction
