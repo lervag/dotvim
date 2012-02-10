@@ -2,9 +2,10 @@ function! s:ScreenShellListener()
   if g:ScreenShellActive
     nmap <silent> <C-c><C-c> mp$?^(<CR>v])<C-c><C-c>`p
     nmap <silent> <C-c><C-p> mp$?^(<CR>])mr?^;<CR>v`r<C-c><C-c>`p
-    nmap <silent> <C-c><C-l> mp[(v])<C-c><C-c>`p
+    nmap <silent> <C-c><C-l>
+          \ :call ScreenShellSend('(load "' . expand("%") . '")')<CR>
   else
-    nmap <silent> <C-c><C-c> :ScreenShell clisp<CR>
+    nmap <silent> <C-c><C-c> :ScreenShell sbcl<CR>
     nmap <C-c><C-l> <Nop>
   endif
 endfunction
