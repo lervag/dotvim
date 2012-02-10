@@ -344,6 +344,7 @@ nmap <silent> <Leader>tv :CtrlP /home/lervag/.vim<cr>
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
+let g:ctrlp_mruf_last_entered = 1
 let g:ctrlp_max_height = 25
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_follow_symlinks = 1
@@ -409,9 +410,13 @@ let g:SuperTabLongestEnhanced = 1
 
 "{{{2 syntactics
 let g:syntastic_auto_loc_list = 2
-let g:syntastic_stl_format = '[%E{Err: %e}%B{, }%W{Warn: %w}]'
-let g:syntastic_disabled_filetypes = ['tex', 'fortran']
+let g:syntastic_mode_map = { 'mode': 'active',
+                           \ 'passive_filetypes': ['tex'] }
 let g:syntastic_enabled = 1
+let g:syntastic_enable_highlighting = 1
+let g:syntastic_fortran_flags = " -fdefault-real-8"
+                            \ . " -I../obj/gfortran_debug"
+                            \ . " -I../objects/debug_gfortran_Linux"
 
 "{{{2 Tabular
 if exists(":Tabularize")
