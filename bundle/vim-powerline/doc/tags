@@ -1,14 +1,3 @@
-Pl#Attr	Powerline.txt	/*Pl#Attr*
-Pl#BG	Powerline.txt	/*Pl#BG*
-Pl#FG	Powerline.txt	/*Pl#FG*
-Pl#HiCurrent	Powerline.txt	/*Pl#HiCurrent*
-Pl#HiInsert	Powerline.txt	/*Pl#HiInsert*
-Pl#HiNonCurrent	Powerline.txt	/*Pl#HiNonCurrent*
-Pl#Match	Powerline.txt	/*Pl#Match*
-Pl#Segment	Powerline.txt	/*Pl#Segment*
-Pl#SegmentGroup	Powerline.txt	/*Pl#SegmentGroup*
-Pl#Split	Powerline.txt	/*Pl#Split*
-Pl#Statusline	Powerline.txt	/*Pl#Statusline*
 Powerline	Powerline.txt	/*Powerline*
 Powerline-configuration	Powerline.txt	/*Powerline-configuration*
 Powerline-contents	Powerline.txt	/*Powerline-contents*
@@ -26,6 +15,8 @@ Powerline-symbols-compatible	Powerline.txt	/*Powerline-symbols-compatible*
 Powerline-symbols-fancy	Powerline.txt	/*Powerline-symbols-fancy*
 Powerline-usage	Powerline.txt	/*Powerline-usage*
 Powerline.txt	Powerline.txt	/*Powerline.txt*
+Powerline_cache_enabled	Powerline.txt	/*Powerline_cache_enabled*
 Powerline_cache_file	Powerline.txt	/*Powerline_cache_file*
+Powerline_colorscheme	Powerline.txt	/*Powerline_colorscheme*
 Powerline_symbols	Powerline.txt	/*Powerline_symbols*
 Powerline_theme	Powerline.txt	/*Powerline_theme*
