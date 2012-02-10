@@ -5,6 +5,7 @@
 :TCommentMaybeInline	tcomment.txt	/*:TCommentMaybeInline*
 :TCommentRight	tcomment.txt	/*:TCommentRight*
 g:tcomment#ignore_char_type	tcomment.txt	/*g:tcomment#ignore_char_type*
+g:tcomment#replacements_c	tcomment.txt	/*g:tcomment#replacements_c*
 g:tcomment#syntax_substitute	tcomment.txt	/*g:tcomment#syntax_substitute*
 g:tcommentBlankLines	tcomment.txt	/*g:tcommentBlankLines*
 g:tcommentBlockC	tcomment.txt	/*g:tcommentBlockC*

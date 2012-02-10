@@ -3,8 +3,8 @@
 " @Website:     http://www.vim.org/account/profile.php?user_id=4037
 " @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 " @Created:     2007-09-17.
-" @Last Change: 2011-08-06.
-" @Revision:    0.0.415
+" @Last Change: 2012-01-29.
+" @Revision:    0.0.440
 
 " call tlog#Log('Load: '. expand('<sfile>')) " vimtlib-sfile
 
@@ -105,15 +105,31 @@ if !exists('g:tcommentSyntaxMap')
             \ }
 endif
 
-if !exists("g:tcommentBlockC")
+if !exists('g:tcomment#replacements_c')
+    " Replacements for c filetype.
+    " :read: let g:tcomment#replacements_c = {...}   "{{{2
+    let g:tcomment#replacements_c = {
+                \     '/*': '#<{(|',
+                \     '*/': '|)}>#',
+                \ }
+endif
+
+if !exists("g:tcommentLineC")
     " Generic c-like block comments.
     " :read: let g:tcommentBlockC = {...}   "{{{2
+    let g:tcommentLineC = {
+                \ 'commentstring': '/* %s */',
+                \ 'replacements': g:tcomment#replacements_c
+                \ }
+endif
+if !exists("g:tcommentBlockC")
     let g:tcommentBlockC = {
                 \ 'commentstring': '/*%s */',
                 \ 'middle': ' * ',
                 \ 'rxbeg': '\*\+',
                 \ 'rxend': '\*\+',
                 \ 'rxmid': '\*\+',
+                \ 'replacements': g:tcomment#replacements_c
                 \ }
 endif
 if !exists("g:tcommentBlockC2")
@@ -125,11 +141,12 @@ if !exists("g:tcommentBlockC2")
                 \ 'rxbeg': '\*\+',
                 \ 'rxend': '\*\+',
                 \ 'rxmid': '\*\+',
+                \ 'replacements': g:tcomment#replacements_c
                 \ }
 endif
 if !exists("g:tcommentInlineC")
     " Generic c-like comments.
-    let g:tcommentInlineC = "/* %s */"   "{{{2
+    let g:tcommentInlineC = g:tcommentLineC   "{{{2
 endif
 
 if !exists("g:tcommentBlockXML")
@@ -211,10 +228,11 @@ call tcomment#DefineType('cpp_block',        g:tcommentBlockC   )
 call tcomment#DefineType('css',              '/* %s */'         )
 call tcomment#DefineType('css_inline',       g:tcommentInlineC  )
 call tcomment#DefineType('css_block',        g:tcommentBlockC   )
-call tcomment#DefineType('c',                '/* %s */'         )
+call tcomment#DefineType('c',                g:tcommentLineC    )
 call tcomment#DefineType('c_inline',         g:tcommentInlineC  )
 call tcomment#DefineType('c_block',          g:tcommentBlockC   )
 call tcomment#DefineType('cfg',              '# %s'             )
+call tcomment#DefineType('coffee',           '# %s'             )
 call tcomment#DefineType('conf',             '# %s'             )
 call tcomment#DefineType('conkyrc',          '# %s'             )
 call tcomment#DefineType('crontab',          '# %s'             )
@@ -237,6 +255,7 @@ call tcomment#DefineType('erlang',           '%%%% %s'          )
 call tcomment#DefineType('eruby',            '<%%# %s'          )
 call tcomment#DefineType('fstab',            '# %s'             )
 call tcomment#DefineType('gitcommit',        '# %s'             )
+call tcomment#DefineType('gitignore',        '# %s'             )
 call tcomment#DefineType('gtkrc',            '# %s'             )
 call tcomment#DefineType('go',               '// %s'            )
 call tcomment#DefineType('go_inline',        g:tcommentInlineC  )
@@ -245,6 +264,7 @@ call tcomment#DefineType('groovy',           '// %s'            )
 call tcomment#DefineType('groovy_inline',    g:tcommentInlineC  )
 call tcomment#DefineType('groovy_block',     g:tcommentBlockC   )
 call tcomment#DefineType('groovy_doc_block', g:tcommentBlockC2  )
+call tcomment#DefineType('haml',             '-# %s'            )
 call tcomment#DefineType('haskell',          '-- %s'            )
 call tcomment#DefineType('haskell_block',    "{-%s-}\n   "      )
 call tcomment#DefineType('haskell_inline',   '{- %s -}'         )
@@ -293,6 +313,7 @@ call tcomment#DefineType('php_block',        g:tcommentBlockC   )
 call tcomment#DefineType('php_2_block',      g:tcommentBlockC2  )
 call tcomment#DefineType('po',               '# %s'             )
 call tcomment#DefineType('prolog',           '%% %s'            )
+call tcomment#DefineType('puppet',           '# %s'             )
 call tcomment#DefineType('python',           '# %s'             )
 call tcomment#DefineType('rc',               '// %s'            )
 call tcomment#DefineType('readline',         '# %s'             )
@@ -466,9 +487,12 @@ function! tcomment#Comment(beg, end, ...)
         " echom "DBG tcomment#Comment" lbeg .','. lend .'s/\V'. 
         "             \ s:StartPosRx(commentMode, lbeg, cbeg) . indentStr .'\zs\(\_.\{-}\)'. s:EndPosRx(commentMode, lend, cend) .'/'.
         "             \ '\=s:ProcessedLine('. uncomment .', submatch(0), "'. cmtCheck .'", "'. cmtReplace .'")/ge'
-        exec lbeg .','. lend .'s/\V'. 
+        let s:cdef = cdef
+        let cmd = lbeg .','. lend .'s/\V'. 
                     \ s:StartPosRx(commentMode, lbeg, cbeg) . indentStr .'\zs\(\_.\{-}\)'. s:EndPosRx(commentMode, lend, cend) .'/'.
                     \ '\=s:ProcessedLine('. uncomment .', submatch(0), "'. cmtCheck .'", "'. cmtReplace .'")/ge'
+        " TLogVAR cmd
+        exec cmd
         call histdel('search', -1)
     endif
     " reposition cursor
@@ -849,8 +873,10 @@ function! s:ProcessedLine(uncomment, match, checkRx, replace)
     let ml = len(a:match)
     if a:uncomment
         let rv = substitute(a:match, a:checkRx, '\1\2', '')
+        let rv = s:UnreplaceInLine(rv)
     else
-        let rv = printf(a:replace, a:match)
+        let rv = s:ReplaceInLine(a:match)
+        let rv = printf(a:replace, rv)
     endif
     " TLogVAR rv
     " let md = len(rv) - ml
@@ -859,15 +885,47 @@ function! s:ProcessedLine(uncomment, match, checkRx, replace)
     " TLogVAR pe, md, a:match
     " TLogVAR rv
     if v:version > 702 || (v:version == 702 && has('patch407'))
-        let rv = escape(rv, '')
+        let rv = escape(rv, "\r")
     else
-        let rv = escape(rv, '\')
+        let rv = escape(rv, "\\r")
     endif
     " TLogVAR rv
     " let rv = substitute(rv, '\n', '\\\n', 'g')
     " TLogVAR rv
     return rv
 endf
+
+
+function! s:ReplaceInLine(text) "{{{3
+    if has_key(s:cdef, 'replacements')
+        let text = a:text
+        " TLogVAR text
+        for [token, substitution] in items(s:cdef.replacements)
+            let text = substitute(text, '\V'. escape(token, '\'), substitution, 'g')
+            " TLogVAR token, substitution, text
+        endfor
+        " TLogVAR text
+        return text
+    else
+        return a:text
+    endif
+endf
+
+
+function! s:UnreplaceInLine(text) "{{{3
+    if has_key(s:cdef, 'replacements')
+        let text = a:text
+        " TLogVAR text
+        for [substitution, token] in items(s:cdef.replacements)
+            " TLogVAR substitution, token
+            let text = substitute(text, '\V'. escape(token, '\'), substitution, 'g')
+        endfor
+        return text
+    else
+        return a:text
+    endif
+endf
+
 
 " function! s:CommentLines(beg, end, cstart, cend, uncomment, cmtCheck, cms0, indentStr) "{{{3
 "     " We want commented lines
