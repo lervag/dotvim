@@ -7,3 +7,4 @@ view/.*
 .*\.log
 .*\Makefile
 .netrwhist
+.*Powerline_.*cache

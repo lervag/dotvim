@@ -4,6 +4,8 @@ function! s:ScreenShellListener()
     nmap <silent> <C-c><C-p> mp$?^(<CR>])mr?^;<CR>v`r<C-c><C-c>`p
     nmap <silent> <C-c><C-l>
           \ :call ScreenShellSend('(load "' . expand("%") . '")')<CR>
+    nmap <silent> <C-c>0
+          \ :call ScreenShellSend('0')<CR>
   else
     nmap <silent> <C-c><C-c> :ScreenShell sbcl<CR>
     nmap <C-c><C-l> <Nop>

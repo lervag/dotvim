@@ -102,7 +102,7 @@ syntax on
 if has("gui_running")
   set lines=56
   set guioptions=aegiLt
-  set guifont=Monospace\ 9
+  set guifont=Inconsolata-dz\ for\ Powerline\ 9,Monospace\ 9
 else
   set t_Co=256
 endif
@@ -249,6 +249,7 @@ map <F12> ggVGg? " encypt the file (toggle)
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
       \ . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
       \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+map <F9> :call ScreenShellSend('make')<CR>
 
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
@@ -377,7 +378,9 @@ let g:lisp_rainbow = 1
 
 "{{{2 Powerline
 
-let g:Powerline_symbols = "unicode"
+if has("gui_running")
+  let g:Powerline_symbols = "fancy"
+end
 
 "{{{2 Rainbox Parentheses
 

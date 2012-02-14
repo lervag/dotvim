@@ -390,6 +390,7 @@ fu! s:Render(lines, pat)
 	exe 'keepj norm!' ( s:mwreverse ? 'G' : 'gg' ).'1|'
 	cal s:unmarksigns()
 	cal s:remarksigns()
+	cal map(lines, '"> ".v:val')
 	if exists('s:cline') && !exists('g:ctrlp_nolimit')
 		cal cursor(s:cline, 1)
 	en
@@ -1510,4 +1511,4 @@ if has('autocmd') "{{{1
 	aug END
 en "}}}
 
-" vim:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1:ts=2:sw=2:sts=2
+" vim:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=0:ts=2:sw=2:sts=2:nolist
