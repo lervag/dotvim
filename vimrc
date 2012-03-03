@@ -237,10 +237,6 @@ map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
 
-" Visual shifting
-vnoremap < <gv
-vnoremap > >gv
-
 " Other stuff
 noremap Y y$
 imap <silent> <c-r><c-d> <c-r>=strftime("%e %b %Y")<CR>
