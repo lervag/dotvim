@@ -1,6 +1,6 @@
 " Python indent file
-" Language:	    Python
-" Maintainer:	    Eric Mc Sween <em@tomcom.de>
+" Language:         Python
+" Maintainer:       Eric Mc Sween <em@tomcom.de>
 " Original Author:  David Bustos <bustos@caltech.edu> 
 " Last Change:      2004 Jun 07
 

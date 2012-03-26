@@ -262,9 +262,10 @@ nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
 nnoremap <silent> <leader>? :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
 
 " Navigate folds
-nmap ,, zcjzo
-nmap ,. zckzo
-nmap <space> za
+nnoremap ,, zcjzo
+nnoremap ,. zckzo
+nnoremap <space> za
+nnoremap zf zMzv
 
 " Keep search matches in the middle of the window
 nnoremap <silent> n nzzzv:call PulseCursorLine()<cr>
@@ -413,7 +414,7 @@ let g:SuperTabLongestEnhanced = 1
 "{{{2 syntactics
 let g:syntastic_auto_loc_list = 2
 let g:syntastic_mode_map = { 'mode': 'active',
-                           \ 'passive_filetypes': ['tex'] }
+                           \ 'passive_filetypes': ['tex', 'fortran'] }
 let g:syntastic_enabled = 1
 let g:syntastic_enable_highlighting = 1
 let g:syntastic_fortran_flags = " -fdefault-real-8"
