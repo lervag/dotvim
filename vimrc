@@ -59,7 +59,7 @@ set softtabstop=2
 set shiftwidth=2
 set textwidth=79
 set columns=80
-set colorcolumn=80
+set colorcolumn=81
 set expandtab
 set wrap
 set linebreak
@@ -112,10 +112,6 @@ let g:solarized_contrast="high"
 colorscheme solarized
 
 "{{{2 Searching and movement
-
-" Use sane regexes.
-nnoremap / /\v
-vnoremap / /\v
 
 set ignorecase
 set smartcase
@@ -262,8 +258,8 @@ nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
 nnoremap <silent> <leader>? :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
 
 " Navigate folds
-nnoremap ,, zcjzo
-nnoremap ,. zckzo
+nnoremap zj zcjzo
+nnoremap zk zckzo
 nnoremap <space> za
 nnoremap zf zMzv
 

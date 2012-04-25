@@ -84,6 +84,7 @@ function FortranGetIndent(lnum)
   let match_prints   = '^\s*\(write\s*(.*,.*) \|print\s*\*,\s*\)'
   let match_print2   = '^\s*print \ze.*,'
   let match_equals   = '^.*= '
+  let match_defs     = '^\s*\(subroutine\|\(\w* \)\=function\) \w*('
   let match_funcs    = '^\(\s*[0-9A-Za-z_%]\+\)\+('
   let match_use      = '^\s*use.*only: '
   if prevstat =~ '&\s*$' && prev2stat !~ '&\s*$'
@@ -103,6 +104,9 @@ function FortranGetIndent(lnum)
     elseif prevstat =~? match_equals
       let match = searchpos(match_equals,'bcne')
       let ind = match[1] - &sw
+    elseif prevstat =~? match_defs
+      let match = searchpos(match_defs,'bcne')
+      let ind = match[1] - &sw -&sw
     elseif prevstat =~? match_funcs
       let match = searchpos(match_funcs,'bcne')
       let ind = match[1] - &sw
