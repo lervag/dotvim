@@ -1,6 +1,0 @@
-# pack-refs with: peeled 
-4b690ba5e20fd603986df9563614909442b4086c refs/tags/1.2.0
-4e31dc1eb00ec67e3c86e4f4b3ce707a0e2fe945 refs/tags/1.1.0
-564496ed5a2df56df13c3fe118bfb0fd2f3be67a refs/tags/1.0.0
-cf6aa9a4143704e0e3070302ffe593636d6e8cc9 refs/remotes/origin/master
-c31d4bb1cb4d8d280329de945b28c2887d7750a8 refs/remotes/origin/fix-shellslash

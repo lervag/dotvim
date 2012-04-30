@@ -1,3 +1,4 @@
 0000000000000000000000000000000000000000 7804dbd8d5109df67dae0363f8fbece84484f458 Karl Yngve Lervåg <karl.yngve+git@gmail.com> 1314180185 +0200	clone: from https://github.com/tpope/vim-pathogen.git
 7804dbd8d5109df67dae0363f8fbece84484f458 7701d8220115fe3d1bbead51773346eccc3276af Karl Yngve Lervåg <karl.yngve+git@gmail.com> 1317334337 -0700	pull : Fast-forward
 7701d8220115fe3d1bbead51773346eccc3276af ab64b4ddd0c184a528780b498a0b0a5b40248f7c Karl Yngve Lervåg <karl.yngve+git@gmail.com> 1328900292 -0800	pull : Fast-forward
+ab64b4ddd0c184a528780b498a0b0a5b40248f7c c9fb89dd6efdeedb95c411ec78b3a9493602d33d Karl Yngve Lervåg <karl.yngve+git@gmail.com> 1335811917 -0700	merge FETCH_HEAD: Fast-forward

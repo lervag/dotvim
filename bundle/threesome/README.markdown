@@ -1,8 +1,4 @@
-Threesome
-=========
+Threesome is now called Splice!
+===============================
 
-Threesome is a Vim plugin for resolving conflicts during three-way merges.
-
-Visit [the site](http://sjl.bitbucket.org/threesome.vim/) for more information.
-
-
+Go to the new repo: <http://github.com/sjl/splice.vim/>

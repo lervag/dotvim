@@ -11,6 +11,7 @@
 'delimitMate_apostrophes'	delimitMate.txt	/*'delimitMate_apostrophes'*
 'delimitMate_autoclose'	delimitMate.txt	/*'delimitMate_autoclose'*
 'delimitMate_balance_matchpairs'	delimitMate.txt	/*'delimitMate_balance_matchpairs'*
+'delimitMate_eol_marker'	delimitMate.txt	/*'delimitMate_eol_marker'*
 'delimitMate_excluded_ft'	delimitMate.txt	/*'delimitMate_excluded_ft'*
 'delimitMate_excluded_regions'	delimitMate.txt	/*'delimitMate_excluded_regions'*
 'delimitMate_expand_cr'	delimitMate.txt	/*'delimitMate_expand_cr'*
