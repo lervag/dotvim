@@ -330,11 +330,10 @@ let g:ConqueTerm_CloseOnEnd = 1
 let g:ConqueTerm_TERM = 'xterm'
 
 "{{{2 Ctrl P
+
+" Set options
 let g:ctrlp_map = '<leader>tt'
 let g:ctrlp_cmd = 'CtrlPMRU'
-nmap <silent> <Leader>tf :CtrlP<cr>
-nmap <silent> <Leader>th :CtrlP /home/lervag<cr>
-nmap <silent> <Leader>tv :CtrlP /home/lervag/.vim<cr>
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
@@ -346,7 +345,12 @@ let g:ctrlp_custom_ignore = {
   \ 'dir':  '\.git$\|\.hg$\|\.svn$\|.vim\/undofiles$\|\.vim\/backup$',
   \ 'file': '\.exe$\|\.so$\|\.dll$\|documents\/ntnu\/phd',
   \}
-let g:ctrlp_extensions = ['tag', 'quickfix', 'dir']
+let g:ctrlp_extensions = ['line', 'undo', 'quickfix', 'dir']
+
+" Add some mappings
+nmap <silent> <Leader>tf :CtrlP<cr>
+nmap <silent> <Leader>th :CtrlP /home/lervag<cr>
+nmap <silent> <Leader>tv :CtrlP /home/lervag/.vim<cr>
 
 "{{{2 delimitMate
 " General options
