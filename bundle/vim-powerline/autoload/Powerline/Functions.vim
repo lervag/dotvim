@@ -1,3 +1,55 @@
+" Recalculate the trailing whitespace warning when idle, and after saving
+autocmd CursorHold,BufWritePost,InsertLeave * unlet! b:statusline_trailing_space_warning
+
+function! Powerline#Functions#GetFilepath() " {{{
+	if exists('b:Powerline_filepath')
+		return b:Powerline_filepath
+	endif
+
+	let dirsep = has('win32') && ! &shellslash ? '\' : '/'
+	let filepath = expand('%')
+
+	if empty(filepath)
+		return ''
+	endif
+
+	let ret = ''
+
+	if g:Powerline_stl_path_style == 'short'
+		" Display a short path where the first directory is displayed with its
+		" full name, and the subsequent directories are shortened to their
+		" first letter, i.e. "/home/user/foo/foo/bar/baz.vim" becomes
+		" "~/foo/f/b/baz.vim"
+		"
+		" This displays the shortest possible path, relative to ~ or the
+		" current directory.
+		let fpath = split(fnamemodify(filepath, ':~:.:h'), dirsep)
+		let fpath_shortparts = map(fpath[1:], 'v:val[0]')
+		let ret = join(extend([fpath[0]], fpath_shortparts), dirsep) . dirsep
+	elseif g:Powerline_stl_path_style == 'relative'
+		" Display a relative path, similar to the %f statusline item
+		let ret = fnamemodify(filepath, ':.:h') . dirsep
+	elseif g:Powerline_stl_path_style == 'full'
+		" Display the full path, similar to the %F statusline item
+		let ret = filepath . dirsep
+	endif
+
+	if ret == ('.'. dirsep)
+		return ''
+	endif
+
+	let b:Powerline_filepath = ret
+	return ret
+endfunction " }}}
+function! Powerline#Functions#GetShortPath(threshold) " {{{
+	let fullpath = split(substitute(expand('%:p:h'), $HOME, '~', 'g'), '/')
+
+	if len(fullpath) > a:threshold
+		let fullpath = [fullpath[0], '…'] +  fullpath[-a:threshold + 1 :]
+	endif
+
+	return join(fullpath, '/')
+endfunction " }}}
 function! Powerline#Functions#GetMode() " {{{
 	let mode = mode()
 
@@ -43,11 +95,6 @@ function! Powerline#Functions#GetFilesize() " {{{
 		return (bytes / 1024) . 'kB'
 	endif
 endfunction "}}}
-function! Powerline#Functions#GetPwd() "{{{
-	let pwd = substitute(getcwd(), expand("$HOME"), "~", "g")
-
-	return pwd
-endfunction " }}}
 function! Powerline#Functions#GetCharCode() " {{{
 	" Get the output of :ascii
 	redir => ascii
@@ -78,3 +125,15 @@ function! Powerline#Functions#GetCharCode() " {{{
 
 	return "'". char ."' ". nr
 endfunction "}}}
+function! Powerline#Functions#GetWSMarker() " {{{
+	" Return '...' if trailing white space is detected
+	" Return '' otherwise
+	if ! exists("b:statusline_trailing_space_warning")
+		if search('\s$', 'nw') != 0
+			let b:statusline_trailing_space_warning = ' … '
+		else
+			let b:statusline_trailing_space_warning = ''
+		endif
+	endif
+	return b:statusline_trailing_space_warning
+endfunction " }}}

@@ -1,2 +1,3 @@
-ca8b897f67e8e15cf39a308ca012c5a53929d10d		branch 'develop' of https://github.com/Lokaltog/vim-powerline
+65e54dde89c73cae4cf089a83f5c26d605dda594		branch 'develop' of https://github.com/Lokaltog/vim-powerline
+400ca1223a0251130b03f07ae2ffb1bf252390ef	not-for-merge	branch 'feature/128-unicode-code-points' of https://github.com/Lokaltog/vim-powerline
 114f8e5c204f1cac9b2443065910fa182de39fb8	not-for-merge	branch 'master' of https://github.com/Lokaltog/vim-powerline

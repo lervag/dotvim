@@ -1,19 +1,21 @@
-let g:Powerline#Themes#distinguished#theme = Pl#Theme#Create(
+" Disabled:
+" Add the following line into the first theme group to see the highlight
+" group
+" \ , 'currhigroup'
+"
+" Line info taken out - I know which line number I'm on from the gutter
+"\ , 'lineinfo'
+let g:Powerline#Themes#skwp#theme = Pl#Theme#Create(
 	\ Pl#Theme#Buffer(''
-		\ , 'mode_indicator'
 		\ , 'fugitive:branch'
 		\ , 'fileinfo'
+		\ , 'flags.mod'
 		\ , 'syntastic:errors'
 		\ , Pl#Segment#Truncate()
-		\ , 'cfi:current_function'
 		\ , Pl#Segment#Split()
+		\ , 'sass:status'
 		\ , 'rvm:string'
-		\ , 'virtualenv:statusline'
-		\ , 'fileformat'
-		\ , 'fileencoding'
-		\ , 'filetype'
-		\ , 'scrollpercent'
-		\ , 'lineinfo'
+		\ , 'paste_indicator'
 	\ ),
 	\
 	\ Pl#Theme#Buffer('command_t'
@@ -83,6 +85,31 @@ let g:Powerline#Themes#distinguished#theme = Pl#Theme#Create(
 	\ Pl#Theme#Buffer('tagbar'
 		\ , ['static_str.name', 'Tagbar']
 		\ , ['static_str.buffer', 'Tree']
+		\ , Pl#Segment#Truncate()
+		\ , Pl#Segment#Split()
+	\ ),
+	\
+	\ Pl#Theme#Buffer('ctrlp', Pl#Theme#Callback('ctrlp_main', 'if ! exists("g:ctrlp_status_func") | let g:ctrlp_status_func = {} | endif | let g:ctrlp_status_func.main = "%s"')
+		\ , 'ctrlp:prev'
+		\ , 'ctrlp:item'
+		\ , 'ctrlp:next'
+		\ , 'ctrlp:marked'
+		\ , Pl#Segment#Truncate()
+		\ , Pl#Segment#Split()
+		\ , 'ctrlp:focus'
+		\ , 'ctrlp:byfname'
+		\ , 'pwd'
+	\ ),
+	\
+	\ Pl#Theme#Buffer('ctrlp', Pl#Theme#Callback('ctrlp_prog', 'if ! exists("g:ctrlp_status_func") | let g:ctrlp_status_func = {} | endif | let g:ctrlp_status_func.prog = "%s"')
+		\ , 'ctrlp:count'
+		\ , Pl#Segment#Truncate()
+		\ , Pl#Segment#Split()
+		\ , 'pwd'
+	\ ),
+	\
+	\ Pl#Theme#Buffer('nerdtree'
+		\ , ['raw.name', '%{Powerline#Functions#GetShortPath(4)}']
 		\ , Pl#Segment#Truncate()
 		\ , Pl#Segment#Split()
 	\ )
