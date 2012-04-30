@@ -1,15 +1,8 @@
 " =============================================================================
 " File:          autoload/ctrlp/line.vim
-" Description:   Line extension - Find a line in any buffer
+" Description:   Line extension
 " Author:        Kien Nguyen <github.com/kien>
 " =============================================================================
-
-" User Configuration {{{1
-" Enable:
-"        let g:ctrlp_extensions += ['line']
-" Create A Command:
-"        com! CtrlPLine cal ctrlp#init(ctrlp#line#id())
-"}}}
 
 " Init {{{1
 if exists('g:loaded_ctrlp_line') && g:loaded_ctrlp_line
@@ -17,44 +10,47 @@ if exists('g:loaded_ctrlp_line') && g:loaded_ctrlp_line
 en
 let g:loaded_ctrlp_line = 1
 
-let s:line_var = {
+cal add(g:ctrlp_ext_vars, {
 	\ 'init': 'ctrlp#line#init()',
 	\ 'accept': 'ctrlp#line#accept',
 	\ 'lname': 'lines',
 	\ 'sname': 'lns',
 	\ 'type': 'tabe',
-	\ }
-
-let g:ctrlp_ext_vars = exists('g:ctrlp_ext_vars') && !empty(g:ctrlp_ext_vars)
-	\ ? add(g:ctrlp_ext_vars, s:line_var) : [s:line_var]
+	\ })
 
 let s:id = g:ctrlp_builtins + len(g:ctrlp_ext_vars)
+" Utilities {{{1
+fu! s:syntax()
+	if !ctrlp#nosy()
+		cal ctrlp#hicheck('CtrlPBufName', 'Directory')
+		cal ctrlp#hicheck('CtrlPTabExtra', 'Comment')
+		sy match CtrlPBufName '\t|\zs[^|]\+\ze|\d\+:\d\+|$'
+		sy match CtrlPTabExtra '\zs\t.*\ze$' contains=CtrlPBufName
+	en
+endf
 " Public {{{1
 fu! ctrlp#line#init()
-	let [bufs, lines] = [ctrlp#allbufs(), []]
-	for each in bufs
-		let from_file = readfile(each)
-		cal map(from_file, 'tr(v:val, ''	'', '' '')')
-		let [id, len_ff, bufnr] = [1, len(from_file), bufnr('^'.each.'$')]
-		wh id <= len_ff
-			let from_file[id-1] .= '	#:'.bufnr.':'.id
-			let id += 1
+	let [bufs, lines] = [ctrlp#buffers('id'), []]
+	for bufnr in bufs
+		let [lfb, bufn] = [getbufline(bufnr, 1, '$'), bufname(bufnr)]
+		let lfb = lfb == [] ? ctrlp#utils#readfile(fnamemodify(bufn, ':p')) : lfb
+		cal map(lfb, 'tr(v:val, ''	'', '' '')')
+		let [linenr, len_lfb, buft] = [1, len(lfb), fnamemodify(bufn, ':t')]
+		wh linenr <= len_lfb
+			let lfb[linenr - 1] .= '	|'.buft.'|'.bufnr.':'.linenr.'|'
+			let linenr += 1
 		endw
-		cal filter(from_file, 'v:val !~ ''^\s*\t#:\d\+:\d\+$''')
-		cal extend(lines, from_file)
+		cal extend(lines, filter(lfb, 'v:val !~ ''^\s*\t|[^|]\+|\d\+:\d\+|$'''))
 	endfo
-	if !hlexists('CtrlPTabExtra')
-		hi link CtrlPTabExtra Comment
-	en
-	sy match CtrlPTabExtra '\zs\t.*\ze$'
+	cal s:syntax()
 	retu lines
 endf
 
 fu! ctrlp#line#accept(mode, str)
-	let info   = get(split(a:str, '\t#:\ze\d\+:\d\+$'), 1, 0)
-	let bufnr  = str2nr(get(split(info, ':'), 0, 0))
-	let linenr = get(split(info, ':'), 1, 0)
-	if bufnr
+	let info = matchlist(a:str, '\t|[^|]\+|\(\d\+\):\(\d\+\)|$')
+	if info == [] | retu | en
+	let [bufnr, linenr] = [str2nr(get(info, 1)), get(info, 2)]
+	if bufnr > 0
 		cal ctrlp#acceptfile(a:mode, fnamemodify(bufname(bufnr), ':p'), linenr)
 	en
 endf

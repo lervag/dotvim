@@ -10,27 +10,17 @@ if exists('g:loaded_ctrlp_tag') && g:loaded_ctrlp_tag
 en
 let g:loaded_ctrlp_tag = 1
 
-let s:tag_var = {
-	\ 'init': 'ctrlp#tag#init(s:tagfiles)',
+cal add(g:ctrlp_ext_vars, {
+	\ 'init': 'ctrlp#tag#init()',
 	\ 'accept': 'ctrlp#tag#accept',
 	\ 'lname': 'tags',
 	\ 'sname': 'tag',
+	\ 'enter': 'ctrlp#tag#enter()',
 	\ 'type': 'tabs',
-	\ }
-
-let g:ctrlp_ext_vars = exists('g:ctrlp_ext_vars') && !empty(g:ctrlp_ext_vars)
-	\ ? add(g:ctrlp_ext_vars, s:tag_var) : [s:tag_var]
+	\ })
 
 let s:id = g:ctrlp_builtins + len(g:ctrlp_ext_vars)
 " Utilities {{{1
-fu! s:nodup(items)
-	let dict = {}
-	for each in a:items
-		cal extend(dict, { each : 0 })
-	endfo
-	retu keys(dict)
-endf
-
 fu! s:findcount(str)
 	let [tg, fname] = split(a:str, '\t\+\ze[^\t]\+$')
 	let [fname, tgs] = [expand(fname, 1), taglist('^'.tg.'$')]
@@ -64,47 +54,58 @@ fu! s:filter(tags)
 	endw
 	retu alltags
 endf
+
+fu! s:syntax()
+	if !ctrlp#nosy()
+		cal ctrlp#hicheck('CtrlPTabExtra', 'Comment')
+		sy match CtrlPTabExtra '\zs\t.*\ze$'
+	en
+endf
 " Public {{{1
-fu! ctrlp#tag#init(tagfiles)
-	if empty(a:tagfiles) | retu [] | en
-	let [tagfiles, g:ctrlp_alltags] = [sort(s:nodup(a:tagfiles)), []]
+fu! ctrlp#tag#init()
+	if empty(s:tagfiles) | retu [] | en
+	let g:ctrlp_alltags = []
+	let tagfiles = sort(filter(s:tagfiles, 'count(s:tagfiles, v:val) == 1'))
 	for each in tagfiles
 		let alltags = s:filter(ctrlp#utils#readfile(each))
 		cal extend(g:ctrlp_alltags, alltags)
 	endfo
-	if !hlexists('CtrlPTabExtra')
-		hi link CtrlPTabExtra Comment
-	en
-	sy match CtrlPTabExtra '\zs\t.*\ze$'
+	cal s:syntax()
 	retu g:ctrlp_alltags
 endf
 
 fu! ctrlp#tag#accept(mode, str)
 	cal ctrlp#exit()
 	let str = matchstr(a:str, '^[^\t]\+\t\+[^\t]\+\ze\t')
-	let [md, tg] = [a:mode, split(str, '^[^\t]\+\zs\t')[0]]
-	let fnd = s:findcount(str)
+	let [tg, fnd] = [split(str, '^[^\t]\+\zs\t')[0], s:findcount(str)]
 	let cmds = {
 		\ 't': ['tab sp', 'tab stj'],
 		\ 'h': ['sp', 'stj'],
 		\ 'v': ['vs', 'vert stj'],
 		\ 'e': ['', 'tj'],
 		\ }
-	let cmd = fnd[0] == 1 ? cmds[md][0] : cmds[md][1]
+	let cmd = fnd[0] == 1 ? cmds[a:mode][0] : cmds[a:mode][1]
 	let cmd = cmd == 'tj' && &modified ? 'hid '.cmd : cmd
 	let cmd = cmd =~ '^tab' ? tabpagenr('$').cmd : cmd
 	if fnd[0] == 1
 		if cmd != ''
-			sil! exe cmd
+			exe cmd
 		en
 		exe fnd[1].'ta' tg
 	el
-		exe cmd.' '.tg
+		exe cmd tg
 	en
+	cal ctrlp#setlcdir()
 endf
 
 fu! ctrlp#tag#id()
 	retu s:id
+endf
+
+fu! ctrlp#tag#enter()
+	let tfs = tagfiles()
+	let s:tagfiles = tfs != [] ? filter(map(tfs, 'fnamemodify(v:val, ":p")'),
+		\ 'filereadable(v:val)') : []
 endf
 "}}}
 

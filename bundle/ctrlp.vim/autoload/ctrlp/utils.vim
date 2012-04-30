@@ -33,9 +33,9 @@ fu! ctrlp#utils#cachedir()
 endf
 
 fu! ctrlp#utils#cachefile(...)
-	let tail = exists('a:1') ? '.'.a:1 : ''
-	let cache_file = substitute(getcwd(), '\([\/]\|^\a\zs:\)', '%', 'g').tail.'.txt'
-	retu exists('a:1') ? cache_file : s:cache_dir.s:lash(s:cache_dir).cache_file
+	let [tail, dir] = [a:0 == 1 ? '.'.a:1 : '', a:0 == 2 ? a:1 : getcwd()]
+	let cache_file = substitute(dir, '\([\/]\|^\a\zs:\)', '%', 'g').tail.'.txt'
+	retu a:0 == 1 ? cache_file : s:cache_dir.s:lash(s:cache_dir).cache_file
 endf
 
 fu! ctrlp#utils#readfile(file)
@@ -58,11 +58,8 @@ fu! ctrlp#utils#mkdir(dir)
 endf
 
 fu! ctrlp#utils#writecache(lines, ...)
-	if isdirectory(ctrlp#utils#mkdir(exists('a:1') ? a:1 : s:cache_dir))
-		sil! cal writefile(a:lines, exists('a:2') ? a:2 : ctrlp#utils#cachefile())
-		if !exists('a:1')
-			let g:ctrlp_newcache = 0
-		en
+	if isdirectory(ctrlp#utils#mkdir(a:0 ? a:1 : s:cache_dir))
+		sil! cal writefile(a:lines, a:0 >= 2 ? a:2 : ctrlp#utils#cachefile())
 	en
 endf
 

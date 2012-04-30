@@ -5,84 +5,113 @@
 " =============================================================================
 
 " Static variables {{{1
+let [s:mrbs, s:mrufs] = [[], []]
+
 fu! ctrlp#mrufiles#opts()
-	let opts = {
-		\ 'g:ctrlp_mruf_max': ['s:max', 250],
-		\ 'g:ctrlp_mruf_include': ['s:include', ''],
-		\ 'g:ctrlp_mruf_exclude': ['s:exclude', ''],
-		\ 'g:ctrlp_mruf_case_sensitive': ['s:csen', 1],
-		\ 'g:ctrlp_mruf_relative': ['s:relate', 0],
-		\ 'g:ctrlp_mruf_last_entered': ['s:mre', 0],
-		\ }
+	let [pref, opts] = ['g:ctrlp_mruf_', {
+		\ 'max': ['s:max', 250],
+		\ 'include': ['s:in', ''],
+		\ 'exclude': ['s:ex', ''],
+		\ 'case_sensitive': ['s:cseno', 1],
+		\ 'relative': ['s:re', 0],
+		\ }]
 	for [ke, va] in items(opts)
-		exe 'let' va[0] '=' string(exists(ke) ? eval(ke) : va[1])
+		let [{va[0]}, {pref.ke}] = [pref.ke, exists(pref.ke) ? {pref.ke} : va[1]]
 	endfo
-	let s:csen = s:csen ? '#' : '?'
 endf
 cal ctrlp#mrufiles#opts()
-fu! ctrlp#mrufiles#list(bufnr, ...) "{{{1
+" Utilities {{{1
+fu! s:excl(fn)
+	retu !empty({s:ex}) && a:fn =~# {s:ex}
+endf
+
+fu! s:mergelists()
+	let diskmrufs = ctrlp#utils#readfile(ctrlp#mrufiles#cachefile())
+	cal filter(diskmrufs, 'index(s:mrufs, v:val) < 0')
+	let mrufs = s:mrufs + diskmrufs
+	retu s:chop(mrufs)
+endf
+
+fu! s:chop(mrufs)
+	if len(a:mrufs) > {s:max} | cal remove(a:mrufs, {s:max}, -1) | en
+	retu a:mrufs
+endf
+
+fu! s:reformat(mrufs)
+	if {s:re}
+		let cwd = exists('+ssl') ? tr(getcwd(), '/', '\') : getcwd()
+		cal filter(a:mrufs, '!stridx(v:val, cwd)')
+	en
+	retu map(a:mrufs, 'fnamemodify(v:val, ":.")')
+endf
+
+fu! s:record(bufnr)
 	if s:locked | retu | en
 	let bufnr = a:bufnr + 0
-	if bufnr > 0
-		let filename = fnamemodify(bufname(bufnr), ':p')
-		if empty(filename) || !empty(&bt)
-			\ || ( !empty(s:include) && filename !~# s:include )
-			\ || ( !empty(s:exclude) && filename =~# s:exclude )
-			\ || !filereadable(filename)
-			retu
-		en
+	if bufnr <= 0 | retu | en
+	let bufname = bufname(bufnr)
+	if empty(bufname) | retu | en
+	let fn = fnamemodify(bufname, ':p')
+	let fn = exists('+ssl') ? tr(fn, '/', '\') : fn
+	cal filter(s:mrbs, 'v:val != bufnr')
+	cal insert(s:mrbs, bufnr)
+	if ( !empty({s:in}) && fn !~# {s:in} ) || ( !empty({s:ex}) && fn =~# {s:ex} )
+		\ || !empty(&bt) || !filereadable(fn) | retu
 	en
+	cal filter(s:mrufs, 'v:val !='.( {s:cseno} ? '#' : '?' ).' fn')
+	cal insert(s:mrufs, fn)
+endf
+
+fu! s:savetofile(mrufs)
+	cal ctrlp#utils#writecache(a:mrufs, s:cadir, s:cafile)
+endf
+" Public {{{1
+fu! ctrlp#mrufiles#refresh(...)
+	let s:mrufs = s:mergelists()
+	cal filter(s:mrufs, '!empty(ctrlp#utils#glob(v:val, 1)) && !s:excl(v:val)')
+	if exists('+ssl')
+		cal map(s:mrufs, 'tr(v:val, "/", "\\")')
+		cal filter(s:mrufs, 'count(s:mrufs, v:val) == 1')
+	en
+	cal s:savetofile(s:mrufs)
+	retu a:0 && a:1 == 'raw' ? [] : s:reformat(copy(s:mrufs))
+endf
+
+fu! ctrlp#mrufiles#remove(files)
+	let s:mrufs = []
+	if a:files != []
+		let s:mrufs = s:mergelists()
+		cal filter(s:mrufs, 'index(a:files, v:val, 0, '.(!{s:cseno}).') < 0')
+	en
+	cal s:savetofile(s:mrufs)
+	retu s:reformat(copy(s:mrufs))
+endf
+
+fu! ctrlp#mrufiles#list(...)
+	retu a:0 ? a:1 == 'raw' ? s:mergelists() : 0 : s:reformat(s:mergelists())
+endf
+
+fu! ctrlp#mrufiles#bufs()
+	retu s:mrbs
+endf
+
+fu! ctrlp#mrufiles#cachefile()
 	if !exists('s:cadir') || !exists('s:cafile')
 		let s:cadir = ctrlp#utils#cachedir().ctrlp#utils#lash().'mru'
 		let s:cafile = s:cadir.ctrlp#utils#lash().'cache.txt'
 	en
-	if a:0 && a:1 == 2
-		cal ctrlp#utils#writecache([], s:cadir, s:cafile)
-		retu []
-	en
-	" Get the list
-	let mrufs = ctrlp#utils#readfile(s:cafile)
-	" Remove non-existent files
-	if a:0 && a:1 == 1
-		cal filter(mrufs, '!empty(ctrlp#utils#glob(v:val, 1)) && !s:excl(v:val)')
-		cal ctrlp#utils#writecache(mrufs, s:cadir, s:cafile)
-	en
-	" Return the list with the active buffer removed
-	if bufnr == -1
-		let crf = fnamemodify(bufname(winbufnr(winnr('#'))), ':p')
-		let mrufs = empty(crf) ? mrufs : filter(mrufs, 'v:val !='.s:csen.' crf')
-		if s:relate
-			let cwd = getcwd()
-			cal filter(mrufs, '!stridx(v:val, cwd)')
-			cal ctrlp#rmbasedir(mrufs)
-		el
-			cal map(mrufs, 'fnamemodify(v:val, '':.'')')
-		en
-		retu mrufs
-	en
-	" Remove old entry
-	cal filter(mrufs, 'v:val !='.s:csen.' filename')
-	" Insert new one
-	cal insert(mrufs, filename)
-	" Remove oldest entry or entries
-	if len(mrufs) > s:max | cal remove(mrufs, s:max, -1) | en
-	cal ctrlp#utils#writecache(mrufs, s:cadir, s:cafile)
-endf "}}}
-fu! s:excl(fname) "{{{
-	retu !empty(s:exclude) && a:fname =~# s:exclude
-endf "}}}
-fu! ctrlp#mrufiles#init() "{{{1
+	retu s:cafile
+endf
+
+fu! ctrlp#mrufiles#init()
+	if !has('autocmd') | retu | en
 	let s:locked = 0
 	aug CtrlPMRUF
 		au!
-		au BufReadPost,BufNewFile,BufWritePost *
-			\ cal ctrlp#mrufiles#list(expand('<abuf>', 1))
-		if s:mre
-			au BufEnter,BufUnload *
-				\ cal ctrlp#mrufiles#list(expand('<abuf>', 1))
-		en
+		au BufAdd,BufEnter,BufLeave,BufUnload * cal s:record(expand('<abuf>', 1))
 		au QuickFixCmdPre  *vimgrep* let s:locked = 1
 		au QuickFixCmdPost *vimgrep* let s:locked = 0
+		au VimLeavePre * cal s:savetofile(s:mergelists())
 	aug END
 endf
 "}}}
