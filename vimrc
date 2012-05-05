@@ -341,6 +341,7 @@ let g:ctrlp_mruf_last_entered = 1
 let g:ctrlp_max_height = 25
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_follow_symlinks = 1
+let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\.git$\|\.hg$\|\.svn$\|.vim\/undofiles$\|\.vim\/backup$',
   \ 'file': '\.exe$\|\.so$\|\.dll$\|documents\/ntnu\/phd',
