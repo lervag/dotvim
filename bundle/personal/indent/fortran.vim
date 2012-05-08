@@ -48,7 +48,10 @@ if !exists("b:fortran_fixed_source")
     let s:ln=1
     while s:ln <= s:lmax
       let s:test = strpart(getline(s:ln),0,5)
-      if s:test !~ '^[Cc*]' && s:test !~ '^ *[!#]' && s:test =~ '[^ 0-9\t]' && s:test !~ '^[ 0-9]*\t'
+      if s:test !~ '^[Cc*]'
+            \ && s:test !~ '^ *[!#]'
+            \ && s:test =~ '[^ 0-9\t]'
+            \ && s:test !~ '^[ 0-9]*\t'
         let b:fortran_fixed_source = 0
         break
       endif
@@ -72,78 +75,72 @@ endif
 
 function FortranGetIndent(lnum)
   let ind = indent(a:lnum)
-  let prevline=getline(a:lnum)
-  " Strip tail comment
-  let prevstat=substitute(prevline, '!.*$', '', '')
-  let prev2line=getline(a:lnum-1)
-  let prev2stat=substitute(prev2line, '!.*$', '', '')
+  let prevline = getline(a:lnum)
+  let prev2line = getline(a:lnum-1)
 
-  "First continuation line
-  let match_namelist = '^\s*namelist\> \/\w*\/\s*'
-  let match_doublec  = '^.*:: '
-  let match_prints   = '^\s*\(write\s*(.*,.*) \|print\s*\*,\s*\)'
-  let match_print2   = '^\s*print \ze.*,'
-  let match_equals   = '^.*= '
-  let match_defs     = '^\s*\(subroutine\|\(\w* \)\=function\) \w*('
-  let match_funcs    = '^\(\s*[0-9A-Za-z_%]\+\)\+('
-  let match_use      = '^\s*use.*only: '
-  if prevstat =~ '&\s*$' && prev2stat !~ '&\s*$'
-    let b:ind_diff = ind
-    if prevstat =~ match_namelist
-      let match = searchpos(match_namelist,'bcne')
-      let ind = match[1] - &sw
-    elseif prevstat =~? match_doublec
-      let match = searchpos(match_doublec,'bcne')
-      let ind = match[1] - &sw
-    elseif prevstat =~? match_prints
-      let match = searchpos(match_prints,'bcne')
-      let ind = match[1] - &sw
-    elseif prevstat =~? match_print2
-      let match = searchpos(match_print2,'bcne')
-      let ind = match[1] - &sw
-    elseif prevstat =~? match_equals
-      let match = searchpos(match_equals,'bcne')
-      let ind = match[1] - &sw
-    elseif prevstat =~? match_defs
-      let match = searchpos(match_defs,'bcne')
-      let ind = match[1] - &sw -&sw
-    elseif prevstat =~? match_funcs
-      let match = searchpos(match_funcs,'bcne')
-      let ind = match[1] - &sw
-    elseif prevstat =~? match_use
-      let match = searchpos(match_use,'bcne')
-      let ind = match[1] - &sw
+  " Strip tail comments
+  let prevstat = substitute(prevline, '!.*$', '', '')
+  let prev2stat = substitute(prev2line, '!.*$', '', '')
+
+  " Continuation lines
+  let first_matches = [
+        \ '^\s*namelist\> \/\w*\/\s*',
+        \ '^.*:: ',
+        \ '^\s*\(write\s*(.*,.*) \|print\s*\*,\s*\)',
+        \ '^\s*print \ze.*,',
+        \ '^.*= ',
+        \ '^\s*\(subroutine\|\(\w* \)\=function\) \w*(',
+        \ '^\(\s*[0-9A-Za-z_%]\+\)\+(',
+        \ '^\s*use.*only: '
+        \ ]
+  let following_matches=[
+        \ '^\s*call \w*(',
+        \ '^[0-9A-Za-z_% ():]*= [0-9A-Za-z_%]\+('
+        \ ]
+  let match_contline = '&\s*$'
+  if prevstat =~ match_contline
+    if prev2stat !~ match_contline
+
+      "
+      " First continuation line
+      "
+      for match in first_matches
+        if prevstat =~ match
+          let m = searchpos(match,'bcne')
+          let ind = m[1] - &sw
+          break
+        endif
+      endfor
     else
-      let ind = ind + &sw
+
+      "
+      " Following continuation lines
+      "
+      for match in following_matches
+        if prevstat =~? match
+          let m = searchpos(match,'bcne')
+          "let diff = match[1] - ind
+          let ind = m[1]
+          break
+        endfor
     endif
-    let b:ind_diff = ind - b:ind_diff
+  else
+
+    "
+    " Line after last continuation line
+    "
+    if prev2stat =~ match_contline
+      let lnum = a:lnum
+      while getline(lnum - 1) =~ match_contline
+        let lnum = lnum - 1
+      endwhile
+      let ind = indent(lnum) + &sw
+    endif
   endif
 
-  "Following continuation lines
-  let match_call         = '^\s*call \w*('
-  let match_equals_stuff = '^[0-9A-Za-z_% ():]*= [0-9A-Za-z_%]\+('
-  if prevstat =~ '&\s*$' && prev2stat =~ '&\s*$'
-    if prevstat =~? match_call
-      let match = searchpos(match_call,'bcne')
-      let diff = match[1] - ind
-      let ind = match[1]
-    elseif prevstat =~? match_equals_stuff
-      let match = searchpos(match_equals_stuff,'bcne')
-      let diff = match[1] - ind
-      let ind = match[1]
-    elseif prevstat =~? match_equals
-      let match = searchpos(match_equals,'bcne')
-      let diff = match[1] - ind
-      let ind = match[1]
-    endif
-    let b:ind_diff = b:ind_diff + diff
-  endif
-  "Line after last continuation line
-  if prevstat !~ '&\s*$' && prev2stat =~ '&\s*$'
-    let ind = ind - b:ind_diff
-  endif
-
-  "Indent do loops only if they are all guaranteed to be of do/end do type
+  "
+  " Indent do loops only if they are all guaranteed to be of do/end do type
+  "
   if exists("b:fortran_do_enddo") || exists("g:fortran_do_enddo")
     if prevstat =~? '^\s*\(\d\+\s\)\=\s*\(\a\w*\s*:\)\=\s*do\>'
       let ind = ind + &sw
@@ -153,25 +150,33 @@ function FortranGetIndent(lnum)
     endif
   endif
 
-  "Add a shiftwidth to statements following if, else, else if, case,
-  "where, else where, forall, type, interface and associate statements
+  "
+  " Add a shiftwidth to statements following if, else, else if, case,
+  " where, else where, forall, type, interface and associate statements
+  "
   if prevstat =~? '^\s*\(case\|else\|else\s*if\|else\s*where\)\>'
         \ ||prevstat=~? '^\s*\(type\|interface\|associate\|enum\)\>'
         \ ||prevstat=~?'^\s*\(\d\+\s\)\=\s*\(\a\w*\s*:\)\=\s*\(forall\|where\|block\)\>'
         \ ||prevstat=~? '^\s\+.*)\s*then\>\s*$'
         "\ ||prevstat=~? '^\s*\(\d\+\s\)\=\s*\(\a\w*\s*:\)\=\s*if\>'
-     let ind = ind + &sw
+    let ind = ind + &sw
+    "
     " Remove unwanted indent after logical and arithmetic ifs
+    "
     if prevstat =~? '\<if\>' && prevstat !~? '\<then\>'
       let ind = ind - &sw
     endif
+    "
     " Remove unwanted indent after type( statements
+    "
     if prevstat =~? '^\s*type\s*('
       let ind = ind - &sw
     endif
   endif
 
-  "Indent program units unless instructed otherwise
+  "
+  " Indent program units unless instructed otherwise
+  "
   if !exists("b:fortran_indent_less") && !exists("g:fortran_indent_less")
     let prefix='\(\(pure\|impure\|elemental\|recursive\)\s\+\)\{,2}'
     let type='\(\(integer\|real\|double\s\+precision\|complex\|logical'
@@ -189,15 +194,19 @@ function FortranGetIndent(lnum)
     endif
   endif
 
-  "Subtract a shiftwidth from else, else if, elsewhere, case, end if,
+  "
+  " Subtract a shiftwidth from else, else if, elsewhere, case, end if,
   " end where, end select, end forall, end interface, end associate,
   " end enum, and end type statements
+  "
   if getline(v:lnum) =~? '^\s*\(\d\+\s\)\=\s*'
         \. '\(else\|else\s*if\|else\s*where\|case\|'
         \. 'end\s*\(if\|where\|select\|interface\|'
         \. 'type\|forall\|associate\|enum\)\)\>'
     let ind = ind - &sw
+    "
     " Fix indent for case statement immediately after select
+    "
     if prevstat =~? '\<select\s\+\(case\|type\)\>'
       let ind = ind + &sw
     endif
