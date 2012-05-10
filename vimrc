@@ -406,6 +406,9 @@ let g:rbpt_max = 16
 "{{{2 Screen
 let g:ScreenImpl = "Tmux"
 
+"{{{2 Snipmate
+let g:snippets_dir = "~/.vim/bundle/personal/snippets/"
+
 "{{{2 Supertab
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-n>"
