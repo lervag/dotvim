@@ -1,17 +1,14 @@
 #!/bin/bash
 
-for dir in *; do
-  if [ -d $dir/.git ]; then
-    echo "- Found git repo in $dir: Checking..."
-    cd $dir
-    git fetch && git log HEAD..origin
-    echo "- Do you want to do a 'git pull'?"
-    read choice
-    if [ "$choice" = "y" ]; then
-      git pull
-    fi
-    cd ..
-  else
-    echo "- No repo in $dir"
-  fi
+for dir in */.git; do
+
+  repo=${dir::-5}
+  cd $repo
+
+  git fetch && git log HEAD..origin
+  echo "- In $repo: Do you want to do a 'git pull'?"
+  read choice
+  [ "$choice" = "y" ] && git pull
+
+  cd ..
 done
