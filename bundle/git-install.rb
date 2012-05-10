@@ -19,8 +19,13 @@ git_bundles = [
   "git://github.com/tpope/vim-pathogen.git",
   "git://github.com/tpope/vim-repeat.git",
   "git://github.com/tpope/vim-surround.git",
+  "git://github.com/tsaleh/vim-matchit.git",
   "git://github.com/tsaleh/vim-tcomment.git",
   "git://github.com/tyru/current-func-info.vim.git",
+  #
+  # Locally changed
+  #
+  # "git://github.com/ervandew/screen",
 ]
 
 git_bundles.each do |url|
@@ -49,11 +54,6 @@ end
 #  end
 #end
 
-#
-# Locally changed
-#
-# "git://github.com/tsaleh/vim-matchit.git",
-# "git://github.com/ervandew/screen",
 #
 # Not on github
 #
