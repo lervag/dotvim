@@ -1,6 +1,7 @@
 undofiles/.*
 backup/.*
 view/.*
+bundle/.*
 .*\.pyc
 .*\.o
 .*\.so
