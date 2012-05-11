@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'fileutils'
-require 'open-uri'
+#require 'open-uri'
 
 git_bundles = [
   "git://github.com/altercation/vim-colors-solarized.git",
@@ -22,6 +22,9 @@ git_bundles = [
   "git://github.com/tsaleh/vim-matchit.git",
   "git://github.com/tsaleh/vim-tcomment.git",
   "git://github.com/tyru/current-func-info.vim.git",
+  "git://github.com/tpope/vim-fugitive.git",
+  "git://github.com/tpope/vim-git.git",
+  "git://github.com/vim-ruby/vim-ruby.git",
   #
   # Locally changed
   #
@@ -32,7 +35,6 @@ git_bundles.each do |url|
   dir = url.split('/').last.sub(/\.git$/, '')
   puts "unpacking #{url} into #{dir}"
   `git clone #{url} #{dir}`
-  #FileUtils.rm_rf(File.join(dir, ".git"))
 end
 
 #bundles_dir = File.join(File.dirname(__FILE__), "bundle")
@@ -65,23 +67,3 @@ end
 # vcscommand
 # vim-latex
 #
-# Not used by me
-#
-# "git://github.com/astashov/vim-ruby-debugger.git",
-# "git://github.com/hallison/vim-rdoc.git",
-# "git://github.com/pangloss/vim-javascript.git",
-# "git://github.com/timcharper/textile.vim.git",
-# "git://github.com/tpope/vim-cucumber.git",
-# "git://github.com/tpope/vim-fugitive.git",
-# "git://github.com/tpope/vim-git.git",
-# "git://github.com/tpope/vim-haml.git",
-# "git://github.com/tpope/vim-markdown.git",
-# "git://github.com/tpope/vim-rails.git",
-# "git://github.com/tpope/vim-vividchalk.git",
-# "git://github.com/tsaleh/taskpaper.vim.git",
-# "git://github.com/tsaleh/vim-shoulda.git",
-# "git://github.com/tsaleh/vim-tmux.git",
-# "git://github.com/vim-ruby/vim-ruby.git",
-# "git://github.com/vim-scripts/Gist.vim.git",
-#
-
