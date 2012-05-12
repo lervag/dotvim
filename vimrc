@@ -406,6 +406,34 @@ let g:rbpt_max = 16
 "{{{2 Screen
 let g:ScreenImpl = "Tmux"
 
+"
+" Dynamic keybindings
+"
+function! s:ScreenShellListener()
+  if g:ScreenShellActive
+    nmap <C-c><C-c> <S-v>:ScreenSend<CR>
+    vmap <C-c><C-c> :ScreenSend<CR>
+    nmap <C-c><C-a> :ScreenSend<CR>
+    nmap <C-c><C-q> :ScreenQuit<CR>
+  else
+    nmap <C-c><C-a> <Nop>
+    vmap <C-c><C-c> <Nop>
+    nmap <C-c><C-q> <Nop>
+    nmap <C-c><C-c> :ScreenShell<cr>
+  endif
+endfunction
+
+"
+" Initialize and define auto group stuff
+"
+nmap <silent> <C-c><C-c> :ScreenShell<cr>
+augroup ScreenShellEnter
+  au USER * :call <SID>ScreenShellListener()
+augroup END
+augroup ScreenShellExit
+  au USER * :call <SID>ScreenShellListener()
+augroup END
+
 "{{{2 Snipmate
 let g:snippets_dir = "~/.vim/bundle/personal/snippets/"
 

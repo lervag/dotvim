@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 require 'fileutils'
-#require 'open-uri'
 
 git_bundles = [
   "git://github.com/altercation/vim-colors-solarized.git",
   "git://github.com/bogado/file-line.git",
+  "git://github.com/ervandew/screen",
   "git://github.com/ervandew/supertab.git",
   "git://github.com/godlygeek/tabular.git",
   "git://github.com/gregsexton/MatchTag.git",
@@ -16,26 +16,35 @@ git_bundles = [
   "git://github.com/Raimondi/delimitMate.git",
   "git://github.com/scrooloose/syntastic.git",
   "git://github.com/sjl/splice.vim/",
+  "git://github.com/tpope/vim-fugitive.git",
+  "git://github.com/tpope/vim-git.git",
   "git://github.com/tpope/vim-pathogen.git",
   "git://github.com/tpope/vim-repeat.git",
   "git://github.com/tpope/vim-surround.git",
   "git://github.com/tsaleh/vim-matchit.git",
   "git://github.com/tsaleh/vim-tcomment.git",
   "git://github.com/tyru/current-func-info.vim.git",
-  "git://github.com/tpope/vim-fugitive.git",
-  "git://github.com/tpope/vim-git.git",
   "git://github.com/vim-ruby/vim-ruby.git",
-  #
-  # Locally changed
-  #
-  # "git://github.com/ervandew/screen",
 ]
+#
+# Not on github
+#
+# clewn
+# lispcomplete
+# personal
+# pyflakes-vim
+# vcscommand
+# vim-latex
+#
 
 git_bundles.each do |url|
   dir = url.split('/').last.sub(/\.git$/, '')
   puts "unpacking #{url} into #{dir}"
   `git clone #{url} #{dir}`
 end
+
+
+
 
 #bundles_dir = File.join(File.dirname(__FILE__), "bundle")
 #puts bundles_dir
@@ -46,7 +55,8 @@ end
   #["IndexedSearch", "7062",  "plugin"],
   #["jquery",        "12107", "syntax"],
 #]
-
+#
+#require 'open-uri'
 #vim_org_scripts.each do |name, script_id, script_type|
 #  puts "downloading #{name}"
 #  local_file = File.join(name, script_type, "#{name}.vim")
@@ -56,14 +66,3 @@ end
 #  end
 #end
 
-#
-# Not on github
-#
-# clewn
-# conque
-# lispcomplete
-# personal
-# pyflakes-vim
-# vcscommand
-# vim-latex
-#
