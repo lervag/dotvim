@@ -28,7 +28,7 @@ set foldlevel=0
 set foldcolumn=0
 set hidden
 set modelines=5
-set tags+=tags;/
+set tags=./tags,./.tags,./../**/.tags,./../**/tags
 set fillchars=fold:\ ,diff:⣿
 set complete+=U
 set matchtime=2
@@ -462,6 +462,12 @@ if exists(":Tabularize")
   nmap ,aa :Tabularize /
   vmap ,aa :Tabularize /
 endif
+
+"{{{2 Tagbar
+let g:tagbar_expand=1
+let g:tagbar_autoclose=1
+let g:tagbar_autofocus=1
+nnoremap <silent> <leader>tb :TagbarToggle<CR>
 
 "{{{2 VCSCommand
 let VCSCommandSplit = 'horizontal'

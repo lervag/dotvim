@@ -33,6 +33,7 @@ git_bundles = [
   "git://github.com/tyru/current-func-info.vim.git",
   "git://github.com/vim-ruby/vim-ruby.git",
   "git://repo.or.cz/vcscommand.git",
+  "git://github.com/majutsushi/tagbar.git",
 ]
 
 git_bundles.each do |entry|
