@@ -1,1 +1,0 @@
-setl omnifunc=lispcomplete#Complete
