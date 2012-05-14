@@ -25,6 +25,7 @@ git_bundles = [
   "git://github.com/tsaleh/vim-matchit.git",
   "git://github.com/tyru/current-func-info.vim.git",
   "git://github.com/vim-ruby/vim-ruby.git",
+  "git://repo.or.cz/vcscommand.git"
 ]
 #
 # Not on github
@@ -33,7 +34,6 @@ git_bundles = [
 # lispcomplete
 # personal
 # pyflakes-vim
-# vcscommand
 # vim-latex
 #
 
