@@ -16,12 +16,14 @@ git_bundles = [
   "git://github.com/ervandew/supertab.git",
   "git://github.com/godlygeek/tabular.git",
   "git://github.com/gregsexton/MatchTag.git",
-  ["git://github.com/kevinw/pyflakes-vim.git", "--recursive"],
   "git://github.com/kien/ctrlp.vim.git",
   "git://github.com/kien/rainbow_parentheses.vim.git",
+  "git://github.com/majutsushi/tagbar.git",
+  "git://github.com/majutsushi/tagbar.git",
   "git://github.com/mileszs/ack.vim.git",
   "git://github.com/msanders/snipmate.vim.git",
   "git://github.com/scrooloose/syntastic.git",
+  "git://github.com/sjl/gundo.vim.git",
   "git://github.com/sjl/splice.vim/",
   "git://github.com/tomtom/tcomment_vim.git",
   "git://github.com/tpope/vim-fugitive.git",
@@ -33,7 +35,7 @@ git_bundles = [
   "git://github.com/tyru/current-func-info.vim.git",
   "git://github.com/vim-ruby/vim-ruby.git",
   "git://repo.or.cz/vcscommand.git",
-  "git://github.com/majutsushi/tagbar.git",
+  ["git://github.com/kevinw/pyflakes-vim.git", "--recursive"],
 ]
 
 git_bundles.each do |entry|

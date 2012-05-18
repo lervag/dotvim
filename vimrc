@@ -367,7 +367,10 @@ au FileType lisp let b:delimitMate_quotes = '"'
 
 "{{{2 Gundo
 let g:gundo_width=60
-map <S-u> :GundoToggle<cr>
+let g:gundo_preview_height=20
+let g:gundo_right=1
+let g:gundo_close_on_revert=1
+map <silent> <F5> :GundoToggle<cr>
 
 "{{{2 Lisp (built-in)
 
