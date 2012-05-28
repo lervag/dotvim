@@ -348,6 +348,15 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\.exe$\|\.so$\|\.dll$\|documents\/ntnu\/phd',
   \}
 let g:ctrlp_extensions = ['line', 'undo', 'quickfix', 'dir']
+let g:ctrlp_shorten_path_method = 1
+
+function! MyPathFilter(str)
+  let newstr = fnamemodify(a:str,
+        \ ":s?/home/lervag-dropbox/Dropbox/Documents/ntnu?~?")
+  let newstr = fnamemodify(newstr,
+        \ ":s?/home/lervag-dropbox/Dropbox/Documents?~/documents?")
+  retu newstr
+endfunction
 
 " Add some mappings
 nmap <silent> <Leader>tf :CtrlP<cr>
@@ -413,19 +422,23 @@ let g:ScreenImpl = "Tmux"
 "
 " Dynamic keybindings
 "
-function! s:ScreenShellListener()
+function! s:ScreenShellListenerMain()
   if g:ScreenShellActive
     nmap <silent> <C-c><C-c> <S-v>:ScreenSend<CR>
     vmap <silent> <C-c><C-c> :ScreenSend<CR>
     nmap <silent> <C-c><C-a> :ScreenSend<CR>
     nmap <silent> <C-c><C-q> :ScreenQuit<CR>
-    command -nargs=? C :call ScreenShellSend('<args>')
+    if exists(':C') != 2
+      command -nargs=? C :call ScreenShellSend('<args>')
+    endif
   else
     nmap <C-c><C-a> <Nop>
     vmap <C-c><C-c> <Nop>
     nmap <C-c><C-q> <Nop>
     nmap <silent> <C-c><C-c> :ScreenShell<cr>
-    delcommand C
+    if exists(':C') == 2
+      delcommand C
+    endif
   endif
 endfunction
 
@@ -434,10 +447,10 @@ endfunction
 "
 nmap <silent> <C-c><C-c> :ScreenShell<cr>
 augroup ScreenShellEnter
-  au USER * :call <SID>ScreenShellListener()
+  au USER * :call <SID>ScreenShellListenerMain()
 augroup END
 augroup ScreenShellExit
-  au USER * :call <SID>ScreenShellListener()
+  au USER * :call <SID>ScreenShellListenerMain()
 augroup END
 
 "{{{2 Snipmate
