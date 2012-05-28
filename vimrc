@@ -52,7 +52,10 @@ set autoread
 set wildmode=longest,list:longest
 
 " Make Vim able to edit crontab files again.
-set backupskip=/tmp/*,/private/tmp/*" 
+set backupskip=/tmp/*,/private/tmp/*"
+
+" Set foldoption for bash scripts
+let g:sh_fold_enabled=7
 
 "{{{2 Tabs, spaces, wrapping
 set softtabstop=2
@@ -66,7 +69,7 @@ set linebreak
 set showbreak=↪
 set formatoptions=tcrq1n
 set formatlistpat=^\\s*\\(\\(\\d\\+\\\|[a-z]\\)[.:)]\\\|[-*]\\)\\s\\+
-set formatprg=par\ -w79jrq
+"set formatprg=par\ -w79jrq
 
 "{{{2 Backup and Undofile
 set backup
@@ -180,9 +183,6 @@ augroup END
 augroup SpecificAutocommands
   autocmd!
 
-  " Bash scripts
-  au BufReadPost *.sh let g:sh_fold_enabled=1
-
   " Textfiles
   au BufReadPost *.txt setlocal textwidth=78
   au BufReadPost *.txt setlocal formatoptions-=c
@@ -237,6 +237,7 @@ map <leader>s? z=
 noremap Y y$
 imap <silent> <c-r><c-d> <c-r>=strftime("%e %b %Y")<CR>
 imap <silent> <c-r><c-t> <c-r>=strftime("%l:%M %p")<CR>
+map <F1> <nop>
 map <F12> ggVGg? " encypt the file (toggle)
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
       \ . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
@@ -359,7 +360,7 @@ let delimitMate_expand_space       = 1
 let delimitMate_excluded_regions   = "Comments,String"
 let delimitMate_matchpairs         = "(:),[:],{:}"
 let delimitMate_quotes             = "\" '"
-let delimitMate_excluded_ft        = "txt"
+let delimitMate_excluded_ft        = "text"
 
 " Tweak for some file types
 au FileType vim  let b:delimitMate_quotes = "'"
@@ -414,15 +415,17 @@ let g:ScreenImpl = "Tmux"
 "
 function! s:ScreenShellListener()
   if g:ScreenShellActive
-    nmap <C-c><C-c> <S-v>:ScreenSend<CR>
-    vmap <C-c><C-c> :ScreenSend<CR>
-    nmap <C-c><C-a> :ScreenSend<CR>
-    nmap <C-c><C-q> :ScreenQuit<CR>
+    nmap <silent> <C-c><C-c> <S-v>:ScreenSend<CR>
+    vmap <silent> <C-c><C-c> :ScreenSend<CR>
+    nmap <silent> <C-c><C-a> :ScreenSend<CR>
+    nmap <silent> <C-c><C-q> :ScreenQuit<CR>
+    command -nargs=? C :call ScreenShellSend('<args>')
   else
     nmap <C-c><C-a> <Nop>
     vmap <C-c><C-c> <Nop>
     nmap <C-c><C-q> <Nop>
-    nmap <C-c><C-c> :ScreenShell<cr>
+    nmap <silent> <C-c><C-c> :ScreenShell<cr>
+    delcommand C
   endif
 endfunction
 

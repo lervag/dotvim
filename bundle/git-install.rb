@@ -5,7 +5,6 @@ git_bundles = [
   #
   # Not on github
   #
-  # clewn
   # vim-latex
   #
   "git://github.com/Lokaltog/vim-powerline.git",
