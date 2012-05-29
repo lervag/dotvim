@@ -4,8 +4,7 @@ require 'fileutils'
 git_bundles = [
   #
   # Not on github
-  #
-  # vim-latex
+  # - vim-latex
   #
   "git://github.com/Lokaltog/vim-powerline.git",
   "git://github.com/Raimondi/delimitMate.git",
@@ -15,7 +14,8 @@ git_bundles = [
   "git://github.com/ervandew/supertab.git",
   "git://github.com/godlygeek/tabular.git",
   "git://github.com/gregsexton/MatchTag.git",
-  "git://github.com/kien/ctrlp.vim.git",
+  #"git://github.com/kien/ctrlp.vim.git",
+  "git@github.com/lervag/ctrlp.vim.git",
   "git://github.com/kien/rainbow_parentheses.vim.git",
   "git://github.com/majutsushi/tagbar.git",
   "git://github.com/majutsushi/tagbar.git",
