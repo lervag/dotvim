@@ -348,23 +348,6 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\.exe$\|\.so$\|\.dll$\|documents\/ntnu\/phd',
   \}
 let g:ctrlp_extensions = ['line', 'undo', 'quickfix', 'dir']
-let g:ctrlp_custom_formatline = 'MyFormatLine'
-
-function! MyFormatLine(str, ispath, winw)
-  let str = a:str
-  if a:ispath
-    for fmod in [
-          \ ":s?/home/lervag-dropbox/Dropbox/Documents/ntnu?~?",
-          \ ":s?/home/lervag-dropbox/Dropbox/Documents?~/documents?",
-          \ ]
-      let str = fnamemodify(str, fmod)
-    endfor
-    if s:strlen(str) > ( a:winw - 4 )
-      str = pathshorten(str)
-    endif
-  endif
-  return '> ' . str
-endfunction
 
 " Add some mappings
 nmap <silent> <Leader>tf :CtrlP<cr>
