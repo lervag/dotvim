@@ -1,4 +1,4 @@
-dotvim
-======
+A git repository for my personal vim setup
+==========================================
 
-Vim settings
+I don't believe this repository needs any more introduction...
