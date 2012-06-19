@@ -9,15 +9,15 @@ snippet tab
 	${3}
 	\end{$1}
 # Align(ed)
-snippet ali
+snippet align
 	\begin{align${1}}
 		${2}
-	\end{align$1}
+	\end{align$1}${3}
 # Align
-snippet align
-	\begin{align}
+snippet align*
+	\begin{align*}
 		${1}
-	\end{align}${2}
+	\end{align*}${2}
 # Gather(ed)
 snippet gat
 	\begin{gather${1:ed}}
@@ -28,6 +28,11 @@ snippet eq
 	\begin{equation}
 		${1}
 	\end{equation}
+# Equation
+snippet eq*
+	\begin{equation*}
+		${1}
+	\end{equation*}
 # Unnumbered Equation
 snippet \
 	\\[
