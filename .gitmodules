@@ -1,0 +1,84 @@
+[submodule "bundle/vim-powerline"]
+	path = bundle/vim-powerline
+	url = git://github.com/Lokaltog/vim-powerline.git
+[submodule "bundle/delimitMate"]
+	path = bundle/delimitMate
+	url = git://github.com/Raimondi/delimitMate.git
+[submodule "bundle/vim-colors-solarized"]
+	path = bundle/vim-colors-solarized
+	url = git://github.com/altercation/vim-colors-solarized.git
+[submodule "bundle/file-line"]
+	path = bundle/file-line
+	url = git://github.com/bogado/file-line.git
+[submodule "bundle/screen"]
+	path = bundle/screen
+	url = git://github.com/ervandew/screen
+[submodule "bundle/supertab"]
+	path = bundle/supertab
+	url = git://github.com/ervandew/supertab.git
+[submodule "bundle/tabular"]
+	path = bundle/tabular
+	url = git://github.com/godlygeek/tabular.git
+[submodule "bundle/MatchTag"]
+	path = bundle/MatchTag
+	url = git://github.com/gregsexton/MatchTag.git
+[submodule "bundle/ctrlp.vim"]
+	path = bundle/ctrlp.vim
+	url = git://github.com/kien/ctrlp.vim.git
+[submodule "bundle/rainbow_parentheses.vim"]
+	path = bundle/rainbow_parentheses.vim
+	url = git://github.com/kien/rainbow_parentheses.vim.git
+[submodule "bundle/tagbar"]
+	path = bundle/tagbar
+	url = git://github.com/majutsushi/tagbar.git
+[submodule "bundle/ack.vim"]
+	path = bundle/ack.vim
+	url = git://github.com/mileszs/ack.vim.git
+[submodule "bundle/snipmate.vim"]
+	path = bundle/snipmate.vim
+	url = git://github.com/msanders/snipmate.vim.git
+[submodule "bundle/syntastic"]
+	path = bundle/syntastic
+	url = git://github.com/scrooloose/syntastic.git
+[submodule "bundle/gundo.vim"]
+	path = bundle/gundo.vim
+	url = git://github.com/sjl/gundo.vim.git
+[submodule "bundle/splice.vim"]
+	path = bundle/splice.vim
+	url = git://github.com/sjl/splice.vim/
+[submodule "bundle/tcomment_vim"]
+	path = bundle/tcomment_vim
+	url = git://github.com/tomtom/tcomment_vim.git
+[submodule "bundle/vim-fugitive"]
+	path = bundle/vim-fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule "bundle/vim-git"]
+	path = bundle/vim-git
+	url = git://github.com/tpope/vim-git.git
+[submodule "bundle/vim-pathogen"]
+	path = bundle/vim-pathogen
+	url = git://github.com/tpope/vim-pathogen.git
+[submodule "bundle/vim-repeat"]
+	path = bundle/vim-repeat
+	url = git://github.com/tpope/vim-repeat.git
+[submodule "bundle/vim-surround"]
+	path = bundle/vim-surround
+	url = git://github.com/tpope/vim-surround.git
+[submodule "bundle/vim-matchit"]
+	path = bundle/vim-matchit
+	url = git://github.com/tsaleh/vim-matchit.git
+[submodule "bundle/current-func-info.vim"]
+	path = bundle/current-func-info.vim
+	url = git://github.com/tyru/current-func-info.vim.git
+[submodule "bundle/vim-ruby"]
+	path = bundle/vim-ruby
+	url = git://github.com/vim-ruby/vim-ruby.git
+[submodule "bundle/vcscommand"]
+	path = bundle/vcscommand
+	url = git://repo.or.cz/vcscommand.git
+[submodule "pyflakes-vim"]
+	path = pyflakes-vim
+	url = git://github.com/kevinw/pyflakes-vim.git
+[submodule "bundle/vim-pyflakes"]
+	path = bundle/vim-pyflakes
+	url = git://github.com/kevinw/pyflakes-vim.git
