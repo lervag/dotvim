@@ -51,6 +51,9 @@ set cpoptions+=J
 set autoread
 set wildmode=longest,list:longest
 
+" Dont clear screen after vim exits
+set t_ti= t_te=
+
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
 
@@ -197,7 +200,7 @@ augroup SpecificAutocommands
   au BufReadPost *.c++ setlocal cindent
 
   " LaTeX
-  au BufReadPost *.tex call LaTeXSettings()
+  au FileType tex setlocal shellslash nocindent iskeyword+=:
 
   " Python
   au FileType python syn keyword pythonDecorator True None False self
@@ -487,14 +490,6 @@ end
 map ,cc :call ChooseVCSCommandType()<cr>
 
 "{{{1 Functions
-function! LaTeXSettings()                                                 "{{{2
-  " For all tex files use forward slash in filenames
-  setlocal shellslash nocindent
-  setlocal iskeyword+=:
-
-  " Start with fold open and center screen
-  silent! normal zO zz
-endfunction
 function! EnsureDirExists ()                                              "{{{2
   let dir = expand("%:h")
   if !isdirectory(dir)

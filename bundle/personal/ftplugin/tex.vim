@@ -7,7 +7,7 @@ let g:Tex_CompileRule_pdf = 'pdflatex -synctex=1 -interaction=nonstopmode $*'
 let g:Tex_BIBINPUTS = $HOME
 let g:Tex_Com_sqrt = "\\sqrt[<++>]{<++>}<++>"
 let g:Tex_FoldedEnvironments =
-      \   "verbatim,comment,split,eq,gather,multline,align,"
+      \   "frontmatter,verbatim,comment,split,eq,gather,multline,align,"
       \ . "itemize,enumerate,scope,tikzpicture,figure,table,thebibliography,"
       \ . "columns,textblock,frame,exercise,answer,task,"
       \ . "thebibliography,keywords,abstract,titlepage"
@@ -15,6 +15,7 @@ let g:Tex_FoldedSections = "part,chapter,section,subsection,"
       \ . "subsubsection,paragraph,%%fakesection"
 let g:Tex_FoldedMisc="preamble,<<<"
 let g:tex_comment_nospell=1
+setlocal smartindent
 
 "{{{1 Add mapping to be able to select a single paragraph, and to format it
 noremap <silent> <expr> { LaTeXStartOfParagraph()

@@ -2,6 +2,3 @@ backup
 undofiles
 slimux.vim
 test.sh
-bundle/git-install.rb
-bundle/check-bundles.sh
-.hg*
