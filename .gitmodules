@@ -111,3 +111,6 @@
 	url = git://github.com/kevinw/pyflakes-vim.git
 	ignore = untracked
 	fetchRecurseSubmodules = yes
+[submodule "bundle/vim-latex"]
+	path = bundle/vim-latex
+	url = git@github.com:lervag/vim-latex.git
