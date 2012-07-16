@@ -28,9 +28,10 @@ set foldlevel=0
 set foldcolumn=0
 set hidden
 set modelines=5
-set tags=./tags,./.tags,./../**/.tags,./../**/tags
+set tags=./tags,./.tags,./../*/.tags,./../*/tags
 set fillchars=fold:\ ,diff:⣿
-set complete+=U
+set complete+=U,s,kspell
+set completeopt=menuone,menu,preview,longest
 set matchtime=2
 set matchpairs+=<:>
 set showcmd
@@ -41,7 +42,6 @@ set fileformat=unix
 set smarttab
 set spelllang=en_gb
 set diffopt=filler,context:4,foldcolumn:2,horizontal
-set completeopt=menuone,menu,longest
 set grepprg=ack-grep
 set list
 set listchars=tab:▸\ ,trail:\ ,nbsp:%,extends:❯,precedes:❮
@@ -50,6 +50,7 @@ set autochdir
 set cpoptions+=J
 set autoread
 set wildmode=longest,list:longest
+set iskeyword+=-
 
 " Dont clear screen after vim exits
 set t_ti= t_te=
@@ -200,7 +201,7 @@ augroup SpecificAutocommands
   au BufReadPost *.c++ setlocal cindent
 
   " LaTeX
-  au FileType tex setlocal shellslash nocindent iskeyword+=:
+  au FileType tex setlocal shellslash nocindent iskeyword+=:,-
 
   " Python
   au FileType python syn keyword pythonDecorator True None False self
@@ -452,7 +453,7 @@ let g:snippets_dir = "~/.vim/bundle/personal/snippets/"
 
 "{{{2 Supertab
 let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabContextDefaultCompletionType = "<c-x><c-n>"
+let g:SuperTabContextDefaultCompletionType = "<c-n>"
 let g:SuperTabRetainCompletionDuration = "session"
 let g:SuperTabLongestEnhanced = 1
 
