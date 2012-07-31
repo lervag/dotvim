@@ -114,3 +114,6 @@
 [submodule "bundle/vim-latex"]
 	path = bundle/vim-latex
 	url = git@github.com:lervag/vim-latex.git
+[submodule "bundle/vim-easymotion"]
+	path = bundle/vim-easymotion
+	url = git://github.com/Lokaltog/vim-easymotion.git
