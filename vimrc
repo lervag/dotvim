@@ -339,19 +339,20 @@ let g:ConqueTerm_TERM = 'xterm'
 " Set options
 let g:ctrlp_map = '<leader>tt'
 let g:ctrlp_cmd = 'CtrlPMRU'
-let g:ctrlp_working_path_mode = 0
+let g:ctrlp_working_path_mode = 'rc'
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
-let g:ctrlp_mruf_last_entered = 1
 let g:ctrlp_max_height = 25
+let g:ctrlp_mruf_last_entered = 1
+let g:ctrlp_mruf_exclude = 'phd/journal.txt'
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_follow_symlinks = 1
-let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
+let g:ctrlp_use_caching = 100
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\.git$\|\.hg$\|\.svn$\|.vim\/undofiles$\|\.vim\/backup$',
   \ 'file': '\.exe$\|\.so$\|\.dll$\|documents\/ntnu\/phd',
   \}
-let g:ctrlp_extensions = ['line', 'undo', 'quickfix', 'dir']
+let g:ctrlp_extensions = ['tag', 'line']
 
 " Add some mappings
 nmap <silent> <Leader>tf :CtrlP<cr>
@@ -364,7 +365,7 @@ let delimitMate_expand_space       = 1
 let delimitMate_excluded_regions   = "Comments,String"
 let delimitMate_matchpairs         = "(:),[:],{:}"
 let delimitMate_quotes             = "\" '"
-let delimitMate_excluded_ft        = "text"
+let delimitMate_excluded_ft        = "zsh,text"
 
 " Tweak for some file types
 au FileType vim  let b:delimitMate_quotes = "'"
