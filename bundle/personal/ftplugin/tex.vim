@@ -35,27 +35,8 @@ function! Start_latexmk()
   let latexmkcmd = "latexmk -pvc -silent"
   silent execute "ScreenShell " . cdcmd . latexmkcmd
 endfunction
-
-"{{{1 Create a handy function and autocommand for automagically formatting LaTeX
-"augroup LaTexTidy
-  "autocmd!
-  "autocmd InsertLeave *.tex :call TidyAndResetCursor()
-"augroup END
-function! TidyAndResetCursor()
-  let cp = getpos('.')
-  let delimitors = ['begin', 'end', 'label', '\(sub\)*section']
-  let pattern = '^\s*\(\\' . join(delimitors,'\|\\') . '\)'
-  let previous_environment = search(pattern, 'bnW')
-  call setpos('.', [0,previous_environment+1,1,0])
-  set cursorline
-  redraw
-  sleep 100m
-  set nocursorline
-  call setpos('.', cp)
-endfunctio
-
-
-function! LaTeXStartOfParagraph()               "{{{1
+"{{{1 LaTeXStartOfParagraph
+function! LaTeXStartOfParagraph()
   let delimitors = ['begin', 'end', '\(sub\)*section', 'label', '%']
   let pattern = '^$\|^\s*\(\\' . join(delimitors,'\|\\') . '\)'
   let cpp = getpos('.')
@@ -70,7 +51,8 @@ function! LaTeXStartOfParagraph()               "{{{1
   endif
 endfunction
 
-function! LaTeXEndOfParagraph()               "{{{1
+"{{{1 LaTeXEndOfParagraph
+function! LaTeXEndOfParagraph()
   let delimitors = ['begin', 'end', '\(sub\)*section', 'label', '%']
   let pattern = '^$\|^\s*\(\\' . join(delimitors,'\|\\') . '\)'
   let cpp = getpos('.')
@@ -89,10 +71,12 @@ function! LaTeXEndOfParagraph()               "{{{1
   endif
 endfunction
 
-function! LaTeXFormatParagraph()              "{{{1
+"{{{1 LaTeXFormatParagraph
+function! LaTeXFormatParagraph()
   let cpp = getpos('.')
   normal vpgq
   call setpos('.', cpp)
 endfunction
+
 " {{{1 Modeline
 " vim: fdm=marker
