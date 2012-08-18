@@ -365,7 +365,7 @@ let delimitMate_expand_space       = 1
 let delimitMate_excluded_regions   = "Comments,String"
 let delimitMate_matchpairs         = "(:),[:],{:}"
 let delimitMate_quotes             = "\" '"
-let delimitMate_excluded_ft        = "zsh,text"
+let delimitMate_excluded_ft        = "sh,zsh,text"
 
 " Tweak for some file types
 au FileType vim  let b:delimitMate_quotes = "'"
@@ -411,6 +411,10 @@ let g:rbpt_colorpairs = [
     \ ['red',         'firebrick3'],
     \ ]
 let g:rbpt_max = 16
+
+"{{{2 vim-ruby
+
+let g:ruby_fold=1
 
 "{{{2 Screen
 let g:ScreenImpl = "Tmux"
