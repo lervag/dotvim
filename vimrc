@@ -114,9 +114,9 @@ else
   set t_Co=256
 endif
 
-set background=dark
-let g:solarized_contrast="high"
+set background=light
 colorscheme solarized
+call togglebg#map("<F6>")
 
 "{{{2 Searching and movement
 
@@ -385,13 +385,28 @@ let g:lisp_rainbow = 1
 
 "{{{2 Powerline
 
-if has("gui_running")
-  let g:Powerline_symbols = "fancy"
-end
+let g:Powerline_symbols = "fancy"
 
 "{{{2 Rainbox Parentheses
 
 nnoremap <leader>R :RainbowParenthesesToggle<cr>
+let g:rbpt_max = 16
+let g:rbpt_colorpairs = [
+    \ ['234', '#002b36'],
+    \ ['235', '#073642'],
+    \ ['240', '#586e75'],
+    \ ['241', '#657b83'],
+    \ ['244', '#839496'],
+    \ ['245', '#93a1a1'],
+    \ ['136', '#b58900'],
+    \ ['166', '#cb4b16'],
+    \ ['160', '#dc322f'],
+    \ ['125', '#d33682'],
+    \ [ '61', '#6c71c4'],
+    \ [ '33', '#268bd2'],
+    \ [ '37', '#2aa198'],
+    \ [ '64', '#859900'],
+    \ ]
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 
