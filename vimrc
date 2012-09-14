@@ -106,15 +106,16 @@ set spellfile+=~/.vim/spell/mywords.utf-8.add
 
 "{{{2 Gui and colorscheme options
 syntax on
+set background=light
 if has("gui_running")
   set lines=56
   set guioptions=aegiLt
   set guifont=Inconsolata-dz\ for\ Powerline\ 9,Monospace\ 9
 else
   set t_Co=256
+  set background=dark
 endif
 
-set background=light
 colorscheme solarized
 call togglebg#map("<F6>")
 
