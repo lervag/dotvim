@@ -7,7 +7,7 @@ let g:Tex_CompileRule_pdf = 'pdflatex -synctex=1 -interaction=nonstopmode $*'
 let g:Tex_BIBINPUTS = $HOME
 let g:Tex_Com_sqrt = "\\sqrt[<++>]{<++>}<++>"
 let g:Tex_FoldedEnvironments =
-      \   "frontmatter,verbatim,comment,split,eq,gather,multline,align,"
+      \   "frontmatter,verbatim,comment,tabular,split,eq,gather,multline,align,"
       \ . "itemize,enumerate,scope,tikzpicture,figure,table,thebibliography,"
       \ . "columns,textblock,frame,exercise,answer,task,"
       \ . "thebibliography,keywords,abstract,titlepage"
