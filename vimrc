@@ -461,6 +461,13 @@ let g:SuperTabContextDefaultCompletionType = "<c-n>"
 let g:SuperTabRetainCompletionDuration = "session"
 let g:SuperTabLongestEnhanced = 1
 
+"{{{2 Switch.vim
+nnoremap - :Switch<cr>
+let g:switch_definitions =
+    \ [
+    \   ['.true.', '.false.']
+    \ ]
+
 "{{{2 syntactics
 let g:syntastic_auto_loc_list = 2
 let g:syntastic_mode_map = { 'mode': 'active',
