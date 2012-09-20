@@ -267,7 +267,7 @@ nnoremap <silent> <leader>? :execute "Ack! '" . substitute(substitute(substitute
 nnoremap zj zcjzo
 nnoremap zk zckzo
 nnoremap <space> za
-nnoremap zf zMzv
+nnoremap zf zMzvzz
 
 " Keep search matches in the middle of the window
 nnoremap <silent> n nzzzv:call PulseCursorLine()<cr>
@@ -393,20 +393,20 @@ let g:Powerline_symbols = "fancy"
 nnoremap <leader>R :RainbowParenthesesToggle<cr>
 let g:rbpt_max = 16
 let g:rbpt_colorpairs = [
+    \ ['033', '#268bd2'],
+    \ ['037', '#2aa198'],
+    \ ['061', '#6c71c4'],
+    \ ['064', '#859900'],
+    \ ['125', '#d33682'],
+    \ ['136', '#b58900'],
+    \ ['160', '#dc322f'],
+    \ ['166', '#cb4b16'],
     \ ['234', '#002b36'],
     \ ['235', '#073642'],
     \ ['240', '#586e75'],
     \ ['241', '#657b83'],
     \ ['244', '#839496'],
     \ ['245', '#93a1a1'],
-    \ ['136', '#b58900'],
-    \ ['166', '#cb4b16'],
-    \ ['160', '#dc322f'],
-    \ ['125', '#d33682'],
-    \ [ '61', '#6c71c4'],
-    \ [ '33', '#268bd2'],
-    \ [ '37', '#2aa198'],
-    \ [ '64', '#859900'],
     \ ]
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
