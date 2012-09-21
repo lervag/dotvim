@@ -117,3 +117,6 @@
 [submodule "bundle/vim-easymotion"]
 	path = bundle/vim-easymotion
 	url = git://github.com/Lokaltog/vim-easymotion.git
+[submodule "bundle/switch.vim"]
+	path = bundle/switch.vim
+	url = git://github.com/AndrewRadev/switch.vim.git
