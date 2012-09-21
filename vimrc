@@ -52,9 +52,6 @@ set autoread
 set wildmode=longest,list:longest
 set iskeyword+=-
 
-" Dont clear screen after vim exits
-set t_ti= t_te=
-
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
 
@@ -66,7 +63,9 @@ set softtabstop=2
 set shiftwidth=2
 set textwidth=79
 set columns=80
-set colorcolumn=81
+if v:version >= 703
+  set colorcolumn=81
+end
 set expandtab
 set wrap
 set linebreak
@@ -110,7 +109,7 @@ set background=light
 if has("gui_running")
   set lines=56
   set guioptions=aegiLt
-  set guifont=Inconsolata-dz\ for\ Powerline\ 9,Monospace\ 9
+  set guifont=Inconsolata-dz\ for\ Powerline\ Medium\ 9
 else
   set t_Co=256
   set background=dark
@@ -146,7 +145,9 @@ if !exists("g:Powerline_loaded")
   set statusline+=%H                              " help file flag
   set statusline+=%R]                             " read only flag
   set statusline+=%q                              " quickfix-tag
-  set statusline+=%w                              " preview-tag
+  if v:version >= 703
+    set statusline+=%w                            " preview-tag
+  end
   set statusline+=%#warningmsg#
   set statusline+=%{SyntasticStatuslineFlag()}
   set statusline+=%*
