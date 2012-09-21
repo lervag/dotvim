@@ -144,8 +144,8 @@ if !exists("g:Powerline_loaded")
   set statusline+=%Y                              " filetype
   set statusline+=%H                              " help file flag
   set statusline+=%R]                             " read only flag
-  set statusline+=%q                              " quickfix-tag
   if v:version >= 703
+    set statusline+=%q                            " quickfix-tag
     set statusline+=%w                            " preview-tag
   end
   set statusline+=%#warningmsg#
