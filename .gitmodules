@@ -120,3 +120,6 @@
 [submodule "bundle/switch.vim"]
 	path = bundle/switch.vim
 	url = git://github.com/AndrewRadev/switch.vim.git
+[submodule "bundle/vim-cdo"]
+	path = bundle/vim-cdo
+	url = git://github.com/Peeja/vim-cdo.git
