@@ -29,79 +29,83 @@ function! SyncTexForward()
 endfunction
 nmap <silent> <Leader>ls :call SyncTexForward()<CR>
 
-" {{{1 Folding
-" {{{2 Fold function
-fu! FoldTeXLines(lnum)
-  " Get the line and next line
+setl fdm=expr fde=FoldLevel(v:lnum) fdt=FoldText(v:foldstart)
+let g:fold_preamble=1
+let g:fold_envs=1
+let g:fold_parts=[
+      \ "section",
+      \ "subsection",
+      \ "subsubsection"
+      \ ]
+
+" {{{1 FoldLevel
+fu! FoldLevel(lnum)
   let line  = getline(a:lnum)
-  let nline = getline(a:lnum + 1)
-  let ret   = "="
 
-  " Fold the preamble
-  if line =~ '\s*\\documentclass'
-    return ">1"
-  endif
-  if line =~ '\s*\\begin{document}'
-    return "<1"
-  endif
-
-  " If the line is a new section, start a fold at the good level
-  if line =~ '\\section\*\?{.*}'
-    let ret = ">1"
-  elseif line =~ '\\subsection\*\?{.*}'
-    let ret = ">2"
-  elseif line =~ '\\subsubsection\*\?{.*}'
-    let ret = ">3"
+  " Fold preamble
+  if exists('g:fold_preamble')
+    if line =~ '\s*\\documentclass'
+      return ">1"
+    endif
+    if line =~ '\s*\\begin{document}'
+      return "<1"
+    endif
   endif
 
-  " Some environments
-  if line =~ '\\begin{.*}'
-    let ret = "a1"
-  endif
-  if line =~ '\\end{.*}'
-    let ret = "s1"
+  " Fold parts and sections
+  let level = 1
+  for part in g:fold_parts
+    if line  =~ '^\s*\\' . part . '\*\?{'
+      return ">" . level
+    endif
+    let level += 1
+  endfo
+
+  " Fold environments
+  if exists('g:fold_envs')
+    if line =~ '\\begin{.*}'
+      return "a1"
+    endif
+    if line =~ '\\end{.*}'
+      return "s1"
+    endif
   endif
 
-  return ret
+  return "="
 endfu
 
-" {{{2 Fold text
+" {{{1 FoldText
 fu! FoldText(lnum)
-  " Get line
   let line = getline(a:lnum)
-  let nline = getline(a:lnum+1)
 
-  " preamble
-  if line =~ '\s*\\documentclass'
-    return "    Preamble"
+  " Define pretext
+  let pretext = '    '
+  if v:foldlevel == 1
+    let pretext = '>   '
+  elseif v:foldlevel == 2
+    let pretext = '->  '
+  elseif v:foldlevel == 3
+    let pretext = '--> '
+  elseif v:foldlevel >= 4
+    let pretext = printf('--%i ',v:foldlevel)
   endif
 
-  " Sections
-  if line =~ '^\s*\\\(sub\)*section'
-    let title = matchstr(line,'^\s*\\\(sub\)*section\*\?{\zs.*\ze}')
-    if line =~ '^\s*\\section'
-      let pretext = '>   '
-    elseif line =~ '^\s*\\subsection'
-      let pretext = '->  '
-    elseif line =~ '^\s*\\subsubsection'
-      let pretext = '--> '
-    endif
-    return pretext . title
+  " Preamble
+  if line =~ '\s*\\documentclass'
+    return pretext . "Preamble"
+  endif
+
+  " Parts and sections
+  if line =~ '\\\(\(sub\)*section\|part\|chapter\)'
+    return pretext .  matchstr(line,
+          \ '^\s*\\\(\(sub\)*section\|part\|chapter\)\*\?{\zs.*\ze}')
   endif
 
   " Environments
   if line =~ '\\begin'
-    let pretext = '    '
-    if v:foldlevel == 1
-      let pretext = '>   '
-    elseif v:foldlevel == 2
-      let pretext = '->  '
-    elseif v:foldlevel == 3
-      let pretext = '--> '
-    elseif v:foldlevel > 3
-      let pretext = '--- '
-    endif
     let env = matchstr(line,'\\begin\*\?{\zs\w*\*\?\ze}')
+
+    " Get label or caption
     let label = ''
     let caption = ''
     let i = v:foldstart
@@ -114,16 +118,15 @@ fu! FoldText(lnum)
         let caption = matchstr(getline(i), '^\s*\\caption.*{\zs.\{1,30}')
         let caption = substitute(caption, '}.*', '')
       end
-      let i = i + 1
+      let i += 1
     endwhile
+
     return pretext . printf('%-12s', env) . caption . label
   endif
 
   " Not defined
-  return "Not defined"
+  return "Fold text not defined"
 endfu
-
-setl fdm=expr fde=FoldTeXLines(v:lnum) fdt=FoldText(v:foldstart)
 
 "{{{1 Footer
 "

@@ -72,7 +72,6 @@ set linebreak
 set showbreak=↪
 set formatoptions=tcrq1n
 set formatlistpat=^\\s*\\(\\(\\d\\+\\\|[a-z]\\)[.:)]\\\|[-*]\\)\\s\\+
-"set formatprg=par\ -w79jrq
 
 "{{{2 Backup and Undofile
 set backup
