@@ -123,7 +123,7 @@
 	path = bundle/vim-cdo
 	url = git://github.com/Peeja/vim-cdo.git
 	ignore = untracked
-[submodule "LaTeX-Box"]
-	path = LaTeX-Box
+[submodule "bundle/LaTeX-Box"]
+	path = bundle/LaTeX-Box
 	url = git://github.com/LaTeX-Box-Team/LaTeX-Box.git
 	ignore = untracked
