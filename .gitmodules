@@ -111,10 +111,6 @@
 	url = git://github.com/kevinw/pyflakes-vim.git
 	ignore = untracked
 	fetchRecurseSubmodules = yes
-[submodule "bundle/vim-latex"]
-	path = bundle/vim-latex
-	url = git@github.com:lervag/vim-latex.git
-	ignore = untracked
 [submodule "bundle/vim-easymotion"]
 	path = bundle/vim-easymotion
 	url = git://github.com/Lokaltog/vim-easymotion.git
@@ -126,4 +122,8 @@
 [submodule "bundle/vim-cdo"]
 	path = bundle/vim-cdo
 	url = git://github.com/Peeja/vim-cdo.git
+	ignore = untracked
+[submodule "LaTeX-Box"]
+	path = LaTeX-Box
+	url = git://github.com/LaTeX-Box-Team/LaTeX-Box.git
 	ignore = untracked

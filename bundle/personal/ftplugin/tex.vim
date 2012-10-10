@@ -1,82 +1,131 @@
-"{{{1 Define some settings
-let g:Tex_DefaultTargetFormat='pdf'
-let g:Tex_MultipleCompileFormats='dvi,pdf'
-let g:Tex_ViewRule_pdf = 'okular'
-let g:Tex_ViewRule_dvi = 'okular'
-let g:Tex_CompileRule_pdf = 'pdflatex -synctex=1 -interaction=nonstopmode $*'
-let g:Tex_BIBINPUTS = $HOME
-let g:Tex_Com_sqrt = "\\sqrt[<++>]{<++>}<++>"
-let g:Tex_FoldedEnvironments =
-      \   "frontmatter,verbatim,comment,tabular,split,eq,gather,multline,align,"
-      \ . "itemize,enumerate,scope,tikzpicture,figure,table,thebibliography,"
-      \ . "columns,textblock,frame,exercise,answer,task,"
-      \ . "thebibliography,keywords,abstract,titlepage"
-let g:Tex_FoldedSections = "part,chapter,section,subsection,"
-      \ . "subsubsection,paragraph,%%fakesection"
-let g:Tex_FoldedMisc="preamble,<<<"
-let g:tex_comment_nospell=1
+"
+" Define some settings
+"
 setlocal smartindent
+imap <buffer> [[     \begin{
+imap <buffer> ]]     <plug>LatexCloseCurEnv
+imap <buffer> ((     \eqref{
+nmap <buffer> <f5>   <plug>LatexChangeEnv
+vmap <buffer> <f7>   <plug>LatexWrapSelection
+vmap <buffer> <S-F7> <Plug>LatexEnvWrapSelection
+let g:Tex_BIBINPUTS = $HOME
 
-"{{{1 Add mapping to be able to select a single paragraph, and to format it
-noremap <silent> <expr> { LaTeXStartOfParagraph()
-noremap <silent> <expr> } LaTeXEndOfParagraph()
-noremap <silent> gwp :call LaTeXFormatParagraph()<CR>
-vnoremap p {o}
-vmap <silent>ip <esc>{v}
-vmap <silent>ap <esc>{v}
-onoremap <silent>ap :normal vap<CR>
-onoremap <silent>ip :normal vip<CR>
+"
+" Remember folds
+"
+au BufWinLeave * silent! mkview
+au BufWinEnter * silent! loadview
 
-"{{{1 Add mapping for latexmk
-map <silent> <Leader>lm :call Start_latexmk()<CR>
-function! Start_latexmk()
-  normal \ls
-  let cdcmd = "cd " . expand("%:h") . "; "
-  let latexmkcmd = "latexmk -pvc -silent"
-  silent execute "ScreenShell " . cdcmd . latexmkcmd
+"
+" Enable forward search with okular
+"
+function! SyncTexForward()
+  let execstr = "silent !okular --unique %:p:r"
+        \ . ".pdf\\\#src:" . line(".") . "%:p &"
+  exec execstr
 endfunction
-"{{{1 LaTeXStartOfParagraph
-function! LaTeXStartOfParagraph()
-  let delimitors = ['begin', 'end', '\(sub\)*section', 'label', '%']
-  let pattern = '^$\|^\s*\(\\' . join(delimitors,'\|\\') . '\)'
-  let cpp = getpos('.')
-  let spp = searchpos(pattern,'b')
-  let spp[0] += 1
-  if cpp[1:2] == spp
-    return 'k?' . pattern . '?1'
-  elseif cpp[1]-1 == spp[1]
-    return 'k?' . pattern . '?1'
-  else
-    return '?' . pattern . '?1'
+nmap <silent> <Leader>ls :call SyncTexForward()<CR>
+
+" {{{1 Folding
+" {{{2 Fold function
+fu! FoldTeXLines(lnum)
+  " Get the line and next line
+  let line  = getline(a:lnum)
+  let nline = getline(a:lnum + 1)
+  let ret   = "="
+
+  " Fold the preamble
+  if line =~ '\s*\\documentclass'
+    return ">1"
   endif
-endfunction
-
-"{{{1 LaTeXEndOfParagraph
-function! LaTeXEndOfParagraph()
-  let delimitors = ['begin', 'end', '\(sub\)*section', 'label', '%']
-  let pattern = '^$\|^\s*\(\\' . join(delimitors,'\|\\') . '\)'
-  let cpp = getpos('.')
-  call searchpos(pattern)
-  let spp = getpos('.')
-  let spp[1] -= 1
-  call setpos('.',spp)
-  call searchpos('$')
-  let spp = getpos('.')
-  if cpp[1:2] == spp[1:2]
-    return 'j/' . pattern . '/-1$'
-  elseif cpp[1]+1 == spp[1]
-    return 'j/' . pattern . '/-1$'
-  else
-    return '/' . pattern . '/-1$'
+  if line =~ '\s*\\begin{document}'
+    return "<1"
   endif
-endfunction
 
-"{{{1 LaTeXFormatParagraph
-function! LaTeXFormatParagraph()
-  let cpp = getpos('.')
-  normal vpgq
-  call setpos('.', cpp)
-endfunction
+  " If the line is a new section, start a fold at the good level
+  if line =~ '\\section\*\?{.*}'
+    let ret = ">1"
+  elseif line =~ '\\subsection\*\?{.*}'
+    let ret = ">2"
+  elseif line =~ '\\subsubsection\*\?{.*}'
+    let ret = ">3"
+  endif
 
-" {{{1 Modeline
-" vim: fdm=marker
+  " Some environments
+  if line =~ '\\begin{.*}'
+    let ret = "a1"
+  endif
+  if line =~ '\\end{.*}'
+    let ret = "s1"
+  endif
+
+  return ret
+endfu
+
+" {{{2 Fold text
+fu! FoldText(lnum)
+  " Get line
+  let line = getline(a:lnum)
+  let nline = getline(a:lnum+1)
+
+  " preamble
+  if line =~ '\s*\\documentclass'
+    return "    Preamble"
+  endif
+
+  " Sections
+  if line =~ '^\s*\\\(sub\)*section'
+    let title = matchstr(line,'^\s*\\\(sub\)*section\*\?{\zs.*\ze}')
+    if line =~ '^\s*\\section'
+      let pretext = '>   '
+    elseif line =~ '^\s*\\subsection'
+      let pretext = '->  '
+    elseif line =~ '^\s*\\subsubsection'
+      let pretext = '--> '
+    endif
+    return pretext . title
+  endif
+
+  " Environments
+  if line =~ '\\begin'
+    let pretext = '    '
+    if v:foldlevel == 1
+      let pretext = '>   '
+    elseif v:foldlevel == 2
+      let pretext = '->  '
+    elseif v:foldlevel == 3
+      let pretext = '--> '
+    elseif v:foldlevel > 3
+      let pretext = '--- '
+    endif
+    let env = matchstr(line,'\\begin\*\?{\zs\w*\*\?\ze}')
+    let label = ''
+    let caption = ''
+    let i = v:foldstart
+    while i <= v:foldend
+      if getline(i) =~ '^\s*\\label'
+        let label = ' (' . matchstr(getline(i), '^\s*\\label{\zs.*\ze}') . ')'
+      end
+      if getline(i) =~ '^\s*\\caption'
+        let env .=  ': '
+        let caption = matchstr(getline(i), '^\s*\\caption.*{\zs.\{1,30}')
+        let caption = substitute(caption, '}.*', '')
+      end
+      let i = i + 1
+    endwhile
+    return pretext . printf('%-12s', env) . caption . label
+  endif
+
+  " Not defined
+  return "Not defined"
+endfu
+
+setl fdm=expr fde=FoldTeXLines(v:lnum) fdt=FoldText(v:foldstart)
+
+"{{{1 Footer
+"
+" -----------------------------------------------------------------------------
+" Copyright, Karl Yngve Lervåg (c) 2008 - 2012
+" -----------------------------------------------------------------------------
+" vim: foldmethod=marker
+"

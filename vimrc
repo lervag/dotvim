@@ -202,9 +202,6 @@ augroup SpecificAutocommands
   " C++
   au BufReadPost *.c++ setlocal cindent
 
-  " LaTeX
-  au FileType tex setlocal shellslash nocindent iskeyword+=:,-
-
   " Python
   au FileType python syn keyword pythonDecorator True None False self
 
@@ -379,6 +376,11 @@ let g:gundo_preview_height=20
 let g:gundo_right=1
 let g:gundo_close_on_revert=1
 map <silent> <F5> :GundoToggle<cr>
+
+"{{{2 LaTeX-BoX
+let g:LatexBox_latexmk_options = '-pvc'
+let g:LatexBox_cite_pattern = '\c\\\a*cite\a*\*\?\_\s*{'
+let g:LatexBox_ref_pattern = '\\v\?\(eq\|page\|[cC]\)\?ref\*\?\_\s*{'
 
 "{{{2 Lisp (built-in)
 
