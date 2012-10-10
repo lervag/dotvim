@@ -13,8 +13,11 @@ let g:Tex_BIBINPUTS = $HOME
 "
 " Remember folds
 "
-au BufWinLeave * silent! mkview
-au BufWinEnter * silent! loadview
+setlocal viewoptions=folds,cursor
+augroup texrc
+  au BufWinLeave *.tex silent! mkview
+  au BufWinEnter *.tex silent! loadview
+augroup END
 
 "
 " Enable forward search with okular
