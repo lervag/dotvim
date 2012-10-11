@@ -115,8 +115,9 @@ fu! FoldText(lnum)
       end
       if getline(i) =~ '^\s*\\caption'
         let env .=  ': '
-        let caption = matchstr(getline(i), '^\s*\\caption.*{\zs.\{1,30}')
-        let caption = substitute(caption, '}.*', '')
+        let caption = matchstr(getline(i),
+              \ '^\s*\\caption\(\[.*\]\)\?{\zs.\{1,30}')
+        let caption = substitute(caption, '}\s*$', '','')
       end
       let i += 1
     endwhile
