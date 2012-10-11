@@ -342,7 +342,7 @@ let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_max_height = 25
 let g:ctrlp_mruf_last_entered = 1
-let g:ctrlp_mruf_exclude = 'phd/journal.txt'
+let g:ctrlp_mruf_exclude = 'phd/journal.txt\|\.aux$'
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_follow_symlinks = 1
 let g:ctrlp_use_caching = 100
@@ -481,14 +481,14 @@ let g:syntastic_fortran_flags = " -fdefault-real-8"
                             \ . " -I../objects/debug_gfortran_Linux"
 
 "{{{2 Tabular
-if exists(":Tabularize")
-  nmap ,a= :Tabularize /=<cr>
-  vmap ,a= :Tabularize /=<cr>
-  nmap ,a: :Tabularize /:\zs<cr>
-  vmap ,a: :Tabularize /:\zs<cr>
-  nmap ,aa :Tabularize /
-  vmap ,aa :Tabularize /
-endif
+nmap <leader>a= :Tabularize /=<cr>
+vmap <leader>a= :Tabularize /=<cr>
+nmap <leader>a: :Tabularize /:\zs<cr>
+vmap <leader>a: :Tabularize /:\zs<cr>
+nmap <leader>a& :Tabularize /&\zs<cr>
+vmap <leader>a& :Tabularize /&\zs<cr>
+nmap <leader>aa :Tabularize /
+vmap <leader>aa :Tabularize /
 
 "{{{2 Tagbar
 let g:tagbar_expand=1
