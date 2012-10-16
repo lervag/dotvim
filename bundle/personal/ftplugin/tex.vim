@@ -11,15 +11,6 @@ vmap <buffer> <S-F7> <Plug>LatexEnvWrapSelection
 let g:Tex_BIBINPUTS = $HOME
 
 "
-" Remember folds
-"
-setlocal viewoptions=folds,cursor
-augroup texrc
-  au BufWinLeave *.tex silent! mkview
-  au BufWinEnter *.tex silent! loadview
-augroup END
-
-"
 " Enable forward search with okular
 "
 function! SyncTexForward()
@@ -29,7 +20,17 @@ function! SyncTexForward()
 endfunction
 nmap <silent> <Leader>ls :call SyncTexForward()<CR>
 
-setl fdm=expr fde=FoldLevel(v:lnum) fdt=FoldText(v:foldstart)
+"
+" Remember folds
+"
+setl fdm=expr
+setl fde=FoldLevel(v:lnum)
+setl fdt=FoldText(v:foldstart)
+setl viewoptions=folds,cursor
+augroup texrc
+  au BufWinLeave *.tex silent! mkview
+  au BufWinEnter *.tex silent! loadview
+augroup END
 let g:fold_preamble=1
 let g:fold_envs=1
 let g:fold_parts=[
@@ -37,7 +38,6 @@ let g:fold_parts=[
       \ "subsection",
       \ "subsubsection"
       \ ]
-
 " {{{1 FoldLevel
 fu! FoldLevel(lnum)
   let line  = getline(a:lnum)
