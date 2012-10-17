@@ -24,12 +24,16 @@ function! GetTextIndent()
     return cind
   elseif pline =~ '^\s*\*'
     return pind + &sw
-  else
-    return pind
   endif
 
-  " List of work times
-  if pline =~ '^\s*\d\d:\?\d\d'
-    return pind
+  " Numbered lists
+  if cline =~ '^\s*\d\+\.\?\s\+'
+    return cind
+  elseif pline =~ '^\s*\d\+\.\?\s\+'
+    let match = searchpos('^\s*\d\+\.\?\s\+','bcne')
+    return match[1]
   endif
+
+  " Per default, return previous indent
+  return pind
 endfunction
