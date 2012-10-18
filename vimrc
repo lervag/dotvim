@@ -473,15 +473,15 @@ augroup END
 let g:snippets_dir = "~/.vim/bundle/personal/snippets/"
 
 "{{{2 Supertab
-"
-" Note: Some filetypes, e.g. fortran, has received their own defaults
-"
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabRetainCompletionDuration = "session"
 let g:SuperTabLongestEnhanced = 1
 let g:SuperTabLongestHighlight = 1
 let g:SuperTabUndoBreak = 1
+
+autocmd FileType fortran call SuperTabSetDefaultCompletionType("<c-n>")
+autocmd FileType text    call SuperTabSetDefaultCompletionType("<c-n>")
 
 "{{{2 Neocomplcache (old)
 "let g:neocomplcache_enable_at_startup = 1

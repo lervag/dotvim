@@ -15,7 +15,6 @@ let b:did_fortran = 1
 " Options
 "
 setlocal foldmethod=syntax
-call SuperTabSetDefaultCompletionType("<c-n>")
 
 "
 " Some kind of bug makes matchpairs not work as expected, thus we must define
