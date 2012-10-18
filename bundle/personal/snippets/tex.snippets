@@ -125,7 +125,7 @@ snippet subp
 snippet itd
 	\item[${1:description}] ${2:item}
 
-snippet figure #1 environment
+snippet figure
 	\begin{figure}${1:[tbp]}
 	  \centering
 	  ${4}
@@ -133,9 +133,6 @@ snippet figure #1 environment
 	  \label{fig:${2:name}}
 	\end{figure}
 	${5}
-
-snippet figure #2 reference
-	${1:Figure}~\ref{${2:fig:}}${3}
 
 snippet table
 	${1:Table}~\ref{${2:tab:}}${3}
@@ -164,3 +161,5 @@ snippet toc
 
 snippet cref
 	\cref{${1}}${2}
+
+# vim: :noet:nosta

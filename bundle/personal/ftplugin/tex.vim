@@ -33,9 +33,3 @@ augroup texrc
   au BufWinLeave *.tex silent! mkview
   au BufWinEnter *.tex silent! loadview
 augroup END
-
-" -----------------------------------------------------------------------------
-" Copyright, Karl Yngve Lervåg (c) 2008 - 2012
-" -----------------------------------------------------------------------------
-" vim: foldmethod=marker
-"
