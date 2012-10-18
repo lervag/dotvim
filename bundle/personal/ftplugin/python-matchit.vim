@@ -1,15 +1,17 @@
+"
 " Python filetype plugin for matching with % key
+"
 " Language:     Python (ft=python)
-" Last Change:	Thu 02 Oct 2003 12:12:20 PM EDT
+" Last Change:  Thu 02 Oct 2003 12:12:20 PM EDT
 " Maintainer:   Benji Fisher, Ph.D. <benji@member.AMS.org>
-" Version:	0.5, for Vim 6.1
-" URL:		http://www.vim.org/scripts/script.php?script_id=386 
+" Version:      0.5, for Vim 6.1
+" URL:          http://www.vim.org/scripts/script.php?script_id=386 
 
-" allow user to prevent loading and prevent duplicate loading
-if exists("b:loaded_py_match") || &cp
-  finish
-endif
-let b:loaded_py_match = 1
+"
+" Prevent duplicate loading
+"
+if exists("b:loaded_python_matchit") | finish | endif
+let b:loaded_python_matchit = 1
 
 let s:save_cpo = &cpo
 set cpo&vim
@@ -85,7 +87,7 @@ fun! s:PyMatch(type, mode) range
   if a:type == '[%' || a:type == ']%'
     while cnt > 0
       let currline = (a:type == '[%') ?
-	    \ s:StartOfBlock(currline) : s:EndOfBlock(currline)
+            \ s:StartOfBlock(currline) : s:EndOfBlock(currline)
       let cnt = cnt - 1
     endwhile
     execute currline
@@ -99,7 +101,7 @@ fun! s:PyMatch(type, mode) range
       \ || text !~ '^\s*\%(' . s:all1 . '\|' . s:all2 . '\)'
       " cursor not on the first WORD or no keyword so bail out
       if a:type == '%'
-	normal! %
+        normal! %
       endif
       return s:CleanUp('', a:mode)
     endif
@@ -107,11 +109,11 @@ fun! s:PyMatch(type, mode) range
     if text =~ '^\s*\%(' . s:all2 . '\)'
       let topline = currline
       while getline(topline) !~ '^\s*\%(' . s:ini2 . '\)'
-	let temp = s:StartOfBlock(topline)
-	if temp == topline " there is no enclosing block.
-	  return s:CleanUp('', a:mode)
-	endif
-	let topline = temp
+        let temp = s:StartOfBlock(topline)
+        if temp == topline " there is no enclosing block.
+          return s:CleanUp('', a:mode)
+        endif
+        let topline = temp
       endwhile
       let topindent = indent(topline)
     endif
@@ -124,11 +126,11 @@ fun! s:PyMatch(type, mode) range
       let next = s:NonComment(+1, next)
     endwhile
     if next == 0 || indent(next) < startindent
-	  \ || getline(next) !~ '^\s*\%(' . s:tail1 . '\)'
+          \ || getline(next) !~ '^\s*\%(' . s:tail1 . '\)'
       " There are no "tail1" keywords below startline in this block.  Go to
       " the start of the block.
       let next = (text =~ '^\s*\%(' . s:ini1 . '\)') ?
-	    \ currline : s:StartOfBlock(currline) 
+            \ currline : s:StartOfBlock(currline) 
     endif
     execute next
     return s:CleanUp('', a:mode, '$')
@@ -139,10 +141,10 @@ fun! s:PyMatch(type, mode) range
   if a:type == '%' && text =~ '^\s*\%(' . s:all2 . '\)'
     let next = s:NonComment(+1, currline)
     while next > 0 && indent(next) > topindent
-	  \ && getline(next) !~ '^\s*\%(' . s:tail2 . '\)'
+          \ && getline(next) !~ '^\s*\%(' . s:tail2 . '\)'
       " Skip over nested "for" or "while" blocks:
       if getline(next) =~ '^\s*\%(' . s:ini2 . '\)'
-	let next = s:EndOfBlock(next)
+        let next = s:EndOfBlock(next)
       endif
       let next = s:NonComment(+1, next)
     endwhile
@@ -181,10 +183,10 @@ fun! s:PyMatch(type, mode) range
     let next = s:NonComment(+1, currline)
     while next < botline && indent(next) > topindent
       if getline(next) =~ '^\s*\%(' . s:tail2 . '\)'
-	let currline = next
+        let currline = next
       elseif getline(next) =~ '^\s*\%(' . s:ini2 . '\)'
-	" Skip over nested "for" or "while" blocks:
-	let next = s:EndOfBlock(next)
+        " Skip over nested "for" or "while" blocks:
+        let next = s:EndOfBlock(next)
       endif
       let next = s:NonComment(+1, next)
     endwhile
@@ -223,8 +225,8 @@ fun! s:StartOfBlock(start)
   let prevline = s:NonComment(-1, a:start)
   while prevline > 0
     if indent(prevline) < startindent ||
-	  \ tailflag && indent(prevline) == startindent &&
-	  \ getline(prevline) =~ '^\s*\(' . s:ini1 . '\)'
+          \ tailflag && indent(prevline) == startindent &&
+          \ getline(prevline) =~ '^\s*\(' . s:ini1 . '\)'
       " Found the start of block!
       return prevline
     endif
@@ -244,11 +246,11 @@ fun! s:EndOfBlock(start)
   let currline = a:start
   let nextline = s:NonComment(+1, currline)
   let startofblock = (indent(nextline) > startindent) ||
-	\ getline(currline) =~ '^\s*\(' . s:ini1 . '\)'
+        \ getline(currline) =~ '^\s*\(' . s:ini1 . '\)'
   while  nextline > 0
     if indent(nextline) < startindent ||
-	  \ startofblock && indent(nextline) == startindent &&
-	  \ getline(nextline) !~ '^\s*\(' . s:tail1 . '\)'
+          \ startofblock && indent(nextline) == startindent &&
+          \ getline(nextline) !~ '^\s*\(' . s:tail1 . '\)'
       break
     endif
     let currline = nextline

@@ -1,4 +1,17 @@
 "
+" Personal settings for LaTeX files
+"
+" Last Update: 2012-10-18
+" Author:      Karl Yngve Lervåg
+"
+
+"
+" Only load file once
+"
+if exists('b:did_latex') | finish | endif
+let b:did_latex = 1
+
+"
 " Define some settings
 "
 setlocal smartindent

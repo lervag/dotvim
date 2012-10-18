@@ -473,12 +473,17 @@ augroup END
 let g:snippets_dir = "~/.vim/bundle/personal/snippets/"
 
 "{{{2 Supertab
+"
+" Note: Some filetypes, e.g. fortran, has received their own defaults
+"
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabRetainCompletionDuration = "session"
 let g:SuperTabLongestEnhanced = 1
+let g:SuperTabLongestHighlight = 1
 let g:SuperTabUndoBreak = 1
 
+"{{{2 Neocomplcache (old)
 "let g:neocomplcache_enable_at_startup = 1
 "let g:neocomplcache_enable_auto_select = 1
 "let g:neocomplcache_disable_auto_complete = 1
@@ -580,20 +585,6 @@ function! ChooseMakePrg()                                                 "{{{2
   elseif choice == 2
     set makeprg=make
   endif
-endfunction
-function! CreateTags()                                                    "{{{2
-  !silent! lcd %:h
-  let choice = confirm("What kind of tags?" , "&Stop\n&C++\n&Fortran" , 1)
-  if choice == 2
-    silent execute "!ctags -o tagsmenu --c++-kinds=cf *.cpp"
-    silent execute "!ctags *.cpp"
-    silent execute "!sed -i '/TAG/d' tagsmenu"
-  elseif choice == 3
-    silent execute "!ctags -o tagsmenu *.f90"
-    silent execute "!ctags *.f90"
-    silent execute "!sed -i '/TAG/d' tagsmenu"
-  endif
-  silent! lcd -
 endfunction
 function! ShowFunctions()                                                 "{{{2
   30vsplit tagsmenu

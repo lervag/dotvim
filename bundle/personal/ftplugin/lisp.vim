@@ -1,3 +1,16 @@
+"
+" Personal settings for lisp files
+"
+" Last Update: 2012-10-18
+" Author:      Karl Yngve Lervåg
+"
+
+"
+" Only load file once
+"
+if exists('b:did_lisp') | finish | endif
+let b:did_lisp = 1
+
 function! s:ScreenShellListener()
   if g:ScreenShellActive
     nmap <silent> <C-c><C-c> mp$?^(<CR>v])<C-c><C-c>`p

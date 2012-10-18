@@ -1,8 +1,21 @@
+"
+" Personal settings for python files
+"
+" Last Update: 2012-10-18
+" Author:      Karl Yngve Lervåg
+"
+
+"
+" Only load file once
+"
+if exists('b:did_python') | finish | endif
+let b:did_python = 1
+
 setlocal sts=4
 setlocal sw=4
+setlocal expandtab
 setlocal smarttab
 setlocal smartindent
-setlocal expandtab
 setlocal makeprg=python\ %
 setlocal fdm=indent
 

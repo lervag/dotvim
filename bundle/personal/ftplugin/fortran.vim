@@ -1,6 +1,25 @@
-" 
-" Define patterns for the matchit plugin (some kind of bug makes matchpairs not
-" work as expected)
+"
+" Personal settings for fortran files
+"
+" Last Update: 2012-10-18
+" Author:      Karl Yngve Lervåg
+"
+
+"
+" Only load file once
+"
+if exists('b:did_fortran') | finish | endif
+let b:did_fortran = 1
+
+"
+" Options
+"
+setlocal foldmethod=syntax
+call SuperTabSetDefaultCompletionType("<c-n>")
+
+"
+" Some kind of bug makes matchpairs not work as expected, thus we must define
+" patterns for the matchit plugin ourselves.
 "
 if !exists("b:match_words")
   let s:notend = '\%(\<end\s\+\)\@<!'
