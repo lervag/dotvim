@@ -30,8 +30,6 @@ set hidden
 set modelines=5
 set tags=./tags,./.tags,./../*/.tags,./../*/tags
 set fillchars=fold:\ ,diff:⣿
-set complete+=U,s,kspell
-set completeopt=menuone,menu,preview,longest
 set matchtime=2
 set matchpairs+=<:>
 set showcmd
@@ -39,7 +37,6 @@ set backspace=indent,eol,start
 set autoindent
 set nocindent
 set fileformat=unix
-set smarttab
 set spelllang=en_gb
 set diffopt=filler,context:4,foldcolumn:2,horizontal
 set grepprg=ack-grep
@@ -66,6 +63,7 @@ set columns=80
 if v:version >= 703
   set colorcolumn=81
 end
+set smarttab
 set expandtab
 set wrap
 set linebreak
@@ -133,6 +131,31 @@ runtime macros/matchit.vim
 noremap j gj
 noremap k gk
 
+"{{{1 Completion
+"
+" Note: See also under plugins like supertab
+"
+set complete+=U,s,k,kspell,d
+set completeopt=longest,menu,preview
+
+" Open omni completion menu closing previous if open and opening new menu
+" without changing the text
+inoremap <expr> <C-Space>
+      \ (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
+      \ '<C-x><C-o><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
+
+" Open current completion menu closing previous if open and opening new menu
+" without changing the text
+inoremap <expr> <S-Space>
+      \ (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
+      \ '<C-x><C-n><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
+
+" Set omnifunction if it is not already specified
+autocmd Filetype *
+      \ if &omnifunc == "" |
+      \   setlocal omnifunc=syntaxcomplete#Complete |
+      \ endif
+
 "{{{1 Statusline
 set laststatus=2
 if !exists("g:Powerline_loaded")
@@ -161,14 +184,6 @@ end
 augroup GeneralAutocommands
   autocmd!
 
-  " Set omnifunction if it is not already specified
-  if exists("+omnifunc")
-    autocmd Filetype *
-          \ if &omnifunc == "" |
-          \   setlocal omnifunc=syntaxcomplete#Complete |
-          \ endif
-  endif
-
   " Create directory if it does not exist when opening a new file
   autocmd BufNewFile  * :call EnsureDirExists()
 
@@ -191,12 +206,6 @@ augroup SpecificAutocommands
   " Textfiles
   au BufReadPost *.txt setlocal textwidth=78
   au BufReadPost *.txt setlocal formatoptions-=c
-
-  " Fortran
-  au BufReadPost *.f90 set foldmethod=syntax
-
-  " MATLAB
-  au BufReadPost *.m set foldmethod=manual
 
   " C++
   au BufReadPost *.c++ setlocal cindent
@@ -465,19 +474,19 @@ let g:snippets_dir = "~/.vim/bundle/personal/snippets/"
 
 "{{{2 Supertab
 let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabContextDefaultCompletionType = "<c-n>"
+let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabRetainCompletionDuration = "session"
 let g:SuperTabLongestEnhanced = 1
-let g:SuperTabCrMapping = 0
 let g:SuperTabUndoBreak = 1
 
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-autocmd FileType c set omnifunc=ccomplete#Complete
+"let g:neocomplcache_enable_at_startup = 1
+"let g:neocomplcache_enable_auto_select = 1
+"let g:neocomplcache_disable_auto_complete = 1
+"
+"inoremap <expr><C-g>     neocomplcache#undo_completion()
+"imap <expr><CR> neocomplcache#sources#snippets_complete#expandable()
+"      \ ? "\<Plug>(neocomplcache_snippets_jump)" :
+"      \ pumvisible() ? neocomplcache#smart_close_popup() :     "\<CR>"
 
 "{{{2 Switch.vim
 nnoremap - :Switch<cr>
