@@ -226,7 +226,6 @@ map ,ep :cp<cr>
 " Spell checking
 let sc_on = 0
 nnoremap <leader>ss :let sc_on = SpellCheck(sc_on)<CR>
-nnoremap <leader>sq :ChooseLanguage()<CR>
 map <leader>sn ]s
 map <leader>sp [s
 map <leader>sa zg
@@ -246,13 +245,11 @@ map <F9> :call ScreenShellSend('make')<CR>
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
 
-map ,gg :grep <C-R>=expand(expand("<cword>") . " " . expand("%:h"))<CR><CR>
+" Open a Quickfix window for the last search.
+nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
 map ,go :botright cwindow<CR>
 map ,gp :cprev<CR>
 map ,gn :cnext<CR>
-
-" Open a Quickfix window for the last search.
-nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
 
 " Ack for the last search.
 nnoremap <silent> <leader>? :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
@@ -263,10 +260,6 @@ nnoremap zk zckzo
 nnoremap <space> za
 nnoremap zf zMzvzz
 
-" Keep search matches in the middle of the window
-nnoremap <silent> n nzzzv:call PulseCursorLine()<cr>
-nnoremap <silent> N Nzzzv:call PulseCursorLine()<cr>
-
 " Easier to type, and I never use the default behavior.
 noremap H ^
 noremap L g_
@@ -275,20 +268,6 @@ noremap L g_
 noremap  <F1> <nop>
 inoremap <F1> <nop>
 nnoremap K <nop>
-
-" Error navigation {{{2
-"
-"             Location List     QuickFix Window
-"            (e.g. Syntastic)     (e.g. Ack)
-"            ----------------------------------
-" Next      |     M-k               M-Down     |
-" Previous  |     M-l                M-Up      |
-"            ----------------------------------
-"
-nnoremap ˚ :lnext<cr>zvzz
-nnoremap ¬ :lprevious<cr>zvzz
-nnoremap <m-Down> :cnext<cr>zvzz
-nnoremap <m-Up> :cprevious<cr>zvzz
 
 "{{{1 Shell command
 
@@ -338,7 +317,6 @@ let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_max_height = 25
 let g:ctrlp_mruf_exclude = 'phd/journal.txt\|\.aux$'
-let g:ctrlp_mruf_include = '\.\(txt\|tex\|f90\|py\|log\)$'
 let g:ctrlp_show_hidden = 0
 let g:ctrlp_follow_symlinks = 1
 let g:ctrlp_custom_ignore = {
@@ -381,11 +359,6 @@ let g:LatexBox_fold_parts=[
       \ "subsection",
       \ "subsubsection"
       \ ]
-
-"{{{2 Lisp (built-in)
-
-set lispwords+=alet,alambda,dlambda,aif
-let g:lisp_rainbow = 1
 
 "{{{2 Powerline
 
@@ -531,6 +504,12 @@ function! EnsureDirExists ()                                              "{{{2
     endtry
   endif
 endfunction
+function! AskQuit (msg, proposed_action)                                  "{{{2
+  if confirm(a:msg, "&Quit?\n" . a:proposed_action) == 1
+    exit
+  endif
+endfunction
+
 function! SpellCheck(sc_on)                                               "{{{2
   if a:sc_on
     echo "Spell checking turned off!"
@@ -550,98 +529,6 @@ function! ChooseVCSCommandType()                                          "{{{2
     let b:VCSCommandVCSType="Mercurial"
   endif
 endfunction
-function! ChooseLanguage()                                                "{{{2
-  let choice =
-        \ confirm("Choose Language",
-        \ "&Bokmaal\n&Nynorsk\nEnglish &GB\nEnglish &USA")
-  if choice == 1
-    set spelllang=nb
-  elseif choice == 2
-    set spelllang=nn
-  elseif choice == 3
-    set spelllang=en_us
-  elseif choice == 4
-    set spelllang=en_gb
-  endif
-endfunction
-function! ChooseMakePrg()                                                 "{{{2
-  let choice = confirm("Choose make program" , "&Python\n&Makefile")
-  if choice == 1
-    set makeprg=python\ %
-  elseif choice == 2
-    set makeprg=make
-  endif
-endfunction
-function! ShowFunctions()                                                 "{{{2
-  30vsplit tagsmenu
-  set nowrap
-  setlocal ts=99
-  map <CR> 0ye:bd<CR>:tag <C-R>"<CR>
-endfunction
-function! UpdateCopyrightLine()                                           "{{{2
-  let copyrights = {
-    \ 'Copyright (c) .\{-}, \d\d\d\d-\zs\d\d\d\d' : 'strftime("%Y")',
-    \}
-
-  for [copyright, year] in items(copyrights)
-    silent! execute "'[,']s/" . copyright . '/\= ' . replacement . '/'
-  endfor
-endfunction
-function! AskQuit (msg, proposed_action)                                  "{{{2
-  if confirm(a:msg, "&Quit?\n" . a:proposed_action) == 1
-    exit
-  endif
-endfunction
-
-function! PulseCursorLine()                                               "{{{2
-    let current_window = winnr()
-
-    windo set nocursorline
-    execute current_window . 'wincmd w'
-
-    setlocal cursorline
-
-    redir => old_hi
-        silent execute 'hi CursorLine'
-    redir END
-    let old_hi = split(old_hi, '\n')[0]
-    let old_hi = substitute(old_hi, 'xxx', '', '')
-
-    hi CursorLine guibg=#2a2a2a ctermbg=233
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#333333 ctermbg=235
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#3a3a3a ctermbg=237
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#444444 ctermbg=239
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#3a3a3a ctermbg=237
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#333333 ctermbg=235
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#2a2a2a ctermbg=233
-    redraw
-    sleep 20m
-
-    execute 'hi ' . old_hi
-
-    windo set cursorline
-    execute current_window . 'wincmd w'
-endfunction
-
-" }}}
 "{{{1 Footer
 "
 " -----------------------------------------------------------------------------

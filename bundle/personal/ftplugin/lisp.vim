@@ -6,10 +6,19 @@
 "
 
 "
-" Only load file once
+" Only load the file once
 "
 if exists('b:did_lisp') | finish | endif
 let b:did_lisp = 1
+
+"
+" Options
+"
+setlocal foldmethod=marker foldmarker=(,) foldminlines=3
+setlocal suffixesadd=.lisp,cl path=/usr/src/lisp/**
+setlocal include=(:file\
+setlocal lisp autoindent showmatch cpoptions-=mp
+setlocal lispwords+=alet,alambda,dlambda,aif
 
 function! s:ScreenShellListener()
   if g:ScreenShellActive
