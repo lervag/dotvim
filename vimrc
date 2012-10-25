@@ -138,18 +138,6 @@ noremap k gk
 set complete+=U,s,k,kspell,d
 set completeopt=longest,menu,preview
 
-" Open omni completion menu closing previous if open and opening new menu
-" without changing the text
-inoremap <expr> <C-Space>
-      \ (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
-      \ '<C-x><C-o><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
-
-" Open current completion menu closing previous if open and opening new menu
-" without changing the text
-inoremap <expr> <S-Space>
-      \ (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
-      \ '<C-x><C-n><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
-
 " Set omnifunction if it is not already specified
 autocmd Filetype *
       \ if &omnifunc == "" |
@@ -346,17 +334,15 @@ let g:ConqueTerm_TERM = 'xterm'
 " Set options
 let g:ctrlp_map = '<leader>tt'
 let g:ctrlp_cmd = 'CtrlPMRU'
-let g:ctrlp_working_path_mode = 'rc'
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_max_height = 25
-let g:ctrlp_mruf_last_entered = 1
 let g:ctrlp_mruf_exclude = 'phd/journal.txt\|\.aux$'
-let g:ctrlp_dotfiles = 0
+let g:ctrlp_mruf_include = '\.\(txt\|tex\|f90\|py\|log\)$'
+let g:ctrlp_show_hidden = 0
 let g:ctrlp_follow_symlinks = 1
-let g:ctrlp_use_caching = 100
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|\.hg$\|\.svn$\|.vim\/undofiles$\|\.vim\/backup$',
+  \ 'dir':  'CVS$\|\.git$\|\.hg$\|\.svn$\|.vim\/undofiles$\|\.vim\/backup$',
   \ 'file': '\.exe$\|\.so$\|\.dll$\|documents\/ntnu\/phd',
   \}
 let g:ctrlp_extensions = ['tag', 'line']
