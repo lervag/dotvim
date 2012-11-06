@@ -211,7 +211,7 @@ inoremap jkj <Esc>
 
 " Open certain files with ,v...
 map ,vv :e $MYVIMRC<cr>
-map ,vs :e  ~/.vim/snippets/<cr>
+map ,vs :e  ~/.vim/bundle/personal/snippets/<CR>
 
 " Mappings for switching and closing buffers
 nnoremap <silent> <C-p> :bp<CR>
