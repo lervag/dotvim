@@ -6,9 +6,9 @@ snippet begin
 
 # Tabular
 snippet tab
-	\begin{${1:tabular}}{${2:c}}
-	${3}
-	\end{$1}
+	\begin{tabular}{${1:c}}
+	${2}
+	\end{tabular}
 
 # Align(ed)
 snippet align
@@ -132,10 +132,14 @@ snippet figure
 	  \caption{${3:caption}}
 	  \label{fig:${2:name}}
 	\end{figure}
-	${5}
 
 snippet table
-	${1:Table}~\ref{${2:tab:}}${3}
+	\begin{table}${1:[tbp]}
+	  \centering
+	  ${4}
+	  \caption{${3:caption}}
+	  \label{tab:${2:name}}
+	\end{table}
 
 snippet listing
 	${1:Listing}~\ref{${2:list}}${3}

@@ -17,6 +17,14 @@ let b:did_fortran = 1
 setlocal foldmethod=syntax
 
 "
+" Mappings
+"
+map <silent> [[ ?^\s*\(end\s*\)\@!\zs\(function\\|subroutine\)<CR>
+map <silent> ][ /^\s*\(end\s*\)\@!\zs\(function\\|subroutine\)<CR>
+map <silent> [] ?^\s*\zs\(end\s*\)\(function\\|subroutine\)<CR>
+map <silent> ]] /^\s*\zs\(end\s*\)\(function\\|subroutine\)<CR>
+
+"
 " Some kind of bug makes matchpairs not work as expected, thus we must define
 " patterns for the matchit plugin ourselves.
 "
