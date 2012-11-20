@@ -256,6 +256,8 @@ nnoremap <silent> <leader>? :execute "Ack! '" . substitute(substitute(substitute
 
 " Navigate folds
 nnoremap zf zMzvzz
+nnoremap zj zMjzvzz
+nnoremap zk zMkzvzz
 nnoremap <space> za
 vnoremap <space> za
 
