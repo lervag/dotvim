@@ -255,10 +255,9 @@ map ,gn :cnext<CR>
 nnoremap <silent> <leader>? :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
 
 " Navigate folds
-nnoremap zj zcjzo
-nnoremap zk zckzo
-nnoremap <space> za
 nnoremap zf zMzvzz
+nnoremap <space> za
+vnoremap <space> za
 
 " Easier to type, and I never use the default behavior.
 noremap H ^
