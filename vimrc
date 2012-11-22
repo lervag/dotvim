@@ -21,11 +21,6 @@ set winaltkeys=no
 set ruler
 set lazyredraw
 set mouse=
-if &foldmethod == ""
-  set foldmethod=syntax
-endif
-set foldlevel=0
-set foldcolumn=0
 set hidden
 set modelines=5
 set tags=./tags,./.tags,./../*/.tags,./../*/tags
@@ -52,8 +47,33 @@ set iskeyword+=-
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
 
+"{{{2 Folding
+if &foldmethod == ""
+  set foldmethod=syntax
+endif
+set foldlevel=0
+set foldcolumn=0
+set foldtext=TxtFoldText()
+
+function! TxtFoldText()
+  let level = strpart(repeat('-', v:foldlevel-1) . '*',0,3)
+  if v:foldlevel > 3
+    let level = strpart(level, 1) . v:foldlevel
+  endif
+  let title = substitute(getline(v:foldstart), '^[ "%#*]*{\{3}\d\s*', '', '')
+  let title = strpart(title, 0, 69)
+  return printf('%-3s %-69s#%5d', level, title, v:foldend - v:foldstart + 1)
+endfunction
+
 " Set foldoption for bash scripts
 let g:sh_fold_enabled=7
+
+" Navigate folds
+nnoremap zf zMzvzz
+nnoremap zj zcjzvzz
+nnoremap zk zckzvzz
+nnoremap <space> za
+vnoremap <space> za
 
 "{{{2 Tabs, spaces, wrapping
 set softtabstop=2
@@ -254,13 +274,6 @@ map ,gn :cnext<CR>
 " Ack for the last search.
 nnoremap <silent> <leader>? :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
 
-" Navigate folds
-nnoremap zf zMzvzz
-nnoremap zj zMjzvzz
-nnoremap zk zMkzvzz
-nnoremap <space> za
-vnoremap <space> za
-
 " Easier to type, and I never use the default behavior.
 noremap H ^
 noremap L g_
@@ -269,33 +282,6 @@ noremap L g_
 noremap  <F1> <nop>
 inoremap <F1> <nop>
 nnoremap K <nop>
-
-"{{{1 Shell command
-
-" Thanks to Steve Losh for this
-function! s:ExecuteInShell(command) " {{{
-    let command = join(map(split(a:command), 'expand(v:val)'))
-    let winnr = bufwinnr('^' . command . '$')
-    silent! execute  winnr < 0 ? 'botright new ' . fnameescape(command)
-                             \ : winnr . 'wincmd w'
-    setlocal buftype=nowrite
-          \ bufhidden=wipe
-          \ nobuflisted noswapfile nowrap nonumber
-    echo 'Execute ' . command . '...'
-    silent! execute 'silent %!'. command
-    silent! redraw
-    silent! execute 'au BufUnload <buffer> execute bufwinnr('
-          \ . bufnr('#') . ') . ''wincmd w'''
-    silent! execute 'nnoremap <silent> <buffer>'
-          \ . ' <LocalLeader>r :call <SID>ExecuteInShell('
-          \ . command . ')<CR>:AnsiEsc<CR>'
-    silent! execute 'nnoremap <silent> <buffer> q :q<CR>'
-    silent! execute 'AnsiEsc'
-    echo 'Shell command ' . command . ' executed.'
-endfunction " }}}
-
-command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
-nnoremap <leader>! :Shell 
 
 "{{{1 Plugin settings
 "{{{2 Ack settings
@@ -337,7 +323,7 @@ let delimitMate_expand_space       = 1
 let delimitMate_excluded_regions   = "Comments,String"
 let delimitMate_matchpairs         = "(:),[:],{:}"
 let delimitMate_quotes             = "\" '"
-let delimitMate_excluded_ft        = "sh,zsh,text"
+let delimitMate_excluded_ft        = "sh,zsh,text,vim"
 
 " Tweak for some file types
 au FileType vim  let b:delimitMate_quotes = "'"
@@ -494,7 +480,8 @@ end
 map ,cc :call ChooseVCSCommandType()<cr>
 
 "{{{1 Functions
-function! EnsureDirExists ()                                              "{{{2
+"{{{2 EnsureDirExists()
+function! EnsureDirExists ()
   let dir = expand("%:h")
   if !isdirectory(dir)
     call AskQuit("Directory '" . dir . "' doesn't exist.", "&Create it?")
@@ -505,13 +492,16 @@ function! EnsureDirExists ()                                              "{{{2
     endtry
   endif
 endfunction
-function! AskQuit (msg, proposed_action)                                  "{{{2
+
+"{{{2 AskQuit
+function! AskQuit (msg, proposed_action)
   if confirm(a:msg, "&Quit?\n" . a:proposed_action) == 1
     exit
   endif
 endfunction
 
-function! SpellCheck(sc_on)                                               "{{{2
+"{{{2 SpellCheck
+function! SpellCheck(sc_on)
   if a:sc_on
     echo "Spell checking turned off!"
     set nospell
@@ -522,7 +512,9 @@ function! SpellCheck(sc_on)                                               "{{{2
     return 1
   endif
 endfunction
-function! ChooseVCSCommandType()                                          "{{{2
+
+"{{{2 ChooseVCSCommandType
+function! ChooseVCSCommandType()
   let choice = confirm("Choose VCS Type", "&CVS\n&Mercurial")
   if choice == 1
     let b:VCSCommandVCSType="CVS"
@@ -530,6 +522,7 @@ function! ChooseVCSCommandType()                                          "{{{2
     let b:VCSCommandVCSType="Mercurial"
   endif
 endfunction
+
 "{{{1 Footer
 "
 " -----------------------------------------------------------------------------
