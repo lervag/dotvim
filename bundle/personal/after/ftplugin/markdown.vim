@@ -3,22 +3,10 @@ setl foldexpr=Markdown_FoldLevel()
 setl foldtext=Markdown_FoldText()
 
 function! Markdown_FoldLevel()
-  let line = getline(v:lnum)
-
   " Check for hash headers
-  let hashCount = len(matchstr(line, '^#\{1,6}'))
+  let hashCount = len(matchstr(getline(v:lnum), '^#\{1,6}'))
   if hashCount > 0
     return ">" . hashCount
-  endif
-
-  " Check for underlined headers
-  if line != ''
-    let nextline = getline(v:lnum + 1)
-    if nextline =~ '^==='
-      return ">1"
-    elseif nextline =~ '^---'
-      return ">2"
-    endif
   endif
 
   " Keep fold level
