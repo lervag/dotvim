@@ -212,6 +212,7 @@ augroup SpecificAutocommands
   autocmd!
 
   " Textfiles
+  au BufReadPost *.txt setlocal ft=text
   au BufReadPost *.txt setlocal textwidth=78
   au BufReadPost *.txt setlocal formatoptions-=c
 
