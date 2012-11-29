@@ -25,6 +25,7 @@ set hidden
 set modelines=5
 set tags=./tags,./.tags,./../*/.tags,./../*/tags
 set fillchars=fold:\ ,diff:⣿
+set diffopt=filler,foldcolumn:0,context:3
 set matchtime=2
 set matchpairs+=<:>
 set showcmd
