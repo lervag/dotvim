@@ -311,7 +311,7 @@ let g:ctrlp_follow_symlinks = 1
 let g:ctrlp_custom_ignore = {
   \ 'dir':  'CVS$\|\.git$\|\.hg$\|\.svn$\|.vim\/undofiles$\|\.vim\/backup$',
   \ 'file': '\.exe$\|\.so$\|\.dll$\|documents\/ntnu\/phd',
-  \}
+  \ }
 let g:ctrlp_extensions = ['tag', 'line']
 
 " Add some mappings
@@ -352,6 +352,16 @@ let g:LatexBox_fold_parts=[
 "{{{2 Powerline
 
 let g:Powerline_symbols = "fancy"
+let g:Powerline_stl_path_style= "short"
+let g:Powerline_mode_n = "N "
+let g:Powerline_mode_i = "I "
+let g:Powerline_mode_R = "R "
+let g:Powerline_mode_v = "V "
+let g:Powerline_mode_V = "VL"
+let g:Powerline_mode_cv= "VB"
+let g:Powerline_mode_s = "S "
+let g:Powerline_mode_S = "SL"
+let g:Powerline_mode_cs= "SB"
 
 "{{{2 Rainbox Parentheses
 
