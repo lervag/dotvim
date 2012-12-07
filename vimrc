@@ -31,7 +31,6 @@ set matchpairs+=<:>
 set showcmd
 set backspace=indent,eol,start
 set autoindent
-set nocindent
 set fileformat=unix
 set spelllang=en_gb
 set diffopt=filler,context:4,foldcolumn:2,horizontal
@@ -44,9 +43,6 @@ set cpoptions+=J
 set autoread
 set wildmode=longest,list:longest
 set iskeyword+=-
-
-" Make Vim able to edit crontab files again.
-set backupskip=/tmp/*,/private/tmp/*"
 
 "{{{2 Folding
 if &foldmethod == ""
@@ -93,16 +89,9 @@ set formatoptions=tcrq1n
 set formatlistpat=^\\s*\\(\\(\\d\\+\\\|[a-z]\\)[.:)]\\\|[-*]\\)\\s\\+
 
 "{{{2 Backup and Undofile
-set backup
-if has("unix")
-  set clipboard=autoselect
-  set backupdir=$HOME/.vim/backup
-  set directory=$HOME/.vim/backup
-elseif has("win32")
-  source $VIMRUNTIME/mswin.vim
-  set backupdir=$VIM/backup
-  set directory=$VIM/backup
-endif
+
+set noswapfile
+set nobackup
 
 " Sets undo file directory
 if v:version >= 703
