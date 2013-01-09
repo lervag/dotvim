@@ -252,6 +252,7 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
       \ . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
       \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 map <F9> :call ScreenShellSend('make')<CR>
+nnoremap J mzJ`z
 
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
