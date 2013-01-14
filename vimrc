@@ -330,8 +330,6 @@ map <silent> <F5> :GundoToggle<cr>
 
 "{{{2 LaTeX-BoX
 let g:LatexBox_latexmk_options = '-pvc'
-let g:LatexBox_cite_pattern = '\c\\\a*cite\a*\*\?\_\s*{'
-let g:LatexBox_ref_pattern = '\\v\?\(eq\|page\|[cC]\)\?ref\*\?\_\s*{'
 let g:LatexBox_Folding=1
 let g:LatexBox_fold_parts=[
       \ "section",
