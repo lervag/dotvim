@@ -439,6 +439,12 @@ autocmd FileType text    call SuperTabSetDefaultCompletionType("<c-n>")
 "      \ ? "\<Plug>(neocomplcache_snippets_jump)" :
 "      \ pumvisible() ? neocomplcache#smart_close_popup() :     "\<CR>"
 
+"{{{2 Splice
+
+let g:splice_initial_mode = "compare"
+let g:splice_initial_layout_grid = 2
+let g:splice_initial_layout_compare = 1
+
 "{{{2 Switch.vim
 nnoremap - :Switch<cr>
 let g:switch_definitions =
