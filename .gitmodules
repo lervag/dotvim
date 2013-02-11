@@ -70,10 +70,6 @@
 	path = bundle/vim-fugitive
 	url = git://github.com/tpope/vim-fugitive.git
 	ignore = untracked
-[submodule "bundle/vim-git"]
-	path = bundle/vim-git
-	url = git://github.com/tpope/vim-git.git
-	ignore = untracked
 [submodule "bundle/vim-pathogen"]
 	path = bundle/vim-pathogen
 	url = git://github.com/tpope/vim-pathogen.git
