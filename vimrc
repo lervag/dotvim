@@ -42,7 +42,6 @@ set autochdir
 set cpoptions+=J
 set autoread
 set wildmode=longest,list:longest
-set iskeyword+=-
 
 "{{{2 Folding
 if &foldmethod == ""
@@ -129,7 +128,7 @@ call togglebg#map("<F6>")
 
 set ignorecase
 set smartcase
-set nohlsearch
+set nohls
 set incsearch
 set showmatch
 
@@ -278,7 +277,6 @@ nnoremap K <nop>
 "{{{1 Plugin settings
 "{{{2 Ack settings
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
-let g:ackhighlight=1
 
 "{{{2 ConqueTerm
 let g:ConqueTerm_SendVisKey = ',cc'

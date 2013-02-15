@@ -19,6 +19,7 @@ setlocal suffixesadd=.lisp,cl path=/usr/src/lisp/**
 setlocal include=(:file\
 setlocal lisp autoindent showmatch cpoptions-=mp
 setlocal lispwords+=alet,alambda,dlambda,aif
+setlocal iskeyword+=-
 
 function! s:ScreenShellListener()
   if g:ScreenShellActive
