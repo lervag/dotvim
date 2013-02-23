@@ -123,6 +123,10 @@
 	path = bundle/LaTeX-Box
 	url = git://github.com/LaTeX-Box-Team/LaTeX-Box.git
 	ignore = untracked
+[submodule "bundle/vim-fanfingtastic"]
+	path = bundle/vim-fanfingtastic
+	url = git://github.com/dahu/vim-fanfingtastic.git
+	ignore = untracked
 [submodule "bundle/vim-markdown"]
 	path = bundle/vim-markdown
 	url = git://github.com/tpope/vim-markdown.git

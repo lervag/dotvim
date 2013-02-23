@@ -223,10 +223,9 @@ inoremap jkj <Esc>
 map ,vv :e $MYVIMRC<cr>
 map ,vs :e  ~/.vim/bundle/personal/snippets/<CR>
 
-" Mappings for switching and closing buffers
-nnoremap <silent> <C-p> :bp<CR>
-nnoremap <silent> <C-n> :bn<CR>
+" Mapping to close buffer
 nnoremap <C-U> :bd<CR>
+"nnoremap <leader>b :ls<cr>:b<space>
 
 " Mappings for controlling the error window
 map ,ec :botright cope<cr>
@@ -243,15 +242,12 @@ map <leader>s? z=
 
 " Other stuff
 noremap Y y$
-imap <silent> <c-r><c-d> <c-r>=strftime("%e %b %Y")<CR>
-imap <silent> <c-r><c-t> <c-r>=strftime("%l:%M %p")<CR>
+nnoremap J mzJ`z
 map <F1> <nop>
-map <F12> ggVGg? " encypt the file (toggle)
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
       \ . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
       \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 map <F9> :call ScreenShellSend('make')<CR>
-nnoremap J mzJ`z
 
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
