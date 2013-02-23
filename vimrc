@@ -303,6 +303,7 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_extensions = ['tag', 'line']
 
 " Add some mappings
+nmap <silent> <Leader>b  :CtrlPBuffer<cr>
 nmap <silent> <Leader>tf :CtrlP<cr>
 nmap <silent> <Leader>th :CtrlP /home/lervag<cr>
 nmap <silent> <Leader>tv :CtrlP /home/lervag/.vim<cr>
