@@ -249,7 +249,7 @@ let g:ctrlp_max_height = 25
 let g:ctrlp_mruf_include = join([
       \ '.*rc$',
       \ '\.\(tex\|py\|f90\|F90\|cl\)$',
-      \ '[mM]akefile\(\.code\)\?$',
+      \ '[mM]akefile\(\.code\)\?$'
       \ ], '\|')
 let g:ctrlp_show_hidden = 0
 let g:ctrlp_follow_symlinks = 1
