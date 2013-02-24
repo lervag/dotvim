@@ -131,3 +131,7 @@
 	path = bundle/vim-markdown
 	url = git://github.com/tpope/vim-markdown.git
 	ignore = untracked
+[submodule "vim-unimpaired"]
+	path = vim-unimpaired
+	url = git://github.com/tpope/vim-unimpaired.git
+	ignore = untracked

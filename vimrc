@@ -252,12 +252,6 @@ map <F9> :call ScreenShellSend('make')<CR>
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
 
-" Open a Quickfix window for the last search.
-nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
-map ,go :botright cwindow<CR>
-map ,gp :cprev<CR>
-map ,gn :cnext<CR>
-
 " Ack for the last search.
 nnoremap <silent> <leader>? :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
 
