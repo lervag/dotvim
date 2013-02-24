@@ -248,6 +248,7 @@ let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_max_height = 25
 let g:ctrlp_mruf_include = join([
       \ '.*rc$',
+      \ '\.reference.bib$',
       \ '\.\(tex\|py\|f90\|F90\|cl\)$',
       \ '[mM]akefile\(\.code\)\?$'
       \ ], '\|')
