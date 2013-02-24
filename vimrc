@@ -316,6 +316,10 @@ let delimitMate_excluded_ft        = "sh,zsh,text,vim"
 au FileType vim  let b:delimitMate_quotes = "'"
 au FileType lisp let b:delimitMate_quotes = '"'
 
+"{{{2 Fanfingtastic
+let g:fanfingtastic_fix_t = 1
+let g:fanfingtastic_use_jumplist = 1
+
 "{{{2 Gundo
 let g:gundo_width=60
 let g:gundo_preview_height=20
