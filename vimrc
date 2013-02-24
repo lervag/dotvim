@@ -216,64 +216,27 @@ augroup SpecificAutocommands
 augroup END
 
 "{{{1 General key mappings
-" Exit insert mode
-inoremap jkj <Esc>
 
-" Open certain files with ,v...
-map ,vv :e $MYVIMRC<cr>
-map ,vs :e  ~/.vim/bundle/personal/snippets/<CR>
+noremap  H      ^
+noremap  L      g_
+noremap  Y      y$
+noremap  <F1>   <nop>
+nnoremap J      mzJ`z
+nnoremap <C-U>  :bd<CR>
+inoremap jkj    <Esc>
+inoremap <F1>   <nop>
 
-" Mapping to close buffer
-nnoremap <C-U> :bd<CR>
-"nnoremap <leader>b :ls<cr>:b<space>
-
-" Mappings for controlling the error window
-map ,ec :botright cope<cr>
-map ,en :cn<cr>
-map ,ep :cp<cr>
-
-" Spell checking
-let sc_on = 0
-nnoremap <leader>ss :let sc_on = SpellCheck(sc_on)<CR>
-map <leader>sn ]s
-map <leader>sp [s
-map <leader>sa zg
-map <leader>s? z=
-
-" Other stuff
-noremap Y y$
-nnoremap J mzJ`z
-map <F1> <nop>
-map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
-      \ . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-      \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-map <F9> :call ScreenShellSend('make')<CR>
+" Shortcuts for some files
+map <leader>vv :e ~/.vim/vimrc<cr>
+map <leader>vz :e ~/.dotfiles/zshrc<cr>
+map <leader>vs :e  ~/.vim/bundle/personal/snippets/<CR>
 
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
 
-" Ack for the last search.
-nnoremap <silent> <leader>? :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
-
-" Easier to type, and I never use the default behavior.
-noremap H ^
-noremap L g_
-
-" Turn off stupid keys
-noremap  <F1> <nop>
-inoremap <F1> <nop>
-nnoremap K <nop>
-
 "{{{1 Plugin settings
 "{{{2 Ack settings
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
-
-"{{{2 ConqueTerm
-let g:ConqueTerm_SendVisKey = ',cc'
-let g:ConqueTerm_SendFileKey = ',ca'
-let g:ConqueTerm_ExecFileKey = ',cf'
-let g:ConqueTerm_CloseOnEnd = 1
-let g:ConqueTerm_TERM = 'xterm'
 
 "{{{2 Ctrl P
 
@@ -283,7 +246,11 @@ let g:ctrlp_cmd = 'CtrlPMRU'
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_max_height = 25
-let g:ctrlp_mruf_exclude = 'phd/journal.txt\|\.aux$'
+let g:ctrlp_mruf_include = join([
+      \ '.*rc$',
+      \ '\.\(tex\|py\|f90\|F90\|cl\)$',
+      \ '[mM]akefile\(\.code\)\?$',
+      \ ], '\|')
 let g:ctrlp_show_hidden = 0
 let g:ctrlp_follow_symlinks = 1
 let g:ctrlp_custom_ignore = {
@@ -477,7 +444,6 @@ let VCSCommandSplit = 'horizontal'
 if v:version < 700
   let VCSCommandDisableAll='1'
 end
-map ,cc :call ChooseVCSCommandType()<cr>
 
 "{{{1 Functions
 "{{{2 EnsureDirExists()
@@ -500,19 +466,6 @@ function! AskQuit (msg, proposed_action)
   endif
 endfunction
 
-"{{{2 SpellCheck
-function! SpellCheck(sc_on)
-  if a:sc_on
-    echo "Spell checking turned off!"
-    set nospell
-    return 0
-  else
-    echo "Spell checking turned on!"
-    set spell
-    return 1
-  endif
-endfunction
-
 "{{{2 ChooseVCSCommandType
 function! ChooseVCSCommandType()
   let choice = confirm("Choose VCS Type", "&CVS\n&Mercurial")
@@ -523,10 +476,6 @@ function! ChooseVCSCommandType()
   endif
 endfunction
 
-"{{{1 Footer
-"
-" -----------------------------------------------------------------------------
-" Copyright, Karl Yngve Lervåg (c) 2008 - 2011
-" -----------------------------------------------------------------------------
-" vim: foldmethod=marker:ff=unix
+"{{{1 Modeline
+" vim: fdm=marker
 "
