@@ -225,6 +225,7 @@ nnoremap J      mzJ`z
 nnoremap <C-U>  :bd<CR>
 inoremap jkj    <Esc>
 inoremap <F1>   <nop>
+nnoremap gb     :ls<CR>:buffer<Space>
 
 " Shortcuts for some files
 map <leader>vv :e ~/.vim/vimrc<cr>
@@ -261,13 +262,14 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_extensions = ['tag', 'line']
 
 " Add some mappings
-nmap <silent> <Leader>b  :CtrlPBuffer<cr>
+nmap <silent> <Leader>tb :CtrlPBuffer<cr>
 nmap <silent> <Leader>tf :CtrlP<cr>
 nmap <silent> <Leader>th :CtrlP /home/lervag<cr>
 nmap <silent> <Leader>tv :CtrlP /home/lervag/.vim<cr>
 
 "{{{2 delimitMate
 " General options
+let loaded_delimitMate             = 1
 let delimitMate_expand_space       = 1
 let delimitMate_excluded_regions   = "Comments,String"
 let delimitMate_matchpairs         = "(:),[:],{:}"
@@ -275,7 +277,6 @@ let delimitMate_quotes             = "\" '"
 let delimitMate_excluded_ft        = "sh,zsh,text,vim"
 
 " Tweak for some file types
-au FileType vim  let b:delimitMate_quotes = "'"
 au FileType lisp let b:delimitMate_quotes = '"'
 
 "{{{2 Fanfingtastic
@@ -438,7 +439,7 @@ vmap <leader>aa :Tabularize /
 let g:tagbar_expand=1
 let g:tagbar_autoclose=1
 let g:tagbar_autofocus=1
-nnoremap <silent> <leader>tb :TagbarToggle<CR>
+nnoremap <silent> <leader>b :TagbarToggle<CR>
 
 "{{{2 VCSCommand
 let VCSCommandSplit = 'horizontal'
