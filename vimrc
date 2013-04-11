@@ -223,14 +223,16 @@ noremap  Y      y$
 noremap  <F1>   <nop>
 nnoremap J      mzJ`z
 nnoremap <C-U>  :bd<CR>
-inoremap jkj    <Esc>
+inoremap <esc>  <nop>
+inoremap jk     <esc>
 inoremap <F1>   <nop>
 nnoremap gb     :ls<CR>:buffer<Space>
 
 " Shortcuts for some files
-map <leader>vv :e ~/.vim/vimrc<cr>
-map <leader>vz :e ~/.dotfiles/zshrc<cr>
-map <leader>vs :e  ~/.vim/bundle/personal/snippets/<CR>
+map <leader>ev :split ~/.vim/vimrc<cr>
+map <leader>sv :source $MYVIMRC<cr>
+map <leader>ez :e ~/.dotfiles/zshrc<cr>
+map <leader>es :e  ~/.vim/bundle/personal/snippets/<CR>
 
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
@@ -238,6 +240,11 @@ cmap w!! %!sudo tee > /dev/null %
 "{{{1 Plugin settings
 "{{{2 Ack settings
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+
+"{{{2 Clam
+
+let g:clam_winpos = 'topleft'
+
 
 "{{{2 Ctrl P
 
