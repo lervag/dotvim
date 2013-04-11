@@ -120,9 +120,7 @@ else
   set t_Co=256
   set background=dark
 endif
-
 colorscheme solarized
-call togglebg#map("<F6>")
 
 "{{{2 Searching and movement
 
@@ -146,12 +144,6 @@ noremap k gk
 "
 set complete+=U,s,k,kspell,d
 set completeopt=longest,menu,preview
-
-" Set omnifunction if it is not already specified
-autocmd Filetype *
-      \ if &omnifunc == "" |
-      \   setlocal omnifunc=syntaxcomplete#Complete |
-      \ endif
 
 "{{{1 Statusline
 set laststatus=2
@@ -200,10 +192,16 @@ augroup END
 augroup SpecificAutocommands
   autocmd!
 
+  " Set omnifunction if it is not already specified
+  autocmd Filetype *
+        \ if &omnifunc == "" |
+        \   setlocal omnifunc=syntaxcomplete#Complete |
+        \ endif
+
   " Textfiles
   au BufReadPost *.txt setlocal ft=text
-  au BufReadPost *.txt setlocal textwidth=78
-  au BufReadPost *.txt setlocal formatoptions-=c
+  au FileType text setlocal textwidth=78
+  au FileType text setlocal formatoptions-=c
 
   " C++
   au BufReadPost *.c++ setlocal cindent
@@ -400,8 +398,11 @@ let g:SuperTabLongestEnhanced = 1
 let g:SuperTabLongestHighlight = 1
 let g:SuperTabUndoBreak = 1
 
-autocmd FileType fortran call SuperTabSetDefaultCompletionType("<c-n>")
-autocmd FileType text    call SuperTabSetDefaultCompletionType("<c-n>")
+augroup Supertab
+  autocmd!
+  autocmd FileType fortran call SuperTabSetDefaultCompletionType("<c-n>")
+  autocmd FileType text    call SuperTabSetDefaultCompletionType("<c-n>")
+augroup END
 
 "{{{2 Neocomplcache (old)
 "let g:neocomplcache_enable_at_startup = 1
