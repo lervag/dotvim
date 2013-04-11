@@ -135,3 +135,7 @@
 	path = bundle/vim-unimpaired
 	url = git://github.com/tpope/vim-unimpaired.git
 	ignore = untracked
+[submodule "bundle/clam.vim"]
+	path = bundle/clam.vim
+	url = git://github.com/sjl/clam.vim.git
+	ignore = untracked
