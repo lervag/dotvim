@@ -217,6 +217,9 @@ augroup END
 
 "{{{1 General key mappings
 
+" Set local mapleader
+let maplocalleader = "-"
+
 noremap  H      ^
 noremap  L      g_
 noremap  Y      y$
@@ -415,13 +418,6 @@ autocmd FileType text    call SuperTabSetDefaultCompletionType("<c-n>")
 let g:splice_initial_mode = "compare"
 let g:splice_initial_layout_grid = 2
 let g:splice_initial_layout_compare = 1
-
-"{{{2 Switch.vim
-nnoremap - :Switch<cr>
-let g:switch_definitions =
-    \ [
-    \   ['.true.', '.false.']
-    \ ]
 
 "{{{2 syntactics
 let g:syntastic_auto_loc_list = 2

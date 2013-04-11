@@ -111,10 +111,6 @@
 	path = bundle/vim-easymotion
 	url = git://github.com/Lokaltog/vim-easymotion.git
 	ignore = untracked
-[submodule "bundle/switch.vim"]
-	path = bundle/switch.vim
-	url = git://github.com/AndrewRadev/switch.vim.git
-	ignore = untracked
 [submodule "bundle/vim-cdo"]
 	path = bundle/vim-cdo
 	url = git://github.com/Peeja/vim-cdo.git
