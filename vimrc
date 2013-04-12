@@ -215,9 +215,6 @@ augroup END
 
 "{{{1 General key mappings
 
-" Set local mapleader
-let maplocalleader = "-"
-
 noremap  H      ^
 noremap  L      g_
 noremap  Y      y$
