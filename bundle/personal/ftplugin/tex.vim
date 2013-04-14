@@ -14,18 +14,11 @@ let b:did_latex = 1
 "
 " Define some settings
 "
+let g:Tex_BIBINPUTS = $HOME
 setlocal smartindent
-imap <buffer> [[     \begin{
-imap <buffer> ]]     <plug>LatexCloseCurEnv
-imap <buffer> ((     \eqref{
 nmap <buffer> <f5>   <plug>LatexChangeEnv
 vmap <buffer> <f7>   <plug>LatexWrapSelection
 vmap <buffer> <S-F7> <Plug>LatexEnvWrapSelection
-let g:Tex_BIBINPUTS = $HOME
-
-"
-" Some key mappings
-"
 imap <buffer> <M-i> \item 
 
 "
