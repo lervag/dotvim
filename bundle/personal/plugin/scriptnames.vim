@@ -7,6 +7,8 @@ function! s:PutInBuffer(cmd, ...)
   let &more = save_more
   new
   setlocal buftype=nofile bufhidden=hide noswapfile
+  nnoremap <buffer> <cr> gf
+  nnoremap <buffer> q :q<cr>
   silent put =lines
   silent! g/^\s*$/d
   silent! %s/^\s*\d\+:\s*//e
