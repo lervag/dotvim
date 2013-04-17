@@ -14,5 +14,5 @@ let b:did_ft_vim = 1
 "
 " Define some settings
 "
-unlet ruby_fold
+if exists('ruby_fold') | unlet ruby_fold | endif
 set foldmethod=marker
