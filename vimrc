@@ -34,7 +34,7 @@ set autoindent
 set fileformat=unix
 set spelllang=en_gb
 set diffopt=filler,context:4,foldcolumn:2,horizontal
-set grepprg=ack-grep
+set grepprg=ack-grep\ --nocolor
 set list
 set listchars=tab:▸\ ,trail:\ ,nbsp:%,extends:❯,precedes:❮
 set cursorline
@@ -300,11 +300,6 @@ let g:LatexBox_latexmk_options = '-pvc'
 let g:LatexBox_ignore_warnings = ['Package pgfplots Warning']
 let g:LatexBox_Folding=1
 let g:LatexBox_viewer='mupdf -r 95'
-let g:LatexBox_fold_parts=[
-      \ "section",
-      \ "subsection",
-      \ "subsubsection"
-      \ ]
 
 "{{{2 Powerline
 
