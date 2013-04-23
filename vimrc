@@ -34,7 +34,6 @@ set autoindent
 set fileformat=unix
 set spelllang=en_gb
 set diffopt=filler,context:4,foldcolumn:2,horizontal
-set grepprg=ack-grep\ --nocolor
 set list
 set listchars=tab:▸\ ,trail:\ ,nbsp:%,extends:❯,precedes:❮
 set cursorline
@@ -42,6 +41,12 @@ set autochdir
 set cpoptions+=J
 set autoread
 set wildmode=longest,list:longest
+set splitbelow
+set splitright
+
+if executable("ack-grep")
+  set grepprg=ack-grep\ --nocolor
+endif
 
 "{{{2 Folding
 if &foldmethod == ""
@@ -225,6 +230,10 @@ inoremap <esc>  <nop>
 inoremap jk     <esc>
 inoremap <F1>   <nop>
 nnoremap gb     :ls<CR>:buffer<Space>
+nnoremap <c-j>  <c-w><c-j>
+nnoremap <c-k>  <c-w><c-k>
+nnoremap <c-l>  <c-w><c-l>
+nnoremap <c-h>  <c-w><c-h>
 
 " Shortcuts for some files
 map <leader>ev :split ~/.vim/vimrc<cr>
