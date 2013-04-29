@@ -120,7 +120,7 @@ set background=light
 if has("gui_running")
   set lines=56
   set guioptions=aegiLt
-  set guifont=Inconsolata-dz\ for\ Powerline\ Medium\ 9
+  set guifont=Inconsolata-g\ 9
 else
   set t_Co=256
   set background=dark
@@ -307,8 +307,8 @@ map <silent> <F5> :GundoToggle<cr>
 "{{{2 LaTeX-BoX
 let g:LatexBox_latexmk_options = '-pvc'
 let g:LatexBox_ignore_warnings = ['Package pgfplots Warning']
-let g:LatexBox_Folding=1
-let g:LatexBox_viewer='mupdf -r 95'
+let g:LatexBox_Foldings = 1
+let g:LatexBox_viewer = 'mupdf -r 95'
 
 "{{{2 Powerline
 
