@@ -353,7 +353,8 @@ au Syntax * RainbowParenthesesLoadRound
 let g:ruby_fold=1
 
 "{{{2 Screen
-let g:ScreenImpl = "Tmux"
+let g:ScreenImpl = "screen"
+let g:ScreenShellTerminal = "xfce4-terminal"
 
 "
 " Dynamic keybindings
