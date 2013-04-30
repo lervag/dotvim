@@ -222,24 +222,25 @@ augroup END
 
 noremap  H      ^
 noremap  L      g_
-noremap  Y      y$
-noremap  <F1>   <nop>
-nnoremap J      mzJ`z
-nnoremap <C-U>  :bd<CR>
+noremap  <f1>   <nop>
 inoremap <esc>  <nop>
 inoremap jk     <esc>
-inoremap <F1>   <nop>
-nnoremap gb     :ls<CR>:buffer<Space>
+inoremap <f1>   <nop>
+nnoremap  Y     y$
+nnoremap J      mzJ`z
 nnoremap <c-j>  <c-w><c-j>
 nnoremap <c-k>  <c-w><c-k>
 nnoremap <c-l>  <c-w><c-l>
 nnoremap <c-h>  <c-w><c-h>
+nnoremap <c-u>  :bd<cr>
+nnoremap gb     :bnext<cr>
+nnoremap gB     :bprevious<cr>
 
 " Shortcuts for some files
 map <leader>ev :split ~/.vim/vimrc<cr>
 map <leader>sv :source $MYVIMRC<cr>
 map <leader>ez :e ~/.dotfiles/zshrc<cr>
-map <leader>es :e  ~/.vim/bundle/personal/snippets/<CR>
+map <leader>es :e  ~/.vim/bundle/personal/snippets/<cr>
 
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
