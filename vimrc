@@ -308,7 +308,7 @@ map <silent> <F5> :GundoToggle<cr>
 "{{{2 LaTeX-BoX
 let g:LatexBox_latexmk_options = '-pvc'
 let g:LatexBox_ignore_warnings = ['Package pgfplots Warning']
-let g:LatexBox_Foldings = 1
+let g:LatexBox_Folding = 1
 let g:LatexBox_viewer = 'mupdf -r 95'
 
 "{{{2 Powerline
@@ -353,7 +353,7 @@ au Syntax * RainbowParenthesesLoadRound
 let g:ruby_fold=1
 
 "{{{2 Screen
-let g:ScreenImpl = "screen"
+let g:ScreenImpl = "GnuScreen"
 let g:ScreenShellTerminal = "xfce4-terminal"
 
 "
