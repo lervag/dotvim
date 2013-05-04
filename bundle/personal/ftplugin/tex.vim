@@ -30,12 +30,3 @@ function! SyncTexForward()
   exec execstr
 endfunction
 nmap <silent> <Leader>ls :call SyncTexForward()<CR>
-
-"
-" Remember folds
-"
-setl viewoptions=folds,cursor
-augroup texrc
-  au BufWinLeave *.tex silent! mkview
-  au BufWinEnter *.tex silent! loadview
-augroup END
