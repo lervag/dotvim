@@ -307,7 +307,6 @@ map <silent> <F5> :GundoToggle<cr>
 
 "{{{2 LaTeX-BoX
 let g:LatexBox_latexmk_options = '-pvc'
-let g:LatexBox_ignore_warnings = ['Package pgfplots Warning']
 let g:LatexBox_Folding = 1
 let g:LatexBox_viewer = 'mupdf -r 95'
 
