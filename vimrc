@@ -398,7 +398,6 @@ let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabRetainCompletionDuration = "session"
 let g:SuperTabLongestEnhanced = 1
 let g:SuperTabLongestHighlight = 1
-let g:SuperTabUndoBreak = 1
 
 augroup Supertab
   autocmd!
