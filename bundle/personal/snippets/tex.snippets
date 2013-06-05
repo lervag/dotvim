@@ -1,131 +1,21 @@
-# Parts and sections
-snippet part
-	\part{${1:part name}}${2}
-snippet part*
-	\part*{${1:part name}}${2}
-snippet chap
-	\chapter{${1:chapter name}}${2}
-snippet chap*
-	\chapter*{${1:chapter name}}${2}
-snippet sec
-	\section{${1:section name}}${2}
-snippet sec*
-	\section*{${1:section name}}${2}
-snippet sub
-	\subsection{${1:subsection name}}${2}
-snippet sub*
-	\subsection*{${1:subsection name}}${2}
-snippet subsub
-	\subsubsection{${1:subsubsection name}}${2}
-snippet subsub*
-	\subsubsection*{${1:subsubsection name}}${2}
-snippet par
-	\paragraph{${1:paragraph name}}${2}
-snippet par*
-	\paragraph*{${1:paragraph name}}${2}
+#
+# Personal tex snippets
+#
 
-# Environments
-snippet begin
-	\begin{${1:env}}${2}
-	\end{$1}
-#
-# Tabular
-snippet tab
-	\begin{tabular}{${1:c}}${2}
-	\end{tabular}
-#
-# Align(ed)
-snippet align
-	\begin{align}
-		${1}
-	\end{align}${2}
-#
-# Align
-snippet align*
-	\begin{align*}
-		${1}
-	\end{align*}${2}
-#
-# Equation
-snippet eq
-	\begin{equation}
-		${1}
-	\end{equation}
-#
-# Equation
-snippet eq*
-	\begin{equation*}
-		${1}
-	\end{equation*}
-#
-# Enumerate
-snippet enum
-	\begin{enumerate}
-		\item ${1}
-	\end{enumerate}
-#
-# Itemize
-snippet item
-	\begin{itemize}
-		\item ${1}
-	\end{itemize}
-#
-# Description
-snippet desc
-	\begin{description}
-		\item[${1}] ${2}
-	\end{description}
-#
-# Matrix
-snippet mat
-	\begin{${1:p/b/v/V/B/small}matrix}
-		${2}
-	\end{$1matrix}
-#
-# Cases
-snippet cas
-	\begin{cases}
-		${1:equation}, &\text{ if }${2:case}\\
-		${3}
-	\end{cases}
-#
-# Split
-snippet spl
-	\begin{split}
-		${1}
-	\end{split}
-#
-snippet figure
-	\begin{figure}${1:[tbp]}
-	  \centering
-	  ${4}
-	  \caption{${3:caption}}
-	  \label{fig:${2:name}}
-	\end{figure}
-#
-snippet table
-	\begin{table}${1:[tbp]}
-	  \centering
-	  ${4}
-	  \caption{${3:caption}}
-	  \label{tab:${2:name}}
-	\end{table}
-#
-snippet incl
-	\includegraphics[width=${1}\textwidth]{${2}}${3}
-#
-snippet tikz
-	\begin{tikzpicture}
-	  ${1:[ ]}
-	\end{tikzpicture}${2}
-#
-snippet toc
-	\tableofcontents${1}
-#
-snippet cref
-	\cref{${1}}${2}
-#
-snippet label
-	\label{${1}}${2}
-#
-# vim: :noet:nosta
+snippet r "\\ref{}" !w
+\\$1ref{$2} $0
+endsnippet
+
+snippet e "\\emph{}" !w
+\\emph{${1:${VISUAL}}}$0
+endsnippet
+
+snippet "b(egin)?" "begin{} / end{}" !br
+\begin{$1}${2:{$3}}
+	${4:${VISUAL}}
+\end{$1}$0
+endsnippet
+
+snippet tikz "TikZ picture" b
+TODO
+endsnippet
