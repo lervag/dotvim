@@ -240,7 +240,6 @@ nnoremap gB     :bprevious<cr>
 map <leader>ev :split ~/.vim/vimrc<cr>
 map <leader>sv :source $MYVIMRC<cr>
 map <leader>ez :e ~/.dotfiles/zshrc<cr>
-map <leader>es :e  ~/.vim/bundle/personal/snippets/<cr>
 
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
@@ -389,8 +388,13 @@ augroup ScreenShellExit
   au USER * :call <SID>ScreenShellListenerMain()
 augroup END
 
-"{{{2 Snipmate
-let g:snippets_dir = "~/.vim/bundle/personal/snippets/"
+"{{{2 Ultisnips
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsEditSplit = "horizontal"
+let g:UltiSnipsSnippetsDir = "~/.vim/bundle/personal/snippets"
+let g:UltiSnipsSnippetDirectories = ["snippets", "UltiSnips"]
+map <leader>es :UltiSnipsEdit<cr>
 
 "{{{2 Supertab
 let g:SuperTabDefaultCompletionType = "context"
