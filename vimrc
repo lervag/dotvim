@@ -346,10 +346,6 @@ let g:rbpt_colorpairs = [
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 
-"{{{2 vim-ruby
-
-let g:ruby_fold=1
-
 "{{{2 Screen
 let g:ScreenImpl = "GnuScreen"
 let g:ScreenShellTerminal = "xfce4-terminal"
@@ -388,13 +384,11 @@ augroup ScreenShellExit
   au USER * :call <SID>ScreenShellListenerMain()
 augroup END
 
-"{{{2 Ultisnips
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsEditSplit = "horizontal"
-let g:UltiSnipsSnippetsDir = "~/.vim/bundle/personal/snippets"
-let g:UltiSnipsSnippetDirectories = ["snippets", "UltiSnips"]
-map <leader>es :UltiSnipsEdit<cr>
+"{{{2 Splice
+
+let g:splice_initial_mode = "compare"
+let g:splice_initial_layout_grid = 2
+let g:splice_initial_layout_compare = 1
 
 "{{{2 Supertab
 let g:SuperTabDefaultCompletionType = "context"
@@ -408,22 +402,6 @@ augroup Supertab
   autocmd FileType fortran call SuperTabSetDefaultCompletionType("<c-n>")
   autocmd FileType text    call SuperTabSetDefaultCompletionType("<c-n>")
 augroup END
-
-"{{{2 Neocomplcache (old)
-"let g:neocomplcache_enable_at_startup = 1
-"let g:neocomplcache_enable_auto_select = 1
-"let g:neocomplcache_disable_auto_complete = 1
-"
-"inoremap <expr><C-g>     neocomplcache#undo_completion()
-"imap <expr><CR> neocomplcache#sources#snippets_complete#expandable()
-"      \ ? "\<Plug>(neocomplcache_snippets_jump)" :
-"      \ pumvisible() ? neocomplcache#smart_close_popup() :     "\<CR>"
-
-"{{{2 Splice
-
-let g:splice_initial_mode = "compare"
-let g:splice_initial_layout_grid = 2
-let g:splice_initial_layout_compare = 1
 
 "{{{2 syntactics
 let g:syntastic_auto_loc_list = 2
@@ -451,11 +429,23 @@ let g:tagbar_autoclose=1
 let g:tagbar_autofocus=1
 nnoremap <silent> <leader>b :TagbarToggle<CR>
 
+"{{{2 Ultisnips
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsEditSplit = "horizontal"
+let g:UltiSnipsSnippetsDir = "~/.vim/bundle/personal/snippets"
+let g:UltiSnipsSnippetDirectories = ["snippets", "UltiSnips"]
+map <leader>es :UltiSnipsEdit<cr>
+
 "{{{2 VCSCommand
 let VCSCommandSplit = 'horizontal'
 if v:version < 700
   let VCSCommandDisableAll='1'
 end
+
+"{{{2 vim-ruby
+
+let g:ruby_fold=1
 
 "{{{1 Functions
 "{{{2 EnsureDirExists()
