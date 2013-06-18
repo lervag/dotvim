@@ -16,6 +16,12 @@ snippet "b(egin)?" "begin{} / end{}" !br
 \end{$1}$0
 endsnippet
 
+snippet sec "Section" !b
+\section{${1:section name}}
+\label{sec:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/g}}}
+$0
+endsnippet
+
 snippet tikz "TikZ picture" b
 TODO
 endsnippet
