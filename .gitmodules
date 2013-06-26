@@ -139,3 +139,6 @@
 	path = bundle/ultisnips
 	url = git://github.com/SirVer/ultisnips.git
 	ignore = untracked
+[submodule "bundle/vim-speeddating"]
+	path = bundle/vim-speeddating
+	url = git://github.com/tpope/vim-speeddating.git
