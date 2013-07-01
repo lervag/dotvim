@@ -128,7 +128,6 @@ endif
 colorscheme solarized
 
 "{{{2 Searching and movement
-
 set ignorecase
 set smartcase
 set nohls
@@ -228,10 +227,6 @@ inoremap jk     <esc>
 inoremap <f1>   <nop>
 nnoremap  Y     y$
 nnoremap J      mzJ`z
-nnoremap <c-j>  <c-w><c-j>
-nnoremap <c-k>  <c-w><c-k>
-nnoremap <c-l>  <c-w><c-l>
-nnoremap <c-h>  <c-w><c-h>
 nnoremap <c-u>  :bd<cr>
 nnoremap gb     :bnext<cr>
 nnoremap gB     :bprevious<cr>
@@ -243,6 +238,9 @@ map <leader>ez :e ~/.dotfiles/zshrc<cr>
 
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
+
+" Open url in browser
+map <silent> gx :silent !xdg-open <cWORD>&<cr>
 
 "{{{1 Plugin settings
 "{{{2 Ack settings
@@ -280,18 +278,6 @@ nmap <silent> <Leader>tb :CtrlPBuffer<cr>
 nmap <silent> <Leader>tf :CtrlP<cr>
 nmap <silent> <Leader>th :CtrlP /home/lervag<cr>
 nmap <silent> <Leader>tv :CtrlP /home/lervag/.vim<cr>
-
-"{{{2 delimitMate
-" General options
-let loaded_delimitMate             = 1
-let delimitMate_expand_space       = 1
-let delimitMate_excluded_regions   = "Comments,String"
-let delimitMate_matchpairs         = "(:),[:],{:}"
-let delimitMate_quotes             = "\" '"
-let delimitMate_excluded_ft        = "sh,zsh,text,vim"
-
-" Tweak for some file types
-au FileType lisp let b:delimitMate_quotes = '"'
 
 "{{{2 Fanfingtastic
 let g:fanfingtastic_fix_t = 1
