@@ -30,10 +30,6 @@
 	path = bundle/rainbow_parentheses.vim
 	url = git://github.com/kien/rainbow_parentheses.vim.git
 	ignore = untracked
-[submodule "bundle/tagbar"]
-	path = bundle/tagbar
-	url = git://github.com/majutsushi/tagbar.git
-	ignore = untracked
 [submodule "bundle/ack.vim"]
 	path = bundle/ack.vim
 	url = git://github.com/mileszs/ack.vim.git

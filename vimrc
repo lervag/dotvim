@@ -248,13 +248,10 @@ map <silent> gx :silent !xdg-open <cWORD>&<cr>
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
 "{{{2 Clam
-
 let g:clam_winpos = 'topleft'
 
-
-"{{{2 Ctrl P
-
-" Set options
+"{{{2 Ctrl P // Unite
+"{{{3 Options
 let g:ctrlp_map = '<leader>tt'
 let g:ctrlp_cmd = 'CtrlPMRU'
 let g:ctrlp_match_window_bottom = 0
@@ -263,7 +260,7 @@ let g:ctrlp_max_height = 25
 let g:ctrlp_mruf_include = join([
       \ '.*rc$',
       \ '\.reference.bib$',
-      \ '\.\(tex\|py\|f90\|F90\|cl\)$',
+      \ '\.\(tex\|vim\|py\|f90\|F90\|cl\)$',
       \ '[mM]akefile\(\.code\)\?$'
       \ ], '\|')
 let g:ctrlp_show_hidden = 0
@@ -272,13 +269,43 @@ let g:ctrlp_custom_ignore = {
   \ 'dir':  'CVS$\|\.git$\|\.hg$\|\.svn$\|.vim\/undofiles$\|\.vim\/backup$',
   \ 'file': '\.exe$\|\.so$\|\.dll$\|documents\/ntnu\/phd',
   \ }
-let g:ctrlp_extensions = ['tag', 'line']
 
-" Add some mappings
-nmap <silent> <Leader>tb :CtrlPBuffer<cr>
-nmap <silent> <Leader>tf :CtrlP<cr>
-nmap <silent> <Leader>th :CtrlP /home/lervag<cr>
-nmap <silent> <Leader>tv :CtrlP /home/lervag/.vim<cr>
+let g:unite_enable_start_insert = 1
+let g:unite_source_buffer_time_format = "(%Y-%m-%d %H:%M:%S) "
+let g:unite_source_file_mru_time_format = "(%Y-%m-%d %H:%M:%S) "
+
+call unite#custom#source('file',           'matchers', 'matcher_fuzzy')
+call unite#custom#source('file_rec/async', 'matchers', 'matcher_fuzzy')
+call unite#custom#source('buffer',         'matchers', 'matcher_fuzzy')
+call unite#custom#source('command',        'matchers', 'matcher_fuzzy')
+call unite#custom#source('grep',           'matchers', 'matcher_fuzzy')
+call unite#custom#source('tag',            'matchers', 'matcher_fuzzy')
+call unite#custom#source('help',           'matchers', 'matcher_fuzzy')
+call unite#custom#source('outline',        'matchers', 'matcher_fuzzy')
+
+"{{{3 Mappings
+nnoremap <silent> <Leader>tf :CtrlP<cr>
+nnoremap <silent> <Leader>th :CtrlP /home/lervag<cr>
+nnoremap <silent> <Leader>tv :CtrlP /home/lervag/.vim<cr>
+
+nnoremap <silent> <leader>tc :Unite -buffer-name=commands -no-split command<cr>
+nnoremap <silent> <leader>tg :Unite -buffer-name=tags     -no-split tag<cr>
+nnoremap <silent> <leader>tb :Unite -buffer-name=buffer   -no-split
+      \ buffer file<cr>
+nnoremap <silent> <leader>tp :Unite -buffer-name=files    -no-split
+      \ file_rec/async:!<cr>
+nnoremap <silent> <F1>       :Unite -buffer-name=help     -no-split help<cr>
+
+" Custom mappings for the unite buffer
+autocmd FileType unite call s:unite_settings()
+function! s:unite_settings()
+  let b:SuperTabDisabled=1
+  imap <buffer> jk      <Plug>(unite_insert_leave)
+  imap <buffer> <C-c>   <Plug>(unite_exit)
+  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+endfunction
+"}}}
 
 "{{{2 Fanfingtastic
 let g:fanfingtastic_fix_t = 1
@@ -292,12 +319,38 @@ let g:gundo_close_on_revert=1
 map <silent> <F5> :GundoToggle<cr>
 
 "{{{2 LaTeX-BoX
-let g:LatexBox_latexmk_options = '-pvc'
+let g:LatexBox_latexmk_continuous_mode = 1
 let g:LatexBox_Folding = 1
 let g:LatexBox_viewer = 'mupdf -r 95'
+let g:LatexBox_quickfix = 2
+
+"{{{2 Neocomplete
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#enable_auto_delimiter = 1
+
+" Plugin key-mappings
+inoremap <expr><C-g> neocomplete#undo_completion()
+inoremap <expr><C-l> neocomplete#complete_common_string()
+
+" Enable omni completion
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.c
+      \ = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#sources#omni#input_patterns.cpp
+      \ = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
 "{{{2 Rainbox Parentheses
-
 nnoremap <leader>R :RainbowParenthesesToggle<cr>
 let g:rbpt_max = 16
 let g:rbpt_colorpairs = [
@@ -323,9 +376,7 @@ au Syntax * RainbowParenthesesLoadRound
 let g:ScreenImpl = "GnuScreen"
 let g:ScreenShellTerminal = "xfce4-terminal"
 
-"
 " Dynamic keybindings
-"
 function! s:ScreenShellListenerMain()
   if g:ScreenShellActive
     nmap <silent> <C-c><C-c> <S-v>:ScreenSend<CR>
@@ -346,9 +397,7 @@ function! s:ScreenShellListenerMain()
   endif
 endfunction
 
-"
 " Initialize and define auto group stuff
-"
 nmap <silent> <C-c><C-c> :ScreenShell<cr>
 augroup ScreenShellEnter
   au USER * :call <SID>ScreenShellListenerMain()
@@ -358,7 +407,6 @@ augroup ScreenShellExit
 augroup END
 
 "{{{2 Splice
-
 let g:splice_initial_mode = "compare"
 let g:splice_initial_layout_grid = 2
 let g:splice_initial_layout_compare = 1
@@ -379,12 +427,14 @@ augroup END
 "{{{2 syntactics
 let g:syntastic_auto_loc_list = 2
 let g:syntastic_mode_map = { 'mode': 'active',
-                           \ 'passive_filetypes': ['tex', 'fortran'] }
+                           \ 'passive_filetypes': ['tex'] }
 let g:syntastic_enabled = 1
 let g:syntastic_enable_highlighting = 1
 let g:syntastic_fortran_flags = " -fdefault-real-8"
-                            \ . " -I../obj/gfortran_debug"
-                            \ . " -I../objects/debug_gfortran_Linux"
+let g:syntastic_fortran_include_dirs = [
+                            \ '../obj/gfortran_debug',
+                            \ '../objects/debug_gfortran_Linux',
+                            \ ]
 
 "{{{2 Tabular
 nmap <leader>a= :Tabularize /=<cr>
@@ -395,12 +445,6 @@ nmap <leader>a& :Tabularize /&\zs<cr>
 vmap <leader>a& :Tabularize /&\zs<cr>
 nmap <leader>aa :Tabularize /
 vmap <leader>aa :Tabularize /
-
-"{{{2 Tagbar
-let g:tagbar_expand=1
-let g:tagbar_autoclose=1
-let g:tagbar_autofocus=1
-nnoremap <silent> <leader>b :TagbarToggle<CR>
 
 "{{{2 Ultisnips
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -417,7 +461,6 @@ if v:version < 700
 end
 
 "{{{2 vim-ruby
-
 let g:ruby_fold=1
 
 "{{{1 Functions
