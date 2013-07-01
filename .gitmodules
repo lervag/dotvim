@@ -138,15 +138,24 @@
 [submodule "bundle/unite-help"]
 	path = bundle/unite-help
 	url = https://github.com/Shougo/unite-help.git
+	ignore = untracked
 [submodule "bundle/unite-tag"]
 	path = bundle/unite-tag
 	url = https://github.com/tsukkee/unite-tag
+	ignore = untracked
 [submodule "bundle/unite"]
 	path = bundle/unite
 	url = https://github.com/Shougo/unite.vim.git
+	ignore = untracked
 [submodule "bundle/neocomplete"]
 	path = bundle/neocomplete
 	url = https://github.com/Shougo/neocomplete.vim.git
+	ignore = untracked
 [submodule "bundle/dep-vimproc"]
 	path = bundle/dep-vimproc
 	url = https://github.com/Shougo/vimproc.vim.git
+	ignore = untracked
+[submodule "bundle/unite-outline"]
+	path = bundle/unite-outline
+	url = https://github.com/Shougo/unite-outline.git
+	ignore = untracked
