@@ -120,7 +120,7 @@ set background=light
 if has("gui_running")
   set lines=56
   set guioptions=aegiLt
-  set guifont=Inconsolata-g\ 9
+  set guifont=Inconsolata-g\ Medium\ 9
 else
   set t_Co=256
   set background=dark
@@ -150,6 +150,7 @@ set complete+=U,s,k,kspell,d
 set completeopt=longest,menu,preview
 
 "{{{1 Statusline
+set noshowmode
 set laststatus=2
 if !exists("g:Powerline_loaded")
   set statusline=[%n]\ %t                         " tail of the filename
@@ -294,20 +295,6 @@ map <silent> <F5> :GundoToggle<cr>
 let g:LatexBox_latexmk_options = '-pvc'
 let g:LatexBox_Folding = 1
 let g:LatexBox_viewer = 'mupdf -r 95'
-
-"{{{2 Powerline
-
-let g:Powerline_symbols = "fancy"
-let g:Powerline_stl_path_style= "short"
-let g:Powerline_mode_n = "N "
-let g:Powerline_mode_i = "I "
-let g:Powerline_mode_R = "R "
-let g:Powerline_mode_v = "V "
-let g:Powerline_mode_V = "VL"
-let g:Powerline_mode_cv= "VB"
-let g:Powerline_mode_s = "S "
-let g:Powerline_mode_S = "SL"
-let g:Powerline_mode_cs= "SB"
 
 "{{{2 Rainbox Parentheses
 
