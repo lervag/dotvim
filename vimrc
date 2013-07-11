@@ -149,29 +149,31 @@ noremap k gk
 set complete+=U,s,k,kspell,d
 set completeopt=longest,menu,preview
 
-"{{{1 Statusline
+"{{{1 Statusline (Airline plugin)
 set noshowmode
 set laststatus=2
-if !exists("g:Powerline_loaded")
-  set statusline=[%n]\ %t                         " tail of the filename
-  set statusline+=\ %m                            " modified flag
-  set statusline+=[%{strlen(&fenc)?&fenc:'none'}, " file encoding
-  set statusline+=%{&ff}                          " file format
-  set statusline+=%Y                              " filetype
-  set statusline+=%H                              " help file flag
-  set statusline+=%R]                             " read only flag
-  if v:version >= 703
-    set statusline+=%q                            " quickfix-tag
-    set statusline+=%w                            " preview-tag
-  end
-  set statusline+=%#warningmsg#
-  set statusline+=%{SyntasticStatuslineFlag()}
-  set statusline+=%*
-  set statusline+=%=                              " left/right separator
-  set statusline+=(%v,                            " cursor column
-  set statusline+=%l/%L)                          " cursor line/total lines
-  set statusline+=\ %P                            " percent through file
-end
+
+" Separators and symbols
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_fugitive_prefix = ' '
+let g:airline_readonly_symbol = ''
+let g:airline_paste_symbol = 'Þ'
+
+" Theme and customization
+let g:airline_theme='solarized2'
+let g:airline_section_z = '%3p%% %l:%c'
+let g:airline_mode_map = {
+      \ 'n'  : 'N',
+      \ 'i'  : 'I',
+      \ 'R'  : 'R',
+      \ 'c'  : 'C',
+      \ 'v'  : 'V',
+      \ 'V'  : 'V',
+      \ '^V' : 'V',
+      \ }
 
 "{{{1 Autocommands
 "{{{2 General autocommands

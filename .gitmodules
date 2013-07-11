@@ -155,3 +155,7 @@
 	path = bundle/unite-outline
 	url = https://github.com/Shougo/unite-outline.git
 	ignore = untracked
+[submodule "bundle/airline"]
+	path = bundle/airline
+	url = https://github.com/bling/vim-airline.git
+	ignore = untracked
