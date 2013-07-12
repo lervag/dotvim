@@ -321,7 +321,8 @@ let g:gundo_close_on_revert=1
 map <silent> <F5> :GundoToggle<cr>
 
 "{{{2 LaTeX-BoX
-let g:LatexBox_latexmk_continuous_mode = 1
+let g:LatexBox_latexmk_async = 1
+let g:LatexBox_latexmk_preview_continuously = 1
 let g:LatexBox_Folding = 1
 let g:LatexBox_viewer = 'mupdf -r 95'
 let g:LatexBox_quickfix = 2
