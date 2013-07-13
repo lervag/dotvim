@@ -177,8 +177,8 @@ let g:airline_mode_map = {
       \ 'R'  : 'R',
       \ 'c'  : 'C',
       \ 'v'  : 'V',
-      \ 'V'  : 'V',
-      \ '^V' : 'V',
+      \ 'V'  : 'V-L',
+      \ ''  : 'V-B',
       \ }
 
 "{{{1 Autocommands
