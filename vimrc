@@ -110,6 +110,9 @@ if v:version >= 703
   elseif has("win32")
     set undodir=$VIM/undofiles
   endif
+  if !isdirectory(&undodir)
+    call mkdir(&undodir)
+  endif
 end
 
 "{{{2 Spellfile, thesaurus, similar
