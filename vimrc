@@ -3,15 +3,18 @@
 " Author: Karl Yngve Lervåg
 "
 "{{{1 Preamble
+
+set nocompatible
 filetype off
+
 if !exists("pathogen_loaded")
   source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
   call pathogen#infect()
   call pathogen#helptags()
   let pathogen_loaded = 1
 endif
+
 filetype plugin indent on
-set nocompatible
 
 "{{{1 General options
 "{{{2 Basic
