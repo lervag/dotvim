@@ -5,13 +5,71 @@
 "{{{1 Preamble
 
 set nocompatible
-filetype off
+if has('vim_starting')
+  set rtp+=~/.vim/bundle/personal
+  set rtp+=~/.vim/bundle/neobundle
+endif
+call neobundle#rc(expand('~/.vim/bundle/'))
 
-if !exists("pathogen_loaded")
-  source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
-  call pathogen#infect()
-  call pathogen#helptags()
-  let pathogen_loaded = 1
+" {{{2 Load packages
+
+NeoBundle 'Shougo/neobundle'
+NeoBundle 'Shougo/vimproc', {
+      \ 'name'  : 'neovimproc',
+      \ 'build' : {
+      \     'unix' : 'make -f make_unix.mak',
+      \    },
+      \ }
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/unite-help'
+NeoBundle 'Shougo/unite-outline'
+NeoBundle 'tsukkee/unite-tag'
+NeoBundle 'Shougo/neocomplete'
+
+"NeoBundle 'Lokaltog/vim-easymotion'
+"NeoBundle 'kevinw/pyflakes-vim'
+
+" git remote add origin-tmp git://github.com/mtth/LaTeX-Box.git
+" git co -b noserver origin-tmp/noserver
+NeoBundle 'LaTeX-Box-Team/LaTeX-Box'
+"url = git@github.com:LaTeX-Box-Team/LaTeX-Box.git
+
+NeoBundle 'Peeja/vim-cdo'
+NeoBundle 'SirVer/ultisnips'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'bling/vim-airline'
+NeoBundle 'bogado/file-line'
+NeoBundle 'dahu/vim-fanfingtastic'
+NeoBundle 'ervandew/screen'
+NeoBundle 'ervandew/supertab'
+NeoBundle 'git://repo.or.cz/vcscommand.git'
+NeoBundle 'gregsexton/MatchTag'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'kien/rainbow_parentheses.vim'
+NeoBundle 'mileszs/ack.vim'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'sjl/clam.vim'
+NeoBundle 'sjl/gundo.vim'
+NeoBundle 'sjl/splice.vim'
+NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'tpope/vim-abolish'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-markdown'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-speeddating'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-unimpaired'
+NeoBundle 'tsaleh/vim-matchit'
+NeoBundle 'tyru/current-func-info.vim'
+NeoBundle 'vim-ruby/vim-ruby'
+
+" }}}
+
+NeoBundleCheck
+
+" Call on_source hook when reloading .vimrc.
+if !has('vim_starting')
+  call neobundle#call_hook('on_source')
 endif
 
 filetype plugin indent on
