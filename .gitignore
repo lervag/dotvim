@@ -1,5 +1,6 @@
 backup
 undofiles
+bundle
 slimux.vim
 test.sh
 .netrwhist
