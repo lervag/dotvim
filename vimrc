@@ -225,7 +225,7 @@ let g:airline_readonly_symbol = ''
 let g:airline_paste_symbol = 'Þ'
 
 " Theme and customization
-let g:airline_theme='solarized2'
+let g:airline_theme='solarized'
 let g:airline_section_z = '%3p%% %l:%c'
 let g:airline_mode_map = {
       \ 'n'  : 'N',
