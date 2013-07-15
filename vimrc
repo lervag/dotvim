@@ -26,10 +26,7 @@ NeoBundle 'Shougo/unite-outline'
 NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'Shougo/neocomplete'
 
-"NeoBundle 'Lokaltog/vim-easymotion'
-"NeoBundle 'kevinw/pyflakes-vim'
-
-NeoBundleFetch 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git'
+NeoBundleLazy 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git'
 NeoBundle 'mtth/LaTeX-Box.git', {
       \ 'name' : 'LaTeX-Box-mtth',
       \ 'rev' : 'noserver',
