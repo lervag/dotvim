@@ -2,7 +2,7 @@
 " -----------------------------------------------------------------------------
 " Author: Karl Yngve Lervåg
 "
-"{{{1 Preamble
+"{{{1 Preable | Load packages
 
 set nocompatible
 if has('vim_starting')
@@ -29,10 +29,11 @@ NeoBundle 'Shougo/neocomplete'
 "NeoBundle 'Lokaltog/vim-easymotion'
 "NeoBundle 'kevinw/pyflakes-vim'
 
-" git remote add origin-tmp git://github.com/mtth/LaTeX-Box.git
-" git co -b noserver origin-tmp/noserver
-NeoBundle 'LaTeX-Box-Team/LaTeX-Box'
-"url = git@github.com:LaTeX-Box-Team/LaTeX-Box.git
+NeoBundleFetch 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git'
+NeoBundle 'mtth/LaTeX-Box.git', {
+      \ 'name' : 'LaTeX-Box-mtth',
+      \ 'rev' : 'noserver',
+      \ }
 
 NeoBundle 'Peeja/vim-cdo'
 NeoBundle 'SirVer/ultisnips'
@@ -400,12 +401,21 @@ let g:neocomplete#enable_auto_delimiter = 1
 inoremap <expr><C-g> neocomplete#undo_completion()
 inoremap <expr><C-l> neocomplete#complete_common_string()
 
+" Define keyword
+if !exists('g:neocomplete#keyword_patterns')
+  let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns._ = '\h\w*'
+
 " Enable omni completion
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup neocomplete_omni_complete
+  autocmd!
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
 
 " Enable heavy omni completion
 if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -483,7 +493,6 @@ let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabRetainCompletionDuration = "session"
 let g:SuperTabLongestEnhanced = 1
-let g:SuperTabLongestHighlight = 1
 
 augroup Supertab
   autocmd!
