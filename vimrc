@@ -6,13 +6,13 @@
 
 set nocompatible
 if has('vim_starting')
-  set rtp+=~/.vim/bundle/personal
   set rtp+=~/.vim/bundle/neobundle
 endif
 call neobundle#rc(expand('~/.vim/bundle/'))
 
 " {{{2 Load packages
 
+" {{{3 Neobundle, Unite, and neocomplete
 NeoBundle 'Shougo/neobundle'
 NeoBundle 'Shougo/vimproc', {
       \ 'name'  : 'neovimproc',
@@ -24,16 +24,18 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-help'
 NeoBundle 'Shougo/unite-outline'
 NeoBundle 'tsukkee/unite-tag'
-NeoBundle 'Shougo/neocomplete'
-
-NeoBundleLazy 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git'
-NeoBundle 'mtth/LaTeX-Box.git', {
-      \ 'name' : 'LaTeX-Box-mtth',
-      \ 'rev' : 'noserver',
+NeoBundle 'Shougo/neocomplete', {
+      \ 'min_version' : '7.3.885',
       \ }
 
-NeoBundle 'Peeja/vim-cdo'
-NeoBundle 'SirVer/ultisnips'
+" {{{3 Projects I participate in
+NeoBundle 'personal'
+"NeoBundle 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git'
+NeoBundle 'LaTeX-Box-Team/LaTeX-Box.git', {
+      \ 'type__protocol' : 'ssh',
+      \ }
+
+" {{{3 Other plugins and scripts
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'bogado/file-line'
@@ -41,17 +43,22 @@ NeoBundle 'dahu/vim-fanfingtastic'
 NeoBundle 'ervandew/screen'
 NeoBundle 'ervandew/supertab'
 NeoBundle 'git://repo.or.cz/vcscommand.git'
+NeoBundle 'godlygeek/tabular'
 NeoBundle 'gregsexton/MatchTag'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'mileszs/ack.vim'
+NeoBundle 'Peeja/vim-cdo'
+NeoBundle 'SirVer/ultisnips'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'sjl/clam.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'sjl/splice.vim'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'tpope/vim-abolish'
-NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-fugitive', {
+      \ 'augroup' : 'fugitive',
+      \ }
 NeoBundle 'tpope/vim-markdown'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-speeddating'
@@ -59,11 +66,13 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tsaleh/vim-matchit'
 NeoBundle 'tyru/current-func-info.vim'
-NeoBundle 'vim-ruby/vim-ruby'
+NeoBundle 'vim-ruby/vim-ruby', {
+      \ 'autoload' : {
+        \ 'filetypes' : ['rb'],
+        \ },
+      \ }
 
 " }}}
-
-NeoBundleCheck
 
 " Call on_source hook when reloading .vimrc.
 if !has('vim_starting')
@@ -71,6 +80,8 @@ if !has('vim_starting')
 endif
 
 filetype plugin indent on
+
+NeoBundleCheck
 
 "{{{1 General options
 "{{{2 Basic
@@ -187,7 +198,9 @@ else
   set t_Co=256
   set background=dark
 endif
-colorscheme solarized
+if neobundle#is_sourced('vim-colors-solarized')
+  colorscheme solarized
+endif
 
 "{{{2 Searching and movement
 set ignorecase
@@ -338,14 +351,17 @@ let g:unite_enable_start_insert = 1
 let g:unite_source_buffer_time_format = "(%Y-%m-%d %H:%M:%S) "
 let g:unite_source_file_mru_time_format = "(%Y-%m-%d %H:%M:%S) "
 
-call unite#custom#source('file',           'matchers', 'matcher_fuzzy')
-call unite#custom#source('file_rec/async', 'matchers', 'matcher_fuzzy')
-call unite#custom#source('buffer',         'matchers', 'matcher_fuzzy')
-call unite#custom#source('command',        'matchers', 'matcher_fuzzy')
-call unite#custom#source('grep',           'matchers', 'matcher_fuzzy')
-call unite#custom#source('tag',            'matchers', 'matcher_fuzzy')
-call unite#custom#source('help',           'matchers', 'matcher_fuzzy')
-call unite#custom#source('outline',        'matchers', 'matcher_fuzzy')
+if neobundle#is_sourced('unite')
+  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  call unite#custom#source('file',           'matchers', 'matcher_fuzzy')
+  call unite#custom#source('file_rec/async', 'matchers', 'matcher_fuzzy')
+  call unite#custom#source('buffer',         'matchers', 'matcher_fuzzy')
+  call unite#custom#source('command',        'matchers', 'matcher_fuzzy')
+  call unite#custom#source('grep',           'matchers', 'matcher_fuzzy')
+  call unite#custom#source('tag',            'matchers', 'matcher_fuzzy')
+  call unite#custom#source('help',           'matchers', 'matcher_fuzzy')
+  call unite#custom#source('outline',        'matchers', 'matcher_fuzzy')
+endif
 
 "{{{3 Mappings
 nnoremap <silent> <Leader>tf :CtrlP<cr>
@@ -443,8 +459,14 @@ let g:rbpt_colorpairs = [
     \ ['244', '#839496'],
     \ ['245', '#93a1a1'],
     \ ]
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
+
+if neobundle#is_sourced('rainbow_parentheses.vim')
+  augroup RainbowParens
+    au!
+    au VimEnter * RainbowParenthesesToggle
+    au Syntax * RainbowParenthesesLoadRound
+  augroup END
+endif
 
 "{{{2 Screen
 let g:ScreenImpl = "GnuScreen"
