@@ -24,9 +24,12 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-help'
 NeoBundle 'Shougo/unite-outline'
 NeoBundle 'tsukkee/unite-tag'
-NeoBundle 'Shougo/neocomplete', {
-      \ 'min_version' : '7.3.885',
-      \ }
+if v:version > 703 || v:version == 703 && has("patch885")
+  NeoBundle 'Shougo/neocomplete'
+endif
+"NeoBundle 'Shougo/neocomplete', {
+"      \ 'vim_version' : '7.3.885'
+"      \ }
 
 " {{{3 Projects I participate in
 NeoBundle 'personal'
