@@ -49,7 +49,7 @@ NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'Peeja/vim-cdo'
 NeoBundle 'SirVer/ultisnips'
-NeoBundle 'scrooloose/syntastic'
+NeoBundle 'scrooloose/syntastic', 'gcc_refactor'
 NeoBundle 'sjl/clam.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'sjl/splice.vim'
@@ -493,6 +493,7 @@ let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabRetainCompletionDuration = "session"
 let g:SuperTabLongestEnhanced = 1
+let g:SuperTabCrMapping = 0
 
 augroup Supertab
   autocmd!
