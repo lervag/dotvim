@@ -1,8 +1,8 @@
 " Setup for VIM: The number one text editor!
 " -----------------------------------------------------------------------------
 " Author: Karl Yngve Lervåg
-"
-"{{{1 Preable | Load packages
+
+"{{{1 Preamble | Load packages
 
 set nocompatible
 if has('vim_starting')
@@ -10,9 +10,8 @@ if has('vim_starting')
 endif
 call neobundle#rc(expand('~/.vim/bundle/'))
 
-" {{{2 Load packages
-
-" {{{3 Neobundle, Unite, and neocomplete
+" Load packages
+" {{{2 Neobundle, Unite, and neocomplete
 NeoBundle 'Shougo/neobundle'
 NeoBundle 'Shougo/vimproc', {
       \ 'name'  : 'neovimproc',
@@ -31,14 +30,14 @@ endif
 "      \ 'vim_version' : '7.3.885'
 "      \ }
 
-" {{{3 Projects I participate in
+" {{{2 Projects I participate in
 NeoBundle 'personal'
 "NeoBundle 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git'
 NeoBundle 'LaTeX-Box-Team/LaTeX-Box.git', {
       \ 'type__protocol' : 'ssh',
       \ }
 
-" {{{3 Other plugins and scripts
+" {{{2 Other plugins and scripts
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'bogado/file-line'
@@ -75,7 +74,7 @@ NeoBundle 'vim-ruby/vim-ruby', {
         \ },
       \ }
 
-" }}}
+" }}}2
 
 " Call on_source hook when reloading .vimrc.
 if !has('vim_starting')
@@ -87,7 +86,8 @@ filetype plugin indent on
 NeoBundleCheck
 
 "{{{1 General options
-"{{{2 Basic
+
+"{{{2 Basic options
 set history=1000
 set confirm
 set winaltkeys=no
@@ -130,13 +130,12 @@ set foldcolumn=0
 set foldtext=TxtFoldText()
 
 function! TxtFoldText()
-  let level = strpart(repeat('-', v:foldlevel-1) . '*',0,3)
-  if v:foldlevel > 3
-    let level = strpart(level, 1) . v:foldlevel
-  endif
   let title = substitute(getline(v:foldstart), '^[ "%#*]*{\{3}\d\s*', '', '')
-  let title = strpart(title, 0, 69)
-  return printf('%-3s %-69s#%5d', level, title, v:foldend - v:foldstart + 1)
+  if v:foldlevel > 1
+    let title = repeat('  ', v:foldlevel-2) . '* ' . title
+  endif
+  let title = strpart(title, 0, 71)
+  return printf(' %-71s #%5d', title, v:foldend - v:foldstart + 1)
 endfunction
 
 " Set foldoption for bash scripts
@@ -166,7 +165,6 @@ set formatoptions=tcrq1n
 set formatlistpat=^\\s*\\(\\(\\d\\+\\\|[a-z]\\)[.:)]\\\|[-*]\\)\\s\\+
 
 "{{{2 Backup and Undofile
-
 set noswapfile
 set nobackup
 
@@ -219,15 +217,17 @@ runtime macros/matchit.vim
 
 noremap j gj
 noremap k gk
+"}}}2
 
 "{{{1 Completion
-"
-" Note: See also under plugins like supertab
-"
+
 set complete+=U,s,k,kspell,d
 set completeopt=longest,menu,preview
 
+" Note: See also under plugins like supertab
+
 "{{{1 Statusline (Airline plugin)
+
 set noshowmode
 set laststatus=2
 
@@ -254,14 +254,11 @@ let g:airline_mode_map = {
       \ }
 
 "{{{1 Autocommands
-"{{{2 General autocommands
-augroup GeneralAutocommands
+
+augroup vimrc_autocommands
   autocmd!
 
-  " Create directory if it does not exist when opening a new file
-  autocmd BufNewFile  * :call EnsureDirExists()
-
-  " When editing a  file, always jump to the last  known cursor position. Don't
+  " When editing a file, always jump to the last known cursor position.  Don't
   " do it when the position is invalid or when inside an event handler (happens
   " when dropping a file on gvim).
   autocmd BufReadPost *
@@ -271,34 +268,15 @@ augroup GeneralAutocommands
 
   " Resize splits when the window is resized
   autocmd VimResized * exe "normal! \<c-w>="
-augroup END
-
-"{{{2 Specific autocommands
-augroup SpecificAutocommands
-  autocmd!
 
   " Set omnifunction if it is not already specified
   autocmd Filetype *
         \ if &omnifunc == "" |
         \   setlocal omnifunc=syntaxcomplete#Complete |
         \ endif
-
-  " Textfiles
-  au BufReadPost *.txt setlocal ft=text
-  au FileType text setlocal textwidth=78
-  au FileType text setlocal formatoptions-=c
-
-  " C++
-  au BufReadPost *.c++ setlocal cindent
-
-  " Python
-  au FileType python syn keyword pythonDecorator True None False self
-
-  " Makefile
-  au FileType make set nolist
 augroup END
 
-"{{{1 General key mappings
+"{{{1 Key mappings
 
 noremap  H      ^
 noremap  L      g_
@@ -311,6 +289,8 @@ nnoremap J      mzJ`z
 nnoremap <c-u>  :bd<cr>
 nnoremap gb     :bnext<cr>
 nnoremap gB     :bprevious<cr>
+nnoremap dp     dp]c
+nnoremap do     do]c
 
 " Shortcuts for some files
 map <leader>ev :split ~/.vim/vimrc<cr>
@@ -324,6 +304,7 @@ cmap w!! %!sudo tee > /dev/null %
 map <silent> gx :silent !xdg-open <cWORD>&<cr>
 
 "{{{1 Plugin settings
+
 "{{{2 Ack settings
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
@@ -561,36 +542,7 @@ end
 "{{{2 vim-ruby
 let g:ruby_fold=1
 
-"{{{1 Functions
-"{{{2 EnsureDirExists()
-function! EnsureDirExists ()
-  let dir = expand("%:h")
-  if !isdirectory(dir)
-    call AskQuit("Directory '" . dir . "' doesn't exist.", "&Create it?")
-    try
-      call mkdir(dir, 'p')
-    catch
-      call AskQuit("Can't create '" . dir . "'", "&Continue anyway?")
-    endtry
-  endif
-endfunction
-
-"{{{2 AskQuit
-function! AskQuit (msg, proposed_action)
-  if confirm(a:msg, "&Quit?\n" . a:proposed_action) == 1
-    exit
-  endif
-endfunction
-
-"{{{2 ChooseVCSCommandType
-function! ChooseVCSCommandType()
-  let choice = confirm("Choose VCS Type", "&CVS\n&Mercurial")
-  if choice == 1
-    let b:VCSCommandVCSType="CVS"
-  elseif choice == 2
-    let b:VCSCommandVCSType="Mercurial"
-  endif
-endfunction
+" }}}2
 
 "{{{1 Modeline
 " vim: fdm=marker
