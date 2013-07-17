@@ -24,12 +24,9 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-help'
 NeoBundle 'Shougo/unite-outline'
 NeoBundle 'tsukkee/unite-tag'
-if v:version > 703 || v:version == 703 && has("patch885")
-  NeoBundle 'Shougo/neocomplete'
-endif
-"NeoBundle 'Shougo/neocomplete', {
-"      \ 'vim_version' : '7.3.885'
-"      \ }
+NeoBundle 'Shougo/neocomplete', {
+      \ 'vim_version' : '7.3.885'
+      \ }
 
 " {{{2 Projects I participate in
 "NeoBundle 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git'
