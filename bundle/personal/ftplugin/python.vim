@@ -1,15 +1,11 @@
 "
 " Personal settings for python files
-"
-" Last Update: 2012-10-18
-" Author:      Karl Yngve Lervåg
+" Author: Lervåg
 "
 
-"
 " Only load file once
-"
-if exists('b:did_python') | finish | endif
-let b:did_python = 1
+if exists('b:did_ft_python') | finish | endif
+let b:did_ft_python = 1
 
 setlocal sts=4
 setlocal sw=4
@@ -18,6 +14,8 @@ setlocal smarttab
 setlocal smartindent
 setlocal makeprg=python\ %
 setlocal fdm=indent
+
+syn keyword pythonDecorator True None False self
 
 function! s:ScreenShellListener()
   if g:ScreenShellActive

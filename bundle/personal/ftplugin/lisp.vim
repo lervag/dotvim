@@ -1,19 +1,12 @@
 "
 " Personal settings for lisp files
-"
-" Last Update: 2012-10-18
-" Author:      Karl Yngve Lervåg
+" Author: Karl Yngve Lervåg
 "
 
-"
 " Only load the file once
-"
-if exists('b:did_lisp') | finish | endif
-let b:did_lisp = 1
+if exists('b:did_ft_lisp') | finish | endif
+let b:did_ft_lisp = 1
 
-"
-" Options
-"
 setlocal foldmethod=marker foldmarker=(,) foldminlines=3
 setlocal suffixesadd=.lisp,cl path=/usr/src/lisp/**
 setlocal include=(:file\

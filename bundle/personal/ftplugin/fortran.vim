@@ -1,33 +1,23 @@
 "
 " Personal settings for fortran files
-"
-" Last Update: 2012-10-18
-" Author:      Karl Yngve Lervåg
+" Author: Karl Yngve Lervåg
 "
 
-"
 " Only load file once
-"
-if exists('b:did_fortran') | finish | endif
-let b:did_fortran = 1
+if exists('b:did_ft_fortran') | finish | endif
+let b:did_ft_fortran = 1
 
-"
 " Options
-"
 setlocal foldmethod=syntax
 
-"
 " Mappings
-"
 map <silent> [[ ?^\s*\(end\s*\)\@!\zs\(function\\|subroutine\)<CR>
 map <silent> ][ /^\s*\(end\s*\)\@!\zs\(function\\|subroutine\)<CR>
 map <silent> [] ?^\s*\zs\(end\s*\)\(function\\|subroutine\)<CR>
 map <silent> ]] /^\s*\zs\(end\s*\)\(function\\|subroutine\)<CR>
 
-"
 " Some kind of bug makes matchpairs not work as expected, thus we must define
 " patterns for the matchit plugin ourselves.
-"
 if !exists("b:match_words")
   let s:notend = '\%(\<end\s\+\)\@<!'
   let s:notselect = '\%(\<select\s\+\)\@<!'
