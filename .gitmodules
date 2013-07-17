@@ -1,4 +1,0 @@
-[submodule "bundle/neobundle"]
-	path = bundle/neobundle
-	url = https://github.com/Shougo/neobundle.vim.git
-	ignore = untracked
