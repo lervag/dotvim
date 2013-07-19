@@ -496,8 +496,9 @@ map <leader>es :UltiSnipsEdit<cr>
 
 "{{{2 Unite
 let g:unite_enable_start_insert = 1
-let g:unite_source_buffer_time_format = "(%Y-%m-%d %H:%M:%S) "
-let g:unite_source_file_mru_time_format = "(%Y-%m-%d %H:%M:%S) "
+let g:unite_source_buffer_time_format = "(%H:%M) "
+let g:unite_source_file_mru_time_format = "(%d.%m %H:%M) "
+let g:unite_enable_short_source_names = 1
 
 if neobundle#is_sourced('unite.vim')
   call unite#filters#matcher_default#use(['matcher_fuzzy'])
@@ -511,22 +512,21 @@ if neobundle#is_sourced('unite.vim')
   call unite#custom#source('outline',        'matchers', 'matcher_fuzzy')
 endif
 
-nnoremap <silent> <leader>tc :Unite -buffer-name=commands -no-split command<cr>
-nnoremap <silent> <leader>tg :Unite -buffer-name=tags     -no-split tag<cr>
-nnoremap <silent> <leader>tb :Unite -buffer-name=buffer   -no-split
-      \ buffer file<cr>
-nnoremap <silent> <leader>tp :Unite -buffer-name=files    -no-split
-      \ file_rec/async:!<cr>
-nnoremap <silent> <F1>       :Unite -buffer-name=help     -no-split help<cr>
+nnoremap [unite]  <Nop>
+nmap     <space>  [unite]
+nnoremap <silent> [unite]<space>
+      \ :Unite -buffer-name=files -no-split buffer file_mru file tag<cr>
+nnoremap <silent> [unite]c :Unite -buffer-name=commands -no-split command<cr>
+nnoremap <silent> [unite]h :Unite -buffer-name=help     -no-split help<cr>
 
 " Custom mappings for the unite buffer
 autocmd FileType unite call s:unite_settings()
 function! s:unite_settings()
   let b:SuperTabDisabled=1
   imap <buffer> jk      <Plug>(unite_insert_leave)
-  imap <buffer> <C-c>   <Plug>(unite_exit)
-  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+  imap <buffer> <c-c>   <Plug>(unite_exit)
+  imap <buffer> <c-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <c-k>   <Plug>(unite_select_previous_line)
 endfunction
 
 "{{{2 VCSCommand
