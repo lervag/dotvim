@@ -527,7 +527,7 @@ vmap <leader>aa :Tabularize /
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit = "horizontal"
-let g:UltiSnipsSnippetsDir = "~/.vim/bundle/personal/snippets"
+let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/personal/snippets"
 let g:UltiSnipsSnippetDirectories = ["snippets", "UltiSnips"]
 map <leader>es :UltiSnipsEdit<cr>
 
