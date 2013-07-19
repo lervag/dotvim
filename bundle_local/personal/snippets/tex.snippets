@@ -1,16 +1,12 @@
-#
-# Personal tex snippets
-#
-
-snippet r "\\ref{}" !w
+snippet ref "Ref" !w
 \\$1ref{$2} $0
 endsnippet
 
-snippet e "\\emph{}" !w
+snippet emph "Emphasize" !w
 \\emph{${1:${VISUAL}}}$0
 endsnippet
 
-snippet "b(egin)?" "begin{} / end{}" !br
+snippet begin "Environments" !b
 \begin{$1}${2:{$3}}
 	${4:${VISUAL}}
 \end{$1}$0

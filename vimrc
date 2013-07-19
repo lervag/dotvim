@@ -290,9 +290,9 @@ nnoremap dp     dp]c
 nnoremap do     do]c
 
 " Shortcuts for some files
-map <leader>ev :split ~/.vim/vimrc<cr>
-map <leader>sv :source $MYVIMRC<cr>
+map <leader>ev :e ~/.vim/vimrc<cr>
 map <leader>ez :e ~/.dotfiles/zshrc<cr>
+map <leader>sv :source $MYVIMRC<cr>
 
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
@@ -390,6 +390,7 @@ let g:LatexBox_quickfix = 2
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
+let g:neocomplete#max_list = 15
 
 " Plugin key-mappings
 inoremap <expr><C-g> neocomplete#undo_completion()
@@ -484,7 +485,7 @@ augroup ScreenShellExit
 augroup END
 
 "{{{2 Splice
-let g:splice_initial_mode = "compare"
+let g:splice_initial_mode = "grid"
 let g:splice_initial_layout_grid = 2
 let g:splice_initial_layout_compare = 1
 
