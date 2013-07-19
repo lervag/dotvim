@@ -308,65 +308,27 @@ let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 "{{{2 Clam
 let g:clam_winpos = 'topleft'
 
-"{{{2 Ctrl P // Unite
-"{{{3 Options
+"{{{2 Ctrl P
 let g:ctrlp_map = '<leader>tt'
 let g:ctrlp_cmd = 'CtrlPMRU'
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_max_height = 25
+let g:ctrlp_show_hidden = 0
+let g:ctrlp_follow_symlinks = 1
 let g:ctrlp_mruf_include = join([
       \ '.*rc$',
       \ '\.reference.bib$',
       \ '\.\(tex\|vim\|py\|f90\|F90\|cl\)$',
       \ '[mM]akefile\(\.code\)\?$'
       \ ], '\|')
-let g:ctrlp_show_hidden = 0
-let g:ctrlp_follow_symlinks = 1
 let g:ctrlp_custom_ignore = {
   \ 'dir':  'CVS$\|\.git$\|\.hg$\|\.svn$\|.vim\/undofiles$\|\.vim\/backup$',
   \ 'file': '\.exe$\|\.so$\|\.dll$\|documents\/ntnu\/phd',
   \ }
 
-let g:unite_enable_start_insert = 1
-let g:unite_source_buffer_time_format = "(%Y-%m-%d %H:%M:%S) "
-let g:unite_source_file_mru_time_format = "(%Y-%m-%d %H:%M:%S) "
-
-if neobundle#is_sourced('unite')
-  call unite#filters#matcher_default#use(['matcher_fuzzy'])
-  call unite#custom#source('file',           'matchers', 'matcher_fuzzy')
-  call unite#custom#source('file_rec/async', 'matchers', 'matcher_fuzzy')
-  call unite#custom#source('buffer',         'matchers', 'matcher_fuzzy')
-  call unite#custom#source('command',        'matchers', 'matcher_fuzzy')
-  call unite#custom#source('grep',           'matchers', 'matcher_fuzzy')
-  call unite#custom#source('tag',            'matchers', 'matcher_fuzzy')
-  call unite#custom#source('help',           'matchers', 'matcher_fuzzy')
-  call unite#custom#source('outline',        'matchers', 'matcher_fuzzy')
-endif
-
-"{{{3 Mappings
-nnoremap <silent> <Leader>tf :CtrlP<cr>
 nnoremap <silent> <Leader>th :CtrlP /home/lervag<cr>
 nnoremap <silent> <Leader>tv :CtrlP /home/lervag/.vim<cr>
-
-nnoremap <silent> <leader>tc :Unite -buffer-name=commands -no-split command<cr>
-nnoremap <silent> <leader>tg :Unite -buffer-name=tags     -no-split tag<cr>
-nnoremap <silent> <leader>tb :Unite -buffer-name=buffer   -no-split
-      \ buffer file<cr>
-nnoremap <silent> <leader>tp :Unite -buffer-name=files    -no-split
-      \ file_rec/async:!<cr>
-nnoremap <silent> <F1>       :Unite -buffer-name=help     -no-split help<cr>
-
-" Custom mappings for the unite buffer
-autocmd FileType unite call s:unite_settings()
-function! s:unite_settings()
-  let b:SuperTabDisabled=1
-  imap <buffer> jk      <Plug>(unite_insert_leave)
-  imap <buffer> <C-c>   <Plug>(unite_exit)
-  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-endfunction
-"}}}
 
 "{{{2 Fanfingtastic
 let g:fanfingtastic_fix_t = 1
@@ -531,6 +493,41 @@ let g:UltiSnipsEditSplit = "horizontal"
 let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/personal/snippets"
 let g:UltiSnipsSnippetDirectories = ["snippets", "UltiSnips"]
 map <leader>es :UltiSnipsEdit<cr>
+
+"{{{2 Unite
+let g:unite_enable_start_insert = 1
+let g:unite_source_buffer_time_format = "(%Y-%m-%d %H:%M:%S) "
+let g:unite_source_file_mru_time_format = "(%Y-%m-%d %H:%M:%S) "
+
+if neobundle#is_sourced('unite.vim')
+  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  call unite#custom#source('file',           'matchers', 'matcher_fuzzy')
+  call unite#custom#source('file_rec/async', 'matchers', 'matcher_fuzzy')
+  call unite#custom#source('buffer',         'matchers', 'matcher_fuzzy')
+  call unite#custom#source('command',        'matchers', 'matcher_fuzzy')
+  call unite#custom#source('grep',           'matchers', 'matcher_fuzzy')
+  call unite#custom#source('tag',            'matchers', 'matcher_fuzzy')
+  call unite#custom#source('help',           'matchers', 'matcher_fuzzy')
+  call unite#custom#source('outline',        'matchers', 'matcher_fuzzy')
+endif
+
+nnoremap <silent> <leader>tc :Unite -buffer-name=commands -no-split command<cr>
+nnoremap <silent> <leader>tg :Unite -buffer-name=tags     -no-split tag<cr>
+nnoremap <silent> <leader>tb :Unite -buffer-name=buffer   -no-split
+      \ buffer file<cr>
+nnoremap <silent> <leader>tp :Unite -buffer-name=files    -no-split
+      \ file_rec/async:!<cr>
+nnoremap <silent> <F1>       :Unite -buffer-name=help     -no-split help<cr>
+
+" Custom mappings for the unite buffer
+autocmd FileType unite call s:unite_settings()
+function! s:unite_settings()
+  let b:SuperTabDisabled=1
+  imap <buffer> jk      <Plug>(unite_insert_leave)
+  imap <buffer> <C-c>   <Plug>(unite_exit)
+  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+endfunction
 
 "{{{2 VCSCommand
 let VCSCommandSplit = 'horizontal'
