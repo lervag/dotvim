@@ -191,7 +191,7 @@ syntax on
 set background=light
 if has("gui_running")
   set lines=56
-  set guioptions=aegiLt
+  set guioptions=aegciLt
   set guifont=Inconsolata-g\ Medium\ 9
 else
   set t_Co=256
