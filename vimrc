@@ -29,7 +29,6 @@ NeoBundle 'Shougo/neocomplete', {
       \ }
 
 " {{{2 Projects I participate in
-"NeoBundle 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git'
 NeoBundle 'LaTeX-Box-Team/LaTeX-Box.git', {
       \ 'type__protocol' : 'ssh',
       \ }
@@ -53,6 +52,7 @@ NeoBundle 'scrooloose/syntastic', 'gcc_refactor'
 NeoBundle 'sjl/clam.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'sjl/splice.vim'
+NeoBundle 'thinca/vim-prettyprint'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-fugitive', {
