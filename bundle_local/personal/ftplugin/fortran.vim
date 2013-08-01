@@ -15,6 +15,8 @@ map <silent> [[ ?^\s*\(end\s*\)\@!\zs\(function\\|subroutine\)<CR>
 map <silent> ][ /^\s*\(end\s*\)\@!\zs\(function\\|subroutine\)<CR>
 map <silent> [] ?^\s*\zs\(end\s*\)\(function\\|subroutine\)<CR>
 map <silent> ]] /^\s*\zs\(end\s*\)\(function\\|subroutine\)<CR>
+noremap  <silent> g! mzo!<Esc>80a-<Esc>80<bar>d$'zj
+inoremap <silent> g! !<Esc>80a-<Esc>80<bar>d$o
 
 " Some kind of bug makes matchpairs not work as expected, thus we must define
 " patterns for the matchit plugin ourselves.
