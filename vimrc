@@ -56,6 +56,7 @@ NeoBundle 'sjl/splice.vim'
 NeoBundle 'thinca/vim-prettyprint'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'tpope/vim-abolish'
+NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'tpope/vim-fugitive', {
       \ 'augroup' : 'fugitive',
       \ }
@@ -502,7 +503,7 @@ let g:unite_source_file_mru_time_format = "(%d.%m %H:%M) "
 let g:unite_enable_short_source_names = 1
 
 if neobundle#is_sourced('unite.vim')
-  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  call unite#filters#matcher_default#use(['matcher_regexp'])
   call unite#custom#source('file',           'matchers', 'matcher_fuzzy')
   call unite#custom#source('file_rec/async', 'matchers', 'matcher_fuzzy')
   call unite#custom#source('buffer',         'matchers', 'matcher_fuzzy')
@@ -513,12 +514,30 @@ if neobundle#is_sourced('unite.vim')
   call unite#custom#source('outline',        'matchers', 'matcher_fuzzy')
 endif
 
+" Unite leader
 nnoremap [unite]  <Nop>
 nmap     <space>  [unite]
+
+" Unite for files and commands
 nnoremap <silent> [unite]<space>
       \ :Unite -buffer-name=files -no-split buffer file_mru file tag<cr>
 nnoremap <silent> [unite]c :Unite -buffer-name=commands -no-split command<cr>
 nnoremap <silent> [unite]h :Unite -buffer-name=help     -no-split help<cr>
+
+" Unite for neobundle
+nnoremap <silent> [unite]bll :NeoBundleUpdatesLog<cr>
+nnoremap <silent> [unite]bl :Unite
+      \ -buffer-name=neobundle
+      \ -no-start-insert
+      \ -wrap
+      \ neobundle/log<cr>
+nnoremap <silent> [unite]bu :Unite
+      \ -buffer-name=neobundle
+      \ -no-start-insert
+      \ -no-focus
+      \ -truncate
+      \ -input=Skipped\\|Updated
+      \ neobundle/update:all<cr>
 
 " Custom mappings for the unite buffer
 autocmd FileType unite call s:unite_settings()
