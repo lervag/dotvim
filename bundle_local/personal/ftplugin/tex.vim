@@ -20,3 +20,24 @@ function! SyncTexForward()
   exec execstr
 endfunction
 nmap <silent> <Leader>ls :call SyncTexForward()<CR>
+
+" Some initial Screen settings for latex
+function! s:ScreenShellListener()
+  if g:ScreenShellActive
+    nmap <C-c><C-a> <Nop>
+    nmap <C-c><C-l> <Nop>
+    nmap <C-c><C-c> <Nop>
+    vmap <C-c><C-c> <Nop>
+  else
+    nmap <silent> <C-c><C-l>
+          \ :ScreenShell latexmk -pvc <C-R>%<CR>
+  endif
+endfunction
+
+call s:ScreenShellListener()
+augroup ScreenShellEnter
+  au USER *.tex :call <SID>ScreenShellListener()
+augroup END
+augroup ScreenShellExit
+  au USER *.tex :call <SID>ScreenShellListener()
+augroup END
