@@ -192,7 +192,7 @@ syntax on
 set background=light
 if has("gui_running")
   set lines=56
-  set guioptions=aegciLt
+  set guioptions=aeci
   set guifont=Inconsolata-g\ Medium\ 9
 else
   set t_Co=256
@@ -275,6 +275,39 @@ augroup vimrc_autocommands
         \ endif
 augroup END
 
+if has("gui_running")
+  augroup vimrc_autocommands
+    autocmd WinEnter,WinLeave * call <SID>ResizeSplits()
+  augroup END
+endif
+function! s:ResizeSplits()
+  let l:curwin = winnr()
+  let l:x = getwinposx()
+  let l:y = getwinposy()
+  let l:colwidth = 80 + &foldcolumn
+  if &number
+    let l:colwidth += &numberwidth
+  endif
+
+  let l:count = 0
+  windo   if winwidth(winnr()) < &columns |
+        \   let l:count += 1              |
+        \ endif
+  if l:count > 0
+    let l:totwidth = l:count - 1 + l:count*l:colwidth
+  else
+    let l:totwidth = l:colwidth
+  endif
+
+  if &columns != l:totwidth
+    execute 'set co=' . l:totwidth
+    execute 'winpos ' . l:x . ' ' . l:y
+    execute 'wincmd ='
+  endif
+
+  silent execute l:curwin . 'wincmd w'
+endfunction
+
 "{{{1 Key mappings
 
 noremap  H      ^
@@ -298,6 +331,9 @@ map <leader>sv :source $MYVIMRC<cr>
 
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
+
+" Resize window
+nnoremap <silent> <leader>w :call <sid>ResizeSplits()<cr>
 
 " Open url in browser
 map <silent> gx :silent !xdg-open <cWORD>&<cr>
