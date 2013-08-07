@@ -280,11 +280,12 @@ augroup END
 
 if has("gui_running")
   augroup vimrc_autocommands
-    autocmd WinEnter * call <SID>ResizeSplits()
-    autocmd WinLeave * call <SID>ResizeSplits()
+    autocmd WinEnter    * let w:count = 1 | call <SID>ResizeSplits()
+    autocmd BufEnter    * let w:count = 1 | call <SID>ResizeSplits()
+    autocmd WinLeave    * call <SID>ResizeSplits()
+    autocmd BufHidden   * let w:count = 0 | call <SID>ResizeSplits()
+    autocmd BufWinLeave * let w:count = 0 | call <SID>ResizeSplits()
   augroup END
-  nnoremap <c-w>c <c-w>c:call <sid>ResizeSplits()<cr>
-  nnoremap <c-w>q <c-w>q:call <sid>ResizeSplits()<cr>
   nnoremap <c-w>o <c-w>o:call <sid>ResizeSplits()<cr>
 endif
 nnoremap <silent> <leader>w :call <sid>ResizeSplits()<cr>
@@ -299,7 +300,7 @@ function! s:ResizeSplits()
 
   let l:count = 0
   windo   if winwidth(winnr()) < &columns |
-        \   let l:count += 1              |
+        \   let l:count += getwinvar(winnr(), 'count') |
         \ endif
   if l:count > 0
     let l:totwidth = l:count - 1 + l:count*l:colwidth
@@ -308,12 +309,13 @@ function! s:ResizeSplits()
   endif
 
   if &columns != l:totwidth
-    execute 'set co=' . l:totwidth
-    execute 'winpos ' . l:x . ' ' . l:y
-    execute 'wincmd ='
+    silent! execute 'set co=' . l:totwidth
+    silent! execute 'winpos ' . l:x . ' ' . l:y
+    silent! execute 'wincmd ='
   endif
+  silent! execute l:curwin . 'wincmd w'
 
-  silent execute l:curwin . 'wincmd w'
+  let w:count = 1
 endfunction
 
 "{{{1 Key mappings
@@ -402,6 +404,7 @@ let g:neocomplete#max_list = 15
 " Plugin key-mappings
 inoremap <expr><C-g> neocomplete#undo_completion()
 inoremap <expr><C-l> neocomplete#complete_common_string()
+inoremap <expr><C-o> neocomplete#start_manual_complete('omni')
 
 " Define keyword
 if !exists('g:neocomplete#keyword_patterns')
@@ -423,7 +426,7 @@ augroup END
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+"let g:neocomplete#sources#omni#input_patterns.tex = '[^ \t]{\h\w*'
 let g:neocomplete#sources#omni#input_patterns.c
       \ = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#sources#omni#input_patterns.cpp
