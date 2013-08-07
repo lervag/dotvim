@@ -97,7 +97,11 @@ set hidden
 set modelines=5
 set tags=./tags,./.tags,./../*/.tags,./../*/tags
 set fillchars=fold:\ ,diff:⣿
-set diffopt=filler,foldcolumn:0,context:3
+if has('gui_running')
+  set diffopt=filler,foldcolumn:0,context:4,vertical
+else
+  set diffopt=filler,foldcolumn:0,context:4
+endif
 set matchtime=2
 set matchpairs+=<:>
 set showcmd
@@ -105,7 +109,6 @@ set backspace=indent,eol,start
 set autoindent
 set fileformat=unix
 set spelllang=en_gb
-set diffopt=filler,context:4,foldcolumn:2,horizontal
 set list
 set listchars=tab:▸\ ,trail:\ ,nbsp:%,extends:❯,precedes:❮
 set cursorline
@@ -277,9 +280,14 @@ augroup END
 
 if has("gui_running")
   augroup vimrc_autocommands
-    autocmd WinEnter,WinLeave * call <SID>ResizeSplits()
+    autocmd WinEnter * call <SID>ResizeSplits()
+    autocmd WinLeave * call <SID>ResizeSplits()
   augroup END
+  nnoremap <c-w>c <c-w>c:call <sid>ResizeSplits()<cr>
+  nnoremap <c-w>q <c-w>q:call <sid>ResizeSplits()<cr>
+  nnoremap <c-w>o <c-w>o:call <sid>ResizeSplits()<cr>
 endif
+nnoremap <silent> <leader>w :call <sid>ResizeSplits()<cr>
 function! s:ResizeSplits()
   let l:curwin = winnr()
   let l:x = getwinposx()
@@ -332,9 +340,6 @@ map <leader>sv :source $MYVIMRC<cr>
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
 
-" Resize window
-nnoremap <silent> <leader>w :call <sid>ResizeSplits()<cr>
-
 " Open url in browser
 map <silent> gx :silent !xdg-open <cWORD>&<cr>
 
@@ -344,7 +349,9 @@ map <silent> gx :silent !xdg-open <cWORD>&<cr>
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
 "{{{2 Clam
-let g:clam_winpos = 'topleft'
+if !has('gui_running')
+  let g:clam_winpos = 'topleft'
+endif
 
 "{{{2 Ctrl P
 let g:ctrlp_map = '<leader>tt'
@@ -580,7 +587,9 @@ function! s:unite_settings()
 endfunction
 
 "{{{2 VCSCommand
-let VCSCommandSplit = 'horizontal'
+if !has('gui_running')
+  let VCSCommandSplit = 'horizontal'
+endif
 if v:version < 700
   let VCSCommandDisableAll='1'
 end
