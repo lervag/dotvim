@@ -116,8 +116,6 @@ set autochdir
 set cpoptions+=J
 set autoread
 set wildmode=longest,list:longest
-set splitbelow
-set splitright
 
 if executable("ack-grep")
   set grepprg=ack-grep\ --nocolor
@@ -426,11 +424,15 @@ augroup END
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
-"let g:neocomplete#sources#omni#input_patterns.tex = '[^ \t]{\h\w*'
 let g:neocomplete#sources#omni#input_patterns.c
       \ = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#sources#omni#input_patterns.cpp
       \ = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.tex = '\\\h\w*{'
 
 "{{{2 Rainbox Parentheses
 nnoremap <leader>R :RainbowParenthesesToggle<cr>
