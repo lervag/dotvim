@@ -10,6 +10,13 @@ snippet emph "Emphasize" !w
 \\emph{${1:${VISUAL}}}$0
 endsnippet
 
+snippet align "Equation align" !b
+\begin{align}
+  ${1:${VISUAL}}
+\end{align}$0
+endsnippet
+
+
 snippet begin "Environments" !b
 \begin{$1}${2:{$3}}
 	${4:${VISUAL}}
