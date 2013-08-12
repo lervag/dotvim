@@ -161,7 +161,7 @@ set expandtab
 set wrap
 set linebreak
 set showbreak=↪
-set formatoptions=tcrq1n
+set formatoptions=tcrq1nj
 set formatlistpat=^\\s*\\(\\(\\d\\+\\\|[a-z]\\)[.:)]\\\|[-*]\\)\\s\\+
 
 "{{{2 Backup and Undofile
