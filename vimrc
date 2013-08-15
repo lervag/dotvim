@@ -134,8 +134,7 @@ function! TxtFoldText()
   if v:foldlevel > 1
     let title = repeat('  ', v:foldlevel-2) . '* ' . title
   endif
-  let title = strpart(title, 0, 71)
-  return printf(' %-71s #%5d', title, v:foldend - v:foldstart + 1)
+  return printf(' %-71S #%5d', title[0:71], v:foldend - v:foldstart + 1)
 endfunction
 
 " Set foldoption for bash scripts
@@ -541,7 +540,7 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit = "horizontal"
 let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/personal/snippets"
-let g:UltiSnipsSnippetDirectories = ["snippets", "UltiSnips"]
+let g:UltiSnipsSnippetDirectories = ["snippets"]
 map <leader>es :UltiSnipsEdit<cr>
 
 "{{{2 Unite
@@ -578,7 +577,7 @@ nnoremap <silent> [unite]bu :Unite
       \ -no-start-insert
       \ -no-split
       \ -truncate
-      \ -input=41)\ !git
+      \ -input=41)\ !git Updated
       \ neobundle/update:all<cr>
 
 " Custom mappings for the unite buffer
