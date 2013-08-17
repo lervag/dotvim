@@ -6,14 +6,14 @@
 
 set nocompatible
 if has('vim_starting')
-  set rtp+=~/.vim/bundle/neobundle
+  set rtp+=~/.vim/bundle/neobundle.vim
 endif
 call neobundle#rc(expand('~/.vim/bundle/'))
 NeoBundleLocal ~/.vim/bundle_local/
 
 " Load packages
 " {{{2 Neobundle, Unite, and neocomplete
-NeoBundle 'Shougo/neobundle'
+NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc', {
       \ 'name'  : 'neovimproc',
       \ 'build' : {
@@ -223,7 +223,7 @@ noremap k gk
 set complete+=U,s,k,kspell,d
 set completeopt=longest,menu,preview
 
-" Note: See also under plugins like supertab
+" Note: See also under plugins like supertab and neocomplete
 
 "{{{1 Statusline (Airline plugin)
 
@@ -340,7 +340,7 @@ map <leader>sv :source $MYVIMRC<cr>
 cmap w!! %!sudo tee > /dev/null %
 
 " Open url in browser
-map <silent> gx :silent !xdg-open <cWORD>&<cr>
+map <silent> gx <Plug>(open-in-browser)
 
 "{{{1 Plugin settings
 
@@ -435,7 +435,7 @@ let g:neocomplete#force_omni_input_patterns.tex = '\\\h\w*{'
 
 "{{{2 Rainbox Parentheses
 nnoremap <leader>R :RainbowParenthesesToggle<cr>
-let g:rbpt_max = 16
+let g:rbpt_max = 14
 let g:rbpt_colorpairs = [
     \ ['033', '#268bd2'],
     \ ['037', '#2aa198'],
@@ -577,7 +577,7 @@ nnoremap <silent> [unite]bu :Unite
       \ -no-start-insert
       \ -no-split
       \ -truncate
-      \ -input=41)\ !git Updated
+      \ -input=41)\ !git\ Updated
       \ neobundle/update:all<cr>
 
 " Custom mappings for the unite buffer
