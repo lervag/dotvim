@@ -295,10 +295,11 @@ function! s:ResizeSplits()
     let l:colwidth += &numberwidth
   endif
 
-  let l:count = 0
-  windo   if winwidth(winnr()) < &columns |
-        \   let l:count += getwinvar(winnr(), 'count') |
+  let l:totheight = 0
+  windo   if getwinvar(winnr(), 'count') |
+        \   let l:totheight += winheight(winnr()) |
         \ endif
+  let l:count = float2nr(ceil(l:totheight / (1.0*&lines)))
   if l:count > 0
     let l:totwidth = l:count - 1 + l:count*l:colwidth
   else
