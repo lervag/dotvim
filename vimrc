@@ -601,8 +601,8 @@ end
 "{{{2 vim-ruby
 let g:ruby_fold=1
 
-" }}}2
+"}}}2
 
-"{{{1 Modeline
+"}}}1
+
 " vim: fdm=marker
-"
