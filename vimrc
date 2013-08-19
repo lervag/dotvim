@@ -283,7 +283,7 @@ if has("gui_running")
     autocmd BufHidden   * let w:count = 0 | call <SID>ResizeSplits()
     autocmd BufWinLeave * let w:count = 0 | call <SID>ResizeSplits()
   augroup END
-  nnoremap <c-w>o <c-w>o:call <sid>ResizeSplits()<cr>
+  nnoremap <silent> <c-w>o <c-w>o:call <sid>ResizeSplits()<cr>
 endif
 nnoremap <silent> <leader>w :call <sid>ResizeSplits()<cr>
 function! s:ResizeSplits()
