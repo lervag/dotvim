@@ -1,3 +1,9 @@
+snippet frame "Frame" !b
+\begin{frame}{$1}
+	$0
+\end{frame}
+endsnippet
+
 snippet label "Label" !w
 \\label{$1} $0
 endsnippet
@@ -8,6 +14,12 @@ endsnippet
 
 snippet emph "Emphasize" !w
 \\emph{${1:${VISUAL}}}$0
+endsnippet
+
+snippet eq "Equation" !b
+\begin{equation}
+  ${1:${VISUAL}}
+\end{equation}$0
 endsnippet
 
 snippet align "Equation align" !b
@@ -30,6 +42,16 @@ endsnippet
 snippet sec "Section" !b
 \section{${1:section name}}
 \label{sec:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/g}}}
+$0
+endsnippet
+
+snippet sub "Subsection" !b
+\subsection{${1:section name}}
+$0
+endsnippet
+
+snippet subsub "Subsubsection" !b
+\subsubsection{${1:section name}}
 $0
 endsnippet
 
