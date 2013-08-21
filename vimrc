@@ -251,6 +251,7 @@ let g:airline_mode_map = {
       \ 'V'  : 'V-L',
       \ ''  : 'V-B',
       \ }
+let g:airline#extensions#whitespace#symbol = ''
 
 "{{{1 Autocommands
 
@@ -285,7 +286,7 @@ if has("gui_running")
   augroup END
   nnoremap <silent> <c-w>o <c-w>o:call <sid>ResizeSplits()<cr>
 endif
-nnoremap <silent> <leader>w :call <sid>ResizeSplits()<cr>
+nnoremap <silent> <c-w>r :call <sid>ResizeSplits()<cr>
 function! s:ResizeSplits()
   let l:curwin = winnr()
   let l:x = getwinposx()
