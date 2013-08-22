@@ -370,19 +370,12 @@ if !has('gui_running')
 endif
 
 "{{{2 Ctrl P
-let g:ctrlp_map = '<leader>tt'
-let g:ctrlp_cmd = 'CtrlPMRU'
+let g:ctrlp_map = ''
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_max_height = 25
 let g:ctrlp_show_hidden = 0
 let g:ctrlp_follow_symlinks = 1
-let g:ctrlp_mruf_include = join([
-      \ '.*rc$',
-      \ '\.reference.bib$',
-      \ '\.\(tex\|vim\|py\|f90\|F90\|cl\)$',
-      \ '[mM]akefile\(\.code\)\?$'
-      \ ], '\|')
 let g:ctrlp_custom_ignore = {
   \ 'dir':  'CVS$\|\.git$\|\.hg$\|\.svn$\|.vim\/undofiles$\|\.vim\/backup$',
   \ 'file': '\.exe$\|\.so$\|\.dll$\|documents\/ntnu\/phd',
@@ -583,15 +576,25 @@ if neobundle#is_sourced('unite.vim')
   call unite#custom#source('vimgrep',  'matchers', 'matcher_fuzzy')
 endif
 
+" Custom mappings for the unite buffer
+autocmd FileType unite call s:unite_settings()
+function! s:unite_settings()
+  let b:SuperTabDisabled=1
+  imap <buffer> jk      <Plug>(unite_insert_leave)
+  imap <buffer> <c-c>   <Plug>(unite_exit)
+  imap <buffer> <c-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <c-k>   <Plug>(unite_select_previous_line)
+endfunction
+
 " Unite leader
 nnoremap [unite]  <Nop>
 nmap     <space>  [unite]
 
 " Unite for files and commands
 nnoremap <silent> [unite]<space>
-      \ :Unite -buffer-name=files -no-split buffer file_mru file tag<cr>
-nnoremap <silent> [unite]c :Unite -buffer-name=commands -no-split command<cr>
-nnoremap <silent> [unite]h :Unite -buffer-name=help     -no-split help<cr>
+      \ :Unite -buffer-name=files -no-split buffer file file_mru<cr>
+nnoremap <silent> <leader>tt
+      \ :Unite -buffer-name=files -no-split buffer file file_mru<cr>
 
 " Unite for neobundle
 nnoremap <silent> [unite]bl :set columns=9999 \| NeoBundleUpdatesLog<cr>
@@ -603,15 +606,9 @@ nnoremap <silent> [unite]bu :Unite
       \ -input=41)\ !git\ Updated
       \ neobundle/update:all<cr>
 
-" Custom mappings for the unite buffer
-autocmd FileType unite call s:unite_settings()
-function! s:unite_settings()
-  let b:SuperTabDisabled=1
-  imap <buffer> jk      <Plug>(unite_insert_leave)
-  imap <buffer> <c-c>   <Plug>(unite_exit)
-  imap <buffer> <c-j>   <Plug>(unite_select_next_line)
-  imap <buffer> <c-k>   <Plug>(unite_select_previous_line)
-endfunction
+" Unite for miscellaneous
+nnoremap <silent> [unite]c :Unite -buffer-name=commands -no-split command<cr>
+nnoremap <silent> [unite]h :Unite -buffer-name=help     -no-split help<cr>
 
 "{{{2 VCSCommand
 if !has('gui_running')
