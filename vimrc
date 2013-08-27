@@ -248,13 +248,17 @@ let g:airline#extensions#hunks#non_zero_only = 1
 let g:airline_theme='solarized'
 let g:airline_section_z = '%3p%% %l:%c'
 let g:airline_mode_map = {
+      \ '__' : '-',
       \ 'n'  : 'N',
       \ 'i'  : 'I',
       \ 'R'  : 'R',
       \ 'c'  : 'C',
       \ 'v'  : 'V',
-      \ 'V'  : 'V-L',
-      \ ''  : 'V-B',
+      \ 'V'  : 'V',
+      \ '' : 'V',
+      \ 's'  : 'S',
+      \ 'S'  : 'S',
+      \ '' : 'S',
       \ }
 
 "{{{1 Autocommands
@@ -603,7 +607,6 @@ nnoremap <silent> [unite]bu :Unite
       \ -no-start-insert
       \ -no-split
       \ -truncate
-      \ -input=41)\ !git\ Updated
       \ neobundle/update:all<cr>
 
 " Unite for miscellaneous
