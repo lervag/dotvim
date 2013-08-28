@@ -601,12 +601,14 @@ nnoremap <silent> <leader>tt
       \ :Unite -buffer-name=files -no-split buffer file_mru file<cr>
 
 " Unite for neobundle
-nnoremap <silent> [unite]bl :set columns=9999 \| NeoBundleUpdatesLog<cr>
-nnoremap <silent> [unite]bu :Unite
+nnoremap <silent> [unite]u :Unite
       \ -buffer-name=neobundle
       \ -no-start-insert
       \ -no-split
-      \ -truncate
+      \ -max-multi-lines=1
+      \ -multi-line
+      \ -silent
+      \ -log
       \ neobundle/update:all<cr>
 
 " Unite for miscellaneous
