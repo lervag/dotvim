@@ -595,10 +595,7 @@ nnoremap [unite]  <Nop>
 nmap     <space>  [unite]
 
 " Unite for files and commands
-nnoremap <silent> [unite]<space>
-      \ :Unite -buffer-name=files -no-split buffer file_mru file<cr>
-nnoremap <silent> <leader>tt
-      \ :Unite -buffer-name=files -no-split buffer file_mru file<cr>
+nnoremap <silent> [unite]<space> :Unite -no-split file_mru file<cr>
 
 " Unite for neobundle
 nnoremap <silent> [unite]u :Unite
