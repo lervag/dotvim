@@ -274,67 +274,12 @@ augroup vimrc_autocommands
         \   exe "normal! g`\"" |
         \ endif
 
-  " Resize splits when the window is resized
-  autocmd VimResized * exe "normal! \<c-w>="
-
   " Set omnifunction if it is not already specified
   autocmd Filetype *
         \ if &omnifunc == "" |
         \   setlocal omnifunc=syntaxcomplete#Complete |
         \ endif
 augroup END
-
-if has("gui_running")
-  augroup vimrc_autocommands
-    autocmd WinEnter    * let w:count = 1 | call <SID>ResizeSplits()
-    autocmd BufEnter    * let w:count = 1 | call <SID>ResizeSplits()
-    autocmd WinLeave    * call <SID>ResizeSplits()
-    autocmd BufHidden   * let w:count = 0 | call <SID>ResizeSplits()
-    autocmd BufWinLeave * let w:count = 0 | call <SID>ResizeSplits()
-  augroup END
-  nnoremap <silent> <c-w>o <c-w>o:call <sid>ResizeSplits()<cr>
-endif
-nnoremap <silent> <c-w>r :call <sid>ResizeSplits()<cr>
-function! s:ResizeSplits()
-  let l:curwin = winnr()
-  let l:x = getwinposx()
-  let l:y = getwinposy()
-  let l:colwidth = 80 + &foldcolumn
-  if &number
-    let l:colwidth += &numberwidth
-  endif
-
-  " Detect the sign columns
-  let save_more = &more
-  set nomore
-  redir => lines
-  silent execute "sign place"
-  redir END
-  let &more = save_more
-  if len(split(lines,"\n")) > 1
-    let l:colwidth += 2
-  endif
-
-  let l:totheight = 0
-  windo   if getwinvar(winnr(), 'count') |
-        \   let l:totheight += winheight(winnr()) |
-        \ endif
-  let l:count = float2nr(ceil(l:totheight / (1.0*&lines)))
-  if l:count > 0
-    let l:totwidth = l:count - 1 + l:count*l:colwidth
-  else
-    let l:totwidth = l:colwidth
-  endif
-
-  if &columns != l:totwidth
-    silent! execute 'set co=' . l:totwidth
-    silent! execute 'winpos ' . l:x . ' ' . l:y
-    silent! execute 'wincmd ='
-  endif
-  silent! execute l:curwin . 'wincmd w'
-
-  let w:count = 1
-endfunction
 
 "{{{1 Key mappings
 
@@ -406,6 +351,7 @@ let g:LatexBox_Folding = 1
 let g:LatexBox_viewer = 'mupdf -r 95'
 let g:LatexBox_quickfix = 2
 let g:LatexBox_split_resize = 1
+let g:LatexBox_fold_toc = 1
 
 "{{{2 Neocomplete
 let g:neocomplete#enable_at_startup = 1
@@ -514,7 +460,7 @@ augroup END
 let g:signify_sign_change = "~"
 let g:signify_disable_by_default = 1
 highlight SignColumn ctermbg=12 guibg=#eee8d5
-nmap <silent> <leader>gt <plug>(signify-toggle):call <sid>ResizeSplits()<cr>
+nmap <silent> <leader>gt <plug>(signify-toggle):ResizeSplits<cr>
 
 "{{{2 Splice
 let g:splice_initial_mode = "grid"
