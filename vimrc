@@ -405,6 +405,7 @@ let g:LatexBox_latexmk_preview_continuously = 1
 let g:LatexBox_Folding = 1
 let g:LatexBox_viewer = 'mupdf -r 95'
 let g:LatexBox_quickfix = 2
+let g:LatexBox_split_resize = 1
 
 "{{{2 Neocomplete
 let g:neocomplete#enable_at_startup = 1
