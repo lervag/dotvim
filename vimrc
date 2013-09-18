@@ -29,6 +29,7 @@ NeoBundle 'Shougo/neocomplete', {
       \ }
 
 " {{{2 Projects I participate in
+"NeoBundleLocal ~/.vim/bundle_testing/
 NeoBundle 'LaTeX-Box-Team/LaTeX-Box.git', {
       \ 'type__protocol' : 'ssh',
       \ }
@@ -201,6 +202,7 @@ else
 endif
 if neobundle#is_sourced('vim-colors-solarized')
   colorscheme solarized
+  call togglebg#map("<F6>")
 endif
 
 "{{{2 Searching and movement
@@ -352,6 +354,11 @@ let g:LatexBox_viewer = 'mupdf -r 95'
 let g:LatexBox_quickfix = 2
 let g:LatexBox_split_resize = 1
 let g:LatexBox_fold_toc = 1
+
+let g:latex_fold_enabled = 1
+let g:latex_viewer = 'mupdf -r 95'
+let g:latex_toc_resize = 1
+let g:latex_toc_fold = 1
 
 "{{{2 Neocomplete
 let g:neocomplete#enable_at_startup = 1
