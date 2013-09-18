@@ -1,0 +1,274 @@
+" {{{1 latex#fold#refresh
+function! latex#fold#refresh()
+    " Parse tex file to dynamically set the sectioning fold levels
+    let b:latex_fold_sections = s:find_fold_sections()
+    normal zx
+endfunction
+
+" {{{1 latex#fold#level
+function! latex#fold#level(lnum)
+    " Check for normal lines first (optimization)
+    let line  = getline(a:lnum)
+    if line !~ s:folded
+        return "="
+    endif
+
+    " Fold preamble
+    if g:latex_fold_preamble
+        if line =~# '\s*\\documentclass'
+            return ">1"
+        elseif line =~# '^\s*\\begin\s*{\s*document\s*}'
+            return "0"
+        endif
+    endif
+
+    " Fold parts (\frontmatter, \mainmatter, \backmatter, and \appendix)
+    if line =~# s:foldparts
+        return ">1"
+    endif
+
+    " Fold chapters and sections
+    for [part, level] in b:latex_fold_sections
+        if line =~# part
+            return ">" . level
+        endif
+    endfor
+
+    " Never fold \end{document}
+    if line =~# '^\s*\\end{document}'
+      return 0
+    endif
+
+    " Fold environments
+    if g:latex_fold_envs
+        if line =~# s:envbeginpattern
+            return "a1"
+        elseif line =~# s:envendpattern
+            return "s1"
+        endif
+    endif
+
+    " Return foldlevel of previous line
+    return "="
+endfunction
+
+" {{{1 latex#fold#text
+function! latex#fold#text()
+    " Initialize
+    let line = getline(v:foldstart)
+    let nlines = v:foldend - v:foldstart + 1
+    let level = ''
+    let title = 'Not defined'
+
+    " Fold level
+    let level = strpart(repeat('-', v:foldlevel-1) . '*',0,3)
+    if v:foldlevel > 3
+        let level = strpart(level, 1) . v:foldlevel
+    endif
+    let level = printf('%-3s', level)
+
+    " Preamble
+    if line =~ '\s*\\documentclass'
+        let title = "Preamble"
+    endif
+
+    " Parts, sections and fakesections
+    let sections = '\(\(sub\)*section\|part\|chapter\)'
+    let secpat1 = '^\s*\\' . sections . '\*\?\s*{'
+    let secpat2 = '^\s*\\' . sections . '\*\?\s*\['
+    if line =~ '\\frontmatter'
+        let title = "Frontmatter"
+    elseif line =~ '\\mainmatter'
+        let title = "Mainmatter"
+    elseif line =~ '\\backmatter'
+        let title = "Backmatter"
+    elseif line =~ '\\appendix'
+        let title = "Appendix"
+    elseif line =~ secpat1 . '.*}'
+        let title =  matchstr(line, secpat1 . '\zs.*\ze}')
+    elseif line =~ secpat1
+        let title =  matchstr(line, secpat1 . '\zs.*')
+    elseif line =~ secpat2 . '.*\]'
+        let title =  matchstr(line, secpat2 . '\zs.*\ze\]')
+    elseif line =~ secpat2
+        let title =  matchstr(line, secpat2 . '\zs.*')
+    elseif line =~ 'Fake' . sections . ':'
+        let title =  matchstr(line,'Fake' . sections . ':\s*\zs.*')
+    elseif line =~ 'Fake' . sections
+        let title =  matchstr(line, 'Fake' . sections)
+    endif
+
+    " Environments
+    if line =~ '\\begin'
+        " Capture environment name
+        let env = matchstr(line,'\\begin\*\?{\zs\w*\*\?\ze}')
+
+        " Set caption based on type of environment
+        if env == 'frame'
+            let label = ''
+            let caption = s:parse_caption_frame(line)
+        elseif env == 'table'
+            let label = s:parse_label()
+            let caption = s:parse_caption_table()
+        else
+            let label = s:parse_label()
+            let caption = s:parse_caption()
+        endif
+
+        " If no caption found, check for a caption comment
+        if caption == ''
+            let caption = matchstr(line,'\\begin\*\?{.*}\s*%\s*\zs.*')
+        endif
+
+        " Create title based on caption and label
+        if caption . label == ''
+            let title = env
+        elseif label == ''
+            let title = printf('%-12s%s', env . ':',
+                        \ substitute(caption, '}\s*$', '',''))
+        elseif caption == ''
+            let title = printf('%-12s%56s', env, '(' . label . ')')
+        else
+            let title = printf('%-12s%-30s %21s', env . ':',
+                        \ strpart(substitute(caption, '}\s*$', '',''),0,34),
+                        \ '(' . label . ')')
+        endif
+    endif
+
+    let title = strpart(title, 0, 68)
+    return printf('%-3s %-68s #%5d', level, title, nlines)
+endfunction
+
+" {{{1 Utility functions and predefined patterns
+" {{{2 Predefined patterns
+"
+" These common patterns are predefined for optimization
+
+let s:notbslash = '\%(\\\@<!\%(\\\\\)*\)\@<='
+let s:notcomment = '\%(\%(\\\@<!\%(\\\\\)*\)\@<=%.*\)\@<!'
+let s:envbeginpattern = s:notcomment . s:notbslash . '\\begin\s*{.\{-}}'
+let s:envendpattern = s:notcomment . s:notbslash . '\\end\s*{.\{-}}'
+let s:foldparts = '^\s*\\\%(' . join(g:latex_fold_parts, '\|') . '\)'
+let s:folded = '\(% Fake\|\\\(document\|begin\|end\|'
+            \ . 'front\|main\|back\|app\|sub\|section\|chapter\|part\)\)'
+
+" {{{2 find_fold_sections
+"
+" This function parses the tex file to find the sections that are to be
+" folded and their levels, and then predefines the patterns for optimized
+" folding.
+
+function! s:find_fold_sections()
+    " Initialize
+    let level = 1
+    let foldsections = []
+
+    " If we use two or more of the *matter commands, we need one more foldlevel
+    let nparts = 0
+    for part in g:latex_fold_parts
+        let i = 1
+        while i < line("$")
+            if getline(i) =~ '^\s*\\' . part . '\>'
+                let nparts += 1
+                break
+            endif
+            let i += 1
+        endwhile
+        if nparts > 1
+            let level = 2
+            break
+        endif
+    endfor
+
+    " Combine sections and levels, but ignore unused section commands:  If we
+    " don't use the part command, then chapter should have the highest
+    " level.  If we don't use the chapter command, then section should be the
+    " highest level.  And so on.
+    let ignore = 1
+    for part in g:latex_fold_sections
+        " For each part, check if it is used in the file.  We start adding the
+        " part patterns to the fold sections array whenever we find one.
+        let partpattern = '^\s*\(\\\|% Fake\)' . part . '\>'
+        if ignore
+            let i = 1
+            while i < line("$")
+                if getline(i) =~# partpattern
+                    call insert(foldsections, [partpattern, level])
+                    let level += 1
+                    let ignore = 0
+                    break
+                endif
+                let i += 1
+            endwhile
+        else
+            call insert(foldsections, [partpattern, level])
+            let level += 1
+        endif
+    endfor
+
+    return foldsections
+endfunction
+
+" {{{2 Fold text helpers
+" {{{3 Parse label
+function! s:parse_label()
+    let i = v:foldend
+    while i >= v:foldstart
+        if getline(i) =~ '^\s*\\label'
+            return matchstr(getline(i), '^\s*\\label{\zs.*\ze}')
+        end
+        let i -= 1
+    endwhile
+    return ""
+endfunction
+
+" {{{3 Parse caption
+function! s:parse_caption()
+    let i = v:foldend
+    while i >= v:foldstart
+        if getline(i) =~ '^\s*\\caption'
+            return matchstr(getline(i), '^\s*\\caption\(\[.*\]\)\?{\zs.\+')
+        end
+        let i -= 1
+    endwhile
+    return ""
+endfunction
+
+" {{{3 Parse caption (tables)
+function! s:parse_caption_table()
+    let i = v:foldstart
+    while i <= v:foldend
+        if getline(i) =~ '^\s*\\caption'
+            return matchstr(getline(i), '^\s*\\caption\(\[.*\]\)\?{\zs.\+')
+        end
+        let i += 1
+    endwhile
+    return ""
+endfunction
+
+" {{{3 Parse caption (frames)
+function! s:parse_caption_frame(line)
+    " Test simple variants first
+    let caption1 = matchstr(a:line,'\\begin\*\?{.*}{\zs.\+\ze}')
+    let caption2 = matchstr(a:line,'\\begin\*\?{.*}{\zs.\+')
+
+    if len(caption1) > 0
+        return caption1
+    elseif len(caption2) > 0
+        return caption2
+    else
+        let i = v:foldstart
+        while i <= v:foldend
+            if getline(i) =~ '^\s*\\frametitle'
+                return matchstr(getline(i),
+                            \ '^\s*\\frametitle\(\[.*\]\)\?{\zs.\+')
+            end
+            let i += 1
+        endwhile
+
+        return ""
+    endif
+endfunction
+
+" {{{1 Modeline
+" vim:fdm=marker:ff=unix
