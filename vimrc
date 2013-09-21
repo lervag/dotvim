@@ -51,7 +51,7 @@ NeoBundle 'mileszs/ack.vim'
 NeoBundle 'Peeja/vim-cdo'
 NeoBundle 'rbtnn/vimconsole.vim'
 NeoBundle 'SirVer/ultisnips'
-NeoBundle 'scrooloose/syntastic', 'gcc_refactor'
+NeoBundle 'scrooloose/syntastic'
 NeoBundle 'sjl/clam.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'sjl/splice.vim'
@@ -346,6 +346,13 @@ let g:gundo_right=1
 let g:gundo_close_on_revert=1
 map <silent> <F5> :GundoToggle<cr>
 
+"{{{2 latex
+
+let g:latex_fold_enabled = 1
+let g:latex_viewer = 'mupdf -r 95'
+let g:latex_toc_resize = 1
+let g:latex_toc_fold = 1
+
 "{{{2 LaTeX-BoX
 let g:LatexBox_latexmk_async = 1
 let g:LatexBox_latexmk_preview_continuously = 1
@@ -354,11 +361,6 @@ let g:LatexBox_viewer = 'mupdf -r 95'
 let g:LatexBox_quickfix = 2
 let g:LatexBox_split_resize = 1
 let g:LatexBox_fold_toc = 1
-
-let g:latex_fold_enabled = 1
-let g:latex_viewer = 'mupdf -r 95'
-let g:latex_toc_resize = 1
-let g:latex_toc_fold = 1
 
 "{{{2 Neocomplete
 let g:neocomplete#enable_at_startup = 1
