@@ -1,34 +1,3 @@
-let s:latex_pids = {}
-
-" {{{1 Utility functions
-function! s:execute(cmd)
-  silent execute a:cmd
-  if !has('gui_running')
-    redraw!
-  endif
-endfunction
-
-function! s:set_pid()
-  let b:latex#file.pid = s:get_pid(b:latex#file.path)
-  call add(s:latex_pids, b:latex#file.pid)
-endfunction
-
-function! s:get_pid(path)
-  return substitute(system('pgrep -f "perl.*' . a:path . '"'),'\D','','')
-endfunction
-
-function! s:kill_self()
-  call s:execute('!kill ' . b:latex#file.pid)
-  call remove(s:latex_pids, b:latex#file.pid)
-  let b:latex#file.pid = 0
-endfunction
-
-function! s:kill_all()
-  for pid in s:latex_pids
-    call s:execute('!kill ' . pid)
-  endfor
-endfunction
-
 " {{{1 latex#latexmk#init
 function! latex#latexmk#init()
   " Define commands
@@ -169,6 +138,36 @@ function! latex#latexmk#stop(silent)
     echoerr "latexmk is not running for `" . b:latex#file.name . "'"
   endif
 endfunction
+" }}}1
 
-" {{{1 Modeline
+" {{{1 Utility functions
+function! s:execute(cmd)
+  silent execute a:cmd
+  if !has('gui_running')
+    redraw!
+  endif
+endfunction
+
+function! s:set_pid()
+  let b:latex#file.pid = s:get_pid(b:latex#file.path)
+  call add(s:latex_pids, b:latex#file.pid)
+endfunction
+
+function! s:get_pid(path)
+  return substitute(system('pgrep -f "perl.*' . a:path . '"'),'\D','','')
+endfunction
+
+function! s:kill_self()
+  call s:execute('!kill ' . b:latex#file.pid)
+  call remove(s:latex_pids, b:latex#file.pid)
+  let b:latex#file.pid = 0
+endfunction
+
+function! s:kill_all()
+  for pid in s:latex_pids
+    call s:execute('!kill ' . pid)
+  endfor
+endfunction
+" }}}1
+
 " vim:fdm=marker:ff=unix

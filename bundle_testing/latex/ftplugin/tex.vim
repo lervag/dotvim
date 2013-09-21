@@ -2,6 +2,12 @@
 "
 " Maintainer: Karl Yngve Lervåg
 " Email:      karl.yngve@gmail.com
+"
+
+if exists('b:did_ftplugin')
+  finish
+endif
+let b:did_ftplugin = 1
 
 " {{{1 Set completion options
 call latex#util#set_default('g:latex_complete_close_braces', 1)
@@ -110,6 +116,7 @@ call latex#util#set_default('g:latex_motion_close_pats',
         \ '\\end\s*{.\{-}}',
         \ '\\right\s*\%([^\\]\|\\.\|\\\a*\)',
       \ ])
+call latex#util#set_default('g:latex_motion_loaded_matchparen', 0)
 
 " {{{1 Set miscelleneous options
 call latex#util#set_default('g:latex_viewer', 'xdg-open')

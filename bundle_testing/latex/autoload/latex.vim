@@ -1,17 +1,18 @@
 " {{{1 latex#init
 function! latex#init()
   "
-  " Initialize the texdata blob
+  " Initialize global and local data blobs
   "
   call latex#util#set_default('g:latex#data', [])
+  call latex#util#set_default('b:latex', {})
 
   "
   " Check if blob already exists
   "
   let main = s:get_main_tex()
-  let id = latex#get_data(main)
+  let id   = s:get_id(main)
   if id >= 0
-    let b:latex_id = id
+    let b:latex.id = id
   else
     let data = {}
     let data.pid  = 0
@@ -26,44 +27,45 @@ function! latex#init()
       return s:get_main_ext(self, 'log')
     endfunction
     function data.out() dict
-      return s:get_main_ext(self, g:latex#latexmk#output)
+      return s:get_main_ext(self, g:latex_latexmk_output)
     endfunction
 
     call add(g:latex#data, data)
-    let b:latex_id = len(g:latex#data) - 1
+    let b:latex.id = len(g:latex#data) - 1
   endif
 
-  let test = data.aux()
-
-  call latex#init#set_errorformat()
+  call latex#set_errorformat()
 
   call s:init_folding()
   call s:init_commands()
   call s:init_mapping()
 
-  " Set omnicompletion
-  "setlocal omnifunc=latex#complete
-endfunction
-
-" {{{1 latex#get_data
-function! latex#get_data(main)
-  if exists('g:latex#data') && !empty(g:latex#data)
-    let id = 0
-    while id < len(g:latex#data)
-      if g:latex#data[id].tex == a:main
-        return id
-      endif
-      let id += 1
-    endwhile
+  "
+  " Highlight matching parens ($, (), ...)
+  "
+  if !g:latex_motion_loaded_matchparen
+    " Disable matchparen autocommands
+    augroup latex_highlight_pairs
+      autocmd!
+      autocmd BufEnter *.tex
+            \   if !exists("g:loaded_matchparen") || !g:loaded_matchparen
+            \ |   runtime plugin/matchparen.vim
+            \ | endif
+      autocmd BufEnter *.tex
+            \ 3match none | unlet! g:loaded_matchparen | au! matchparen
+      autocmd! CursorMoved  *.tex call latex#motion#find_matching_pair('h')
+      autocmd! CursorMovedI *.tex call latex#motion#find_matching_pair('i')
+    augroup END
   endif
 
-  return -1
+  " Set omnicompletion
+  setlocal omnifunc=latex#complete#omnifunc
 endfunction
 
 " {{{1 latex#view
 function! latex#view()
-  let outfile = b:texdata.out()
-  if ! outfile
+  let outfile = g:latex#data[b:latex.id].out()
+  if !outfile
     echomsg "Can't view: Output file is not readable!"
     return
   endif
@@ -73,6 +75,45 @@ function! latex#view()
     redraw!
   endif
 endfunction
+
+" {{{1 latex#set_errorformat
+function! latex#set_errorformat()
+  "
+  " Note: The error formats assume we're using the -file-line-error with
+  "       [pdf]latex. For more info, see |errorformat-LaTeX|.
+  "
+
+  setlocal efm=%E!\ LaTeX\ %trror:\ %m
+  setlocal efm+=%E%f:%l:\ %m
+
+  " Show or ignore warnings
+  if g:latex_errorformat_show_warnings
+    for w in g:latex_errorformat_ignore_warnings
+      let warning = escape(substitute(w, '[\,]', '%\\\\&', 'g'), ' ')
+      exe 'setlocal efm+=%-G%.%#'. warning .'%.%#'
+    endfor
+    setlocal efm+=%+WLaTeX\ %.%#Warning:\ %.%#line\ %l%.%#
+    setlocal efm+=%+W%.%#\ at\ lines\ %l--%*\\d
+    setlocal efm+=%+WLaTeX\ %.%#Warning:\ %m
+    setlocal efm+=%+W%.%#%.%#Warning:\ %m
+  else
+    setlocal efm+=%-WLaTeX\ %.%#Warning:\ %.%#line\ %l%.%#
+    setlocal efm+=%-W%.%#\ at\ lines\ %l--%*\\d
+    setlocal efm+=%-WLaTeX\ %.%#Warning:\ %m
+    setlocal efm+=%-W%.%#%.%#Warning:\ %m
+  endif
+
+  " Consider the remaining statements that starts with "!" as errors
+  setlocal efm+=%E!\ %m
+
+  " Push file to file stack
+  setlocal efm+=%+P**%f
+
+  " Ignore unmatched lines
+  setlocal efm+=%-G\\s%#
+  setlocal efm+=%-G%.%#
+endfunction
+" }}}1
 
 " {{{1 s:init_folding
 function! s:init_folding()
@@ -148,23 +189,38 @@ function! s:init_mapping()
   "  omap <buffer> % <Plug>LatexBox_JumpToMatch
   "endif
 
-  "vmap <buffer> ie <Plug>LatexBox_SelectCurrentEnvInner
-  "vmap <buffer> ae <Plug>LatexBox_SelectCurrentEnvOuter
+  "vmap <buffer> ie <plug>LatexBox_SelectCurrentEnvInner
+  "vmap <buffer> ae <plug>LatexBox_SelectCurrentEnvOuter
   "omap <buffer> ie :normal vie<CR>
   "omap <buffer> ae :normal vae<CR>
-  "vmap <buffer> i$ <Plug>LatexBox_SelectInlineMathInner
-  "vmap <buffer> a$ <Plug>LatexBox_SelectInlineMathOuter
+  "vmap <buffer> i$ <plug>LatexBox_SelectInlineMathInner
+  "vmap <buffer> a$ <plug>LatexBox_SelectInlineMathOuter
   "omap <buffer> i$ :normal vi$<CR>
   "omap <buffer> a$ :normal va$<CR>
 
-  "noremap  <buffer> <silent> ]] :call latex#move#next_section(0,0,0)<CR>
-  "noremap  <buffer> <silent> ][ :call latex#move#next_section(1,0,0)<CR>
-  "noremap  <buffer> <silent> [] :call latex#move#next_section(1,1,0)<CR>
-  "noremap  <buffer> <silent> [[ :call latex#move#next_section(0,1,0)<CR>
-  "vnoremap <buffer> <silent> ]] :<c-u>call latex#move#next_section(0,0,1)<CR>
-  "vnoremap <buffer> <silent> ][ :<c-u>call latex#move#next_section(1,0,1)<CR>
-  "vnoremap <buffer> <silent> [] :<c-u>call latex#move#next_section(1,1,1)<CR>
-  "vnoremap <buffer> <silent> [[ :<c-u>call latex#move#next_section(0,1,1)<CR>
+  "noremap  <buffer> <silent> ]] :call latex#motion#next_section(0,0,0)<cr>
+  "noremap  <buffer> <silent> ][ :call latex#motion#next_section(1,0,0)<cr>
+  "noremap  <buffer> <silent> [] :call latex#motion#next_section(1,1,0)<cr>
+  "noremap  <buffer> <silent> [[ :call latex#motion#next_section(0,1,0)<cr>
+  "vnoremap <buffer> <silent> ]] :<c-u>call latex#motion#next_section(0,0,1)<cr>
+  "vnoremap <buffer> <silent> ][ :<c-u>call latex#motion#next_section(1,0,1)<cr>
+  "vnoremap <buffer> <silent> [] :<c-u>call latex#motion#next_section(1,1,1)<cr>
+  "vnoremap <buffer> <silent> [[ :<c-u>call latex#motion#next_section(0,1,1)<cr>
+endfunction
+
+" {{{1 s:get_id
+function! s:get_id(main)
+  if exists('g:latex#data') && !empty(g:latex#data)
+    let id = 0
+    while id < len(g:latex#data)
+      if g:latex#data[id].tex == a:main
+        return id
+      endif
+      let id += 1
+    endwhile
+  endif
+
+  return -1
 endfunction
 
 " {{{1 s:get_main_tex
@@ -198,6 +254,6 @@ function! s:get_main_ext(texdata, ext)
 
   return 0
 endfunction
+" }}}1
 
-" {{{1 Modeline
 " vim:fdm=marker:ff=unix

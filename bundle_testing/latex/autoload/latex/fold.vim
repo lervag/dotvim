@@ -1,7 +1,18 @@
+"
+" Common patterns are predefined for optimization
+"
+let s:notbslash = '\%(\\\@<!\%(\\\\\)*\)\@<='
+let s:notcomment = '\%(\%(\\\@<!\%(\\\\\)*\)\@<=%.*\)\@<!'
+let s:envbeginpattern = s:notcomment . s:notbslash . '\\begin\s*{.\{-}}'
+let s:envendpattern = s:notcomment . s:notbslash . '\\end\s*{.\{-}}'
+let s:foldparts = '^\s*\\\%(' . join(g:latex_fold_parts, '\|') . '\)'
+let s:folded = '\(% Fake\|\\\(document\|begin\|end\|'
+            \ . 'front\|main\|back\|app\|sub\|section\|chapter\|part\)\)'
+
 " {{{1 latex#fold#refresh
 function! latex#fold#refresh()
     " Parse tex file to dynamically set the sectioning fold levels
-    let b:latex_fold_sections = s:find_fold_sections()
+    let b:latex.fold_sections = s:find_fold_sections()
     normal zx
 endfunction
 
@@ -28,7 +39,7 @@ function! latex#fold#level(lnum)
     endif
 
     " Fold chapters and sections
-    for [part, level] in b:latex_fold_sections
+    for [part, level] in b:latex.fold_sections
         if line =~# part
             return ">" . level
         endif
@@ -138,79 +149,66 @@ function! latex#fold#text()
     let title = strpart(title, 0, 68)
     return printf('%-3s %-68s #%5d', level, title, nlines)
 endfunction
+" }}}1
 
-" {{{1 Utility functions and predefined patterns
-" {{{2 Predefined patterns
-"
-" These common patterns are predefined for optimization
-
-let s:notbslash = '\%(\\\@<!\%(\\\\\)*\)\@<='
-let s:notcomment = '\%(\%(\\\@<!\%(\\\\\)*\)\@<=%.*\)\@<!'
-let s:envbeginpattern = s:notcomment . s:notbslash . '\\begin\s*{.\{-}}'
-let s:envendpattern = s:notcomment . s:notbslash . '\\end\s*{.\{-}}'
-let s:foldparts = '^\s*\\\%(' . join(g:latex_fold_parts, '\|') . '\)'
-let s:folded = '\(% Fake\|\\\(document\|begin\|end\|'
-            \ . 'front\|main\|back\|app\|sub\|section\|chapter\|part\)\)'
-
-" {{{2 find_fold_sections
-"
-" This function parses the tex file to find the sections that are to be
-" folded and their levels, and then predefines the patterns for optimized
-" folding.
-
+" {{{1 s:find_fold_sections
 function! s:find_fold_sections()
-    " Initialize
-    let level = 1
-    let foldsections = []
+  "
+  " This function parses the tex file to find the sections that are to be
+  " folded and their levels, and then predefines the patterns for optimized
+  " folding.
+  "
+  " Initialize
+  let level = 1
+  let foldsections = []
 
-    " If we use two or more of the *matter commands, we need one more foldlevel
-    let nparts = 0
-    for part in g:latex_fold_parts
-        let i = 1
-        while i < line("$")
-            if getline(i) =~ '^\s*\\' . part . '\>'
-                let nparts += 1
-                break
-            endif
-            let i += 1
-        endwhile
-        if nparts > 1
-            let level = 2
-            break
+  " If we use two or more of the *matter commands, we need one more foldlevel
+  let nparts = 0
+  for part in g:latex_fold_parts
+    let i = 1
+    while i < line("$")
+      if getline(i) =~ '^\s*\\' . part . '\>'
+        let nparts += 1
+        break
+      endif
+      let i += 1
+    endwhile
+    if nparts > 1
+      let level = 2
+      break
+    endif
+  endfor
+
+  " Combine sections and levels, but ignore unused section commands:  If we
+  " don't use the part command, then chapter should have the highest
+  " level.  If we don't use the chapter command, then section should be the
+  " highest level.  And so on.
+  let ignore = 1
+  for part in g:latex_fold_sections
+    " For each part, check if it is used in the file.  We start adding the
+    " part patterns to the fold sections array whenever we find one.
+    let partpattern = '^\s*\(\\\|% Fake\)' . part . '\>'
+    if ignore
+      let i = 1
+      while i < line("$")
+        if getline(i) =~# partpattern
+          call insert(foldsections, [partpattern, level])
+          let level += 1
+          let ignore = 0
+          break
         endif
-    endfor
+        let i += 1
+      endwhile
+    else
+      call insert(foldsections, [partpattern, level])
+      let level += 1
+    endif
+  endfor
 
-    " Combine sections and levels, but ignore unused section commands:  If we
-    " don't use the part command, then chapter should have the highest
-    " level.  If we don't use the chapter command, then section should be the
-    " highest level.  And so on.
-    let ignore = 1
-    for part in g:latex_fold_sections
-        " For each part, check if it is used in the file.  We start adding the
-        " part patterns to the fold sections array whenever we find one.
-        let partpattern = '^\s*\(\\\|% Fake\)' . part . '\>'
-        if ignore
-            let i = 1
-            while i < line("$")
-                if getline(i) =~# partpattern
-                    call insert(foldsections, [partpattern, level])
-                    let level += 1
-                    let ignore = 0
-                    break
-                endif
-                let i += 1
-            endwhile
-        else
-            call insert(foldsections, [partpattern, level])
-            let level += 1
-        endif
-    endfor
-
-    return foldsections
+  return foldsections
 endfunction
 
-" {{{2 Fold text helpers
-" {{{3 Parse label
+" {{{1 s:parse_label
 function! s:parse_label()
     let i = v:foldend
     while i >= v:foldstart
@@ -222,7 +220,7 @@ function! s:parse_label()
     return ""
 endfunction
 
-" {{{3 Parse caption
+" {{{1 s:parse_caption
 function! s:parse_caption()
     let i = v:foldend
     while i >= v:foldstart
@@ -234,7 +232,7 @@ function! s:parse_caption()
     return ""
 endfunction
 
-" {{{3 Parse caption (tables)
+" {{{1 s:parse_caption_table
 function! s:parse_caption_table()
     let i = v:foldstart
     while i <= v:foldend
@@ -246,7 +244,7 @@ function! s:parse_caption_table()
     return ""
 endfunction
 
-" {{{3 Parse caption (frames)
+" {{{1 s:parse_caption_frame
 function! s:parse_caption_frame(line)
     " Test simple variants first
     let caption1 = matchstr(a:line,'\\begin\*\?{.*}{\zs.\+\ze}')
@@ -269,6 +267,6 @@ function! s:parse_caption_frame(line)
         return ""
     endif
 endfunction
+" }}}1
 
-" {{{1 Modeline
 " vim:fdm=marker:ff=unix

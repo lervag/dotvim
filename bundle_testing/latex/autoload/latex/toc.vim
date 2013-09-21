@@ -60,6 +60,7 @@ function! latex#toc#toggle()
     call latex#toc#open()
   endif
 endfunction
+" }}}1
 
 " {{{1 s:read_toc
 function! s:read_toc(auxfile, texfile, ...)
