@@ -233,21 +233,25 @@ set completeopt=longest,menu,preview
 set noshowmode
 set laststatus=2
 
-" Separators and symbols
+" Separators
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_alt_sep = ''
-let g:airline_branch_prefix = ' '
-let g:airline_readonly_symbol = ''
-let g:airline_paste_symbol = 'Þ'
+
+" Symbols
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_symbols.branch = ' '
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.paste = 'Þ'
 
 " Extensions
 let g:airline#extensions#whitespace#symbol = ''
 let g:airline#extensions#hunks#non_zero_only = 1
 
 " Theme and customization
-let g:airline_theme='solarized'
 let g:airline_section_z = '%3p%% %l:%c'
 let g:airline_mode_map = {
       \ '__' : '-',
@@ -521,9 +525,9 @@ map <leader>es :UltiSnipsEdit<cr>
 
 "{{{2 Unite
 let g:unite_enable_start_insert = 1
+let g:unite_enable_short_source_names = 1
 let g:unite_source_buffer_time_format = "(%H:%M) "
 let g:unite_source_file_mru_time_format = "(%d.%m %H:%M) "
-let g:unite_enable_short_source_names = 1
 
 if neobundle#is_sourced('unite.vim')
   call unite#filters#matcher_default#use(['matcher_fuzzy'])
