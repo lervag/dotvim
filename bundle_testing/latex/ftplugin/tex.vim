@@ -72,6 +72,7 @@ call latex#util#set_default('g:latex_toc_fold_levels', 1)
 " {{{1 Set latexmk options
 call latex#util#set_default('g:latex_latexmk_options', '')
 call latex#util#set_default('g:latex_latexmk_output', 'pdf')
+call latex#util#set_default('g:latex_latexmk_autojump', '0')
 
 " {{{1 Set folding options
 call latex#util#set_default('g:latex_fold_enabled', 0)

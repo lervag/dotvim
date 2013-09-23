@@ -1,117 +1,117 @@
 " {{{1 latex#latexmk#init
+let s:latexmk_initialized = 0
 function! latex#latexmk#init()
-  " Define commands
-  command! -bang  Latexmk       call latex#latexmk#compile(<q-bang> == "!")
-  command! -bang  LatexmkClean  call latex#latexmk#clean(<q-bang> == "!")
-  command! -bang  LatexmkStatus call latex#latexmk#status(<q-bang> == "!")
-  command! LatexmkStop          call latex#latexmk#stop(0)
-  command! LatexErrors          call latex#latexmk#errors(-1)
+  "
+  " Initialize pid for current tex file
+  "
+  if !has_key(g:latex#data[b:latex.id], 'pid')
+    let g:latex#data[b:latex.id].pid = 0
+  endif
 
-  " Create autogroup with autocommands to ensure all processes are terminated
-  " properly
-  augroup latex
-    autocmd BufUnload <buffer> call latex#latexmk#stop(1)
-    autocmd VimLeave *         call s:kill_all_pids()
-  augroup END
+  "
+  " Initialize public interface
+  "
+  if s:latexmk_initialized
+    return
+  endif
+  let s:latexmk_initialized = 1
+
+  "
+  " Define commands
+  "
+  command!       Latexmk       call latex#latexmk#compile()
+  command!       LatexmkStop   call latex#latexmk#stop()
+  command! -bang LatexmkClean  call latex#latexmk#clean(<q-bang> == "!")
+  command!       LatexmkErrors call latex#latexmk#errors()
+  command! -bang LatexmkStatus call latex#latexmk#status(<q-bang> == "!")
+
+  "
+  " Ensure that latexmk processes are stopped when appropriate
+  "
+" augroup latex_latexmk
+"   autocmd BufUnload <buffer> call latex#latexmk#stop(1)
+"   autocmd VimLeave *         call s:kill_all_pids()
+" augroup END
 endfunction
 
 " {{{1 latex#latexmk#compile
 function! latex#latexmk#compile()
-  if b:latex#file.pid
-    echomsg "latexmk is already running for `" . b:latex#file.name . "'"
+  let data = g:latex#data[b:latex.id]
+  if data.pid
+    echomsg "latexmk is already running for `" . data.base . "'"
     return
   endif
 
+  "
   " Set latexmk command with options
-  let cmd  = '!cd ' . b:latex#file.root . ' && '
+  "
+  let cmd  = '!cd ' . data.root . ' && '
   let cmd .= 'max_print_line=2000 latexmk'
-  let cmd .= ' -' . g:latex#latexmk#output
+  let cmd .= ' -' . g:latex_latexmk_output
   let cmd .= ' -quiet '
   let cmd .= ' -pvc'
-  let cmd .= g:latex#latexmk#options
+  let cmd .= g:latex_latexmk_options
   let cmd .= ' -e ' . shellescape('$pdflatex =~ s/ / -file-line-error /')
   let cmd .= ' -e ' . shellescape('$latex =~ s/ / -file-line-error /')
-  let cmd .= ' ' . b:latex#file.name
+  let cmd .= ' ' . data.base
   let cmd .= ' &>/dev/null &'
+  let g:latex#data[b:latex.id].cmd = cmd
 
-  echo 'Compiling to ' . g:latex#latexmk#output . ' ...'
-  silent execute cmd
-
-  " Save PID in order to be able to kill the process when wanted.
-  let b:latex#file.pid = s:get_pid(b:latex#file.path)
-
-  " Redraw screen if necessary
-  if !has("gui_running")
-    redraw!
-  endif
+  call s:latexmk_start()
 endfunction
 
 " {{{1 latex#latexmk#clean
 function! latex#latexmk#clean(full)
-  if b:latex#file.pid
+  let data = g:latex#data[b:latex.id]
+  if data.pid
     echomsg "latexmk is already running"
     return
   endif
 
-  let cmd = 'cd ' . b:latex#file.root . ';'
+  "
+  " Run latexmk clean process
+  "
+  let cmd = 'cd ' . data.root . ';'
   if a:full
     let cmd .= 'latexmk -C '
   else
     let cmd .= 'latexmk -c '
   endif
-  let cmd .= b:latex#file.name . ' &>/dev/null'
+  let cmd .= data.base . ' &>/dev/null'
   call system(cmd)
   echomsg "latexmk clean finished"
 
+  " Redraw screen if necessary
   if !has('gui_running')
     redraw!
   endif
 endfunction
 
-" {{{1 latex#latexmk#errors
-function! latex#latexmk#errors(status, ...)
-  if a:0 >= 1
-    let log = a:1 . '.log'
+" {{{1 latex#latexmk#stop
+function! latex#latexmk#stop()
+  let data = g:latex#data[b:latex.id]
+  if data.pid
+    call s:kill_pid(data.pid)
+    let g:latex#data[b:latex.id].pid = 0
+    echomsg "latexmk stopped for `" . data.base . "'"
   else
-    let log = LatexBox_GetLogFile()
+    echomsg "latexmk is not running for `" . data.base . "'"
   endif
+endfunction
+
+" {{{1 latex#latexmk#errors
+function! latex#latexmk#errors()
+  let log = g:latex#data[b:latex.id].log()
 
   cclose
 
-  " set cwd to expand error file correctly
-  let l:cwd = fnamemodify(getcwd(), ':p')
-  execute 'lcd ' . fnameescape(LatexBox_GetTexRoot())
-  try
-    if g:LatexBox_autojump
-      execute 'cfile ' . fnameescape(log)
-    else
-      execute 'cgetfile ' . fnameescape(log)
-    endif
-  finally
-    " restore cwd
-    execute 'lcd ' . fnameescape(l:cwd)
-  endtry
-
-  " Always open window if started by LatexErrors command
-  if a:status < 0
-    botright copen
+  if g:latex_latexmk_autojump
+    execute 'cfile ' . log
   else
-    " Write status message to screen
-    redraw
-    if a:status > 0 || len(getqflist())>1
-      echomsg 'Compiling to ' . g:LatexBox_output_type . ' ... failed!'
-    else
-      echomsg 'Compiling to ' . g:LatexBox_output_type . ' ... success!'
-    endif
-
-    " Only open window when an error/warning is detected
-    if g:LatexBox_quickfix
-      belowright cw
-      if g:LatexBox_quickfix==2
-        wincmd p
-      endif
-    endif
+    execute 'cgetfile ' . log
   endif
+
+  botright copen
 endfunction
 
 " {{{1 latex#latexmk#status
@@ -119,23 +119,11 @@ function! latex#latexmk#status(detailed)
   if a:detailed
     echomsg "TODO"
   else
-    if b:latex#file.pid
+    if g:latex#data[b:latex.id].pid
       echo "latexmk is running"
     else
       echo "latexmk is not running"
     endif
-  endif
-endfunction
-
-" {{{1 latex#latexmk#stop
-function! latex#latexmk#stop(silent)
-  if b:latex#file.pid
-    call s:kill_pid(b:latex#file.pid)
-    if !a:silent
-      echomsg "latexmk stopped for `" . b:latex#file.name . "'"
-    endif
-  elseif !a:silent
-    echoerr "latexmk is not running for `" . b:latex#file.name . "'"
   endif
 endfunction
 " }}}1
@@ -148,25 +136,20 @@ function! s:execute(cmd)
   endif
 endfunction
 
-function! s:set_pid()
-  let b:latex#file.pid = s:get_pid(b:latex#file.path)
-  call add(s:latex_pids, b:latex#file.pid)
-endfunction
-
-function! s:get_pid(path)
-  return substitute(system('pgrep -f "perl.*' . a:path . '"'),'\D','','')
+function! s:latexmk_start()
+  "
+  " Start the process and save the PID
+  "
+  call s:execute(g:latex#data[b:latex.id].cmd)
+  let g:latex#data[b:latex.id].pid = substitute(system('pgrep -f "perl.*'
+        \ . g:latex#data[b:latex.id].base . '"'),'\D','','')
+  echomsg 'latexmk compilation started'
 endfunction
 
 function! s:kill_self()
   call s:execute('!kill ' . b:latex#file.pid)
   call remove(s:latex_pids, b:latex#file.pid)
   let b:latex#file.pid = 0
-endfunction
-
-function! s:kill_all()
-  for pid in s:latex_pids
-    call s:execute('!kill ' . pid)
-  endfor
 endfunction
 " }}}1
 

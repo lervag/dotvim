@@ -15,7 +15,6 @@ function! latex#init()
     let b:latex.id = id
   else
     let data = {}
-    let data.pid  = 0
     let data.tex  = main
     let data.root = fnamemodify(data.tex, ':h')
     let data.base = fnamemodify(data.tex, ':t')
@@ -35,6 +34,8 @@ function! latex#init()
   endif
 
   call latex#set_errorformat()
+
+  call latex#latexmk#init()
 
   call s:init_folding()
   call s:init_commands()
@@ -144,14 +145,14 @@ endfunction
 
 " {{{1 s:init_mapping
 function! s:init_mapping()
-  "map <buffer> <LocalLeader>ll :Latexmk<CR>
-  "map <buffer> <LocalLeader>lL :Latexmk!<CR>
-  "map <buffer> <LocalLeader>lc :LatexmkClean<CR>
-  "map <buffer> <LocalLeader>lC :LatexmkClean!<CR>
-  "map <buffer> <LocalLeader>lg :LatexmkStatus<CR>
-  "map <buffer> <LocalLeader>lG :LatexmkStatus!<CR>
-  "map <buffer> <LocalLeader>lk :LatexmkStop<CR>
-  "map <buffer> <LocalLeader>le :LatexErrors<CR>
+  map <buffer> <localleader>ll :Latexmk<CR>
+  "map <buffer> <localleader>lL :Latexmk!<CR>
+  "map <buffer> <localleader>lc :LatexmkClean<CR>
+  "map <buffer> <localleader>lC :LatexmkClean!<CR>
+  "map <buffer> <localleader>lg :LatexmkStatus<CR>
+  "map <buffer> <localleader>lG :LatexmkStatus!<CR>
+  "map <buffer> <localleader>lk :LatexmkStop<CR>
+  "map <buffer> <localleader>le :LatexErrors<CR>
 
 "inoremap <silent> <Plug>LatexCloseCurEnv
 "      \ <C-R>=<SID>CloseCurEnv()<CR>
