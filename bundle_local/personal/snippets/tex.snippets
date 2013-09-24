@@ -62,6 +62,20 @@ snippet subsub "Subsubsection" !b
 $0
 endsnippet
 
+snippet table "Table" b
+\begin{table}[tbp]
+  \caption{$1}
+  \label{tab:$2}
+  \begin{tabular}{$3}
+    \toprule
+    $4
+    \midrule
+    $5
+    \bottomrule
+  \end{tabular}
+\end{table}$0
+endsnippet
+
 snippet tikz "TikZ picture" b
 \begin{tikzpicture}
 	[$1]
