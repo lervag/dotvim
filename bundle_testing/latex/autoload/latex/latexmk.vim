@@ -141,8 +141,8 @@ function! s:latexmk_start()
   " Start the process and save the PID
   "
   call s:execute(g:latex#data[b:latex.id].cmd)
-  let g:latex#data[b:latex.id].pid = substitute(system('pgrep -f "perl.*'
-        \ . g:latex#data[b:latex.id].base . '"'),'\D','','')
+  let g:latex#data[b:latex.id].pid = split(system('pgrep -f "perl.*'
+        \ . g:latex#data[b:latex.id].base . '"'),'\D')
   echomsg 'latexmk compilation started'
 endfunction
 

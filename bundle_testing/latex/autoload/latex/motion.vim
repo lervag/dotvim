@@ -9,13 +9,15 @@ let s:section_pattern = s:notcomment . '\v\s*\\(' . join([
       \ 'part',
       \ 'appendix',
       \ '(front|back|main)matter'], '|') . ')>'
-let s:dollar_pat = '\$'
-let s:anymatch = '\('
+let s:all_pats = '\('
       \ . join(g:latex_motion_open_pats + g:latex_motion_close_pats, '\|')
-      \ . '\|' . s:dollar_pat . '\)'
+      \ . '\|\$\)'
 
 " {{{1 latex#motion#find_matching_pair
 function! latex#motion#find_matching_pair(mode)
+  "
+  " Note: This code is ugly, but it seems to work.
+  "
   if a:mode =~ 'h\|i'
     2match none
   elseif a:mode == 'v'
@@ -28,26 +30,26 @@ function! latex#motion#find_matching_pair(mode)
   let cnum = searchpos('\A', 'cbnW', lnum)[1]
 
   " Check if previous char is a backslash
-  if strpart(getline(lnum), 0, cnum-1) !~ s:notbslash . '$'
+  if strpart(getline(lnum), cnum-2, 1) == '\'
     let cnum = cnum-1
   endif
-  let delim = matchstr(getline(lnum), '\C^'. s:anymatch , cnum-1)
 
+  let delim = matchstr(getline(lnum), '\C^'. s:all_pats, cnum-1)
   if empty(delim) || strlen(delim)+cnum-1 < col('.')
     if a:mode =~ 'n\|v\|o'
       " if not found, search forward
-      let cnum = match(getline(lnum), '\C'. s:anymatch , col('.') - 1) + 1
+      let cnum = match(getline(lnum), '\C'. s:all_pats, col('.') - 1) + 1
       if cnum == 0 | return | endif
       call cursor(lnum, cnum)
-      let delim = matchstr(getline(lnum), '\C^'. s:anymatch , cnum - 1)
+      let delim = matchstr(getline(lnum), '\C^'. s:all_pats, cnum - 1)
     elseif a:mode =~ 'i'
       " if not found, move one char bacward and search
       let cnum = searchpos('\A', 'bnW', lnum)[1]
       " if the previous char is a backslash
-      if strpart(getline(lnum), 0,  cnum-1) !~ s:notbslash . '$'
+      if strpart(getline(lnum), cnum-2, 1) == '\'
         let cnum = cnum-1
       endif
-      let delim = matchstr(getline(lnum), '\C^'. s:anymatch , cnum - 1)
+      let delim = matchstr(getline(lnum), '\C^'. s:all_pats, cnum - 1)
       if empty(delim) || strlen(delim)+cnum< col('.')
         return
       endif
@@ -61,11 +63,11 @@ function! latex#motion#find_matching_pair(mode)
     " check if next character is in inline math
     let [lnum0, cnum0] = searchpos('.', 'nW')
     if lnum0 && latex#util#has_syntax('texMathZoneX', lnum0, cnum0)
-      let [lnum2, cnum2] = searchpos(s:notcomment . s:notbslash. s:dollar_pat,
+      let [lnum2, cnum2] = searchpos(s:notcomment . s:notbslash . '\$',
             \ 'nW', line('w$')*(a:mode =~ 'h\|i'), 200)
     else
       let [lnum2, cnum2] = searchpos('\%(\%'. lnum . 'l\%'
-            \ . cnum . 'c\)\@!'. s:notcomment . s:notbslash . s:dollar_pat,
+            \ . cnum . 'c\)\@!'. s:notcomment . s:notbslash . '\$',
             \ 'bnW', line('w0')*(a:mode =~ 'h\|i'), 200)
     endif
 
@@ -85,7 +87,7 @@ function! latex#motion#find_matching_pair(mode)
         " if on opening pattern, search for closing pattern
         let [lnum2, cnum2] = searchpairpos('\C' . open_pat, '', '\C'
               \ . close_pat, 'nW', 'latex#util#in_comment()',
-              \ line('w$')*(a:mode =~ 'h\|i') , 200)
+              \ line('w$')*(a:mode =~ 'h\|i'), 200)
         if a:mode =~ 'h\|i'
           execute '2match MatchParen /\%(\%' . lnum . 'l\%' . cnum
                 \ . 'c' . g:latex_motion_open_pats[i] . '\|\%'
@@ -104,7 +106,7 @@ function! latex#motion#find_matching_pair(mode)
         let [lnum2, cnum2] =  searchpairpos('\C' . open_pat, '',
               \ '\C\%(\%'. lnum . 'l\%' . cnum . 'c\)\@!'
               \ . close_pat, 'bnW', 'latex#util#in_comment()',
-              \ line('w0')*(a:mode =~ 'h\|i') , 200)
+              \ line('w0')*(a:mode =~ 'h\|i'), 200)
         if a:mode =~ 'h\|i'
           execute '2match MatchParen /\%(\%' . lnum2 . 'l\%' . cnum2
                 \ . 'c' . g:latex_motion_open_pats[i] . '\|\%'
