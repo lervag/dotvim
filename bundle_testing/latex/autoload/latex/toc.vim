@@ -7,19 +7,24 @@ function! latex#toc#open()
     return
   endif
 
+  " Get file names
+  let auxfile = g:latex#data[b:latex.id].aux()
+  let texfile = g:latex#data[b:latex.id].tex
+
   " Create TOC window
-  let auxfile = g:latex#data[b:latex_id].aux()
-  let texfile = g:latex#data[b:latex_id].tex
   let calling_buf = bufnr('%')
+  let calling_file = expand('%:p')
   if g:latex_toc_resize
     silent exe "set columns+=" . g:latex_toc_width
   endif
   silent exe g:latex_toc_split_side g:latex_toc_width . 'vnew LaTeX\ TOC'
 
   " Parse TOC data
-  if auxfile
+  if auxfile == ""
+    call append('$', "TeX file not compiled")
+  else
     let toc = s:read_toc(auxfile, texfile)
-    let closest_index = s:find_closest_section(toc)
+    let closest_index = s:find_closest_section(toc, calling_file)
     let b:toc = toc.data
     let b:toc_numbers = 1
     let b:calling_win = bufwinnr(calling_buf)
@@ -30,8 +35,6 @@ function! latex#toc#open()
     endfor
 
     execute 'normal! ' . (closest_index + 1) . 'G'
-  else
-    call append('$', "TeX file not compiled")
   endif
 
   " Add help info
@@ -152,17 +155,17 @@ endfunction
 " 1. Binary search for the closest section
 " 2. Return the index of the TOC entry
 "
-function! s:find_closest_section(toc)
-  let file = expand('%:p')
-  if !has_key(a:toc.fileindices, file)
-    echoe 'File not included in main tex file!'
+function! s:find_closest_section(toc, file)
+  if !has_key(a:toc.fileindices, a:file)
+    echoerr 'File not included in main tex file!'
+    return
   endif
 
-  let imax = len(a:toc.fileindices[file])
+  let imax = len(a:toc.fileindices[a:file])
   let imin = 0
   while imin < imax - 1
     let i = (imax + imin) / 2
-    let tocindex = a:toc.fileindices[file][i]
+    let tocindex = a:toc.fileindices[a:file][i]
     let entry = a:toc.data[tocindex]
     let titlestr = entry['text']
     let titlestr = escape(titlestr, '\')
@@ -176,7 +179,7 @@ function! s:find_closest_section(toc)
     endif
   endwhile
 
-  return a:toc.fileindices[file][imin]
+  return a:toc.fileindices[a:file][imin]
 endfunction
 
 " {{{1 s:utf8_conversion
@@ -202,6 +205,11 @@ function! s:utf8_conversion(line)
     let line = substitute(line, "\\\\IeC\s*{\\\\^i}", 'ì', 'g')
     let line = substitute(line, "\\\\IeC\s*{\\\\¨i}", 'ï', 'g')
     let line = substitute(line, "\\\\IeC\s*{\\\\\"i}", 'ï', 'g')
+    let line = substitute(line, "\\\\IeC\s*{\\\\'\\\\i}", 'í', 'g')
+
+    let line = substitute(line, "\\\\IeC\s*{\\\\'n}", 'ń', 'g')
+    let line = substitute(line, "\\\\IeC\s*{\\\\`n}", 'ǹ', 'g')
+    let line = substitute(line, "\\\\IeC\s*{\\\\\\~n}", 'ñ', 'g')
 
     let line = substitute(line, "\\\\IeC\s*{\\\\'o}", 'ó', 'g')
     let line = substitute(line, "\\\\IeC\s*{\\\\`o}", 'ò', 'g')
