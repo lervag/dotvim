@@ -96,7 +96,7 @@ function! s:read_toc(auxfile, texfile, ...)
       continue
     endif
 
-    let tree = latex#util#tex2tree(line)
+    let tree = latex#util#tex2tree(s:convert_back(line))
 
     if len(tree) < 3
       " unknown entry type: just skip it
@@ -119,7 +119,6 @@ function! s:read_toc(auxfile, texfile, ...)
     if len(tree[1]) > 1
       if !empty(tree[1][1])
         let secnum = latex#util#tree2tex(tree[1][1])
-        let secnum = s:utf8_conversion(secnum)
         let secnum = substitute(secnum, '\\\S\+\s', '', 'g')
         let secnum = substitute(secnum, '\\\S\+{\(.\{-}\)}', '\1', 'g')
         let secnum = substitute(secnum, '^{\+\|}\+$', '', 'g')
@@ -132,7 +131,6 @@ function! s:read_toc(auxfile, texfile, ...)
 
     " Parse title
     let text = latex#util#tree2tex(tree)
-    let text = s:utf8_conversion(text)
     let text = substitute(text, '^{\+\|}\+$', '', 'g')
 
     " Add TOC entry
@@ -182,76 +180,76 @@ function! s:find_closest_section(toc, file)
   return a:toc.fileindices[a:file][imin]
 endfunction
 
-" {{{1 s:utf8_conversion
-function! s:utf8_conversion(line)
+" {{{1 s:convert_back
+function! s:convert_back(line)
   let line = a:line
   if g:latex_toc_plaintext
-    let line = substitute(line, "\\\\IeC\s*{\\\\.\\(.\\)}", '\1', 'g')
+    let line = substitute(line, '\\IeC\s*{\\.\(.\)}', '\1', 'g')
   else
-    let line = substitute(line, "\\\\IeC\s*{\\\\'a}", 'á', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\`a}", 'à', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\^a}", 'à', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\¨a}", 'ä', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\\"a}", 'ä', 'g')
+    let line = substitute(line, '\\IeC\s*{\\''a}', 'á', 'g')
+    let line = substitute(line, '\\IeC\s*{\\`a}',  'à', 'g')
+    let line = substitute(line, '\\IeC\s*{\\^a}',  'à', 'g')
+    let line = substitute(line, '\\IeC\s*{\\¨a}',  'ä', 'g')
+    let line = substitute(line, '\\IeC\s*{\\"a}',  'ä', 'g')
 
-    let line = substitute(line, "\\\\IeC\s*{\\\\'e}", 'é', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\`e}", 'è', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\^e}", 'ê', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\¨e}", 'ë', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\\"e}", 'ë', 'g')
+    let line = substitute(line, '\\IeC\s*{\\''e}', 'é', 'g')
+    let line = substitute(line, '\\IeC\s*{\\`e}',  'è', 'g')
+    let line = substitute(line, '\\IeC\s*{\\^e}',  'ê', 'g')
+    let line = substitute(line, '\\IeC\s*{\\¨e}',  'ë', 'g')
+    let line = substitute(line, '\\IeC\s*{\\"e}',  'ë', 'g')
 
-    let line = substitute(line, "\\\\IeC\s*{\\\\'i}", 'í', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\`i}", 'î', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\^i}", 'ì', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\¨i}", 'ï', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\\"i}", 'ï', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\'\\\\i}", 'í', 'g')
+    let line = substitute(line, '\\IeC\s*{\\''i}',    'í', 'g')
+    let line = substitute(line, '\\IeC\s*{\\`i}',     'î', 'g')
+    let line = substitute(line, '\\IeC\s*{\\^i}',     'ì', 'g')
+    let line = substitute(line, '\\IeC\s*{\\¨i}',     'ï', 'g')
+    let line = substitute(line, '\\IeC\s*{\\"i}',     'ï', 'g')
+    let line = substitute(line, '\\IeC\s*{\\''\\i }', 'í', 'g')
 
-    let line = substitute(line, "\\\\IeC\s*{\\\\'n}", 'ń', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\`n}", 'ǹ', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\\\~n}", 'ñ', 'g')
+    let line = substitute(line, '\\IeC\s*{\\''n}', 'ń', 'g')
+    let line = substitute(line, '\\IeC\s*{\\`n}',  'ǹ', 'g')
+    let line = substitute(line, '\\IeC\s*{\\\~n}', 'ñ', 'g')
 
-    let line = substitute(line, "\\\\IeC\s*{\\\\'o}", 'ó', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\`o}", 'ò', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\^o}", 'ô', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\¨o}", 'ö', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\\"o}", 'ö', 'g')
+    let line = substitute(line, '\\IeC\s*{\\''o}', 'ó', 'g')
+    let line = substitute(line, '\\IeC\s*{\\`o}',  'ò', 'g')
+    let line = substitute(line, '\\IeC\s*{\\^o}',  'ô', 'g')
+    let line = substitute(line, '\\IeC\s*{\\¨o}',  'ö', 'g')
+    let line = substitute(line, '\\IeC\s*{\\"o}',  'ö', 'g')
 
-    let line = substitute(line, "\\\\IeC\s*{\\\\'u}", 'ú', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\`u}", 'ù', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\^u}", 'û', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\¨u}", 'ü', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\\"u}", 'ü', 'g')
+    let line = substitute(line, '\\IeC\s*{\\''u}', 'ú', 'g')
+    let line = substitute(line, '\\IeC\s*{\\`u}',  'ù', 'g')
+    let line = substitute(line, '\\IeC\s*{\\^u}',  'û', 'g')
+    let line = substitute(line, '\\IeC\s*{\\¨u}',  'ü', 'g')
+    let line = substitute(line, '\\IeC\s*{\\"u}',  'ü', 'g')
 
-    let line = substitute(line, "\\\\IeC\s*{\\\\'A}", 'Á', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\`A}", 'À', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\^A}", 'À', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\¨A}", 'Ä', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\\"A}", 'Ä', 'g')
+    let line = substitute(line, '\\IeC\s*{\\''A}', 'Á', 'g')
+    let line = substitute(line, '\\IeC\s*{\\`A}',  'À', 'g')
+    let line = substitute(line, '\\IeC\s*{\\^A}',  'À', 'g')
+    let line = substitute(line, '\\IeC\s*{\\¨A}',  'Ä', 'g')
+    let line = substitute(line, '\\IeC\s*{\\"A}',  'Ä', 'g')
 
-    let line = substitute(line, "\\\\IeC\s*{\\\\'E}", 'É', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\`E}", 'È', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\^E}", 'Ê', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\¨E}", 'Ë', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\\"E}", 'Ë', 'g')
+    let line = substitute(line, '\\IeC\s*{\\''E}', 'É', 'g')
+    let line = substitute(line, '\\IeC\s*{\\`E}',  'È', 'g')
+    let line = substitute(line, '\\IeC\s*{\\^E}',  'Ê', 'g')
+    let line = substitute(line, '\\IeC\s*{\\¨E}',  'Ë', 'g')
+    let line = substitute(line, '\\IeC\s*{\\"E}',  'Ë', 'g')
 
-    let line = substitute(line, "\\\\IeC\s*{\\\\'I}", 'Í', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\`I}", 'Î', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\^I}", 'Ì', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\¨I}", 'Ï', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\\"I}", 'Ï', 'g')
+    let line = substitute(line, '\\IeC\s*{\\''I}', 'Í', 'g')
+    let line = substitute(line, '\\IeC\s*{\\`I}',  'Î', 'g')
+    let line = substitute(line, '\\IeC\s*{\\^I}',  'Ì', 'g')
+    let line = substitute(line, '\\IeC\s*{\\¨I}',  'Ï', 'g')
+    let line = substitute(line, '\\IeC\s*{\\"I}',  'Ï', 'g')
 
-    let line = substitute(line, "\\\\IeC\s*{\\\\'O}", 'Ó', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\`O}", 'Ò', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\^O}", 'Ô', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\¨O}", 'Ö', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\\"O}", 'Ö', 'g')
+    let line = substitute(line, '\\IeC\s*{\\''O}', 'Ó', 'g')
+    let line = substitute(line, '\\IeC\s*{\\`O}',  'Ò', 'g')
+    let line = substitute(line, '\\IeC\s*{\\^O}',  'Ô', 'g')
+    let line = substitute(line, '\\IeC\s*{\\¨O}',  'Ö', 'g')
+    let line = substitute(line, '\\IeC\s*{\\"O}',  'Ö', 'g')
 
-    let line = substitute(line, "\\\\IeC\s*{\\\\'U}", 'Ú', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\`U}", 'Ù', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\^U}", 'Û', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\¨U}", 'Ü', 'g')
-    let line = substitute(line, "\\\\IeC\s*{\\\\\"U}", 'Ü', 'g')
+    let line = substitute(line, '\\IeC\s*{\\''U}', 'Ú', 'g')
+    let line = substitute(line, '\\IeC\s*{\\`U}',  'Ù', 'g')
+    let line = substitute(line, '\\IeC\s*{\\^U}',  'Û', 'g')
+    let line = substitute(line, '\\IeC\s*{\\¨U}',  'Ü', 'g')
+    let line = substitute(line, '\\IeC\s*{\\"U}',  'Ü', 'g')
   endif
   return line
 endfunction
