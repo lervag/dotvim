@@ -9,29 +9,35 @@ function! latex#latexmk#init()
   endif
 
   "
-  " Initialize public interface
+  " Initialize global interface
   "
-  if s:latexmk_initialized
-    return
+  if !s:latexmk_initialized
+    let s:latexmk_initialized = 1
+
+    "
+    " Define commands
+    "
+    command!       Latexmk       call latex#latexmk#compile()
+    command!       LatexmkStop   call latex#latexmk#stop()
+    command! -bang LatexmkClean  call latex#latexmk#clean(<q-bang> == "!")
+    command!       LatexmkErrors call latex#latexmk#errors()
+    command! -bang LatexmkStatus call latex#latexmk#status(<q-bang> == "!")
+
+    "
+    " Ensure that all latexmk processes are stopped when vim exits
+    "
+    augroup latex_latexmk
+      autocmd!
+      autocmd VimLeave *.tex call s:stop_all()
+    augroup END
   endif
-  let s:latexmk_initialized = 1
 
   "
-  " Define commands
+  " If all buffers for a given latex project are closed, kill latexmk
   "
-  command!       Latexmk       call latex#latexmk#compile()
-  command!       LatexmkStop   call latex#latexmk#stop()
-  command! -bang LatexmkClean  call latex#latexmk#clean(<q-bang> == "!")
-  command!       LatexmkErrors call latex#latexmk#errors()
-  command! -bang LatexmkStatus call latex#latexmk#status(<q-bang> == "!")
-
-  "
-  " Ensure that latexmk processes are stopped when appropriate
-  "
-" augroup latex_latexmk
-"   autocmd BufUnload <buffer> call latex#latexmk#stop(1)
-"   autocmd VimLeave *         call s:kill_all_pids()
-" augroup END
+  augroup latex_latexmk
+    autocmd BufUnload <buffer> call s:stop_buffer()
+  augroup END
 endfunction
 
 " {{{1 latex#latexmk#compile
@@ -57,7 +63,12 @@ function! latex#latexmk#compile()
   let cmd .= ' &>/dev/null &'
   let g:latex#data[b:latex.id].cmd = cmd
 
-  call s:latexmk_start()
+  "
+  " Start latexmk and save PID
+  "
+  call s:execute(cmd)
+  let g:latex#data[b:latex.id].pid = system('pgrep -nf latexmk')[:-2]
+  echomsg 'latexmk started successfully'
 endfunction
 
 " {{{1 latex#latexmk#clean
@@ -78,24 +89,26 @@ function! latex#latexmk#clean(full)
     let cmd .= 'latexmk -c '
   endif
   let cmd .= data.base . ' &>/dev/null'
-  call system(cmd)
-  echomsg "latexmk clean finished"
+  let g:latex#data[b:latex.id].clean_cmd = cmd
 
-  " Redraw screen if necessary
-  if !has('gui_running')
-    redraw!
+  call s:execute(cmd)
+  if a:full
+    echomsg "latexmk full clean finished"
+  else
+    echomsg "latexmk clean finished"
   endif
 endfunction
 
 " {{{1 latex#latexmk#stop
 function! latex#latexmk#stop()
-  let data = g:latex#data[b:latex.id]
-  if data.pid
-    call s:kill_pid(data.pid)
+  let pid  = g:latex#data[b:latex.id].pid
+  let base = g:latex#data[b:latex.id].base
+  if pid
+    call s:execute('!kill ' . pid)
     let g:latex#data[b:latex.id].pid = 0
-    echomsg "latexmk stopped for `" . data.base . "'"
+    echomsg "latexmk stopped for `" . base . "'"
   else
-    echomsg "latexmk is not running for `" . data.base . "'"
+    echomsg "latexmk is not running for `" . base . "'"
   endif
 endfunction
 
@@ -128,29 +141,54 @@ function! latex#latexmk#status(detailed)
 endfunction
 " }}}1
 
-" {{{1 Utility functions
+" {{{2 s:stop_buffer
+function! s:stop_buffer()
+  "
+  " Only run if latex variables are set
+  "
+  if !exists('b:latex') | return | endif
+  let id = b:latex.id
+  let pid = g:latex#data[id].pid
+
+  "
+  " Only stop if latexmk is running
+  "
+  if pid
+    "
+    " Count the number of buffers that point to current latex blob
+    "
+    let n = 0
+    for b in filter(range(1, bufnr("$")), 'buflisted(v:val)')
+      if id == getbufvar(b, 'latex', {'id' : -1}).id
+        let n += 1
+      endif
+    endfor
+
+    "
+    " Only stop if current buffer is the last for current latex blob
+    "
+    if n == 1
+      call latex#latexmk#stop()
+    endif
+  endif
+endfunction
+
+" {{{2 s:stop_all
+function! s:stop_all()
+  for data in g:latex#data
+    if data.pid
+      call s:execute('!kill ' . data.pid)
+    endif
+  endfor
+endfunction
+
+" {{{2 s:execute
 function! s:execute(cmd)
   silent execute a:cmd
   if !has('gui_running')
     redraw!
   endif
 endfunction
-
-function! s:latexmk_start()
-  "
-  " Start the process and save the PID
-  "
-  call s:execute(g:latex#data[b:latex.id].cmd)
-  let g:latex#data[b:latex.id].pid = split(system('pgrep -f "perl.*'
-        \ . g:latex#data[b:latex.id].base . '"'),'\D')
-  echomsg 'latexmk compilation started'
-endfunction
-
-function! s:kill_self()
-  call s:execute('!kill ' . b:latex#file.pid)
-  call remove(s:latex_pids, b:latex#file.pid)
-  let b:latex#file.pid = 0
-endfunction
-" }}}1
+" }}}2
 
 " vim:fdm=marker:ff=unix
