@@ -182,77 +182,78 @@ endfunction
 
 " {{{1 s:convert_back
 function! s:convert_back(line)
+  "
+  " Substitute stuff like '\IeC{\"u}' to corresponding unicode symbols
+  "
   let line = a:line
   if g:latex_toc_plaintext
     let line = substitute(line, '\\IeC\s*{\\.\(.\)}', '\1', 'g')
   else
-    let line = substitute(line, '\\IeC\s*{\\''a}', 'á', 'g')
-    let line = substitute(line, '\\IeC\s*{\\`a}',  'à', 'g')
-    let line = substitute(line, '\\IeC\s*{\\^a}',  'à', 'g')
-    let line = substitute(line, '\\IeC\s*{\\¨a}',  'ä', 'g')
-    let line = substitute(line, '\\IeC\s*{\\"a}',  'ä', 'g')
-
-    let line = substitute(line, '\\IeC\s*{\\''e}', 'é', 'g')
-    let line = substitute(line, '\\IeC\s*{\\`e}',  'è', 'g')
-    let line = substitute(line, '\\IeC\s*{\\^e}',  'ê', 'g')
-    let line = substitute(line, '\\IeC\s*{\\¨e}',  'ë', 'g')
-    let line = substitute(line, '\\IeC\s*{\\"e}',  'ë', 'g')
-
-    let line = substitute(line, '\\IeC\s*{\\''i}',    'í', 'g')
-    let line = substitute(line, '\\IeC\s*{\\`i}',     'î', 'g')
-    let line = substitute(line, '\\IeC\s*{\\^i}',     'ì', 'g')
-    let line = substitute(line, '\\IeC\s*{\\¨i}',     'ï', 'g')
-    let line = substitute(line, '\\IeC\s*{\\"i}',     'ï', 'g')
-    let line = substitute(line, '\\IeC\s*{\\''\\i }', 'í', 'g')
-
-    let line = substitute(line, '\\IeC\s*{\\''n}', 'ń', 'g')
-    let line = substitute(line, '\\IeC\s*{\\`n}',  'ǹ', 'g')
-    let line = substitute(line, '\\IeC\s*{\\\~n}', 'ñ', 'g')
-
-    let line = substitute(line, '\\IeC\s*{\\''o}', 'ó', 'g')
-    let line = substitute(line, '\\IeC\s*{\\`o}',  'ò', 'g')
-    let line = substitute(line, '\\IeC\s*{\\^o}',  'ô', 'g')
-    let line = substitute(line, '\\IeC\s*{\\¨o}',  'ö', 'g')
-    let line = substitute(line, '\\IeC\s*{\\"o}',  'ö', 'g')
-
-    let line = substitute(line, '\\IeC\s*{\\''u}', 'ú', 'g')
-    let line = substitute(line, '\\IeC\s*{\\`u}',  'ù', 'g')
-    let line = substitute(line, '\\IeC\s*{\\^u}',  'û', 'g')
-    let line = substitute(line, '\\IeC\s*{\\¨u}',  'ü', 'g')
-    let line = substitute(line, '\\IeC\s*{\\"u}',  'ü', 'g')
-
-    let line = substitute(line, '\\IeC\s*{\\''A}', 'Á', 'g')
-    let line = substitute(line, '\\IeC\s*{\\`A}',  'À', 'g')
-    let line = substitute(line, '\\IeC\s*{\\^A}',  'À', 'g')
-    let line = substitute(line, '\\IeC\s*{\\¨A}',  'Ä', 'g')
-    let line = substitute(line, '\\IeC\s*{\\"A}',  'Ä', 'g')
-
-    let line = substitute(line, '\\IeC\s*{\\''E}', 'É', 'g')
-    let line = substitute(line, '\\IeC\s*{\\`E}',  'È', 'g')
-    let line = substitute(line, '\\IeC\s*{\\^E}',  'Ê', 'g')
-    let line = substitute(line, '\\IeC\s*{\\¨E}',  'Ë', 'g')
-    let line = substitute(line, '\\IeC\s*{\\"E}',  'Ë', 'g')
-
-    let line = substitute(line, '\\IeC\s*{\\''I}', 'Í', 'g')
-    let line = substitute(line, '\\IeC\s*{\\`I}',  'Î', 'g')
-    let line = substitute(line, '\\IeC\s*{\\^I}',  'Ì', 'g')
-    let line = substitute(line, '\\IeC\s*{\\¨I}',  'Ï', 'g')
-    let line = substitute(line, '\\IeC\s*{\\"I}',  'Ï', 'g')
-
-    let line = substitute(line, '\\IeC\s*{\\''O}', 'Ó', 'g')
-    let line = substitute(line, '\\IeC\s*{\\`O}',  'Ò', 'g')
-    let line = substitute(line, '\\IeC\s*{\\^O}',  'Ô', 'g')
-    let line = substitute(line, '\\IeC\s*{\\¨O}',  'Ö', 'g')
-    let line = substitute(line, '\\IeC\s*{\\"O}',  'Ö', 'g')
-
-    let line = substitute(line, '\\IeC\s*{\\''U}', 'Ú', 'g')
-    let line = substitute(line, '\\IeC\s*{\\`U}',  'Ù', 'g')
-    let line = substitute(line, '\\IeC\s*{\\^U}',  'Û', 'g')
-    let line = substitute(line, '\\IeC\s*{\\¨U}',  'Ü', 'g')
-    let line = substitute(line, '\\IeC\s*{\\"U}',  'Ü', 'g')
+    for [pat, symbol] in s:convert_back_list
+      let line = substitute(a:line, pat, symbol, 'g')
+    endfor
   endif
   return line
 endfunction
+
+let s:convert_back_list = map([
+      \ ['\\''A}'        , 'Á'],
+      \ ['\\`A}'         , 'À'],
+      \ ['\\^A}'         , 'À'],
+      \ ['\\¨A}'         , 'Ä'],
+      \ ['\\"A}'         , 'Ä'],
+      \ ['\\''a}'        , 'á'],
+      \ ['\\`a}'         , 'à'],
+      \ ['\\^a}'         , 'à'],
+      \ ['\\¨a}'         , 'ä'],
+      \ ['\\"a}'         , 'ä'],
+      \ ['\\''E}'        , 'É'],
+      \ ['\\`E}'         , 'È'],
+      \ ['\\^E}'         , 'Ê'],
+      \ ['\\¨E}'         , 'Ë'],
+      \ ['\\"E}'         , 'Ë'],
+      \ ['\\''e}'        , 'é'],
+      \ ['\\`e}'         , 'è'],
+      \ ['\\^e}'         , 'ê'],
+      \ ['\\¨e}'         , 'ë'],
+      \ ['\\"e}'         , 'ë'],
+      \ ['\\''I}'        , 'Í'],
+      \ ['\\`I}'         , 'Î'],
+      \ ['\\^I}'         , 'Ì'],
+      \ ['\\¨I}'         , 'Ï'],
+      \ ['\\"I}'         , 'Ï'],
+      \ ['\\''i}'        , 'í'],
+      \ ['\\`i}'         , 'î'],
+      \ ['\\^i}'         , 'ì'],
+      \ ['\\¨i}'         , 'ï'],
+      \ ['\\"i}'         , 'ï'],
+      \ ['\\''{\?\\i }'  , 'í'],
+      \ ['\\''O}'        , 'Ó'],
+      \ ['\\`O}'         , 'Ò'],
+      \ ['\\^O}'         , 'Ô'],
+      \ ['\\¨O}'         , 'Ö'],
+      \ ['\\"O}'         , 'Ö'],
+      \ ['\\''o}'        , 'ó'],
+      \ ['\\`o}'         , 'ò'],
+      \ ['\\^o}'         , 'ô'],
+      \ ['\\¨o}'         , 'ö'],
+      \ ['\\"o}'         , 'ö'],
+      \ ['\\''U}'        , 'Ú'],
+      \ ['\\`U}'         , 'Ù'],
+      \ ['\\^U}'         , 'Û'],
+      \ ['\\¨U}'         , 'Ü'],
+      \ ['\\"U}'         , 'Ü'],
+      \ ['\\''u}'        , 'ú'],
+      \ ['\\`u}'         , 'ù'],
+      \ ['\\^u}'         , 'û'],
+      \ ['\\¨u}'         , 'ü'],
+      \ ['\\"u}'         , 'ü'],
+      \ ['\\`N}'         , 'Ǹ'],
+      \ ['\\\~N}'        , 'Ñ'],
+      \ ['\\''n}'        , 'ń'],
+      \ ['\\`n}'         , 'ǹ'],
+      \ ['\\\~n}'        , 'ñ'],
+      \], '[''\C\(\\IeC\s*{\)\?'' . v:val[0], v:val[1]]')
 " }}}1
 
 " vim:fdm=marker:ff=unix
