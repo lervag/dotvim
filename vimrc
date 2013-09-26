@@ -365,7 +365,6 @@ let g:LatexBox_Folding = 1
 let g:LatexBox_viewer = 'mupdf -r 95'
 let g:LatexBox_quickfix = 2
 let g:LatexBox_split_resize = 1
-let g:LatexBox_fold_toc = 1
 
 "{{{2 Neocomplete
 let g:neocomplete#enable_at_startup = 1
@@ -500,7 +499,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'passive_filetypes': ['tex'] }
 let g:syntastic_enabled = 1
 let g:syntastic_enable_highlighting = 1
-let g:syntastic_fortran_flags = " -fdefault-real-8"
+let g:syntastic_fortran_compiler_options = " -fdefault-real-8"
 let g:syntastic_fortran_include_dirs = [
                             \ '../obj/gfortran_debug',
                             \ '../objects/debug_gfortran_Linux',
