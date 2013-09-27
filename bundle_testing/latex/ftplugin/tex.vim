@@ -9,7 +9,8 @@ if exists('b:did_ftplugin')
 endif
 let b:did_ftplugin = 1
 
-" {{{1 Set completion options
+" Set default options
+" {{{1 Completion
 call latex#util#set_default('g:latex_complete_close_braces', 1)
 call latex#util#set_default('g:latex_complete_bibtex_wild_spaces', 1)
 call latex#util#set_default('g:latex_complete_cite_pattern',
@@ -51,7 +52,7 @@ call latex#util#set_default('g:latex_complete_commands',
 call latex#util#set_default('g:latex_complete_eq_env_patterns',
       \ 'equation\|gather\|multiline\|align\|flalign\|alignat\|eqnarray')
 
-" {{{1 Set errorformat options
+" {{{1 Errorformat
 call latex#util#set_default('g:latex_errorformat_show_warnings', 1)
 call latex#util#set_default('g:latex_errorformat_ignore_warnings',
       \ [
@@ -60,21 +61,7 @@ call latex#util#set_default('g:latex_errorformat_ignore_warnings',
         \ 'specifier changed to'
       \ ])
 
-" {{{1 Set toc options
-call latex#util#set_default('g:latex_toc_width', 30)
-call latex#util#set_default('g:latex_toc_split_side', 'leftabove')
-call latex#util#set_default('g:latex_toc_resize', 0)
-call latex#util#set_default('g:latex_toc_hide_help', 0)
-call latex#util#set_default('g:latex_toc_plaintext', 0)
-call latex#util#set_default('g:latex_toc_fold', 0)
-call latex#util#set_default('g:latex_toc_fold_levels', 1)
-
-" {{{1 Set latexmk options
-call latex#util#set_default('g:latex_latexmk_options', '')
-call latex#util#set_default('g:latex_latexmk_output', 'pdf')
-call latex#util#set_default('g:latex_latexmk_autojump', '0')
-
-" {{{1 Set folding options
+" {{{1 Folding
 call latex#util#set_default('g:latex_fold_enabled', 0)
 call latex#util#set_default('g:latex_fold_preamble', 1)
 call latex#util#set_default('g:latex_fold_envs', 1)
@@ -94,7 +81,24 @@ call latex#util#set_default('g:latex_fold_sections',
         \ "subsubsection",
       \ ])
 
-" {{{1 Set motion options
+" {{{1 Latexmk
+call latex#util#set_default('g:latex_latexmk_options', '')
+call latex#util#set_default('g:latex_latexmk_output', 'pdf')
+call latex#util#set_default('g:latex_latexmk_autojump', '0')
+
+" {{{1 Miscelleneous
+call latex#util#set_default('g:latex_viewer', 'xdg-open')
+call latex#util#set_default('g:latex_build_dir', '.')
+call latex#util#set_default('g:latex_main_tex_candidates',
+      \ [
+        \ 'main',
+        \ 'note',
+        \ 'report',
+        \ 'thesis',
+        \ 'memo',
+      \])
+
+" {{{1 Motion
 call latex#util#set_default('g:latex_motion_open_pats',
       \ [
         \ '{',
@@ -119,20 +123,17 @@ call latex#util#set_default('g:latex_motion_close_pats',
       \ ])
 call latex#util#set_default('g:latex_motion_loaded_matchparen', 0)
 
-" {{{1 Set miscelleneous options
-call latex#util#set_default('g:latex_viewer', 'xdg-open')
-call latex#util#set_default('g:latex_build_dir', '.')
-call latex#util#set_default('g:latex_main_tex_candidates',
-      \ [
-        \ 'main',
-        \ 'note',
-        \ 'report',
-        \ 'thesis',
-        \ 'memo',
-      \])
+" {{{1 Toc
+call latex#util#set_default('g:latex_toc_width', 30)
+call latex#util#set_default('g:latex_toc_split_side', 'leftabove')
+call latex#util#set_default('g:latex_toc_resize', 0)
+call latex#util#set_default('g:latex_toc_hide_help', 0)
+call latex#util#set_default('g:latex_toc_plaintext', 0)
+call latex#util#set_default('g:latex_toc_fold', 0)
+call latex#util#set_default('g:latex_toc_fold_levels', 1)
+
 " }}}1
 
 call latex#init()
 
-" {{{1 Modeline
 " vim:fdm=marker:ff=unix

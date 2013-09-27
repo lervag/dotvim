@@ -2,8 +2,14 @@
 "
 " Maintainer: Karl Yngve Lervåg
 " Email:      karl.yngve@gmail.com
+"
 
-" {{{1 Filetype settings and mappings
+if exists('b:did_ftplugin')
+  finish
+endif
+let b:did_ftplugin = 1
+
+" Set local buffer settings
 setlocal buftype=nofile
 setlocal bufhidden=wipe
 setlocal nobuflisted
@@ -22,6 +28,7 @@ if g:latex_toc_fold
     setlocal foldtext=toc#fold_tex()
 endif
 
+" Define mappings
 nnoremap <buffer> <silent> G G4k
 nnoremap <buffer> <silent> <Esc>OA k
 nnoremap <buffer> <silent> <Esc>OB j
@@ -31,8 +38,8 @@ nnoremap <buffer> <silent> s             :call <SID>toc_toggle_numbers()<cr>
 nnoremap <buffer> <silent> q             :call <SID>toc_close()<cr>
 nnoremap <buffer> <silent> <Esc>         :call <SID>toc_close()<cr>
 nnoremap <buffer> <silent> <Space>       :call <SID>toc_activate(0)<cr>
-nnoremap <buffer> <silent> <CR>          :call <SID>toc_activate(1)<cr>
 nnoremap <buffer> <silent> <leftrelease> :call <SID>toc_activate(0)<cr>
+nnoremap <buffer> <silent> <CR>          :call <SID>toc_activate(1)<cr>
 nnoremap <buffer> <silent> <2-leftmouse> :call <SID>toc_activate(1)<cr>
 
 " {{{1 s:toc_activate
@@ -102,17 +109,6 @@ function! s:toc_close()
     bwipeout
 endfunction
 
-" {{{1 s:toc_toggle_numbers
-function! s:toc_toggle_numbers()
-    if b:toc_numbers
-        setlocal conceallevel=3
-        let b:toc_numbers = 0
-    else
-        setlocal conceallevel=0
-        let b:toc_numbers = 1
-    endif
-endfunction
-
 " {{{1 s:toc_escape_title
 function! s:toc_escape_title(titlestr)
     " Credit goes to Marcin Szamotulski for the following fix.  It allows to
@@ -123,5 +119,16 @@ function! s:toc_escape_title(titlestr)
     return substitute(titlestr, ' ', '\\_\\s\\+', 'g')
 endfunction
 
-" {{{1 Modeline
+" {{{1 s:toc_toggle_numbers
+function! s:toc_toggle_numbers()
+    if b:toc_numbers
+        setlocal conceallevel=3
+        let b:toc_numbers = 0
+    else
+        setlocal conceallevel=0
+        let b:toc_numbers = 1
+    endif
+endfunction
+" }}}1
+
 " vim:fdm=marker:ff=unix
