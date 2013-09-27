@@ -86,6 +86,10 @@ function! latex#set_errorformat()
 
   setlocal efm=%E!\ LaTeX\ %trror:\ %m
   setlocal efm+=%E%f:%l:\ %m
+  setlocal efm+=%E!\ %m
+
+  " More info for undefined control sequences
+  setlocal efm+=%Z<argument>\ %m
 
   " Show or ignore warnings
   if g:latex_errorformat_show_warnings
@@ -104,14 +108,10 @@ function! latex#set_errorformat()
     setlocal efm+=%-W%.%#%.%#Warning:\ %m
   endif
 
-  " Consider the remaining statements that starts with "!" as errors
-  setlocal efm+=%E!\ %m
-
   " Push file to file stack
   setlocal efm+=%+P**%f
 
   " Ignore unmatched lines
-  setlocal efm+=%-G\\s%#
   setlocal efm+=%-G%.%#
 endfunction
 " }}}1
