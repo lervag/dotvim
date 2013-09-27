@@ -11,46 +11,13 @@ let b:did_ftplugin = 1
 
 " Set default options
 " {{{1 Completion
-call latex#util#set_default('g:latex_complete_close_braces', 1)
-call latex#util#set_default('g:latex_complete_bibtex_wild_spaces', 1)
-call latex#util#set_default('g:latex_complete_cite_pattern',
-      \ '\C\\\a*cite\a*\*\?\(\[[^\]]*\]\)*\_\s*{')
-call latex#util#set_default('g:latex_complete_ref_pattern',
-      \ '\C\\v\?\(eq\|page\|[cC]\)\?ref\*\?\_\s*{')
-call latex#util#set_default('g:latex_complete_environments',
-      \ [
-        \ {'word': 'itemize',     'menu': 'bullet list' },
-        \ {'word': 'enumerate',   'menu': 'numbered list' },
-        \ {'word': 'description', 'menu': 'description' },
-        \ {'word': 'center',      'menu': 'centered text' },
-        \ {'word': 'figure',      'menu': 'floating figure' },
-        \ {'word': 'table',       'menu': 'floating table' },
-        \ {'word': 'equation',    'menu': 'equation (numbered)' },
-        \ {'word': 'align',       'menu': 'aligned equations (numbered)' },
-        \ {'word': 'align*',      'menu': 'aligned equations' },
-        \ {'word': 'document' },
-        \ {'word': 'abstract' },
-      \ ])
-call latex#util#set_default('g:latex_complete_commands',
-      \ [
-        \ {'word': '\begin{' },
-        \ {'word': '\end{' },
-        \ {'word': '\item' },
-        \ {'word': '\label{' },
-        \ {'word': '\ref{' },
-        \ {'word': '\eqref{eq:' },
-        \ {'word': '\cite{' },
-        \ {'word': '\chapter{' },
-        \ {'word': '\section{' },
-        \ {'word': '\subsection{' },
-        \ {'word': '\subsubsection{' },
-        \ {'word': '\paragraph{' },
-        \ {'word': '\nonumber' },
-        \ {'word': '\bibliography' },
-        \ {'word': '\bibliographystyle' },
-      \ ])
-call latex#util#set_default('g:latex_complete_eq_env_patterns',
-      \ 'equation\|gather\|multiline\|align\|flalign\|alignat\|eqnarray')
+call latex#util#set_default('g:latex_complete', {
+      \ 'close_braces'       : 0,
+      \ 'patterns' : {
+        \ 'ref' : '\C\\v\?\(eq\|page\|[cC]\)\?ref\*\?\_\s*{[^{}]*',
+        \ 'bib' : '\C\\\a*cite\a*\*\?\(\[[^\]]*\]\)*\_\s*{[^{}]*',
+        \ },
+      \ })
 
 " {{{1 Errorformat
 call latex#util#set_default('g:latex_errorformat_show_warnings', 1)
@@ -62,7 +29,7 @@ call latex#util#set_default('g:latex_errorformat_ignore_warnings',
       \ ])
 
 " {{{1 Folding
-call latex#util#set_default('g:latex_fold_enabled', 0)
+call latex#util#set_default('g:latex_fold_enabled', 1)
 call latex#util#set_default('g:latex_fold_preamble', 1)
 call latex#util#set_default('g:latex_fold_envs', 1)
 call latex#util#set_default('g:latex_fold_parts',
@@ -126,7 +93,7 @@ call latex#util#set_default('g:latex_motion_loaded_matchparen', 0)
 " {{{1 Toc
 call latex#util#set_default('g:latex_toc_width', 30)
 call latex#util#set_default('g:latex_toc_split_side', 'leftabove')
-call latex#util#set_default('g:latex_toc_resize', 0)
+call latex#util#set_default('g:latex_toc_resize', 1)
 call latex#util#set_default('g:latex_toc_hide_help', 0)
 call latex#util#set_default('g:latex_toc_plaintext', 0)
 call latex#util#set_default('g:latex_toc_fold', 0)

@@ -90,6 +90,82 @@ function! latex#util#close_environment()
   return ''
 endfunction
 
+" {{{1 latex#util#convert_back
+function! latex#util#convert_back(line)
+  "
+  " Substitute stuff like '\IeC{\"u}' to corresponding unicode symbols
+  "
+  let line = a:line
+  if g:latex_toc_plaintext
+    let line = substitute(line, '\\IeC\s*{\\.\(.\)}', '\1', 'g')
+  else
+    for [pat, symbol] in s:convert_back_list
+      let line = substitute(line, pat, symbol, 'g')
+    endfor
+  endif
+  return line
+endfunction
+
+let s:convert_back_list = map([
+      \ ['\\''A}'        , 'Á'],
+      \ ['\\`A}'         , 'À'],
+      \ ['\\^A}'         , 'À'],
+      \ ['\\¨A}'         , 'Ä'],
+      \ ['\\"A}'         , 'Ä'],
+      \ ['\\''a}'        , 'á'],
+      \ ['\\`a}'         , 'à'],
+      \ ['\\^a}'         , 'à'],
+      \ ['\\¨a}'         , 'ä'],
+      \ ['\\"a}'         , 'ä'],
+      \ ['\\''E}'        , 'É'],
+      \ ['\\`E}'         , 'È'],
+      \ ['\\^E}'         , 'Ê'],
+      \ ['\\¨E}'         , 'Ë'],
+      \ ['\\"E}'         , 'Ë'],
+      \ ['\\''e}'        , 'é'],
+      \ ['\\`e}'         , 'è'],
+      \ ['\\^e}'         , 'ê'],
+      \ ['\\¨e}'         , 'ë'],
+      \ ['\\"e}'         , 'ë'],
+      \ ['\\''I}'        , 'Í'],
+      \ ['\\`I}'         , 'Î'],
+      \ ['\\^I}'         , 'Ì'],
+      \ ['\\¨I}'         , 'Ï'],
+      \ ['\\"I}'         , 'Ï'],
+      \ ['\\''i}'        , 'í'],
+      \ ['\\`i}'         , 'î'],
+      \ ['\\^i}'         , 'ì'],
+      \ ['\\¨i}'         , 'ï'],
+      \ ['\\"i}'         , 'ï'],
+      \ ['\\''{\?\\i }'  , 'í'],
+      \ ['\\''O}'        , 'Ó'],
+      \ ['\\`O}'         , 'Ò'],
+      \ ['\\^O}'         , 'Ô'],
+      \ ['\\¨O}'         , 'Ö'],
+      \ ['\\"O}'         , 'Ö'],
+      \ ['\\''o}'        , 'ó'],
+      \ ['\\`o}'         , 'ò'],
+      \ ['\\^o}'         , 'ô'],
+      \ ['\\¨o}'         , 'ö'],
+      \ ['\\"o}'         , 'ö'],
+      \ ['\\o }'         , 'ø'],
+      \ ['\\''U}'        , 'Ú'],
+      \ ['\\`U}'         , 'Ù'],
+      \ ['\\^U}'         , 'Û'],
+      \ ['\\¨U}'         , 'Ü'],
+      \ ['\\"U}'         , 'Ü'],
+      \ ['\\''u}'        , 'ú'],
+      \ ['\\`u}'         , 'ù'],
+      \ ['\\^u}'         , 'û'],
+      \ ['\\¨u}'         , 'ü'],
+      \ ['\\"u}'         , 'ü'],
+      \ ['\\`N}'         , 'Ǹ'],
+      \ ['\\\~N}'        , 'Ñ'],
+      \ ['\\''n}'        , 'ń'],
+      \ ['\\`n}'         , 'ǹ'],
+      \ ['\\\~n}'        , 'ñ'],
+      \], '[''\C\(\\IeC\s*{\)\?'' . v:val[0], v:val[1]]')
+
 " {{{1 latex#util#get_env
 function! latex#util#get_env(...)
   " latex#util#get_env([with_pos])
@@ -157,6 +233,47 @@ function! latex#util#get_env(...)
   endif
 endfunction
 
+" {{{1 latex#util#find_bibliographies
+function! latex#util#find_bibliographies(...)
+  if a:0
+    let file = a:1
+  else
+    let file = g:latex#data[b:latex.id].tex
+  endif
+
+  if !filereadable(file)
+    return ''
+  endif
+  let lines = readfile(file)
+  let bibdata_list = []
+
+  "
+  " Search for added bibliographies
+  "
+  let bibliography_cmds = [
+        \ '\\bibliography',
+        \ '\\addbibresource',
+        \ '\\addglobalbib',
+        \ '\\addsectionbib',
+        \ ]
+  for cmd in bibliography_cmds
+    let filter = 'v:val =~ ''\C' . cmd . '\s*{[^}]\+}'''
+    let map = 'matchstr(v:val, ''\C' . cmd . '\s*{\zs[^}]\+\ze}'')'
+    let bibdata_list += map(filter(copy(lines), filter), map)
+  endfor
+
+  "
+  " Also search included files
+  "
+  let filter = 'v:val =~ ''\C\\\%(input\|include\)\s*{[^}]\+}'''
+  let map  = 'latex#util#find_bibliographies('
+  let map .= 'latex#util#kpsewhich(matchstr(v:val,'
+  let map .= '''\C\\\%(input\|include\)\s*{\zs[^}]\+\ze}'')))'
+  let bibdata_list += map(filter(copy(lines), filter), map)
+
+  return join(bibdata_list, ',')
+endfunction
+
 " {{{1 latex#util#has_syntax
 function! latex#util#has_syntax(name, ...)
   " Usage: latex#util#has_syntax(name, [line], [col])
@@ -171,6 +288,20 @@ function! latex#util#in_comment(...)
   let line = a:0 >= 1 ? a:1 : line('.')
   let col = a:0 >= 2 ? a:2 : col('.')
   return synIDattr(synID(line, col, 0), "name") =~# '^texComment'
+endfunction
+
+" {{{1 latex#util#kpsewhich
+function! latex#util#kpsewhich(file)
+  let out = system('kpsewhich "' . a:file . '"')
+
+  " If kpsewhich has found something, it returns a non-empty string with a
+  " newline at the end; otherwise the string is empty
+  if len(out)
+    " Remove the trailing newline
+    let out = fnamemodify(out[:-2], ':p')
+  endif
+
+  return out
 endfunction
 
 " {{{1 latex#util#select_current_env

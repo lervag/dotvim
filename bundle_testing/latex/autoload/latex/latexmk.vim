@@ -141,7 +141,7 @@ function! latex#latexmk#status(detailed)
 endfunction
 " }}}1
 
-" {{{2 s:stop_buffer
+" {{{1 s:stop_buffer
 function! s:stop_buffer()
   "
   " Only run if latex variables are set
@@ -173,7 +173,7 @@ function! s:stop_buffer()
   endif
 endfunction
 
-" {{{2 s:stop_all
+" {{{1 s:stop_all
 function! s:stop_all()
   for data in g:latex#data
     if data.pid
@@ -182,13 +182,13 @@ function! s:stop_all()
   endfor
 endfunction
 
-" {{{2 s:execute
+" {{{1 s:execute
 function! s:execute(cmd)
   silent execute a:cmd
   if !has('gui_running')
     redraw!
   endif
 endfunction
-" }}}2
+" }}}1
 
 " vim:fdm=marker:ff=unix

@@ -96,7 +96,7 @@ function! s:read_toc(auxfile, texfile, ...)
       continue
     endif
 
-    let tree = latex#util#tex2tree(s:convert_back(line))
+    let tree = latex#util#tex2tree(latex#util#convert_back(line))
 
     if len(tree) < 3
       " unknown entry type: just skip it
@@ -180,80 +180,6 @@ function! s:find_closest_section(toc, file)
   return a:toc.fileindices[a:file][imin]
 endfunction
 
-" {{{1 s:convert_back
-function! s:convert_back(line)
-  "
-  " Substitute stuff like '\IeC{\"u}' to corresponding unicode symbols
-  "
-  let line = a:line
-  if g:latex_toc_plaintext
-    let line = substitute(line, '\\IeC\s*{\\.\(.\)}', '\1', 'g')
-  else
-    for [pat, symbol] in s:convert_back_list
-      let line = substitute(a:line, pat, symbol, 'g')
-    endfor
-  endif
-  return line
-endfunction
-
-let s:convert_back_list = map([
-      \ ['\\''A}'        , 'Á'],
-      \ ['\\`A}'         , 'À'],
-      \ ['\\^A}'         , 'À'],
-      \ ['\\¨A}'         , 'Ä'],
-      \ ['\\"A}'         , 'Ä'],
-      \ ['\\''a}'        , 'á'],
-      \ ['\\`a}'         , 'à'],
-      \ ['\\^a}'         , 'à'],
-      \ ['\\¨a}'         , 'ä'],
-      \ ['\\"a}'         , 'ä'],
-      \ ['\\''E}'        , 'É'],
-      \ ['\\`E}'         , 'È'],
-      \ ['\\^E}'         , 'Ê'],
-      \ ['\\¨E}'         , 'Ë'],
-      \ ['\\"E}'         , 'Ë'],
-      \ ['\\''e}'        , 'é'],
-      \ ['\\`e}'         , 'è'],
-      \ ['\\^e}'         , 'ê'],
-      \ ['\\¨e}'         , 'ë'],
-      \ ['\\"e}'         , 'ë'],
-      \ ['\\''I}'        , 'Í'],
-      \ ['\\`I}'         , 'Î'],
-      \ ['\\^I}'         , 'Ì'],
-      \ ['\\¨I}'         , 'Ï'],
-      \ ['\\"I}'         , 'Ï'],
-      \ ['\\''i}'        , 'í'],
-      \ ['\\`i}'         , 'î'],
-      \ ['\\^i}'         , 'ì'],
-      \ ['\\¨i}'         , 'ï'],
-      \ ['\\"i}'         , 'ï'],
-      \ ['\\''{\?\\i }'  , 'í'],
-      \ ['\\''O}'        , 'Ó'],
-      \ ['\\`O}'         , 'Ò'],
-      \ ['\\^O}'         , 'Ô'],
-      \ ['\\¨O}'         , 'Ö'],
-      \ ['\\"O}'         , 'Ö'],
-      \ ['\\''o}'        , 'ó'],
-      \ ['\\`o}'         , 'ò'],
-      \ ['\\^o}'         , 'ô'],
-      \ ['\\¨o}'         , 'ö'],
-      \ ['\\"o}'         , 'ö'],
-      \ ['\\''U}'        , 'Ú'],
-      \ ['\\`U}'         , 'Ù'],
-      \ ['\\^U}'         , 'Û'],
-      \ ['\\¨U}'         , 'Ü'],
-      \ ['\\"U}'         , 'Ü'],
-      \ ['\\''u}'        , 'ú'],
-      \ ['\\`u}'         , 'ù'],
-      \ ['\\^u}'         , 'û'],
-      \ ['\\¨u}'         , 'ü'],
-      \ ['\\"u}'         , 'ü'],
-      \ ['\\`N}'         , 'Ǹ'],
-      \ ['\\\~N}'        , 'Ñ'],
-      \ ['\\''n}'        , 'ń'],
-      \ ['\\`n}'         , 'ǹ'],
-      \ ['\\\~n}'        , 'ñ'],
-      \], '[''\C\(\\IeC\s*{\)\?'' . v:val[0], v:val[1]]')
 " }}}1
 
 " vim:fdm=marker:ff=unix

@@ -29,10 +29,10 @@ NeoBundle 'Shougo/neocomplete', {
       \ }
 
 " {{{2 Projects I participate in
-"NeoBundleLocal ~/.vim/bundle_testing/
-NeoBundle 'LaTeX-Box-Team/LaTeX-Box.git', {
-      \ 'type__protocol' : 'ssh',
-      \ }
+NeoBundleLocal ~/.vim/bundle_testing/
+"NeoBundle 'LaTeX-Box-Team/LaTeX-Box.git', {
+"      \ 'type__protocol' : 'ssh',
+"      \ }
 
 " {{{2 Other plugins and scripts
 NeoBundle 'altercation/vim-colors-solarized'
@@ -352,11 +352,7 @@ let g:gundo_close_on_revert=1
 map <silent> <F5> :GundoToggle<cr>
 
 "{{{2 latex
-
-let g:latex_fold_enabled = 1
 let g:latex_viewer = 'mupdf -r 95'
-let g:latex_toc_resize = 1
-let g:latex_toc_fold = 1
 
 "{{{2 LaTeX-BoX
 let g:LatexBox_latexmk_async = 1
@@ -373,9 +369,9 @@ let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#max_list = 15
 
 " Plugin key-mappings
-inoremap <expr><C-g> neocomplete#undo_completion()
-inoremap <expr><C-l> neocomplete#complete_common_string()
-inoremap <expr><C-o> neocomplete#start_manual_complete('omni')
+inoremap <expr> <C-g> neocomplete#undo_completion()
+inoremap <expr> <C-l> neocomplete#complete_common_string()
+inoremap <expr> <C-o> neocomplete#start_manual_complete('omni')
 
 " Define keyword
 if !exists('g:neocomplete#keyword_patterns')
@@ -405,7 +401,7 @@ let g:neocomplete#sources#omni#input_patterns.cpp
 if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
 endif
-let g:neocomplete#force_omni_input_patterns.tex = '\\\h\w*{'
+let g:neocomplete#force_omni_input_patterns.tex = '\\\(\h\w*{\)'
 
 "{{{2 Rainbox Parentheses
 nnoremap <leader>R :RainbowParenthesesToggle<cr>
