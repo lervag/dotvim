@@ -1,68 +1,66 @@
-snippet frame "Frame" !b
-\begin{frame}{$1}
-  $0
-\end{frame}
-endsnippet
-
-snippet label "Label" !w
-\\label{$1} $0
-endsnippet
-
-snippet ref "Ref" !w
-\\$1ref{$2} $0
-endsnippet
-
-snippet emph "Emphasize" !w
-\\emph{${1:${VISUAL}}}$0
-endsnippet
-
-snippet eq "Equation" !b
-\begin{equation}
-  ${1:${VISUAL}}
-\end{equation}$0
-endsnippet
-
-snippet align "Equation align" !b
-\begin{align${1}}
-  ${2:${VISUAL}}
-\end{align$1}$0
-endsnippet
-
-snippet begin "Environments" !b
-\begin{$1}$2
-\end{$1}$0
-endsnippet
-
-snippet enum "Enumerate" !b
-\begin{enumerate}
-  \item $1
-\end{enumerate}$0
-endsnippet
-
-
-snippet item "Itemize" !b
-\begin{itemize}
-  \item $1
-\end{itemize}$0
-endsnippet
-
-snippet sec "Section" !b
-\section{${1:section name}}
-\label{sec:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/g}}}
+# Sectioning
+snippet chap    "Chapter" !b
+\chapter{${1:chapter name}}
 $0
 endsnippet
-
-snippet sub "Subsection" !b
+snippet sec     "Section" !b
+\section{${1:section name}}
+$0
+endsnippet
+snippet sub     "Subsection" !b
 \subsection{${1:section name}}
 $0
 endsnippet
-
 snippet subsub "Subsubsection" !b
 \subsubsection{${1:section name}}
 $0
 endsnippet
 
-snippet table "Table" b
+# Commands
+snippet label   "Label" !w
+\\label{$1} $0
+endsnippet
+snippet ref     "Ref" !w
+\\$1ref{$2} $0
+endsnippet
+snippet emph    "Emphasize" !w
+\\emph{${1:${VISUAL}}}$0
+endsnippet
+snippet frac    "Fraction" !w
+\\frac{$1}{$2}$0
+endsnippet
+
+# Environments
+snippet begin   "Environments" !b
+\begin{$1}$2
+\end{$1}$0
+endsnippet
+snippet enum    "Enumerate" !b
+\begin{enumerate}
+  \item $1
+\end{enumerate}$0
+endsnippet
+snippet item    "Itemize" !b
+\begin{itemize}
+  \item $1
+\end{itemize}$0
+endsnippet
+snippet eq      "Equation" !b
+\begin{equation}
+  ${1:${VISUAL}}
+\end{equation}$0
+endsnippet
+snippet align   "Equation align" !b
+\begin{align${1}}
+  ${2:${VISUAL}}
+\end{align$1}$0
+endsnippet
+snippet frame   "Frame" !b
+\begin{frame}{$1}
+  $0
+\end{frame}
+endsnippet
+snippet table   "Table" b
 \begin{table}[tbp]
   \centering
   \caption{$1}
@@ -76,10 +74,19 @@ snippet table "Table" b
   \end{tabular}
 \end{table}$0
 endsnippet
-
-snippet tikz "TikZ picture" b
+snippet figure  "Figure" b
+\begin{figure}[tbp]
+  \centering
+  $3
+  \caption{$1}
+  \label{fig:$2}
+\end{figure}$0
+endsnippet
+snippet tikz    "TikZ picture" b
 \begin{tikzpicture}
   [$1]
   $2
 \end{tikzpicture}$0
 endsnippet
+
+# vim: fdm=syntax
