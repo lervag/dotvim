@@ -373,35 +373,28 @@ inoremap <expr> <C-g> neocomplete#undo_completion()
 inoremap <expr> <C-l> neocomplete#complete_common_string()
 inoremap <expr> <C-o> neocomplete#start_manual_complete('omni')
 
-" Define keyword
-if !exists('g:neocomplete#keyword_patterns')
-  let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns._ = '\h\w*'
-
 " Enable omni completion
 augroup neocomplete_omni_complete
   autocmd!
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType css        setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html       setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType markdown   setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType xml        setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType python     setlocal omnifunc=pythoncomplete#Complete
 augroup END
 
-" Enable heavy omni completion
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
+" Define keyword and omni patterns
+if !exists('g:neocomplete#keyword_patterns')
+  let g:neocomplete#keyword_patterns = {}
 endif
-let g:neocomplete#sources#omni#input_patterns.c
-      \ = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#sources#omni#input_patterns.cpp
-      \ = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
 if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
 endif
-let g:neocomplete#force_omni_input_patterns.tex = '\\\(\h\w*{\)'
+let g:neocomplete#keyword_patterns._ = '\h\w*'
+let g:neocomplete#keyword_patterns.tex = '\h\w\+'
+let g:neocomplete#force_omni_input_patterns.tex =
+      \ '\v\\\a*(ref|cite)\a*\{([^}]*,)?'
 
 "{{{2 Rainbox Parentheses
 nnoremap <leader>R :RainbowParenthesesToggle<cr>
