@@ -236,47 +236,6 @@ function! latex#util#get_env(...)
   endif
 endfunction
 
-" {{{1 latex#util#find_bibliographies
-function! latex#util#find_bibliographies(...)
-  if a:0
-    let file = a:1
-  else
-    let file = g:latex#data[b:latex.id].tex
-  endif
-
-  if !filereadable(file)
-    return ''
-  endif
-  let lines = readfile(file)
-  let bibdata_list = []
-
-  "
-  " Search for added bibliographies
-  "
-  let bibliography_cmds = [
-        \ '\\bibliography',
-        \ '\\addbibresource',
-        \ '\\addglobalbib',
-        \ '\\addsectionbib',
-        \ ]
-  for cmd in bibliography_cmds
-    let filter = 'v:val =~ ''\C' . cmd . '\s*{[^}]\+}'''
-    let map = 'matchstr(v:val, ''\C' . cmd . '\s*{\zs[^}]\+\ze}'')'
-    let bibdata_list += map(filter(copy(lines), filter), map)
-  endfor
-
-  "
-  " Also search included files
-  "
-  let filter = 'v:val =~ ''\C\\\%(input\|include\)\s*{[^}]\+}'''
-  let map  = 'latex#util#find_bibliographies('
-  let map .= 'latex#util#kpsewhich(matchstr(v:val,'
-  let map .= '''\C\\\%(input\|include\)\s*{\zs[^}]\+\ze}'')))'
-  let bibdata_list += map(filter(copy(lines), filter), map)
-
-  return join(bibdata_list, ',')
-endfunction
-
 " {{{1 latex#util#has_syntax
 function! latex#util#has_syntax(name, ...)
   " Usage: latex#util#has_syntax(name, [line], [col])
@@ -294,8 +253,11 @@ function! latex#util#in_comment(...)
 endfunction
 
 " {{{1 latex#util#kpsewhich
-function! latex#util#kpsewhich(file)
-  let out = system('kpsewhich "' . a:file . '"')
+function! latex#util#kpsewhich(file, ...)
+  let cmd  = 'kpsewhich '
+  let cmd .= a:0 > 0 ? a:1 : ''
+  let cmd .= ' "' . a:file . '"'
+  let out = system(cmd)
 
   " If kpsewhich has found something, it returns a non-empty string with a
   " newline at the end; otherwise the string is empty

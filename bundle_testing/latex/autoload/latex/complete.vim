@@ -13,9 +13,7 @@ function! latex#complete#omnifunc(findstart, base)
     let line = getline('.')
     let pos  = col('.') - 1
     for [type, pattern] in items(g:latex_complete.patterns)
-      echom type
       if line =~ pattern . '$'
-        echom "ja"
         let s:completion_type = type
         while pos > 0 && line[pos - 1] !~ '{\|,'
           let pos -= 1
@@ -106,28 +104,29 @@ function! s:bibtex_search(regexp)
   let res = []
 
   " Find data from external bib files
-  let bibdata = latex#util#find_bibliographies()
+  let bibdata = join(s:bibtex_find_bibs(), ',')
   if bibdata != ''
+    let tmp = {
+          \ 'aux' : 'tmpfile.aux',
+          \ 'bbl' : 'tmpfile.bbl',
+          \ 'blg' : 'tmpfile.blg',
+          \ }
+
     " Write temporary aux file
-    let tmpbase = g:latex#data[b:latex.id].root . '/bibtex_search_tmp'
-    let auxfile = tmpbase . '.aux'
-    let bblfile = tmpbase . '.bbl'
-    let blgfile = tmpbase . '.blg'
     call writefile([
           \ '\citation{*}',
           \ '\bibstyle{' . s:bstfile . '}',
-          \ '\bibdata{' . bibdata . '}' ],
-          \ auxfile)
-    let cmd = '!cd ' . g:latex#data[b:latex.id].root
-          \ . '; bibtex -terse '
-          \ . fnamemodify(auxfile, ':t') . ' >/dev/null'
-    silent execute cmd
+          \ '\bibdata{' . bibdata . '}',
+          \ ], tmp.aux)
+
+    " Create temporary bbl file
+    silent execute '!bibtex -terse ' . tmp.aux . ' >/dev/null'
     if !has('gui_running')
       redraw!
     endif
 
-    " Parse temporary aux file
-    let lines = split(substitute(join(readfile(bblfile), "\n"),
+    " Parse temporary bbl file
+    let lines = split(substitute(join(readfile(tmp.bbl), "\n"),
           \ '\n\n\@!\(\s\=\)\s*\|{\|}', '\1', 'g'), "\n")
 
     for line in filter(lines, 'v:val =~ a:regexp')
@@ -144,9 +143,9 @@ function! s:bibtex_search(regexp)
       endif
     endfor
 
-    call delete(auxfile)
-    call delete(bblfile)
-    call delete(blgfile)
+    call delete(tmp.aux)
+    call delete(tmp.bbl)
+    call delete(tmp.blg)
   endif
 
   " Find data from 'thebibliography' environments
@@ -166,6 +165,49 @@ function! s:bibtex_search(regexp)
   endif
 
   return res
+endfunction
+
+" {{{1 s:bibtex_find_bibs
+function! s:bibtex_find_bibs(...)
+  if a:0
+    let file = a:1
+  else
+    let file = g:latex#data[b:latex.id].tex
+  endif
+
+  if !filereadable(file)
+    return ''
+  endif
+  let lines = readfile(file)
+  let bibdata_list = []
+
+  "
+  " Search for added bibliographies
+  "
+  let bibliography_cmds = [
+        \ '\\bibliography',
+        \ '\\addbibresource',
+        \ '\\addglobalbib',
+        \ '\\addsectionbib',
+        \ ]
+  for cmd in bibliography_cmds
+    let filter = 'v:val =~ ''\C' . cmd . '\s*{[^}]\+}'''
+    let map = 'matchstr(v:val, ''\C' . cmd . '\s*{\zs[^}]\+\ze}'')'
+    let bibdata_list += map(filter(copy(lines), filter), map)
+  endfor
+
+  "
+  " Also search included files
+  "
+  for input in filter(lines, 'v:val =~ ''\C\\\%(input\|include\)\s*{[^}]\+}''')
+    let bibdata_list += s:bibtex_find_bibs(latex#util#kpsewhich(
+          \ matchstr(input, '\C\\\%(input\|include\)\s*{\zs[^}]\+\ze}')))
+  endfor
+
+  "
+  " Make all entries full paths
+  "
+  return bibdata_list
 endfunction
 
 " {{{1 s:labels_cache

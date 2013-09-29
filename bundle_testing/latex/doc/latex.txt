@@ -114,8 +114,7 @@ X. Limitations                                             *latex-limitations*
 This plugin does NOT support Windows.  I do not plan to add support.
 
 ==============================================================================
-
-COMMANDS                                                  *latex-commands*
+COMMANDS                                                      *latex-commands*
 
 ------------------------------------------------------------------------------
 
@@ -177,15 +176,13 @@ Associated setting:
         |g:LatexBox_plaintext_toc| (set this if UTF8 conversion does not work)
 
 ==============================================================================
-
-MOTION                                                      *latex-motion*
+MOTION                                                          *latex-motion*
 
 The function LatexBox_JumpToNextBraces({backward}) allows to jump outside of
 the current brace/bracket pair, or inside of the next opening braces/brackets.
 
 ==============================================================================
-
-MAPPINGS                                                  *latex-mappings*
+MAPPINGS                                                      *latex-mappings*
 
 ------------------------------------------------------------------------------
 
@@ -276,8 +273,7 @@ Suggested bindings: >
 <
 
 ==============================================================================
-
-SETTINGS                                                  *latex-settings*
+SETTINGS                                                      *latex-settings*
 
 ------------------------------------------------------------------------------
 
@@ -470,8 +466,7 @@ Vim Windows ~
         hidden.
 
 ==============================================================================
-
-FOLDING                                                    *latex-folding*
+FOLDING                                                        *latex-folding*
 
 LatexBox can fold texts according to LaTeX structure (part, chapter, section
 and subsection). Folding is off by default, and can be turned on by defining
@@ -529,8 +524,7 @@ folded.
         Set number of section levels to fold in TOC.
 
 ==============================================================================
-
-FREQUENTLY ASKED QUESTIONS                                     *latex-FAQ*
+FREQUENTLY ASKED QUESTIONS                                         *latex-FAQ*
 
 Q: How can I use SyncTeX with the Skim viewer?
 
@@ -570,13 +564,8 @@ A: There are several ways to do this:
 <  2. Create an empty file called 'main.tex.latexmain' in the same directory.
 
 ==============================================================================
+TODO                                                              *latex-todo*
 
-TODO                                                          *latex-todo*
 
-- Improve TOC jumping and filter out weird characters. Deal with multiple
-  sections with the same name.
-- Fix bugs?
-
-==============================================================================
 
  vim:tw=78:ts=8:ft=help:norl:
