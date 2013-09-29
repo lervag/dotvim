@@ -1,14 +1,3 @@
-"
-" Common patterns are predefined for optimization
-"
-let s:notbslash = '\%(\\\@<!\%(\\\\\)*\)\@<='
-let s:notcomment = '\%(\%(\\\@<!\%(\\\\\)*\)\@<=%.*\)\@<!'
-let s:envbeginpattern = s:notcomment . s:notbslash . '\\begin\s*{.\{-}}'
-let s:envendpattern = s:notcomment . s:notbslash . '\\end\s*{.\{-}}'
-let s:foldparts = '^\s*\\\%(' . join(g:latex_fold_parts, '\|') . '\)'
-let s:folded = '\(% Fake\|\\\(document\|begin\|end\|'
-            \ . 'front\|main\|back\|app\|sub\|section\|chapter\|part\)\)'
-
 " {{{1 latex#fold#refresh
 function! latex#fold#refresh()
     " Parse tex file to dynamically set the sectioning fold levels
@@ -20,6 +9,10 @@ endfunction
 function! latex#fold#level(lnum)
     " Check for normal lines first (optimization)
     let line  = getline(a:lnum)
+
+    " For optimization: only fold if line contains foldable item
+    let pat_folded = '\(% Fake\|\\\(document\|begin\|end\|'
+          \ . 'front\|main\|back\|app\|sub\|section\|chapter\|part\)\)'
     if line !~ s:folded
         return "="
     endif
@@ -34,7 +27,7 @@ function! latex#fold#level(lnum)
     endif
 
     " Fold parts (\frontmatter, \mainmatter, \backmatter, and \appendix)
-    if line =~# s:foldparts
+    if line =~# '^\s*\\\%(' . join(g:latex_fold_parts, '\|') . '\)'
         return ">1"
     endif
 
@@ -51,10 +44,12 @@ function! latex#fold#level(lnum)
     endif
 
     " Fold environments
+    let pat_begin = b:notcomment . b:notbslash . '\\begin\s*{.\{-}}'
+    let pat_end   = b:notcomment . b:notbslash . '\\end\s*{.\{-}}'
     if g:latex_fold_envs
-        if line =~# s:envbeginpattern
+        if line =~# pat_begin
             return "a1"
-        elseif line =~# s:envendpattern
+        elseif line =~# pat_end
             return "s1"
         endif
     endif
@@ -138,16 +133,16 @@ function! latex#fold#text()
             let title = printf('%-12s%s', env . ':',
                         \ substitute(caption, '}\s*$', '',''))
         elseif caption == ''
-            let title = printf('%-12s%56s', env, '(' . label . ')')
+            let title = printf('%-12s%55s)', env, '(' . label)
         else
-            let title = printf('%-12s%-30s %21s', env . ':',
+            let title = printf('%-12s%-30s %25s', env . ':',
                         \ strpart(substitute(caption, '}\s*$', '',''),0,34),
                         \ '(' . label . ')')
         endif
     endif
 
     let title = strpart(title, 0, 68)
-    return printf('%-3s %-68s #%5d', level, title, nlines)
+    return printf('%-3s %-68S #%5d', level, title, nlines)
 endfunction
 " }}}1
 

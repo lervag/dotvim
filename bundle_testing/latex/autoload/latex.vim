@@ -7,6 +7,13 @@ function! latex#init()
   call latex#util#set_default('b:latex', {})
 
   "
+  " Initialize some common patterns
+  "
+  call latex#util#set_default('b:notbslash', '\%(\\\@<!\%(\\\\\)*\)\@<=')
+  call latex#util#set_default('b:notcomment',
+        \ '\%(\%(\\\@<!\%(\\\\\)*\)\@<=%.*\)\@<!')
+
+  "
   " Check if blob already exists
   "
   let main = s:get_main_tex()
@@ -84,6 +91,10 @@ function! latex#set_errorformat()
   "       [pdf]latex. For more info, see |errorformat-LaTeX|.
   "
 
+  " Push file to file stack
+  setlocal efm+=%+P**%f
+
+  " Match errors
   setlocal efm=%E!\ LaTeX\ %trror:\ %m
   setlocal efm+=%E%f:%l:\ %m
   setlocal efm+=%E!\ %m
@@ -91,8 +102,9 @@ function! latex#set_errorformat()
   " More info for undefined control sequences
   setlocal efm+=%Z<argument>\ %m
 
-  " Show or ignore warnings
+  " Show warnings
   if g:latex_errorformat_show_warnings
+    " Ignore some warnings
     for w in g:latex_errorformat_ignore_warnings
       let warning = escape(substitute(w, '[\,]', '%\\\\&', 'g'), ' ')
       exe 'setlocal efm+=%-G%.%#'. warning .'%.%#'
@@ -101,15 +113,7 @@ function! latex#set_errorformat()
     setlocal efm+=%+W%.%#\ at\ lines\ %l--%*\\d
     setlocal efm+=%+WLaTeX\ %.%#Warning:\ %m
     setlocal efm+=%+W%.%#%.%#Warning:\ %m
-  else
-    setlocal efm+=%-WLaTeX\ %.%#Warning:\ %.%#line\ %l%.%#
-    setlocal efm+=%-W%.%#\ at\ lines\ %l--%*\\d
-    setlocal efm+=%-WLaTeX\ %.%#Warning:\ %m
-    setlocal efm+=%-W%.%#%.%#Warning:\ %m
   endif
-
-  " Push file to file stack
-  setlocal efm+=%+P**%f
 
   " Ignore unmatched lines
   setlocal efm+=%-G%.%#

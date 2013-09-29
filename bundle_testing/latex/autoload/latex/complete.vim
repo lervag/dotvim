@@ -37,25 +37,24 @@ endfunction
 
 " {{{1 latex#complete#labels
 function! latex#complete#labels(regex)
-  let labels = s:get_labels(g:latex#data[b:latex.id].aux())
-  let matches = filter(copy(labels), 'match(v:val[0], "' . a:regex . '") != -1')
+  let labels = s:labels_get(g:latex#data[b:latex.id].aux())
+  let matches = filter(copy(labels), 'v:val[0] =~ ''' . a:regex . '''')
 
+  " Try to match label and number
   if empty(matches)
-    " Also try to match label and number
     let regex_split = split(a:regex)
     if len(regex_split) > 1
       let base = regex_split[0]
       let number = escape(join(regex_split[1:], ' '), '.')
       let matches = filter(copy(labels),
-            \ 'match(v:val[0], "' . base   . '") != -1 &&' .
-            \ 'match(v:val[1], "' . number . '") != -1')
+            \ 'v:val[0] =~ ''' . base   . ''' &&' .
+            \ 'v:val[1] =~ ''' . number . '''')
     endif
   endif
 
+  " Try to match number
   if empty(matches)
-    " Also try to match number
-    let matches = filter(copy(labels),
-          \ 'match(v:val[1], "' . a:regex . '") != -1')
+    let matches = filter(copy(labels), 'v:val[1] =~ ''' . a:regex . '''')
   endif
 
   let suggestions = []
@@ -101,91 +100,6 @@ function! latex#complete#bibtex(regexp)
 endfunction
 " }}}1
 
-" Label extraction
-" {{{1 s:get_labels
-
-" s:label_cache is a dictionary that maps filenames to tuples of the form
-"
-"   [ time, labels, inputs ]
-"
-" where time is modification time of the cache entry, labels is a list like
-" returned by extract_labels, and inputs is a list like returned by
-" s:extract_inputs.
-let s:label_cache = {}
-
-function! s:get_labels(file)
-  "
-  " s:get_labels compares modification time of each entry in the label cache
-  " and updates it if necessary.  During traversal of the label cache, all
-  " current labels are collected and returned.
-  "
-  if !filereadable(a:file)
-    return []
-  endif
-
-  " Open file in temporary split window for label extraction.
-  if !has_key(s:label_cache , a:file)
-        \ || s:label_cache[a:file][0] != getftime(a:file)
-    let s:label_cache[a:file] = [
-          \ getftime(a:file),
-          \ s:extract_labels(a:file),
-          \ s:extract_inputs(a:file),
-          \ ]
-  endif
-
-  " We need to create a copy of s:label_cache[fid][1], otherwise all inputs'
-  " labels would be added to the current file's label cache upon each
-  " completion call, leading to duplicates/triplicates/etc. and decreased
-  " performance.  Also, because we don't anything with the list besides
-  " matching copies, we can get away with a shallow copy for now.
-  let labels = copy(s:label_cache[a:file][1])
-
-  for input in s:label_cache[a:file][2]
-    let labels += s:get_labels(input)
-  endfor
-
-  return labels
-endfunction
-
-" {{{1 s:extract_labels
-function! s:extract_labels(file)
-  "
-  " Searches file for commands of the form
-  "
-  "   \newlabel{name}{{number}{page}.*}.*
-  "
-  " and returns a list of [name, number, page] tuples.
-  "
-  let matches = []
-  let lines = readfile(a:file)
-  let lines = filter(lines, 'v:val =~ ''\\newlabel{''')
-  let lines = filter(lines, 'v:val !~ ''@cref''')
-  let lines = map(lines, 'latex#util#convert_back(v:val)')
-  for line in lines
-    let tree = latex#util#tex2tree(line)
-    call add(matches, [
-          \ latex#util#tree2tex(tree[1][0]),
-          \ latex#util#tree2tex(tree[2][0][0]),
-          \ latex#util#tree2tex(tree[2][1][0]),
-          \ ])
-  endfor
-  return matches
-endfunction
-
-" {{{1 s:extract_inputs
-function! s:extract_inputs(file)
-  "
-  " Searches file for \@input{file} entries and returns list of all files.
-  "
-  let matches = []
-  for line in filter(readfile(a:file), 'v:val =~ ''\\@input{''')
-    call add(matches, matchstr(line, '{\zs.*\ze}'))
-  endfor
-  return matches
-endfunction
-" }}}1
-
-" BibTeX extraction
 " {{{1 s:bibtex_search
 let s:bstfile = expand('<sfile>:p:h') . '/vimcomplete'
 function! s:bibtex_search(regexp)
@@ -253,9 +167,93 @@ function! s:bibtex_search(regexp)
 
   return res
 endfunction
+
+" {{{1 s:labels_cache
+"
+" s:label_cache is a dictionary that maps filenames to tuples of the form
+"
+"   [ time, labels, inputs ]
+"
+" where time is modification time of the cache entry, labels is a list like
+" returned by extract_labels, and inputs is a list like returned by
+" s:extract_inputs.
+"
+
+let s:label_cache = {}
+
+" {{{1 s:labels_get
+function! s:labels_get(file)
+  "
+  " s:labels_get compares modification time of each entry in the label cache
+  " and updates it if necessary.  During traversal of the label cache, all
+  " current labels are collected and returned.
+  "
+  if !filereadable(a:file)
+    return []
+  endif
+
+  " Open file in temporary split window for label extraction.
+  if !has_key(s:label_cache , a:file)
+        \ || s:label_cache[a:file][0] != getftime(a:file)
+    let s:label_cache[a:file] = [
+          \ getftime(a:file),
+          \ s:labels_extract(a:file),
+          \ s:labels_extract_inputs(a:file),
+          \ ]
+  endif
+
+  " We need to create a copy of s:label_cache[fid][1], otherwise all inputs'
+  " labels would be added to the current file's label cache upon each
+  " completion call, leading to duplicates/triplicates/etc. and decreased
+  " performance.  Also, because we don't anything with the list besides
+  " matching copies, we can get away with a shallow copy for now.
+  let labels = copy(s:label_cache[a:file][1])
+
+  for input in s:label_cache[a:file][2]
+    let labels += s:labels_get(input)
+  endfor
+
+  return labels
+endfunction
+
+" {{{1 s:labels_extract
+function! s:labels_extract(file)
+  "
+  " Searches file for commands of the form
+  "
+  "   \newlabel{name}{{number}{page}.*}.*
+  "
+  " and returns a list of [name, number, page] tuples.
+  "
+  let matches = []
+  let lines = readfile(a:file)
+  let lines = filter(lines, 'v:val =~ ''\\newlabel{''')
+  let lines = filter(lines, 'v:val !~ ''@cref''')
+  let lines = map(lines, 'latex#util#convert_back(v:val)')
+  for line in lines
+    let tree = latex#util#tex2tree(line)
+    call add(matches, [
+          \ latex#util#tree2tex(tree[1][0]),
+          \ latex#util#tree2tex(tree[2][0][0]),
+          \ latex#util#tree2tex(tree[2][1][0]),
+          \ ])
+  endfor
+  return matches
+endfunction
+
+" {{{1 s:labels_extract_inputs
+function! s:labels_extract_inputs(file)
+  "
+  " Searches file for \@input{file} entries and returns list of all files.
+  "
+  let matches = []
+  for line in filter(readfile(a:file), 'v:val =~ ''\\@input{''')
+    call add(matches, matchstr(line, '{\zs.*\ze}'))
+  endfor
+  return matches
+endfunction
 " }}}1
 
-" Other
 " {{{1 s:next_chars_match
 function! s:next_chars_match(regex)
   return strpart(getline('.'), col('.') - 1) =~ a:regex

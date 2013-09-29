@@ -1,3 +1,6 @@
+"
+" Functions sorted by name
+"
 " {{{1 latex#util#change_environment
 function! latex#util#change_environment(new_env)
   let [env, l1, c1, l2, c2] = latex#util#get_env(1)
@@ -455,7 +458,7 @@ endfunction
 " {{{1 s:input_complete
 function! s:input_complete(lead, cmdline, pos)
   let suggestions = []
-  for entry in g:latex#complete#environments
+  for entry in g:latex_complete_environments
     let env = entry.word
     if env =~ '^' . a:lead
       call add(suggestions, env)

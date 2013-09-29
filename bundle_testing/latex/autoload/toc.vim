@@ -35,6 +35,7 @@ function! latextoc#fold_text()
     let parts = matchlist(getline(v:foldstart), '^\(.*\)\t\(.*\)$')
     return printf('%-8s%-72s', parts[1], parts[2])
 endfunction
+
 " }}}1
 
 " vim:fdm=marker:ff=unix

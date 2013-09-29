@@ -25,7 +25,7 @@ call latex#util#set_default('g:latex_errorformat_ignore_warnings',
       \ [
         \ 'Underfull',
         \ 'Overfull',
-        \ 'specifier changed to'
+        \ 'specifier changed to',
       \ ])
 
 " {{{1 Folding
@@ -59,13 +59,14 @@ call latex#util#set_default('g:latex_build_dir', '.')
 call latex#util#set_default('g:latex_main_tex_candidates',
       \ [
         \ 'main',
+        \ 'memo',
         \ 'note',
         \ 'report',
         \ 'thesis',
-        \ 'memo',
       \])
 
 " {{{1 Motion
+call latex#util#set_default('g:latex_motion_loaded_matchparen', 0)
 call latex#util#set_default('g:latex_motion_open_pats',
       \ [
         \ '{',
@@ -88,7 +89,6 @@ call latex#util#set_default('g:latex_motion_close_pats',
         \ '\\end\s*{.\{-}}',
         \ '\\right\s*\%([^\\]\|\\.\|\\\a*\)',
       \ ])
-call latex#util#set_default('g:latex_motion_loaded_matchparen', 0)
 
 " {{{1 Toc
 call latex#util#set_default('g:latex_toc_width', 30)

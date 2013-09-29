@@ -130,7 +130,11 @@ endfunction
 " {{{1 latex#latexmk#status
 function! latex#latexmk#status(detailed)
   if a:detailed
-    echomsg "TODO"
+    for data in g:latex#data
+      if data.pid
+        echom printf('pid: %-s, file: %-s', data.pid, data.tex)
+      endif
+    endfor
   else
     if g:latex#data[b:latex.id].pid
       echo "latexmk is running"
