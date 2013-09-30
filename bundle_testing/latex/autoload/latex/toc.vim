@@ -84,7 +84,7 @@ function! s:read_toc(auxfile, texfile, ...)
     let included = matchstr(line, '^\\@input{\zs[^}]*\ze}')
     if included != ''
       let newaux = prefix . '/' . included
-      let newtex = fnamemodify(fnamemodify(newaux, ':t:r') . '.tex', ':p')
+      let newtex = fnamemodify(newaux, ':r') . '.tex'
       call s:read_toc(newaux, newtex, toc, fileindices)
       continue
     endif
@@ -160,24 +160,27 @@ function! s:find_closest_section(toc, file)
   endif
 
   let imax = len(a:toc.fileindices[a:file])
-  let imin = 0
-  while imin < imax - 1
-    let i = (imax + imin) / 2
-    let tocindex = a:toc.fileindices[a:file][i]
-    let entry = a:toc.data[tocindex]
-    let titlestr = entry['text']
-    let titlestr = escape(titlestr, '\')
-    let titlestr = substitute(titlestr, ' ', '\\_\\s\\+', 'g')
-    let [lnum, cnum]
-          \ = searchpos('\\' . entry['level'] . '\_\s*{' . titlestr . '}', 'nW')
-    if lnum
-      let imax = i
-    else
-      let imin = i
-    endif
-  endwhile
-
-  return a:toc.fileindices[a:file][imin]
+  if imax > 0
+    let imin = 0
+    while imin < imax - 1
+      let i = (imax + imin) / 2
+      let tocindex = a:toc.fileindices[a:file][i]
+      let entry = a:toc.data[tocindex]
+      let titlestr = entry['text']
+      let titlestr = escape(titlestr, '\')
+      let titlestr = substitute(titlestr, ' ', '\\_\\s\\+', 'g')
+      let [lnum, cnum]
+            \ = searchpos('\\'.entry['level'].'\_\s*{'.titlestr.'}', 'nW')
+      if lnum
+        let imax = i
+      else
+        let imin = i
+      endif
+    endwhile
+    return a:toc.fileindices[a:file][imin]
+  else
+    return 0
+  endif
 endfunction
 
 " }}}1
