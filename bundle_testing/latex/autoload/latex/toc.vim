@@ -1,3 +1,11 @@
+" {{{1 latex#toc#init
+function! latex#toc#init(initialized)
+  if g:latex_default_mappings
+    nmap <silent><buffer> <LocalLeader>lt :call latex#toc#open()<cr>
+    nmap <silent><buffer> <LocalLeader>lT :call latex#toc#toggle()<cr>
+  endif
+endfunction
+
 " {{{1 latex#toc#open
 function! latex#toc#open()
   " Check if buffer exists

@@ -1,7 +1,6 @@
 *latex.txt*    LaTeX plugin for Vim version 7.3 (and above)
 
-Version: 0.1
-Author : Karl Yngve Lervåg <karl.yngve@gmail.com>
+Author:  Karl Yngve Lervåg <karl.yngve@gmail.com>
 License: MIT license {{{
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to
@@ -22,54 +21,70 @@ License: MIT license {{{
   IN THE SOFTWARE.
 }}}
 
+==============================================================================
 CONTENTS                                                      *latex-contents*
 
-X.    Omni completion                        |latex-completion|
-X.1   Commands                               |latex-complete-commands|
-Y.    Limitations                            |latex-limitations|
+    1. Intro ................................ |latex-intro|
+    1. Options .............................. |latex-options|
+    1. Coupling with latexmk ................ |latex-latexmk|
+    1. Folding .............................. |latex-folding|
+    1. Omni completion ...................... |latex-completion|
+    2. Limitations .......................... |latex-limitations|
 
 ==============================================================================
-X. Omni completion                                          *latex-completion*
+*INTRO*                                                          *latex-intro*
 
-The plugin provides an 'omnifunc' for omni completion |compl-omni|.  The
-following sections give some more specifications for what is completed.
+This plugin provides some convenience functionality for editing LaTeX
+documents.  It is written in pure vimscript, and the main ideas have been to
+be minimalistic and to stay out of the users way.  This means that most of the
+functionality is turned off by default, and may be turned on by the user.
 
-------------------------------------------------------------------------------
-X.1 Commands                                         *latex-complete-commands*
+The plugin provides the following functionality:
 
-Command completion is triggered by the '\' character. For example, >
-        \beg<CTRL-X><CTRL-O>
-completes to >
-        \begin{
-<
+    1. Completion of labels and citations               |latex-completion|
+    2. Coupling with latexmk for background compilation |latex-latexmk|
 
-Associated settings:
-        |g:LatexBox_completion_commands|
-        |g:LatexBox_completion_close_braces|
+==============================================================================
+OPTIONS                                                        *latex-options*
 
-------------------------------------------------------------------------------
-X.2 Environments                                 *latex-complete-environments*
+Overview:~
 
-Environment completion is triggered by '\begin{'. For example, >
-        \begin{it<CTRL-X><CTRL-O>
-completes to >
-        \begin{itemize}
-<
+==============================================================================
+OMNI COMPLETION                                             *latex-completion*
 
-Completion of '\end{' automatically closes the last open environment.
+The plugin provides an 'omnifunc' and two completion functions to gather
+candidates for citations and labels |compl-omni|.  The completion may be
+customised slightly through *g:latex_complete*, which is a |Dictionary| with
+the following entries.
 
-Associated settings:
-        |g:LatexBox_completion_environments|
-        |g:LatexBox_completion_close_braces|
+*g:latex_complete.close_braces*
+        If set to 1, completion will automatically close the braces.
 
-------------------------------------------------------------------------------
-X.3 Labels                                             *latex-complete-labels*
+        Default: 0
 
-Label completion is triggered by '\ref{' or '\eqref{'. For example, >
+*g:latex_complete.patterns*
+        A dictionary of patterns that must match for label and citation
+        completion.
+
+*g:latex_complete.patterns.ref*
+        Default: '\C\\v\?\(eq\|page\|[cC]\)\?ref\*\?\_\s*{[^{}]*'
+
+*g:latex_complete.patterns.bib*
+        Default: '\C\\\a*cite\a*\*\?\(\[[^\]]*\]\)*\_\s*{[^{}]*'
+
+*latex#complete#omnifunc*
+        The 'omnifunc', enabled by default and accessible via
+        'i_<CTRL-X><CTRL-O>'.
+
+*latex#complete#labels*
+        Gathers completion candidates for label completion.  Label completion
+        is triggered by |g:latex_complete.patterns.ref|, which by
+        default matches for instance '\ref{' and '\eqref{'.
+
+        As an example, >
         \ref{sec:<CTRL-X><CTRL-O>
-offers a list of all matching labels, with their associated value and page
-number. Labels are read from the aux file, so label completion works only
-after compilation.
+<       offers a list of all matching labels, with their associated value and
+        page number.
 
 It matches:
         1. labels: >
@@ -80,9 +95,10 @@ It matches:
                 \eqref{eq 2<CTRL-X><CTRL-O>
 <
 
-Associated settings:
-        |g:LatexBox_ref_pattern|
-        |g:LatexBox_completion_close_braces|
+*latex#complete#bibtex*
+        Gathers completion candidates for citation completion.
+
+
 
 ------------------------------------------------------------------------------
 X.4 BibTeX entries                                     *latex-complete-bibtex*
@@ -111,83 +127,9 @@ Associated settings:
 ==============================================================================
 X. Limitations                                             *latex-limitations*
 
-This plugin does NOT support Windows.  I do not plan to add support.
+This plugin is written for Linux/Unix environments, and so it does NOT support
+Windows.  I do not plan to add support.
 
-==============================================================================
-COMMANDS                                                      *latex-commands*
-
-------------------------------------------------------------------------------
-
-                                              *latex-commands-compilation*
-Compilation ~
-
-*:Latexmk*
-        Compile with latexmk.
-        See |g:LatexBox_latexmk_async|, |g:LatexBox_latexmk_options|, and
-        |g:LatexBox_latexmk_preview_continuously|.
-*:Latexmk!*
-        Force compilation with latexmk (runs latexmk with "-g" option).
-*:LatexmkClean*
-        Clean temporary output from LaTeX.
-*:LatexmkClean!*
-        Clean all output from LaTeX.
-*:LatexmkStatus*
-        Show the running status of latexmk for the current buffer.
-*:LatexmkStatus!*
-        Show the running status of latexmk for all buffers with process group
-        ID's or PID's.
-*:LatexmkStop*
-        Stop latexmk if it is running.
-*:LatexErrors*
-        Load the log file for the current document and jump to the first error.
-
-Note: The commands |:LatexmkStop| and |:LatexmkStatus| are only relevant when
-|g:LatexBox_latexmk_async| or |g:LatexBox_latexmk_preview_continuously| is
-set.
-
-When latexmk terminates, it reports its success or failure (with status
-number). To navigate through the errors, you can use the |:cc|, |:cn| and
-|:cp| commands, as well as the |:clist| command to list the errors.
-
-------------------------------------------------------------------------------
-
-                                                  *latex-commands-viewing*
-Viewing ~
-
-*:LatexView*
-        Launch viewer on output file.
-        See |g:LatexBox_output_type| and |g:LatexBox_viewer|.
-
-------------------------------------------------------------------------------
-
-                                                   *latex-commands-motion*
-Motion ~
-
-*:LatexTOC*
-        Open a table of contents.
-        Use Enter to navigate to selected entry.
-        See |g:LatexBox_split_width|.
-        See |g:LatexBox_split_side|.
-        See |g:LatexBox_split_resize|.
-*:LatexTOCToggle*
-        Toggle the display of the table of contents.
-
-Associated setting:
-        |g:LatexBox_plaintext_toc| (set this if UTF8 conversion does not work)
-
-==============================================================================
-MOTION                                                          *latex-motion*
-
-The function LatexBox_JumpToNextBraces({backward}) allows to jump outside of
-the current brace/bracket pair, or inside of the next opening braces/brackets.
-
-==============================================================================
-MAPPINGS                                                      *latex-mappings*
-
-------------------------------------------------------------------------------
-
-                                              *latex-mappings-compilation*
-Compilation ~
 
 <LocalLeader>ll                                                     |:Latexmk|
         Compile with latexmk.
@@ -522,50 +464,5 @@ folded.
 
 *g:LatexBox_fold_toc_levels*            Default: 1
         Set number of section levels to fold in TOC.
-
-==============================================================================
-FREQUENTLY ASKED QUESTIONS                                         *latex-FAQ*
-
-Q: How can I use SyncTeX with the Skim viewer?
-
-A: Add the following line in your ~/.latexmkrc file: >
-
-        $pdflatex = 'pdflatex -synctex=1 %O %S'
-
-<  and create a "latex-search" mapping (<Leader>ls) in your ~/.vimrc: >
-
-        map <silent> <Leader>ls :silent
-                \ !/Applications/Skim.app/Contents/SharedSupport/displayline
-                \ <C-R>=line('.')<CR> "<C-R>=LatexBox_GetOutputFile()<CR>"
-                \ "%:p" <CR>
-
-<  (inspired from vim-latex).
-
-   Alternatively, the option for latexmk may be given through the variable
-   |g:LatexBox_latexmk_options|, for instance as: >
-
-        let g:LatexBox_latexmk_options
-                        \ = "-pdflatex='pdflatex -synctex=1 \%O \%S'"
-
-<  which can be added to your .vimrc file as desired.
-
-Q: How can I use xelatex instead of pdflatex for some documents only?
-
-A: Instead of putting the settings in your ~/.latexmkrc file, put them in your
-   document's working directory, in a file named latexmkrc or .latexmkrc: >
-        $pdflatex = 'xelatex %O %S'
-
-Q: How can I specify the main TeX file for a multi-file document
-
-A: There are several ways to do this:
-
-   1. Add a comment to the first few lines of your file to specify this: >
-        %! TEX root = main.tex
-<  2. Create an empty file called 'main.tex.latexmain' in the same directory.
-
-==============================================================================
-TODO                                                              *latex-todo*
-
-
 
  vim:tw=78:ts=8:ft=help:norl:

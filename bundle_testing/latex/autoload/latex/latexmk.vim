@@ -1,6 +1,5 @@
 " {{{1 latex#latexmk#init
-let s:latexmk_initialized = 0
-function! latex#latexmk#init()
+function! latex#latexmk#init(initialized)
   "
   " Initialize pid for current tex file
   "
@@ -9,23 +8,35 @@ function! latex#latexmk#init()
   endif
 
   "
-  " Ensure that all latexmk processes are stopped when vim exits
-  " Note: Only need to define this once, globally.
-  "
-  if !s:latexmk_initialized
-    let s:latexmk_initialized = 1
-    augroup latex_latexmk
-      autocmd!
-      autocmd VimLeave *.tex call s:stop_all()
-    augroup END
-  endif
-
-  "
   " If all buffers for a given latex project are closed, kill latexmk
   "
   augroup latex_latexmk
     autocmd BufUnload <buffer> call s:stop_buffer()
   augroup END
+
+  "
+  " Set default mappings
+  "
+  if g:latex_default_mappings
+    nmap <silent><buffer> <localleader>ll :call latex#latexmk#compile()<cr>
+    nmap <silent><buffer> <localleader>lc :call latex#latexmk#clean(0)<cr>
+    nmap <silent><buffer> <localleader>lC :call latex#latexmk#clean(1)<cr>
+    nmap <silent><buffer> <localleader>lg :call latex#latexmk#status(0)<cr>
+    nmap <silent><buffer> <localleader>lG :call latex#latexmk#status(1)<cr>
+    nmap <silent><buffer> <localleader>lk :call latex#latexmk#stop()<cr>
+    nmap <silent><buffer> <localleader>le :call latex#latexmk#errors()<cr>
+  endif
+
+  "
+  " Ensure that all latexmk processes are stopped when vim exits
+  " Note: Only need to define this once, globally.
+  "
+  if !a:initialized
+    augroup latex_latexmk
+      autocmd!
+      autocmd VimLeave *.tex call s:stop_all()
+    augroup END
+  endif
 endfunction
 
 " {{{1 latex#latexmk#compile

@@ -1,3 +1,10 @@
+" {{{1 latex#complete#init
+function! latex#complete#init(initialized)
+  if g:latex_complete.enabled
+    setlocal omnifunc=latex#complete#omnifunc
+  endif
+endfunction
+
 " {{{1 latex#complete#omnifunc
 let s:completion_type = ''
 function! latex#complete#omnifunc(findstart, base)
