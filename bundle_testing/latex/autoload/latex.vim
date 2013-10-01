@@ -122,17 +122,20 @@ endfunction
 " {{{1 latex#info
 function! latex#info()
   let n = 0
-  for d in g:latex#data
+  for data in g:latex#data
     let n += 1
     if n > 1
       echo "\n"
     endif
-    let data = copy(d)
-    let data.aux = data.aux()
-    let data.out = data.out()
-    let data.log = data.log()
-    for [key, val] in sort(items(data), "s:sort_func")
-      echo printf('%6s: %-s', key, s:truncate(val))
+    let d = copy(data)
+    let d.aux = d.aux()
+    let d.out = d.out()
+    let d.log = d.log()
+    for [key, val] in sort(items(d), "s:info_sort_func")
+      if key =~ '\vaux|out|root|log|tex'
+        let val = s:truncate(val)
+      endif
+      echo printf('%6s: %-s', key, val)
     endfor
   endfor
 endfunction
@@ -281,13 +284,22 @@ function! s:get_main_ext(texdata, ext)
   return ''
 endfunction
 
-" {{{1 s:sort_func
-function s:sort_func(a, b)
-  if a:a[1][0] == "/" && a:b[1][0] != "/"
+" {{{1 s:info_sort_func
+function s:info_sort_func(a, b)
+  if a:a[1][0] == "!"
+    " Put cmd's way behind
+    return 1
+  elseif a:b[1][0] == "!"
+    " Put cmd's way behind
+    return -1
+  elseif a:a[1][0] == "/" && a:b[1][0] != "/"
+    " Put full paths behind
     return 1
   elseif a:a[1][0] != "/" && a:b[1][0] == "/"
+    " Put full paths behind
     return -1
   elseif a:a[1][0] == "/" && a:b[1][0] == "/"
+    " Put full paths behind
     return -1
   else
     return a:a[1] > a:b[1] ? 1 : -1
@@ -296,8 +308,8 @@ endfunction
 
 " {{{1 s:truncate
 function! s:truncate(string)
-  if len(a:string) >= winwidth('.') - 20
-    return a:string[0:10] . "..." . a:string[-winwidth('.')+33:]
+  if len(a:string) >= winwidth('.') - 9
+    return a:string[0:10] . "..." . a:string[-winwidth('.')+23:]
   else
     return a:string
   endif
