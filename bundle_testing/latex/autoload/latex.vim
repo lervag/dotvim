@@ -1,73 +1,23 @@
 " {{{1 latex#init
+let s:initialized = 0
 function! latex#init()
-  "
-  " Initialize global and local data blobs
-  "
-  call latex#util#set_default('g:latex#data', [])
-  call latex#util#set_default('b:latex', {})
-
-  "
-  " Initialize some common patterns
-  "
-  call latex#util#set_default('b:notbslash', '\%(\\\@<!\%(\\\\\)*\)\@<=')
-  call latex#util#set_default('b:notcomment',
-        \ '\%(\%(\\\@<!\%(\\\\\)*\)\@<=%.*\)\@<!')
-
-  "
-  " Check if blob already exists
-  "
-  let main = s:get_main_tex()
-  let id   = s:get_id(main)
-  if id >= 0
-    let b:latex.id = id
-  else
-    let data = {}
-    let data.tex  = main
-    let data.root = fnamemodify(data.tex, ':h')
-    let data.base = fnamemodify(data.tex, ':t')
-    let data.name = fnamemodify(data.tex, ':t:r')
-    function data.aux() dict
-      return s:get_main_ext(self, 'aux')
-    endfunction
-    function data.log() dict
-      return s:get_main_ext(self, 'log')
-    endfunction
-    function data.out() dict
-      return s:get_main_ext(self, g:latex_latexmk_output)
-    endfunction
-
-    call add(g:latex#data, data)
-    let b:latex.id = len(g:latex#data) - 1
-  endif
+  call s:init_variables()
+  call s:init_blob()
+  call s:init_mappings()
 
   call latex#set_errorformat()
-
-  call latex#latexmk#init()
-
-  call s:init_folding()
-  call s:init_commands()
-  call s:init_mapping()
+  call latex#fold#init(s:initialized)
+  call latex#toc#init(s:initialized)
+  call latex#latexmk#init(s:initialized)
+  call latex#motion#init(s:initialized)
+  call latex#change#init(s:initialized)
+  call latex#complete#init(s:initialized)
 
   "
-  " Highlight matching parens ($, (), ...)
+  " This variable is used to allow a distinction between global and buffer
+  " initialization
   "
-  if !g:latex_motion_loaded_matchparen
-    " Disable matchparen autocommands
-    augroup latex_highlight_pairs
-      autocmd!
-      autocmd BufEnter *.tex
-            \   if !exists("g:loaded_matchparen") || !g:loaded_matchparen
-            \ |   runtime plugin/matchparen.vim
-            \ | endif
-      autocmd BufEnter *.tex
-            \ 3match none | unlet! g:loaded_matchparen | au! matchparen
-      autocmd! CursorMoved  *.tex call latex#motion#find_matching_pair('h')
-      autocmd! CursorMovedI *.tex call latex#motion#find_matching_pair('i')
-    augroup END
-  endif
-
-  " Set omnicompletion
-  setlocal omnifunc=latex#complete#omnifunc
+  let s:initialized = 1
 endfunction
 
 " {{{1 latex#view
@@ -138,98 +88,55 @@ function! latex#info()
 endfunction
 " }}}1
 
-" {{{1 s:init_folding
-function! s:init_folding()
-  if g:latex_fold_enabled
-    setl foldmethod=expr
-    setl foldexpr=latex#fold#level(v:lnum)
-    setl foldtext=latex#fold#text()
-    call latex#fold#refresh()
-    "
-    " The foldexpr function returns "=" for most lines, which means it can
-    " become slow for large files.  The following is a hack that is based on
-    " this reply to a discussion on the Vim Developer list:
-    " http://permalink.gmane.org/gmane.editors.vim.devel/14100
-    augroup FastFold
-      autocmd!
-      autocmd InsertEnter *.tex setlocal foldmethod=manual
-      autocmd InsertLeave *.tex setlocal foldmethod=expr
-    augroup end
+" {{{1 s:init_variables
+function! s:init_variables()
+  "
+  " Initialize global and local data blobs
+  "
+  call latex#util#set_default('g:latex#data', [])
+  call latex#util#set_default('b:latex', {})
+
+  "
+  " Initialize some common patterns
+  "
+  call latex#util#set_default('b:notbslash', '\%(\\\@<!\%(\\\\\)*\)\@<=')
+  call latex#util#set_default('b:notcomment',
+        \ '\%(\%(\\\@<!\%(\\\\\)*\)\@<=%.*\)\@<!')
+endfunction
+
+" {{{1 s:init_blob
+function! s:init_blob()
+  let main = s:get_main_tex()
+  let id   = s:get_id(main)
+  if id >= 0
+    let b:latex.id = id
+  else
+    let data = {}
+    let data.tex  = main
+    let data.root = fnamemodify(data.tex, ':h')
+    let data.base = fnamemodify(data.tex, ':t')
+    let data.name = fnamemodify(data.tex, ':t:r')
+    function data.aux() dict
+      return s:get_main_ext(self, 'aux')
+    endfunction
+    function data.log() dict
+      return s:get_main_ext(self, 'log')
+    endfunction
+    function data.out() dict
+      return s:get_main_ext(self, g:latex_latexmk_output)
+    endfunction
+
+    call add(g:latex#data, data)
+    let b:latex.id = len(g:latex#data) - 1
   endif
 endfunction
 
-" {{{1 s:init_commands
-function! s:init_commands()
-  command! LatexView      call latex#view()
-  command! LatexTOC       call latex#toc#open()
-  command! LatexTOCToggle call latex#toc#toggle()
-endfunction
-
-" {{{1 s:init_mapping
-function! s:init_mapping()
-  map <silent><buffer> <localleader>ll :call latex#latexmk#compile()<cr>
-  map <silent><buffer> <localleader>lc :call latex#latexmk#clean(0)<cr>
-  map <silent><buffer> <localleader>lC :call latex#latexmk#clean(1)<cr>
-  map <silent><buffer> <localleader>lg :call latex#latexmk#status(0)<cr>
-  map <silent><buffer> <localleader>lG :call latex#latexmk#status(1)<cr>
-  map <silent><buffer> <localleader>lk :call latex#latexmk#stop()<cr>
-  map <silent><buffer> <localleader>le :call latex#latexmk#errors()<cr>
-
-  map <silent><buffer> <localleader>li :call latex#info()<cr>
-
-"inoremap <silent> <Plug>LatexCloseCurEnv
-"      \ <C-R>=<SID>CloseCurEnv()<CR>
-"vnoremap <silent> <Plug>LatexWrapSelection
-"      \ :<c-u>call <SID>WrapSelection('')<CR>i
-"vnoremap <silent> <Plug>LatexEnvWrapSelection
-"      \ :<c-u>call <SID>PromptEnvWrapSelection()<CR>
-"vnoremap <silent> <Plug>LatexEnvWrapFmtSelection
-"      \ :<c-u>call <SID>PromptEnvWrapSelection(1)<CR>
-"nnoremap <silent> <Plug>LatexChangeEnv
-"      \ :call <SID>ChangeEnvPrompt()<CR>
-
-"nnoremap <silent> <plug>LatexBox_JumpToMatch
-"      \ :call <sid>latex_find_matching_pair('n')<cr>
-"vnoremap <silent> <Plug>LatexBox_JumpToMatch
-"      \ :call <sid>latex_find_matching_pair('v')<cr>
-"onoremap <silent> <Plug>LatexBox_JumpToMatch
-"      \ v:call <sid>latex_find_matching_pair('o')<cr>
-"vnoremap <silent> <plug>LatexBox_SelectInlineMathInner
-"      \ :<c-u>call <sid>latex_select_inline_math('inner')<cr>
-"vnoremap <silent> <plug>LatexBox_SelectInlineMathOuter
-"      \ :<c-u>call <sid>latex_select_inline_math('outer')<cr>
-"vnoremap <silent> <Plug>LatexBox_SelectCurrentEnvInner
-"      \ :<c-u>call <sid>latex_select_current_env('inner')<cr>
-"vnoremap <silent> <Plug>LatexBox_SelectCurrentEnvOuter
-"      \ :<c-u>call <sid>latex_select_current_env('outer')<cr>
-
-  map <buffer> <LocalLeader>lv :LatexView<CR>
-  map <silent> <buffer> <LocalLeader>lt :LatexTOC<CR>
-  map <silent> <buffer> <LocalLeader>lT :LatexTOCToggle<CR>
-
-  "if !exists('g:latex_mappings_loaded_matchparen')
-  "  nmap <buffer> % <Plug>LatexBox_JumpToMatch
-  "  vmap <buffer> % <Plug>LatexBox_JumpToMatch
-  "  omap <buffer> % <Plug>LatexBox_JumpToMatch
-  "endif
-
-  "vmap <buffer> ie <plug>LatexBox_SelectCurrentEnvInner
-  "vmap <buffer> ae <plug>LatexBox_SelectCurrentEnvOuter
-  "omap <buffer> ie :normal vie<CR>
-  "omap <buffer> ae :normal vae<CR>
-  "vmap <buffer> i$ <plug>LatexBox_SelectInlineMathInner
-  "vmap <buffer> a$ <plug>LatexBox_SelectInlineMathOuter
-  "omap <buffer> i$ :normal vi$<CR>
-  "omap <buffer> a$ :normal va$<CR>
-
-  "noremap  <buffer> <silent> ]] :call latex#motion#next_section(0,0,0)<cr>
-  "noremap  <buffer> <silent> ][ :call latex#motion#next_section(1,0,0)<cr>
-  "noremap  <buffer> <silent> [] :call latex#motion#next_section(1,1,0)<cr>
-  "noremap  <buffer> <silent> [[ :call latex#motion#next_section(0,1,0)<cr>
-  "vnoremap <buffer> <silent> ]] :<c-u>call latex#motion#next_section(0,0,1)<cr>
-  "vnoremap <buffer> <silent> ][ :<c-u>call latex#motion#next_section(1,0,1)<cr>
-  "vnoremap <buffer> <silent> [] :<c-u>call latex#motion#next_section(1,1,1)<cr>
-  "vnoremap <buffer> <silent> [[ :<c-u>call latex#motion#next_section(0,1,1)<cr>
+" {{{1 s:init_mappings
+function! s:init_mappings()
+  if g:latex_default_mappings
+    map <silent><buffer> <localleader>li :call latex#info()<cr>
+    map <silent><buffer> <LocalLeader>lv :call latex#view()<cr>
+  endif
 endfunction
 
 " {{{1 s:get_id

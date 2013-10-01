@@ -12,7 +12,8 @@ let b:did_ftplugin = 1
 " Set default options
 " {{{1 Completion
 call latex#util#set_default('g:latex_complete', {
-      \ 'close_braces'       : 0,
+      \ 'enabled'      : 0,
+      \ 'close_braces' : 0,
       \ 'patterns' : {
         \ 'ref' : '\C\\v\?\(eq\|page\|[cC]\)\?ref\*\?\_\s*{[^{}]*',
         \ 'bib' : '\C\\\a*cite\a*\*\?\(\[[^\]]*\]\)*\_\s*{[^{}]*',
@@ -54,6 +55,7 @@ call latex#util#set_default('g:latex_latexmk_output', 'pdf')
 call latex#util#set_default('g:latex_latexmk_autojump', '0')
 
 " {{{1 Miscelleneous
+call latex#util#set_default('g:latex_default_mappings', 0)
 call latex#util#set_default('g:latex_viewer', 'xdg-open')
 call latex#util#set_default('g:latex_build_dir', '.')
 call latex#util#set_default('g:latex_main_tex_candidates',
@@ -66,7 +68,7 @@ call latex#util#set_default('g:latex_main_tex_candidates',
       \])
 
 " {{{1 Motion
-call latex#util#set_default('g:latex_motion_loaded_matchparen', 0)
+call latex#util#set_default('g:latex_motion_matchparen', 0)
 call latex#util#set_default('g:latex_motion_open_pats',
       \ [
         \ '{',

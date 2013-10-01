@@ -1,3 +1,27 @@
+" {{{1 latex#fold#init
+function! latex#fold#init(initialized)
+  if g:latex_fold_enabled
+    setl foldmethod=expr
+    setl foldexpr=latex#fold#level(v:lnum)
+    setl foldtext=latex#fold#text()
+    call latex#fold#refresh()
+
+    "
+    " The foldexpr function returns "=" for most lines, which means it can
+    " become slow for large files.  The following is a hack that is based on
+    " this reply to a discussion on the Vim Developer list:
+    " http://permalink.gmane.org/gmane.editors.vim.devel/14100
+    "
+    if !a:initialized
+      augroup FastFold
+        autocmd!
+        autocmd InsertEnter *.tex setlocal foldmethod=manual
+        autocmd InsertLeave *.tex setlocal foldmethod=expr
+      augroup END
+    endif
+  endif
+endfunction
+
 " {{{1 latex#fold#refresh
 function! latex#fold#refresh()
     " Parse tex file to dynamically set the sectioning fold levels

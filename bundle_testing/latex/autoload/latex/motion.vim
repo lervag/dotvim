@@ -1,3 +1,58 @@
+" {{{1 latex#motion#init
+function! latex#motion#init(initialized)
+  if a:initialized | return | endif
+
+  if g:latex_default_mappings
+    nnoremap <silent><buffer> % :call latex#motion#find_matching_pair('n')<cr>
+    vnoremap <silent><buffer> %
+          \ :<c-u>call latex#motion#find_matching_pair('v')<cr>
+    onoremap <silent><buffer> % :call latex#motion#find_matching_pair('o')<cr>
+
+    nnoremap <silent><buffer> ]] :call latex#motion#next_section(0,0,0)<cr>
+    nnoremap <silent><buffer> ][ :call latex#motion#next_section(1,0,0)<cr>
+    nnoremap <silent><buffer> [] :call latex#motion#next_section(1,1,0)<cr>
+    nnoremap <silent><buffer> [[ :call latex#motion#next_section(0,1,0)<cr>
+    vnoremap <silent><buffer> ]] :<c-u>call latex#motion#next_section(0,0,1)<cr>
+    vnoremap <silent><buffer> ][ :<c-u>call latex#motion#next_section(1,0,1)<cr>
+    vnoremap <silent><buffer> [] :<c-u>call latex#motion#next_section(1,1,1)<cr>
+    vnoremap <silent><buffer> [[ :<c-u>call latex#motion#next_section(0,1,1)<cr>
+    onoremap <silent><buffer> ]] :normal v]]<cr>
+    onoremap <silent><buffer> ][ :normal v][<cr>
+    onoremap <silent><buffer> [] :normal v[]<cr>
+    onoremap <silent><buffer> [[ :normal v[[<cr>
+
+    vnoremap <silent><buffer> ie :latex#motion#select_current_env('inner')<cr>
+    vnoremap <silent><buffer> ae :latex#motion#select_current_env('outer')<cr>
+    onoremap <silent><buffer> ie :normal vie<cr>
+    onoremap <silent><buffer> ae :normal vae<cr>
+
+    vnoremap <silent><buffer> i$ :latex#motion#select_inline_math('inner')<cr>
+    vnoremap <silent><buffer> a$ :latex#motion#select_inline_math('outer')<cr>
+    onoremap <silent><buffer> i$ :normal vi$<cr>
+    onoremap <silent><buffer> a$ :normal va$<cr>
+  endif
+
+  "
+  " Highlight matching parens ($, (), ...)
+  "
+  if g:latex_motion_matchparen
+    augroup latex_highlight_pairs
+      autocmd!
+      " Disable matchparen autocommands
+      autocmd BufEnter *.tex
+            \   if !exists("g:loaded_matchparen") || !g:loaded_matchparen
+            \ |   runtime plugin/matchparen.vim
+            \ | endif
+      autocmd BufEnter *.tex
+            \ 3match none | unlet! g:loaded_matchparen | au! matchparen
+
+      " Enable latex matchparen functionality
+      autocmd! CursorMoved  *.tex call latex#motion#find_matching_pair('h')
+      autocmd! CursorMovedI *.tex call latex#motion#find_matching_pair('i')
+    augroup END
+  endif
+endfunction
+
 " {{{1 latex#motion#find_matching_pair
 function! latex#motion#find_matching_pair(mode)
   "
@@ -175,6 +230,65 @@ function! latex#motion#next_section(type, backwards, visual)
     else
       normal! k
     endif
+  endif
+endfunction
+
+" {{{1 latex#motion#select_current_env
+function! latex#motion#select_current_env(seltype)
+  let [env, lnum, cnum, lnum2, cnum2] = latex#util#get_env(1)
+  call cursor(lnum, cnum)
+  if a:seltype == 'inner'
+    if env =~ '^\'
+      call search('\\.\_\s*\S', 'eW')
+    else
+      call search('}\(\_\s*\[\_[^]]*\]\)\?\_\s*\S', 'eW')
+    endif
+  endif
+  if visualmode() ==# 'V'
+    normal! V
+  else
+    normal! v
+  endif
+  call cursor(lnum2, cnum2)
+  if a:seltype == 'inner'
+    call search('\S\_\s*', 'bW')
+  else
+    if env =~ '^\'
+      normal! l
+    else
+      call search('}', 'eW')
+    endif
+  endif
+endfunction
+
+" {{{1 latex#motion#select_inline_math
+function! latex#motion#select_inline_math(seltype)
+  " seltype is either 'inner' or 'outer'
+
+  let dollar_pat = '\\\@<!\$'
+
+  if latex#util#has_syntax('texMathZoneX')
+    call s:search_and_skip_comments(dollar_pat, 'cbW')
+  elseif getline('.')[col('.') - 1] == '$'
+    call s:search_and_skip_comments(dollar_pat, 'bW')
+  else
+    return
+  endif
+
+  if a:seltype == 'inner'
+    normal! l
+  endif
+
+  if visualmode() ==# 'V'
+    normal! V
+  else
+    normal! v
+  endif
+
+  call s:search_and_skip_comments(dollar_pat, 'W')
+
+  if a:seltype == 'inner'
+    normal! h
   endif
 endfunction
 " }}}1
