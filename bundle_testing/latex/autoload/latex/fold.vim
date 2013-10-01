@@ -9,11 +9,8 @@ endfunction
 function! latex#fold#level(lnum)
     " Check for normal lines first (optimization)
     let line  = getline(a:lnum)
-
-    " For optimization: only fold if line contains foldable item
-    let pat_folded = '\(% Fake\|\\\(document\|begin\|end\|'
+    if line !~ '\(% Fake\|\\\(document\|begin\|end\|'
           \ . 'front\|main\|back\|app\|sub\|section\|chapter\|part\)\)'
-    if line !~ s:folded
         return "="
     endif
 
@@ -44,12 +41,10 @@ function! latex#fold#level(lnum)
     endif
 
     " Fold environments
-    let pat_begin = b:notcomment . b:notbslash . '\\begin\s*{.\{-}}'
-    let pat_end   = b:notcomment . b:notbslash . '\\end\s*{.\{-}}'
     if g:latex_fold_envs
-        if line =~# pat_begin
+        if line =~# b:notcomment . b:notbslash . '\\begin\s*{.\{-}}'
             return "a1"
-        elseif line =~# pat_end
+        elseif line =~# b:notcomment . b:notbslash . '\\end\s*{.\{-}}'
             return "s1"
         endif
     endif
