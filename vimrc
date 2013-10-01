@@ -325,20 +325,23 @@ if !has('gui_running')
   let g:clam_winpos = 'topleft'
 endif
 
-"{{{2 Ctrl P
-let g:ctrlp_map = ''
-let g:ctrlp_match_window_bottom = 0
-let g:ctrlp_match_window_reversed = 0
-let g:ctrlp_max_height = 25
-let g:ctrlp_show_hidden = 0
+"{{{2 CtrlP
+let g:ctrlp_custom_ignore = {}
+let g:ctrlp_custom_ignore.dir =
+      \ '\vCVS|\.(git|hg|vim\/undofiles|vim\/backup)$'
+let g:ctrlp_custom_ignore.file =
+      \ '\v\.(aux|pdf|gz)$|documents\/ntnu\/phd'
 let g:ctrlp_follow_symlinks = 1
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  'CVS$\|\.git$\|\.hg$\|\.svn$\|.vim\/undofiles$\|\.vim\/backup$',
-  \ 'file': '\.exe$\|\.so$\|\.dll$\|documents\/ntnu\/phd',
-  \ }
+let g:ctrlp_map = ''
+let g:ctrlp_match_window = 'top,order:ttb,max:25'
+let g:ctrlp_mruf_exclude = '\v\.(pdf|aux|bbl|blg)$'
+let g:ctrlp_root_markers = ['CVS']
+let g:ctrlp_show_hidden = 0
 
-nnoremap <silent> <Leader>th :CtrlP /home/lervag<cr>
-nnoremap <silent> <Leader>tv :CtrlP /home/lervag/.vim<cr>
+nnoremap <silent> <space><space> :CtrlPMRUFiles<cr>
+nnoremap <silent> <space>h :CtrlP /home/lervag<cr>
+nnoremap <silent> <space>v :CtrlP /home/lervag/.vim<cr>
+nnoremap <silent> <space>q :CtrlPQuickfix<cr>
 
 "{{{2 Fanfingtastic
 let g:fanfingtastic_fix_t = 1
@@ -539,15 +542,9 @@ function! s:unite_settings()
   imap <buffer> <c-k>   <Plug>(unite_select_previous_line)
 endfunction
 
-" Unite leader
-nnoremap [unite]  <Nop>
-nmap     <space>  [unite]
-
-" Unite for files and commands
-nnoremap <silent> [unite]<space> :Unite -no-split file_mru file<cr>
-
-" Unite for neobundle
-nnoremap <silent> [unite]u :Unite
+" Unite mappings
+nnoremap <silent> <space>c :Unite -buffer-name=commands -no-split command<cr>
+nnoremap <silent> <space>u :Unite
       \ -buffer-name=neobundle
       \ -no-start-insert
       \ -no-split
@@ -556,10 +553,6 @@ nnoremap <silent> [unite]u :Unite
       \ -silent
       \ -log
       \ neobundle/update:all<cr>
-
-" Unite for miscellaneous
-nnoremap <silent> [unite]c :Unite -buffer-name=commands -no-split command<cr>
-nnoremap <silent> [unite]h :Unite -buffer-name=help     -no-split help<cr>
 
 "{{{2 VCSCommand
 if !has('gui_running')
