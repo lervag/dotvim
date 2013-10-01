@@ -304,6 +304,9 @@ nnoremap gB     :bprevious<cr>
 nnoremap dp     dp]c
 nnoremap do     do]c
 
+" Search for todos
+nmap <silent> gt :call search('todo')<cr>zf
+
 " Shortcuts for some files
 map <leader>ev :e ~/.vim/vimrc<cr>
 map <leader>ez :e ~/.dotfiles/zshrc<cr>
@@ -334,7 +337,11 @@ let g:ctrlp_custom_ignore.file =
 let g:ctrlp_follow_symlinks = 1
 let g:ctrlp_map = ''
 let g:ctrlp_match_window = 'top,order:ttb,max:25'
-let g:ctrlp_mruf_exclude = '\v\.(pdf|aux|bbl|blg)$'
+let g:ctrlp_mruf_exclude  = '\v\.(pdf|aux|bbl|blg)$'
+let g:ctrlp_mruf_exclude .= '|share\/vim.*doc\/'
+let g:ctrlp_mruf_exclude .= '|\.neobundle\/'
+let g:ctrlp_mruf_exclude .= '|\/\.git\/'
+let g:ctrlp_mruf_exclude .= '|journal\.txt$'
 let g:ctrlp_root_markers = ['CVS']
 let g:ctrlp_show_hidden = 0
 
