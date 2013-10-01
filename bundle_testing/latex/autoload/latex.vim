@@ -118,6 +118,24 @@ function! latex#set_errorformat()
   " Ignore unmatched lines
   setlocal efm+=%-G%.%#
 endfunction
+
+" {{{1 latex#info
+function! latex#info()
+  let n = 0
+  for d in g:latex#data
+    let n += 1
+    if n > 1
+      echo "\n"
+    endif
+    let data = copy(d)
+    let data.aux = data.aux()
+    let data.out = data.out()
+    let data.log = data.log()
+    for [key, val] in sort(items(data), "s:sort_func")
+      echo printf('%6s: %-s', key, s:truncate(val))
+    endfor
+  endfor
+endfunction
 " }}}1
 
 " {{{1 s:init_folding
@@ -149,14 +167,15 @@ endfunction
 
 " {{{1 s:init_mapping
 function! s:init_mapping()
-  map <buffer> <localleader>ll :Latexmk<CR>
-  "map <buffer> <localleader>lL :Latexmk!<CR>
-  "map <buffer> <localleader>lc :LatexmkClean<CR>
-  "map <buffer> <localleader>lC :LatexmkClean!<CR>
-  "map <buffer> <localleader>lg :LatexmkStatus<CR>
-  "map <buffer> <localleader>lG :LatexmkStatus!<CR>
-  "map <buffer> <localleader>lk :LatexmkStop<CR>
-  "map <buffer> <localleader>le :LatexErrors<CR>
+  map <silent><buffer> <localleader>ll :call latex#latexmk#compile()<cr>
+  map <silent><buffer> <localleader>lc :call latex#latexmk#clean(0)<cr>
+  map <silent><buffer> <localleader>lC :call latex#latexmk#clean(1)<cr>
+  map <silent><buffer> <localleader>lg :call latex#latexmk#status(0)<cr>
+  map <silent><buffer> <localleader>lG :call latex#latexmk#status(1)<cr>
+  map <silent><buffer> <localleader>lk :call latex#latexmk#stop()<cr>
+  map <silent><buffer> <localleader>le :call latex#latexmk#errors()<cr>
+
+  map <silent><buffer> <localleader>li :call latex#info()<cr>
 
 "inoremap <silent> <Plug>LatexCloseCurEnv
 "      \ <C-R>=<SID>CloseCurEnv()<CR>
@@ -246,18 +265,42 @@ endfunction
 function! s:get_main_ext(texdata, ext)
   " Create set of candidates
   let candidates = [
-        \ a:texdata.name . '.' . a:ext,
-        \ g:latex_build_dir . '/' . a:texdata.name . '.' . a:ext,
+        \ a:texdata.name,
+        \ g:latex_build_dir . '/' . a:texdata.name,
         \ ]
 
   " Search through the candidates
-  for f in candidates
+  for f in map(candidates,
+        \ 'a:texdata.root . ''/'' . v:val . ''.'' . a:ext')
     if filereadable(f)
       return fnamemodify(f, ':p')
     endif
   endfor
 
-  return 0
+  " Return empty string if no entry is found
+  return ''
+endfunction
+
+" {{{1 s:sort_func
+function s:sort_func(a, b)
+  if a:a[1][0] == "/" && a:b[1][0] != "/"
+    return 1
+  elseif a:a[1][0] != "/" && a:b[1][0] == "/"
+    return -1
+  elseif a:a[1][0] == "/" && a:b[1][0] == "/"
+    return -1
+  else
+    return a:a[1] > a:b[1] ? 1 : -1
+  endif
+endfunction
+
+" {{{1 s:truncate
+function! s:truncate(string)
+  if len(a:string) >= winwidth('.') - 20
+    return a:string[0:10] . "..." . a:string[-winwidth('.')+33:]
+  else
+    return a:string
+  endif
 endfunction
 " }}}1
 
