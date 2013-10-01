@@ -9,23 +9,11 @@ function! latex#latexmk#init()
   endif
 
   "
-  " Initialize global interface
+  " Ensure that all latexmk processes are stopped when vim exits
+  " Note: Only need to define this once, globally.
   "
   if !s:latexmk_initialized
     let s:latexmk_initialized = 1
-
-    "
-    " Define commands
-    "
-    command!       Latexmk       call latex#latexmk#compile()
-    command!       LatexmkStop   call latex#latexmk#stop()
-    command! -bang LatexmkClean  call latex#latexmk#clean(<q-bang> == "!")
-    command!       LatexmkErrors call latex#latexmk#errors()
-    command! -bang LatexmkStatus call latex#latexmk#status(<q-bang> == "!")
-
-    "
-    " Ensure that all latexmk processes are stopped when vim exits
-    "
     augroup latex_latexmk
       autocmd!
       autocmd VimLeave *.tex call s:stop_all()
@@ -82,7 +70,7 @@ function! latex#latexmk#clean(full)
   "
   " Run latexmk clean process
   "
-  let cmd = 'cd ' . data.root . ';'
+  let cmd = '!cd ' . data.root . ';'
   if a:full
     let cmd .= 'latexmk -C '
   else
@@ -130,11 +118,26 @@ endfunction
 " {{{1 latex#latexmk#status
 function! latex#latexmk#status(detailed)
   if a:detailed
+    let running = 0
     for data in g:latex#data
       if data.pid
-        echom printf('pid: %-s, file: %-s', data.pid, data.tex)
+        if !running
+          echo "latexmk is running"
+          let running = 1
+        endif
+
+        let name = data.tex
+        if len(name) >= winwidth('.') - 20
+          let name = "..." . name[-winwidth('.')+23:]
+        endif
+
+        echom printf('pid: %6s, file: %-s', data.pid, name)
       endif
     endfor
+
+    if !running
+      echo "latexmk is not running"
+    endif
   else
     if g:latex#data[b:latex.id].pid
       echo "latexmk is running"
