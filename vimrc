@@ -363,6 +363,7 @@ map <silent> <F5> :GundoToggle<cr>
 
 "{{{2 latex
 let g:latex_viewer = 'mupdf -r 95'
+let g:latex_default_mappings = 1
 
 "{{{2 LaTeX-BoX
 let g:LatexBox_latexmk_async = 1
