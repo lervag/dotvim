@@ -77,6 +77,10 @@ NeoBundle 'vim-ruby/vim-ruby', {
 
 " }}}2
 
+" Temporary
+NeoBundle 'xolox/vim-misc'
+NeoBundle 'xolox/vim-reload'
+
 " Call on_source hook when reloading .vimrc.
 if !has('vim_starting')
   call neobundle#call_hook('on_source')
