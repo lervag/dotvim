@@ -33,6 +33,33 @@ function! latex#view()
     redraw!
   endif
 endfunction
+function! <SID>ViewTexPdf(...)
+  if a:0 == 0
+    let l:target = expand("%:p:r") . ".pdf"
+  else
+    let l:target = a:1
+  endif
+  if has('mac')
+    silent execute "! open ".l:target
+  elseif has('win32') || has ('win64')
+    silent execute "! start ".l:target
+  else
+    if executable('xdg-open')
+      silent execute "! xdg-open ".l:target
+    elseif executable('gnome-open')
+      silent execute "! gnome-open ".l:target
+    elseif executable('kfmclient')
+      silent execute "! kfclient exec ".l:target
+    elseif executable('see')
+      silent execute "! see ".l:target
+    elseif executable('cygstart')
+      silent execute "! cygstart ".l:target
+    endif
+  endif
+  if v:shell_error
+    redraw!
+  endif
+endfunction
 
 " {{{1 latex#set_errorformat
 function! latex#set_errorformat()
@@ -67,6 +94,61 @@ function! latex#set_errorformat()
 
   " Ignore unmatched lines
   setlocal efm+=%-G%.%#
+endfunction
+function! <SID>SetLatexEfm()
+  let g:Tex_IgnoredWarnings =
+        \'Underfull'."\n".
+        \'Overfull'."\n".
+        \'specifier changed to'."\n".
+        \'You have requested'."\n".
+        \'Missing number, treated as zero.'."\n".
+        \'There were undefined references'."\n".
+        \'Citation %.%# undefined'
+
+  exe 'setlocal efm+=%-G%.%#'.warningPat.'%.%#'
+
+  setlocal efm=
+  setlocal efm+=%E!\ LaTeX\ %trror:\ %m
+  setlocal efm+=%E!\ %m
+  setlocal efm+=%E%f:%l:\ %m
+
+  setlocal efm+=%+WLaTeX\ %.%#Warning:\ %.%#line\ %l%.%#
+  setlocal efm+=%+W%.%#\ at\ lines\ %l--%*\\d
+  setlocal efm+=%+WLaTeX\ %.%#Warning:\ %m
+
+  setlocal efm+=%+Cl.%l\ %m
+  setlocal efm+=%+Cl.%l\ 
+  setlocal efm+=%+C\ \ %m
+  setlocal efm+=%+C%.%#-%.%#
+  setlocal efm+=%+C%.%#[]%.%#
+  setlocal efm+=%+C[]%.%#
+  setlocal efm+=%+C%.%#%[{}\\]%.%#
+  setlocal efm+=%+C<%.%#>%m
+  setlocal efm+=%+C\ \ %m
+  setlocal efm+=%+GSee\ the\ LaTeX%m
+  setlocal efm+=%+GType\ \ H\ <return>%m
+  setlocal efm+=%+G\ ...%.%#
+  setlocal efm+=%+G%.%#\ (C)\ %.%#
+  setlocal efm+=%+G(see\ the\ transcript%.%#)
+  setlocal efm+=%+G\\s%#
+  setlocal efm+=%+O(%*[^()])%r
+  setlocal efm+=%+P(%f%r
+  setlocal efm+=%+P\ %\\=(%f%r
+  setlocal efm+=%+P%*[^()](%f%r
+  setlocal efm+=%+P(%f%*[^()]
+  setlocal efm+=%+P[%\\d%[^()]%#(%f%r
+  if g:Tex_IgnoreUnmatched && !g:Tex_ShowallLines
+    setlocal efm+=%-P%*[^()]
+  endif
+  setlocal efm+=%+Q)%r
+  setlocal efm+=%+Q%*[^()])%r
+  setlocal efm+=%+Q[%\\d%*[^()])%r
+  if g:Tex_IgnoreUnmatched && !g:Tex_ShowallLines
+    setlocal efm+=%-Q%*[^()]
+  endif
+  if g:Tex_IgnoreUnmatched && !g:Tex_ShowallLines
+    setlocal efm+=%-G%.%#
+  endif
 endfunction
 
 " {{{1 latex#info
