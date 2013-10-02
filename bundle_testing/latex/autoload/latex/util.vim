@@ -7,14 +7,15 @@ function! latex#util#convert_back(line)
   " Substitute stuff like '\IeC{\"u}' to corresponding unicode symbols
   "
   let line = a:line
-  if g:latex_toc_plaintext
-    let line = substitute(line, '\\IeC\s*{\\.\(.\)}', '\1', 'g')
-  else
-    for [pat, symbol] in s:convert_back_list
-      let line = substitute(line, pat, symbol, 'g')
-    endfor
-  endif
-  return line
+  for [pat, symbol] in s:convert_back_list
+    let line = substitute(line, pat, symbol, 'g')
+  endfor
+
+  "
+  " There might be some missing conversions, which might be fixed by the last
+  " substitution
+  "
+  return substitute(line, '\C\(\\IeC\s*{\)\?\\.\(.\)}', '\1', 'g')
 endfunction
 
 let s:convert_back_list = map([

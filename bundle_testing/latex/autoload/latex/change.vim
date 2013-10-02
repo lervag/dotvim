@@ -1,8 +1,10 @@
 " {{{1 latex#change#init
 function! latex#change#init(initialized)
   if g:latex_default_mappings
-    vnoremap <silent><buffer> <localleader>l*
-          \ :call latex#change#change_environment_toggle_star()<cr>
+    nnoremap <silent><buffer> <f5>
+          \ :call latex#change#environment_prompt()<cr>
+    nnoremap <silent><buffer> <f6>
+          \ :call latex#change#environment_toggle_star()<cr>
   endif
 endfunction
 

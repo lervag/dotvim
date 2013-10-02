@@ -1,6 +1,6 @@
 " {{{1 latex#complete#init
 function! latex#complete#init(initialized)
-  if g:latex_complete.enabled
+  if g:latex_complete_enabled
     setlocal omnifunc=latex#complete#omnifunc
   endif
 endfunction
@@ -12,14 +12,14 @@ function! latex#complete#omnifunc(findstart, base)
     "
     " First call:  Find start of text to be completed
     "
-    " Note: g:latex_complete.patterns is a dictionary where the keys are the
+    " Note: g:latex_complete_patterns is a dictionary where the keys are the
     " types of completion and the values are the patterns that must match for
     " the given type.  Currently, it completes labels (e.g. \ref{...), bibtex
     " entries (e.g. \cite{...) and commands (e.g. \...).
     "
     let line = getline('.')
     let pos  = col('.') - 1
-    for [type, pattern] in items(g:latex_complete.patterns)
+    for [type, pattern] in items(g:latex_complete_patterns)
       if line =~ pattern . '$'
         let s:completion_type = type
         while pos > 0 && line[pos - 1] !~ '{\|,'
@@ -68,7 +68,7 @@ function! latex#complete#labels(regex)
           \ 'word': m[0],
           \ 'menu': printf("%7s [p. %s]", '('.m[1].')', m[2])
           \ }
-    if g:latex_complete.close_braces && !s:next_chars_match('^\s*[,}]')
+    if g:latex_complete_close_braces && !s:next_chars_match('^\s*[,}]')
       let entry = copy(entry)
       let entry.abbr = entry.word
       let entry.word = entry.word . '}'
@@ -94,7 +94,7 @@ function! latex#complete#bibtex(regexp)
           \ }
 
     " Close braces if desired
-    if g:latex_complete.close_braces && !s:next_chars_match('^\s*[,}]')
+    if g:latex_complete_close_braces && !s:next_chars_match('^\s*[,}]')
       let w.word = w.word . '}'
     endif
 

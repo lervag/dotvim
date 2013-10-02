@@ -8,14 +8,14 @@ function! latex#motion#init(initialized)
           \ :<c-u>call latex#motion#find_matching_pair('v')<cr>
     onoremap <silent><buffer> % :call latex#motion#find_matching_pair('o')<cr>
 
-    nnoremap <silent><buffer> ]] :call latex#motion#next_section(0,0,0)<cr>
-    nnoremap <silent><buffer> ][ :call latex#motion#next_section(1,0,0)<cr>
-    nnoremap <silent><buffer> [] :call latex#motion#next_section(1,1,0)<cr>
-    nnoremap <silent><buffer> [[ :call latex#motion#next_section(0,1,0)<cr>
-    vnoremap <silent><buffer> ]] :<c-u>call latex#motion#next_section(0,0,1)<cr>
-    vnoremap <silent><buffer> ][ :<c-u>call latex#motion#next_section(1,0,1)<cr>
-    vnoremap <silent><buffer> [] :<c-u>call latex#motion#next_section(1,1,1)<cr>
-    vnoremap <silent><buffer> [[ :<c-u>call latex#motion#next_section(0,1,1)<cr>
+    nnoremap <silent><buffer> ]] :call latex#motion#next_sec(0,0,0)<cr>
+    nnoremap <silent><buffer> ][ :call latex#motion#next_sec(1,0,0)<cr>
+    nnoremap <silent><buffer> [] :call latex#motion#next_sec(1,1,0)<cr>
+    nnoremap <silent><buffer> [[ :call latex#motion#next_sec(0,1,0)<cr>
+    vnoremap <silent><buffer> ]] :<c-u>call latex#motion#next_sec(0,0,1)<cr>
+    vnoremap <silent><buffer> ][ :<c-u>call latex#motion#next_sec(1,0,1)<cr>
+    vnoremap <silent><buffer> [] :<c-u>call latex#motion#next_sec(1,1,1)<cr>
+    vnoremap <silent><buffer> [[ :<c-u>call latex#motion#next_sec(0,1,1)<cr>
     onoremap <silent><buffer> ]] :normal v]]<cr>
     onoremap <silent><buffer> ][ :normal v][<cr>
     onoremap <silent><buffer> [] :normal v[]<cr>
@@ -36,7 +36,7 @@ function! latex#motion#init(initialized)
   " Highlight matching parens ($, (), ...)
   "
   if g:latex_motion_matchparen
-    augroup latex_highlight_pairs
+    augroup latex_motion
       autocmd!
       " Disable matchparen autocommands
       autocmd BufEnter *.tex
@@ -186,8 +186,8 @@ function! latex#motion#jump_to_braces(backwards)
   endif
 endfunction
 
-" {{{1 latex#motion#next_section
-function! latex#motion#next_section(type, backwards, visual)
+" {{{1 latex#motion#next_sec
+function! latex#motion#next_sec(type, backwards, visual)
   " Restore visual mode if desired
   if a:visual
     normal! gv

@@ -8,23 +8,18 @@ function! latex#latexmk#init(initialized)
   endif
 
   "
-  " If all buffers for a given latex project are closed, kill latexmk
-  "
-  augroup latex_latexmk
-    autocmd BufUnload <buffer> call s:stop_buffer()
-  augroup END
-
-  "
   " Set default mappings
   "
   if g:latex_default_mappings
-    nmap <silent><buffer> <localleader>ll :call latex#latexmk#compile()<cr>
-    nmap <silent><buffer> <localleader>lc :call latex#latexmk#clean(0)<cr>
-    nmap <silent><buffer> <localleader>lC :call latex#latexmk#clean(1)<cr>
-    nmap <silent><buffer> <localleader>lg :call latex#latexmk#status(0)<cr>
-    nmap <silent><buffer> <localleader>lG :call latex#latexmk#status(1)<cr>
-    nmap <silent><buffer> <localleader>lk :call latex#latexmk#stop()<cr>
-    nmap <silent><buffer> <localleader>le :call latex#latexmk#errors()<cr>
+    nnoremap <silent><buffer> <localleader>ll :call latex#latexmk#compile()<cr>
+    nnoremap <silent><buffer> <localleader>lc :call latex#latexmk#clean(0)<cr>
+    nnoremap <silent><buffer> <localleader>lC :call latex#latexmk#clean(1)<cr>
+    nnoremap <silent><buffer> <localleader>lg :call latex#latexmk#status(0)<cr>
+    nnoremap <silent><buffer> <localleader>lG :call latex#latexmk#status(1)<cr>
+    nnoremap <silent><buffer> <localleader>lk :call latex#latexmk#stop(1)<cr>
+    nnoremap <silent><buffer> <localleader>lK :call latex#latexmk#stop_all()<cr>
+    nnoremap <silent><buffer> <localleader>le :call latex#latexmk#errors()<cr>
+    nnoremap <silent><buffer> <localleader>lv :call latex#latexmk#view()<cr>
   endif
 
   "
@@ -34,8 +29,45 @@ function! latex#latexmk#init(initialized)
   if !a:initialized
     augroup latex_latexmk
       autocmd!
-      autocmd VimLeave *.tex call s:stop_all()
+      autocmd VimLeave *.tex call latex#latexmk#stop_all()
     augroup END
+  endif
+
+  "
+  " If all buffers for a given latex project are closed, kill latexmk
+  " Note: This must come after the above so that the autocmd group is properly
+  "       refreshed if necessary
+  "
+  augroup latex_latexmk
+    autocmd BufUnload <buffer> call s:stop_buffer()
+  augroup END
+endfunction
+
+" {{{1 latex#latexmk#clean
+function! latex#latexmk#clean(full)
+  let data = g:latex#data[b:latex.id]
+  if data.pid
+    echomsg "latexmk is already running"
+    return
+  endif
+
+  "
+  " Run latexmk clean process
+  "
+  let cmd = '!cd ' . data.root . ';'
+  if a:full
+    let cmd .= 'latexmk -C '
+  else
+    let cmd .= 'latexmk -c '
+  endif
+  let cmd .= data.base . ' &>/dev/null'
+  let g:latex#data[b:latex.id].clean_cmd = cmd
+
+  call s:execute(cmd)
+  if a:full
+    echomsg "latexmk full clean finished"
+  else
+    echomsg "latexmk clean finished"
   endif
 endfunction
 
@@ -68,47 +100,6 @@ function! latex#latexmk#compile()
   call s:execute(cmd)
   let g:latex#data[b:latex.id].pid = system('pgrep -nf latexmk')[:-2]
   echomsg 'latexmk started successfully'
-endfunction
-
-" {{{1 latex#latexmk#clean
-function! latex#latexmk#clean(full)
-  let data = g:latex#data[b:latex.id]
-  if data.pid
-    echomsg "latexmk is already running"
-    return
-  endif
-
-  "
-  " Run latexmk clean process
-  "
-  let cmd = '!cd ' . data.root . ';'
-  if a:full
-    let cmd .= 'latexmk -C '
-  else
-    let cmd .= 'latexmk -c '
-  endif
-  let cmd .= data.base . ' &>/dev/null'
-  let g:latex#data[b:latex.id].clean_cmd = cmd
-
-  call s:execute(cmd)
-  if a:full
-    echomsg "latexmk full clean finished"
-  else
-    echomsg "latexmk clean finished"
-  endif
-endfunction
-
-" {{{1 latex#latexmk#stop
-function! latex#latexmk#stop()
-  let pid  = g:latex#data[b:latex.id].pid
-  let base = g:latex#data[b:latex.id].base
-  if pid
-    call s:execute('!kill ' . pid)
-    let g:latex#data[b:latex.id].pid = 0
-    echomsg "latexmk stopped for `" . base . "'"
-  else
-    echomsg "latexmk is not running for `" . base . "'"
-  endif
 endfunction
 
 " {{{1 latex#latexmk#errors
@@ -157,6 +148,45 @@ function! latex#latexmk#status(detailed)
     endif
   endif
 endfunction
+
+" {{{1 latex#latexmk#stop
+function! latex#latexmk#stop(verbose)
+  let pid  = g:latex#data[b:latex.id].pid
+  let base = g:latex#data[b:latex.id].base
+  if pid
+    call s:execute('!kill ' . pid)
+    let g:latex#data[b:latex.id].pid = 0
+    if a:verbose
+      echo "latexmk stopped for `" . base . "'"
+    endif
+  elseif a:verbose
+    echo "latexmk is not running for `" . base . "'"
+  endif
+endfunction
+
+" {{{1 latex#latexmk#stop_all
+function! latex#latexmk#stop_all()
+  for data in g:latex#data
+    if data.pid
+      call s:execute('!kill ' . data.pid)
+      let data.pid = 0
+    endif
+  endfor
+endfunction
+
+" {{{1 latex#latexmk#view
+function! latex#latexmk#view()
+  let outfile = g:latex#data[b:latex.id].out()
+  if !filereadable(outfile)
+    echomsg "Can't view: Output file is not readable!"
+    return
+  endif
+
+  silent execute '!' . g:latex_viewer . ' ' . outfile . ' &>/dev/null &'
+  if !has("gui_running")
+    redraw!
+  endif
+endfunction
 " }}}1
 
 " {{{1 s:stop_buffer
@@ -186,18 +216,9 @@ function! s:stop_buffer()
     " Only stop if current buffer is the last for current latex blob
     "
     if n == 1
-      call latex#latexmk#stop()
+      call latex#latexmk#stop(0)
     endif
   endif
-endfunction
-
-" {{{1 s:stop_all
-function! s:stop_all()
-  for data in g:latex#data
-    if data.pid
-      call s:execute('!kill ' . data.pid)
-    endif
-  endfor
 endfunction
 
 " {{{1 s:execute

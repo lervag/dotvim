@@ -6,6 +6,10 @@ function! latex#fold#init(initialized)
     setl foldtext=latex#fold#text()
     call latex#fold#refresh()
 
+    if g:latex_default_mappings
+      nnoremap <silent><buffer> zx :call latex#fold#refresh()<cr>zx
+    endif
+
     "
     " The foldexpr function returns "=" for most lines, which means it can
     " become slow for large files.  The following is a hack that is based on
@@ -13,7 +17,7 @@ function! latex#fold#init(initialized)
     " http://permalink.gmane.org/gmane.editors.vim.devel/14100
     "
     if !a:initialized
-      augroup FastFold
+      augroup latex_fold
         autocmd!
         autocmd InsertEnter *.tex setlocal foldmethod=manual
         autocmd InsertLeave *.tex setlocal foldmethod=expr
@@ -26,7 +30,6 @@ endfunction
 function! latex#fold#refresh()
     " Parse tex file to dynamically set the sectioning fold levels
     let b:latex.fold_sections = s:find_fold_sections()
-    normal zx
 endfunction
 
 " {{{1 latex#fold#level
