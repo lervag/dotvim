@@ -1,6 +1,6 @@
 " {{{1 latex#motion#init
 function! latex#motion#init(initialized)
-  if a:initialized | return | endif
+  if !g:latex_motion_enabled || a:initialized | return | endif
 
   if g:latex_default_mappings
     nnoremap <silent><buffer> % :call latex#motion#find_matching_pair('n')<cr>

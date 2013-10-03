@@ -26,14 +26,16 @@ License: MIT license {{{
 CONTENTS                                                  *vim-latex-contents*
 
     1. Intro ................................ |vim-latex-intro|
-    2. Options .............................. |vim-latex-options|
-    3. Omni completion ...................... |vim-latex-completion|
-    4. Folding .............................. |vim-latex-folding|
-    5. Latexmk .............................. |vim-latex-latexmk|
-    6. Motion ............................... |vim-latex-motion|
-    7. Default mappings ..................... |vim-latex-mappings|
-    8. Function reference ................... |vim-latex-functions|
-    9. Limitations .......................... |vim-latex-limitations|
+    2. Main interface ....................... |vim-latex-main|
+    3. Default mappings ..................... |vim-latex-mappings|
+    4. Options .............................. |vim-latex-options|
+    5. Omni completion ...................... |vim-latex-completion|
+    6. Folding .............................. |vim-latex-folding|
+    7. Latexmk .............................. |vim-latex-latexmk|
+    8. Motion ............................... |vim-latex-motion|
+    9. Table of contents .................... |vim-latex-toc|
+   10. Function reference ................... |vim-latex-functions|
+   11. Limitations .......................... |vim-latex-limitations|
 
 ==============================================================================
 INTRO                                                        *vim-latex-intro*
@@ -43,6 +45,75 @@ documents.  The goal has been to create a minimalistic and functional plugin
 that is easy to customize and evolve.  Most of the functionality provided is
 turned on by default, but the user may turn off features that are not desired.
 The plugin will hereafter be referred to as |vim-latex|.
+
+==============================================================================
+MAIN INTERFACE                                                *vim-latex-main*
+
+*g:latex#data*
+
+*b:latex*
+
+Functions:
+        |latex#init|
+        |latex#info|
+        |latex#help|
+        |latex#reinit|
+        |latex#view|
+
+==============================================================================
+DEFAULT MAPPINGS                                          *vim-latex-mappings*
+
+The default mappings for |vim-latex| are given below.  See 'map-listing' for
+an explanation of the format.  The function |latex#help| is provided for
+convenience to list all the defined mappings, and it is by default mapped to
+'<localleader>lh'.  The default mappings may be disabled with the option
+|g:latex_default_mappings|, if the user wishes to create his own mappings.
+
+n  %                *@:call latex#motion#find_matching_pair('n')<cr>
+v  %                *@:<C-U>call latex#motion#find_matching_pair('v')<cr>
+o  %                *@:call latex#motion#find_matching_pair('o')<cr>
+
+v  a$               *@:latex#motion#select_inline_math('outer')<cr>
+v  i$               *@:latex#motion#select_inline_math('inner')<cr>
+o  a$               *@:normal va$<cr>
+o  i$               *@:normal vi$<cr>
+
+v  ae               *@:latex#motion#select_current_env('outer')<cr>
+v  ie               *@:latex#motion#select_current_env('inner')<cr>
+o  ae               *@:normal vae<cr>
+o  ie               *@:normal vie<cr>
+
+n  [[               *@:call latex#motion#next_sec(0,1,0)<cr>
+n  []               *@:call latex#motion#next_sec(1,1,0)<cr>
+n  ][               *@:call latex#motion#next_sec(1,0,0)<cr>
+n  ]]               *@:call latex#motion#next_sec(0,0,0)<cr>
+v  [[               *@:<C-U>call latex#motion#next_sec(0,1,1)<cr>
+v  []               *@:<C-U>call latex#motion#next_sec(1,1,1)<cr>
+v  ][               *@:<C-U>call latex#motion#next_sec(1,0,1)<cr>
+v  ]]               *@:<C-U>call latex#motion#next_sec(0,0,1)<cr>
+o  [[               *@:normal v[[<cr>
+o  []               *@:normal v[]<cr>
+o  ][               *@:normal v][<cr>
+o  ]]               *@:normal v]]<cr>
+
+n  <localleader>li  *@:call latex#info()<cr>
+n  <localleader>lh  *@:call latex#help()<cr>
+n  <localleader>lv  *@:call latex#view()<cr>
+n  <localleader>lR  *@:call latex#reinit()<cr>
+n  <localleader>lt  *@:call latex#toc#open()<cr>
+n  <localleader>lT  *@:call latex#toc#toggle()<cr>
+n  <localleader>ll  *@:call latex#latexmk#compile()<cr>
+n  <localleader>lk  *@:call latex#latexmk#stop(1)<cr>
+n  <localleader>lK  *@:call latex#latexmk#stop_all()<cr>
+n  <localleader>le  *@:call latex#latexmk#errors()<cr>
+n  <localleader>lg  *@:call latex#latexmk#status()<cr>
+n  <localleader>lG  *@:call latex#latexmk#status(1)<cr>
+n  <localleader>lc  *@:call latex#latexmk#clean()<cr>
+n  <localleader>lC  *@:call latex#latexmk#clean(1)<cr>
+
+n  zx               *@:call latex#fold#refresh()<cr>zx
+n  <F6>             *@:call latex#change#environment_toggle_star()<cr>
+n  <F5>             *@:call latex#change#environment_prompt()<cr>
 
 ==============================================================================
 OPTIONS                                                    *vim-latex-options*
@@ -66,12 +137,15 @@ Overview:~
   |g:latex_fold_preamble|
   |g:latex_fold_sections|
   |g:latex_latexmk_autojump|
+  |g:latex_latexmk_enabled|
   |g:latex_latexmk_options|
   |g:latex_latexmk_output|
   |g:latex_main_tex_candidates|
   |g:latex_motion_close_pats|
+  |g:latex_motion_enabled|
   |g:latex_motion_matchparen|
   |g:latex_motion_open_pats|
+  |g:latex_toc_enabled|
   |g:latex_toc_fold_levels|
   |g:latex_toc_fold|
   |g:latex_toc_hide_help|
@@ -172,6 +246,14 @@ opened with the default mapping or |latex#latexmk#errors|. >
   let g:latex_latexmk_autojump = '0'
 <
 
+                                                     *g:latex_latexmk_enabled*
+Whether to enable the latexmk interface or not.  Note that even if it is not
+enabled, the autoload functions will be available.  However, the
+necessary variables and autocommands will not be defined, and the mappings
+will not be created. >
+  let g:latex_latexmk_enabled = 1
+<
+
                                                      *g:latex_latexmk_options*
 Set extra options for latexmk compilation. >
   let g:latex_latexmk_options = ''
@@ -208,6 +290,13 @@ Define a list of patterns that match closing braces and environments. >
       \ ]
 <
 
+                                                      *g:latex_motion_enabled*
+Whether to enable the motion interface.  If it is disabled, then neither the
+default mappings nor the autocommands that enable highlighting of matching
+parens will be defined. >
+  let g:latex_motion_enabled = 1
+<
+
                                                    *g:latex_motion_matchparen*
 Enable highlighting of matching parens.  This gives better support for LaTeX,
 but disables the builtin |matchparen|. >
@@ -226,6 +315,12 @@ Define a list of patterns that match opening braces and environments. >
         \ '\\begin\s*{.\{-}}',
         \ '\\left\s*\%([^\\]\|\\.\|\\\a*\)',
       \ ]
+<
+
+                                                         *g:latex_toc_enabled*
+Enable interface for TOC.  If it is disabled, then mappings for the TOC will
+not be created. >
+  let g:latex_toc_enabled = 0
 <
 
                                                      *g:latex_toc_fold_levels*
@@ -341,7 +436,7 @@ after '\cite{' to search for candidates.
 FOLDING                                                    *vim-latex-folding*
 
 LatexBox can fold texts according to LaTeX structure (part, chapter, section
-and subsection).  Folding is turned on by default, but it can be turned off if
+and subsection).  Folding is turned on by default, but it can be disabled if
 desired |g:latex_fold_enabled|.
 
 When folding is turned on and a latex document is opened, the document is
@@ -367,7 +462,27 @@ Functions:
 ==============================================================================
 LATEXMK                                                    *vim-latex-latexmk*
 
+|vim-latex| provides a basic interface to `latexmk` for background
+compilation.  The interface may be disabled with |g:latex_latexmk_enabled|.
+The default mappings are: >
+
+  nnoremap <localleader>ll :call latex#latexmk#compile()<cr>
+  nnoremap <localleader>lk :call latex#latexmk#stop(1)<cr>
+  nnoremap <localleader>lK :call latex#latexmk#stop_all()<cr>
+  nnoremap <localleader>le :call latex#latexmk#errors()<cr>
+  nnoremap <localleader>lg :call latex#latexmk#status(0)<cr>
+  nnoremap <localleader>lG :call latex#latexmk#status(1)<cr>
+  nnoremap <localleader>lc :call latex#latexmk#clean(0)<cr>
+  nnoremap <localleader>lC :call latex#latexmk#clean(1)<cr>
+
+The background compilation is started with |latex#latexmk#compile|, and relies
+on the preview continuous mode of `latexmk`.  Compilation errors are not
+parsed automatically, since there is no way of knowing when the document has
+been compiled.  To view errors, use |latex#latexmk#errors|.  To check if
+compilation is running in the background, use |latex#latexmk#status|.
+
 Associated settings:
+    |g:latex_latexmk_enabled|
     |g:latex_latexmk_autojump|
     |g:latex_latexmk_options|
     |g:latex_latexmk_output|
@@ -379,34 +494,75 @@ Functions:
     |latex#latexmk#status|
     |latex#latexmk#stop|
     |latex#latexmk#stop_all|
-    |latex#latexmk#view|
 
 ==============================================================================
 MOTION                                                      *vim-latex-motion*
 
-==============================================================================
-DEFAULT MAPPINGS                                  *vim-latex-default-mappings*
+Associated settings:
+    |g:latex_motion_enabled|
+    |g:latex_motion_matchparen|
+    |g:latex_motion_open_pats|
+    |g:latex_motion_close_pats|
 
-<LocalLeader>ll                                                     |:Latexmk|
-        Compile with latexmk.
-<LocalLeader>lL                                                    |:Latexmk!|
-        Force compilation with latexmk.
-<LocalLeader>lc                                                |:LatexmkClean|
-        Clean temporary output from LaTeX.
-<LocalLeader>lC                                               |:LatexmkClean!|
-        Clean all output from LaTeX.
-<LocalLeader>lk                                                 |:LatexmkStop|
-        Stop latexmk if it is running.
-<LocalLeader>lg                                               |:LatexmkStatus|
-        Show the running status of latexmk for the current buffer.
-<LocalLeader>lG                                              |:LatexmkStatus!|
-        Show the running status of latexmk for all buffers with process group
-        ID's.
-<LocalLeader>le                                                 |:LatexErrors|
-        Load the log file for the current document and jump to the first error.
+Functions:
+    |latex#motion#find_matching_pair|
+    |latex#motion#jump_to_braces|
+    |latex#motion#next_sec|
+    |latex#motion#select_current_env|
+    |latex#motion#select_inline_math|
+
+==============================================================================
+TABLE OF CONTENTS                                              *vim-latex-toc*
+
+Associated settings:
+    |g:latex_toc_enabled|
+    |g:latex_toc_fold_levels|
+    |g:latex_toc_fold|
+    |g:latex_toc_hide_help|
+    |g:latex_toc_resize|
+    |g:latex_toc_split_side|
+    |g:latex_toc_width|
+
+Functions:
+    |latex#toc#open|
+    |latex#toc#toggle|
 
 ==============================================================================
 FUNCTION REFERENCE                                       *vim-latex-functions*
+
+The following is a reference of the available functions, sorted
+alphabetically.  First a short overview is given, then more detailed
+descriptions follow.
+
+Overview:~
+
+  |latex#complete#omnifunc|
+  |latex#complete#labels|
+  |latex#complete#bibtex|
+  |latex#fold#level|
+  |latex#fold#text|
+  |latex#fold#refresh|
+  |latex#help|
+  |latex#info|
+  |latex#init|
+  |latex#latexmk#clean|
+  |latex#latexmk#compile|
+  |latex#latexmk#errors|
+  |latex#latexmk#status|
+  |latex#latexmk#stop|
+  |latex#latexmk#stop_all|
+  |latex#motion#find_matching_pair|
+  |latex#motion#jump_to_braces|
+  |latex#motion#next_sec|
+  |latex#motion#select_current_env|
+  |latex#motion#select_inline_math|
+  |latex#reinit|
+  |latex#toc#open|
+  |latex#toc#toggle|
+  |latex#view|
+
+------------------------------------------------------------------------------
+Detailed descriptions:~
 
                                                      *latex#complete#omnifunc*
 An 'omnifunc' for label and citation completion, see |vim-latex-completion|.
@@ -427,6 +583,56 @@ Sets fold title text. 'foldtext'
                                                           *latex#fold#refresh*
 Refreshes fold levels based on which parts and sections used in the current
 file buffer.
+
+                                                                  *latex#help*
+
+                                                                  *latex#info*
+
+                                                                  *latex#init*
+
+                                                         *latex#latexmk#clean*
+Clean up temporary files with `latexmk -c`.  An optional argument may be
+supplied to indicate that the `-C` flag should be used, which also cleans
+output files.  This will only be run if `latexmk` is not already running.
+
+                                                       *latex#latexmk#compile*
+Starts `latexmk -pvc ...` for the given buffer, if it is not already running.
+
+                                                        *latex#latexmk#errors*
+Displays the log file in the quickfix window.  The output may be controlled
+slightly with the options |g:latex_errorformat_show_warnings| and
+|g:latex_errorformat_ignore_warnings|.
+
+                                                        *latex#latexmk#status*
+Show if the `latexmk` has been started for the current buffer.  An optional
+argument may be supplied, in which case the status for all buffers is shown.
+
+                                                          *latex#latexmk#stop*
+Stop the `latexmk` process running for the current buffer.  An optional
+argument may be given, in which case the function becomes verbose.
+
+                                                      *latex#latexmk#stop_all*
+Stops all running `latexmk` processes.
+
+                                             *latex#motion#find_matching_pair*
+
+                                                 *latex#motion#jump_to_braces*
+
+                                                       *latex#motion#next_sec*
+
+                                             *latex#motion#select_current_env*
+
+                                             *latex#motion#select_inline_math*
+
+                                                                *latex#reinit*
+
+                                                              *latex#toc#open*
+
+                                                            *latex#toc#toggle*
+
+                                                                  *latex#view*
+Open the output file (specified with |g:latex_latexmk_output|) with the
+default viewer |g:latex_viewer|.
 
 ==============================================================================
 Limitations                                            *vim-latex-limitations*

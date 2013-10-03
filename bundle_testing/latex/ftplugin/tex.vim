@@ -39,6 +39,7 @@ call latex#util#set_default('g:latex_fold_sections',
       \ ])
 
 " {{{1 Latexmk
+call latex#util#set_default('g:latex_latexmk_enabled', 1)
 call latex#util#set_default('g:latex_latexmk_options', '')
 call latex#util#set_default('g:latex_latexmk_output', 'pdf')
 call latex#util#set_default('g:latex_latexmk_autojump', '0')
@@ -64,6 +65,7 @@ call latex#util#set_default('g:latex_errorformat_ignore_warnings',
       \ ])
 
 " {{{1 Motion
+call latex#util#set_default('g:latex_motion_enabled', 1)
 call latex#util#set_default('g:latex_motion_matchparen', 1)
 call latex#util#set_default('g:latex_motion_open_pats',
       \ [
@@ -89,6 +91,7 @@ call latex#util#set_default('g:latex_motion_close_pats',
       \ ])
 
 " {{{1 Toc
+call latex#util#set_default('g:latex_toc_enabled', 1)
 call latex#util#set_default('g:latex_toc_width', 30)
 call latex#util#set_default('g:latex_toc_split_side', 'leftabove')
 call latex#util#set_default('g:latex_toc_resize', 1)

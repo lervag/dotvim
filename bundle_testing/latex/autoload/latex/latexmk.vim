@@ -1,5 +1,7 @@
 " {{{1 latex#latexmk#init
 function! latex#latexmk#init(initialized)
+  if !g:latex_latexmk_enabled | return | endif
+
   "
   " Initialize pid for current tex file
   "
@@ -12,14 +14,13 @@ function! latex#latexmk#init(initialized)
   "
   if g:latex_default_mappings
     nnoremap <silent><buffer> <localleader>ll :call latex#latexmk#compile()<cr>
-    nnoremap <silent><buffer> <localleader>lc :call latex#latexmk#clean(0)<cr>
+    nnoremap <silent><buffer> <localleader>lc :call latex#latexmk#clean()<cr>
     nnoremap <silent><buffer> <localleader>lC :call latex#latexmk#clean(1)<cr>
-    nnoremap <silent><buffer> <localleader>lg :call latex#latexmk#status(0)<cr>
+    nnoremap <silent><buffer> <localleader>lg :call latex#latexmk#status()<cr>
     nnoremap <silent><buffer> <localleader>lG :call latex#latexmk#status(1)<cr>
     nnoremap <silent><buffer> <localleader>lk :call latex#latexmk#stop(1)<cr>
     nnoremap <silent><buffer> <localleader>lK :call latex#latexmk#stop_all()<cr>
     nnoremap <silent><buffer> <localleader>le :call latex#latexmk#errors()<cr>
-    nnoremap <silent><buffer> <localleader>lv :call latex#latexmk#view()<cr>
   endif
 
   "
@@ -44,7 +45,9 @@ function! latex#latexmk#init(initialized)
 endfunction
 
 " {{{1 latex#latexmk#clean
-function! latex#latexmk#clean(full)
+function! latex#latexmk#clean(...)
+  let full = a:0 > 0
+
   let data = g:latex#data[b:latex.id]
   if data.pid
     echomsg "latexmk is already running"
@@ -55,7 +58,7 @@ function! latex#latexmk#clean(full)
   " Run latexmk clean process
   "
   let cmd = '!cd ' . data.root . ';'
-  if a:full
+  if full
     let cmd .= 'latexmk -C '
   else
     let cmd .= 'latexmk -c '
@@ -64,7 +67,7 @@ function! latex#latexmk#clean(full)
   let g:latex#data[b:latex.id].clean_cmd = cmd
 
   call s:execute(cmd)
-  if a:full
+  if full
     echomsg "latexmk full clean finished"
   else
     echomsg "latexmk clean finished"
@@ -118,8 +121,10 @@ function! latex#latexmk#errors()
 endfunction
 
 " {{{1 latex#latexmk#status
-function! latex#latexmk#status(detailed)
-  if a:detailed
+function! latex#latexmk#status(...)
+  let detailed = a:0 > 0
+
+  if detailed
     let running = 0
     for data in g:latex#data
       if data.pid
@@ -150,16 +155,18 @@ function! latex#latexmk#status(detailed)
 endfunction
 
 " {{{1 latex#latexmk#stop
-function! latex#latexmk#stop(verbose)
+function! latex#latexmk#stop(...)
+  let l:verbose = a:0 > 0
+
   let pid  = g:latex#data[b:latex.id].pid
   let base = g:latex#data[b:latex.id].base
   if pid
     call s:execute('!kill ' . pid)
     let g:latex#data[b:latex.id].pid = 0
-    if a:verbose
+    if l:verbose
       echo "latexmk stopped for `" . base . "'"
     endif
-  elseif a:verbose
+  elseif l:verbose
     echo "latexmk is not running for `" . base . "'"
   endif
 endfunction
@@ -172,20 +179,6 @@ function! latex#latexmk#stop_all()
       let data.pid = 0
     endif
   endfor
-endfunction
-
-" {{{1 latex#latexmk#view
-function! latex#latexmk#view()
-  let outfile = g:latex#data[b:latex.id].out()
-  if !filereadable(outfile)
-    echomsg "Can't view: Output file is not readable!"
-    return
-  endif
-
-  silent execute '!' . g:latex_viewer . ' ' . outfile . ' &>/dev/null &'
-  if !has("gui_running")
-    redraw!
-  endif
 endfunction
 " }}}1
 

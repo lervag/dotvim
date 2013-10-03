@@ -20,27 +20,23 @@ endfunction
 
 " {{{1 latex#info
 function! latex#info()
-  if g:latex_default_mappings
-    echo "Latex mappings"
-    nmap <buffer>
-    vmap <buffer>
-    omap <buffer>
-    echo "\n"
-  endif
-
-  sleep 500m
+  echo "Buffer data"
+  echo printf('           id: %-s', b:latex.id)
+  echo printf('fold sections: %-s', string(b:latex.fold_sections))
+  echo "\n"
 
   echo "Latex blobs"
-  let n = 0
+  let n = -1
   for data in g:latex#data
     let n += 1
-    if n > 1
+    if n > 0
       echo "\n"
     endif
     let d = copy(data)
     let d.aux = d.aux()
     let d.out = d.out()
     let d.log = d.log()
+    echo printf('%6s: %-s', 'id', n)
     for [key, val] in sort(items(d), "s:info_sort_func")
       if key =~ '\vaux|out|root|log|tex'
         let val = s:truncate(val)
@@ -48,6 +44,16 @@ function! latex#info()
       echo printf('%6s: %-s', key, val)
     endfor
   endfor
+endfunction
+
+" {{{1 latex#help
+function! latex#help()
+  if g:latex_default_mappings
+    echo "Latex mappings"
+    nmap <buffer>
+    vmap <buffer>
+    omap <buffer>
+  endif
 endfunction
 
 " {{{1 latex#reinit
@@ -68,6 +74,20 @@ function! latex#reinit()
   " Reinitialize
   "
   call latex#init()
+endfunction
+
+" {{{1 latex#view
+function! latex#view()
+  let outfile = g:latex#data[b:latex.id].out()
+  if !filereadable(outfile)
+    echomsg "Can't view: Output file is not readable!"
+    return
+  endif
+
+  silent execute '!' . g:latex_viewer . ' ' . outfile . ' &>/dev/null &'
+  if !has("gui_running")
+    redraw!
+  endif
 endfunction
 " }}}1
 
@@ -115,6 +135,8 @@ function! s:init_environment()
 
   if g:latex_default_mappings
     nnoremap <silent><buffer> <localleader>li :call latex#info()<cr>
+    nnoremap <silent><buffer> <localleader>lh :call latex#help()<cr>
+    nnoremap <silent><buffer> <localleader>lv :call latex#view()<cr>
     nnoremap <silent><buffer> <LocalLeader>lR :call latex#reinit()<cr>
   endif
 endfunction
