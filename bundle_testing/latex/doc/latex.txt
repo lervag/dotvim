@@ -39,13 +39,17 @@ CONTENTS                                                  *vim-latex-contents*
 INTRO                                                        *vim-latex-intro*
 
 This vim plugin provides some convenience functionality for editing LaTeX
-documents.  It is written in pure vimscript, and the main ideas have been to
-be minimalistic and to stay out of the users way.  Even so, most of the
-functionality is turned on by default, but the user may turn off features that
-are not desired.  The plugin will hereafter be referred to as |vim-latex|.
+documents.  The goal has been to create a minimalistic and functional plugin
+that is easy to customize and evolve.  Most of the functionality provided is
+turned on by default, but the user may turn off features that are not desired.
+The plugin will hereafter be referred to as |vim-latex|.
 
 ==============================================================================
 OPTIONS                                                    *vim-latex-options*
+
+This section describes the options for |vim-latex|.  The options are first
+listed in alphabetical order, before they are described in more detail.  The
+descriptions also list the default values.
 
 Overview:~
 
@@ -263,21 +267,60 @@ Set default viewer application. >
 ==============================================================================
 OMNI COMPLETION                                         *vim-latex-completion*
 
-The plugin provides an 'omnifunc' and two completion functions to gather
-candidates for citations and labels |compl-omni|.
+|vim-latex| provides an 'omnifunc' for omni completion, see |compl-omni| and
+|latex#complete#omnifunc|.  The function is enabled by default, but may be
+disabled with |g:latex_complete_enabled|.  Omni completion is accessible with
+'i_<CTRL-X><CTRL-O>'.
 
-------------------------------------------------------------------------------
-Complete labels                                    *vim-latex-complete-labels*
+The omni function completes labels and citations.  The completion candidates
+are gathered with the functions |latex#complete#labels| and
+|latex#complete#bibtex|.  If |g:latex_complete_close_braces| is set to 1, then
+the completion includes closing braces.
 
 Associated settings:
+        |g:latex_complete_enabled|
         |g:latex_complete_patterns.ref|
+        |g:latex_complete_patterns.bib|
         |g:latex_complete_close_braces|
 
-------------------------------------------------------------------------------
-Complete citations                                 *vim-latex-complete-bibtex*
+Functions:
+        |latex#complete#omnifunc|
+        |latex#complete#labels|
+        |latex#complete#bibtex|
 
-BibTeX completion is triggered by '\cite{', '\citep{' or '\citet{'.  For
-example, assume you have in your .bib files an entry looking like: >
+------------------------------------------------------------------------------
+Complete labels~
+
+Label completion is triggered by '\ref{' commands as defined with
+|g:latex_complete_patterns.ref|.  The completion parses every relevant aux
+file to gather the completion candidates.  This is important to note, because
+it means that the completion only works when the latex document has been
+compiled.
+
+As an example: >
+
+        \ref{sec:<CTRL-X><CTRL-O>
+
+offers a list of all matching labels, with their associated value and page
+number.  The label completion matches:
+
+    1. labels: >
+        \ref{sec:<CTRL-X><CTRL-O>
+<    2. numbers: >
+        \eqref{2<CTRL-X><CTRL-O>
+<    3. labels and numbers together (separated by whitespace): >
+        \eqref{eq 2<CTRL-X><CTRL-O>
+
+------------------------------------------------------------------------------
+Complete citations~
+
+Citation completion is triggered by '\cite{' commands as defined with
+|g:latex_complete_patterns.bib|.  The completion parses included bibliography
+files (`*.bib`) and `thebibliography` environments to gather the completion
+candidates.
+
+As an example, assume that a bibliography file is included with the following
+entry: >
 
         @book { knuth1981,
                 author = "Donald E. Knuth",
@@ -285,16 +328,14 @@ example, assume you have in your .bib files an entry looking like: >
                 publisher = "Addison-Wesley",
                 year = "1981" }
 
-Then, try: >
+Then the bibliography key `knuth1981` will be completed with e.g.: >
 
         \cite{Knuth 1981<CTRL-X><CTRL-O>
         \cite{algo<CTRL-X><CTRL-O>
+        \cite{Don.*Knuth<CTRL-X><CTRL-O>
 
-You can also use regular expressions (or vim patterns) after '\cite{'.
-
-Associated settings:
-        |g:latex_complete_patterns.bib|
-        |g:latex_complete_close_braces|
+In particular, note that regular expressions (or vim patterns) can be used
+after '\cite{' to search for candidates.
 
 ==============================================================================
 FOLDING                                                    *vim-latex-folding*
@@ -303,13 +344,42 @@ LatexBox can fold texts according to LaTeX structure (part, chapter, section
 and subsection).  Folding is turned on by default, but it can be turned off if
 desired |g:latex_fold_enabled|.
 
-The standard fold settings should suffice for most people.  When folding is
-turned on and a latex document is opened, the document is parsed once in order
-to define the highest fold level based on which parts and sections should be
-folded.
+When folding is turned on and a latex document is opened, the document is
+parsed once in order to define the highest fold level based on which parts
+(such as frontmatter, backmatter, and appendix) and section types (chapter,
+section, etc.) are present.  If the document has been edited and a new fold
+level is required (or has become redundant), then |latex#fold#refresh| can be
+used to refresh the fold level settings.  This function is mapped by default
+to `zx`.
+
+Associated settings:
+    |g:latex_fold_enabled|
+    |g:latex_fold_preamble|
+    |g:latex_fold_parts|
+    |g:latex_fold_sections|
+    |g:latex_fold_envs|
+
+Functions:
+    |latex#fold#level|
+    |latex#fold#text|
+    |latex#fold#refresh|
 
 ==============================================================================
 LATEXMK                                                    *vim-latex-latexmk*
+
+Associated settings:
+    |g:latex_latexmk_autojump|
+    |g:latex_latexmk_options|
+    |g:latex_latexmk_output|
+
+Functions:
+    |latex#latexmk#clean|
+    |latex#latexmk#compile|
+    |latex#latexmk#errors|
+    |latex#latexmk#status|
+    |latex#latexmk#stop|
+    |latex#latexmk#stop_all|
+    |latex#latexmk#view|
 
 ==============================================================================
 MOTION                                                      *vim-latex-motion*
@@ -338,31 +408,25 @@ DEFAULT MAPPINGS                                  *vim-latex-default-mappings*
 ==============================================================================
 FUNCTION REFERENCE                                       *vim-latex-functions*
 
-*latex#complete#omnifunc*
-        The 'omnifunc', enabled by default and accessible via
-        'i_<CTRL-X><CTRL-O>'.
+                                                     *latex#complete#omnifunc*
+An 'omnifunc' for label and citation completion, see |vim-latex-completion|.
 
-*latex#complete#labels*
-        Gathers completion candidates for label completion.  Label completion
-        is triggered by |g:latex_complete.patterns.ref|, which by
-        default matches for instance '\ref{' and '\eqref{'.
+                                                       *latex#complete#labels*
+Parses aux files to gather label candidates for completion.
 
-        As an example, >
-        \ref{sec:<CTRL-X><CTRL-O>
-<       offers a list of all matching labels, with their associated value and
-        page number.
+                                                       *latex#complete#bibtex*
+Parses included bibliography files and `thebibliography` environments to
+gather candidates for completion.
 
-It matches:
-        1. labels: >
-                \ref{sec:<CTRL-X><CTRL-O>
-<       2. numbers: >
-                \eqref{2<CTRL-X><CTRL-O>
-<       3. labels and numbers together (separated by whitespace): >
-                \eqref{eq 2<CTRL-X><CTRL-O>
-<
+                                                            *latex#fold#level*
+Sets fold level for each line. 'foldexpr' |fold-expr|
 
-*latex#complete#bibtex*
-        Gathers completion candidates for citation completion.
+                                                             *latex#fold#text*
+Sets fold title text. 'foldtext'
+
+                                                          *latex#fold#refresh*
+Refreshes fold levels based on which parts and sections used in the current
+file buffer.
 
 ==============================================================================
 Limitations                                            *vim-latex-limitations*
