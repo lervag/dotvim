@@ -49,12 +49,75 @@ The plugin will hereafter be referred to as |vim-latex|.
 ==============================================================================
 MAIN INTERFACE                                                *vim-latex-main*
 
-*g:latex#data*
+The |vim-latex| interface is based on the |autoload| feature of vim.  For each
+new latex buffer, the function *latex#init* initializes the variables and
+functionalities based on the desired options |vim-latex-options|.  The first
+run performs some global initialization, which is mainly to define
+autocommands.  Other functionality is provided by additional autoloaded
+scripts, such as |vim-latex-latexmk|.  Every additional script should have an
+initialization script that sets default mappings, creates autocommands and
+performs other necessary initialization.  This initialization script is then
+called from |latex#init|.
 
-*b:latex*
+The main interface provides some basic functionality.  |latex#view|, by
+default mapped to '<localleader>lv', opens the current output file in
+a viewer.  |latex#help| lists all mappings that are defined specifically for
+the current buffer, by default mapped to '<localleader>lh'.  If the default
+mappings are used, |latex#help| will display them.  |latex#info| echoes the
+contents of |g:latex#data| and |b:latex|.  This is useful mainly for
+debugging.  Finally, |latex#reinit| clears the current data in |g:latex#data|
+and |b:latex|, stops running latexmk processes |latex#latexmk#stop_all|,  and
+then performs a new initialization with |latex#init|.
+
+For each latex project that is opened, a |Dictionary| is created and added to
+the list |g:latex#data|.  The dictionary is initialized with information tied
+to the current project, mainly the different associated file names.  In
+addition, a dictonary is created for every buffer |b:latex|.  This contains
+data that is specific to the current buffer, most importantly it contains the
+ID of the main latex project.  This combination of local and global data
+enables |vim-latex| to work properly for multi-file latex projects.  It also
+allows the editing of different latex projects simultaneously in different
+buffers.
+
+                                                                *g:latex#data*
+A |List| of |Dictionaries|, each containing data specific to a given latex
+project.  The ID of a latex project is the index of its dictonary in the list.
+An example of a dictionary is given here: >
+
+  {
+    'pid': 0,
+    'name': 'main',
+    'base': 'main.tex',
+    'root': '/some/path',
+    'tex': '/some/path/main.tex',
+    'aux': function('202'),
+    'log': function('203'),
+    'out': function('204'),
+  }
+
+Which entries are present in a given dictionary depends on the current
+settings.  For example, the entry `pid` is only available if
+|vim-latex-latexmk| is enabled |g:latex_latexmk_enabled|.  Note that some of
+the file entries are functions.  The functions are used to find the files when
+necessary, in case they do not exist when the latex file is opened.  All
+defined dictionaries can be printed with the function |latex#info|, by default
+mapped to '<localleader>li'.
+
+                                                                     *b:latex*
+For each buffer, |vim-latex| defines a |Dictionary| that contains buffer local
+information.  An example of such a dictonary is: >
+
+  {
+    'id': 0,
+    'fold_sections': [],
+  }
+
+The most important entry is `id`, which is the index of the corresponding
+entry in the list of latex projects |g:latex#data|.  Other entries may also be
+exist, such as `fold_sections`.  The dictionary can be printed with the
+function |latex#info|, by default mapped to '<localleader>li'.
 
 Functions:
-        |latex#init|
         |latex#info|
         |latex#help|
         |latex#reinit|
@@ -498,6 +561,11 @@ Functions:
 ==============================================================================
 MOTION                                                      *vim-latex-motion*
 
+|vim-latex| provides some functions that can be used to give improved motions
+and text objects.  |latex#motion#find_matching_pair| is also used to enable
+highlighting of matching parens or tags (such as begin/end structures).  The
+functionality is enabled by default, but may be disabled if desired.
+
 Associated settings:
     |g:latex_motion_enabled|
     |g:latex_motion_matchparen|
@@ -506,13 +574,16 @@ Associated settings:
 
 Functions:
     |latex#motion#find_matching_pair|
-    |latex#motion#jump_to_braces|
     |latex#motion#next_sec|
     |latex#motion#select_current_env|
     |latex#motion#select_inline_math|
 
 ==============================================================================
 TABLE OF CONTENTS                                              *vim-latex-toc*
+
+|vim-latex| provides a table of contents (TOC) window that can be opened
+|latex#toc#open|  or toggled |latex#toc#toggle|.  In the TOC, one can use
+'<CR>' on a selected entry to navigate.
 
 Associated settings:
     |g:latex_toc_enabled|
@@ -544,7 +615,6 @@ Overview:~
   |latex#fold#refresh|
   |latex#help|
   |latex#info|
-  |latex#init|
   |latex#latexmk#clean|
   |latex#latexmk#compile|
   |latex#latexmk#errors|
@@ -552,7 +622,6 @@ Overview:~
   |latex#latexmk#stop|
   |latex#latexmk#stop_all|
   |latex#motion#find_matching_pair|
-  |latex#motion#jump_to_braces|
   |latex#motion#next_sec|
   |latex#motion#select_current_env|
   |latex#motion#select_inline_math|
@@ -585,10 +654,12 @@ Refreshes fold levels based on which parts and sections used in the current
 file buffer.
 
                                                                   *latex#help*
+Lists all mappings that are defined specifically for the current buffer.  If
+the default mappings are used, then |latex#help| will display them.
 
                                                                   *latex#info*
-
-                                                                  *latex#init*
+Echoes the contents of |g:latex#data| and |b:latex|.  This is useful mainly
+for debugging.
 
                                                          *latex#latexmk#clean*
 Clean up temporary files with `latexmk -c`.  An optional argument may be
@@ -615,29 +686,60 @@ argument may be given, in which case the function becomes verbose.
 Stops all running `latexmk` processes.
 
                                              *latex#motion#find_matching_pair*
-
-                                                 *latex#motion#jump_to_braces*
+Finds a matching pair of parenthesis or begin-end-tags.  The functions is used
 
                                                        *latex#motion#next_sec*
+A motion command function that moves to the next section.  Used to redefine
+the mappings for ']]', '[[', and similar.
 
                                              *latex#motion#select_current_env*
+A function that is used to create text objects for environments.
 
                                              *latex#motion#select_inline_math*
+A function that is used to create text objects for inline math structures.
 
                                                                 *latex#reinit*
+Clears the current global and local data in |g:latex#data| and |b:latex|,
+stops running latexmk processes |latex#latexmk#stop_all|,  and then performs
+a new initialization.
 
                                                               *latex#toc#open*
+Open the TOC window.  If it is already open, then simply move the cursor to
+the TOC window.
 
                                                             *latex#toc#toggle*
+Toggle TOC window: If TOC window is open, then close it.  If it is closed,
+then open it (but do not move the cursor to the window).
 
                                                                   *latex#view*
 Open the output file (specified with |g:latex_latexmk_output|) with the
 default viewer |g:latex_viewer|.
 
 ==============================================================================
-Limitations                                            *vim-latex-limitations*
+LIMITATIONS                                            *vim-latex-limitations*
 
 This plugin is written for Linux/Unix environments, and so it does NOT support
 Windows.  I do not plan to add support.
 
+==============================================================================
+CREDITS                                                    *vim-latex-credits*
+
+|vim-latex| is developed by Karl Yngve Lervåg <karl.yngve@gmail.com>, and is
+distributed under the MIT license.  The project is available as a Git
+repository:  https://github.com/lervag/vim-latex.
+
+|vim-latex| was developed from scratch, but much of the code has been based on
+LaTeX-Box: https://github.com/LaTeX-Box-Team/LaTeX-Box.  LaTeX-suite was also
+an inspiration: http://vim-latex.sourceforge.net/.
+
+The documentation of |vim-latex| is structured with inspiration from CtrlP
+(https://github.com/kien/ctrlp.vim), simply because CtrlP has a very good
+documentation.
+
+==============================================================================
+CHANGELOG                                                *vim-latex-changelog*
+
+First public release: 2013/10/05~
+
+==============================================================================
  vim:tw=78:ts=8:ft=help:norl:

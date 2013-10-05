@@ -1,60 +1,47 @@
-# LaTeX-BoX
-![LaTeX-BoX](https://raw.github.com/LaTeX-Box-Team/LaTeX-Box/master/doc/LaTeX-BoX.png)
+# vim-latex
+## Introduction
 
-## This plugin provides:
-- Background compilation using latexmk.
-- Completion for commands, environments, labels, bibtex entries, and inline maths.
-- A simple table of contents.
-- Smart indentation.
-- Highlight matching \begin/\end and \left\right pairs.
-- Motion between \begin/\end and \left\right pairs with the % key.
-- Motion through brackets/braces (with user-defined keys).
-- Environment objects (e.g., select environement with "vie" or "vae").
-- Inline math objects (e.g., select inline math with "vi$" or "va$").
-- Folding of parts (part/chapter/section/etc) and environments.
-- OmniCompletion for bibliography entries respects BibLaTeX's
-  `\addbibresource`, `\addglobalbib` and `\addsectionbib` commands.
-- The table of contents functionality does not depend anymore on the assumption
-  that `\@writefile{toc}{\contentsline ...}` entries in the `*.aux` file always
-  occur at the start of some line.
-- Completion of `\ref{...}` commands was completely rewritten.  It is now able
-  to handle `\@newlabel{label}{{number}{page}...}` entries in the `*.aux` file
-  even if `number` or `page` contain arbitrary nested levels of braces.  Labels
-  are additionally held in a cache per `*.aux` file, which is updated only if
-  the modification time of the file changes.
-- The table of contents now opens files different from the one currently being
-  edited in a new buffer.  (I actually think, that this behaviour was
-  implemented already, but I could not get it working.)  To make this work,
-  LaTeX-Box is not loaded per buffer but globally.
-
-This plugins aims at being lightweight and simple.  For more fully-fledged
-plugins, see:
+There exists several LaTeX plugins for vim, for instance:
 - LaTeX-Suite: vimscript#475
 - AutomaticTexPlugin: vimscript#2945
+- LaTeX-Box: vimscript#3109
+
+I have been using both LaTeX-Suite and LaTeX-Box myself, but I found both of
+these to be relatively bulky and difficult to manage and extend.  LaTeX-Box
+was supposed to be simple and lightweight, and I think it was close to being
+just that.  However, after having worked on it for some time, I felt that much
+of the simplicity could be improved by a complete restructuring.
+
+Enter vim-latex, which is a lightweight and simple plugin that provides LaTeX
+support for vim.  It has most of the functionality of LaTeX-Box, but the idea
+is to combine vim-latex with the strength of other plugins.  I personally
+recommend [UltiSnips](https://github.com/SirVer/ultisnips) for snippets and
+[neocomplete](https://github.com/Shougo/neocomplete.vim) for completion.
+
+Read the documentation for a more thorough introduction.
 
 ## Installation
 ### With gmarik vundle
 _https://github.com/gmarik/vundle_
 
-Add `Bundle 'LaTeX-Box-Team/LaTeX-Box'` to your ~/.vimrc and run
+Add `Bundle 'lervag/vim-latex'` to your ~/.vimrc and run
 `:BundleInstall` in a vim buffer. Add `!` to the command to update.
+
+### With neobundle
+_https://github.com/Shougo/neobundle.vim_
+
+Add `NeoBundle 'lervag/vim-latex'` to your ~/.vimrc and run
+`:NeoBundleInstall` in a vim buffer. Add `!` to the command to update.
 
 ### With pathogen
 _https://github.com/tpope/vim-pathogen_
 
-Add the LaTeX-Box bundle to your bundle directory, for instance with `git
+Add the vim-latex bundle to your bundle directory, for instance with `git
 clone`.  This will typically be enough:
 
     cd ~/.vim/bundle
-    git clone git://github.com/LaTeX-Box-Team/LaTeX-Box.git
+    git clone git://github.com/lervag/vim-latex
 
 ### Without a plugin manager
 
 Copy the directories to your `.vim/` folder.
-
-## Mirror information
-
-This is mirrored on 
-
-- http://www.vim.org/scripts/script.php?script_id=3109
-- https://launchpad.net/~vim-latex-box

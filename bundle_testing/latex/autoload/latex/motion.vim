@@ -1,6 +1,6 @@
 " {{{1 latex#motion#init
 function! latex#motion#init(initialized)
-  if !g:latex_motion_enabled || a:initialized | return | endif
+  if !g:latex_motion_enabled | return | endif
 
   if g:latex_default_mappings
     nnoremap <silent><buffer> % :call latex#motion#find_matching_pair('n')<cr>
@@ -35,7 +35,7 @@ function! latex#motion#init(initialized)
   "
   " Highlight matching parens ($, (), ...)
   "
-  if g:latex_motion_matchparen
+  if !a:initialized && g:latex_motion_matchparen
     augroup latex_motion
       autocmd!
       " Disable matchparen autocommands
@@ -162,27 +162,6 @@ function! latex#motion#find_matching_pair(mode)
         break
       endif
     endfor
-  endif
-endfunction
-
-" {{{1 latex#motion#jump_to_braces
-function! latex#motion#jump_to_braces(backwards)
-  let flags = ''
-  if a:backwards
-    normal h
-    let flags .= 'b'
-  else
-    let flags .= 'c'
-  endif
-  if search('[][}{]', flags) > 0
-    normal l
-  endif
-  let prev = strpart(getline('.'), col('.') - 2, 1)
-  let next = strpart(getline('.'), col('.') - 1, 1)
-  if next =~ '[]}]' && prev !~ '[][{}]'
-    return "\<Right>"
-  else
-    return ''
   endif
 endfunction
 

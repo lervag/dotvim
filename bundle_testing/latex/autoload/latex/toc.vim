@@ -64,11 +64,12 @@ endfunction
 function! latex#toc#toggle()
   if bufwinnr(bufnr('LaTeX TOC')) >= 0
     if g:latex_toc_resize
-      silent exe "set columns-=" . g:latex#toc#width
+      silent exe "set columns-=" . g:latex_toc_width
     endif
     silent execute 'bwipeout' . bufnr('LaTeX TOC')
   else
     call latex#toc#open()
+    silent execute 'wincmd w'
   endif
 endfunction
 " }}}1

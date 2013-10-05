@@ -68,12 +68,14 @@ function! latex#reinit()
   "
   let s:initialized = 0
   unlet g:latex#data
-  unlet b:latex
+  bufdo unlet b:notbslash
+  bufdo unlet b:notcomment
+  bufdo unlet b:latex
 
   "
   " Reinitialize
   "
-  call latex#init()
+  bufdo call latex#init()
 endfunction
 
 " {{{1 latex#view
