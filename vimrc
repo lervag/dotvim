@@ -29,10 +29,8 @@ NeoBundle 'Shougo/neocomplete', {
       \ }
 
 " {{{2 Projects I participate in
-NeoBundleLocal ~/.vim/bundle_testing/
-"NeoBundle 'LaTeX-Box-Team/LaTeX-Box.git', {
-"      \ 'type__protocol' : 'ssh',
-"      \ }
+NeoBundle 'LaTeX-Box-Team/LaTeX-Box.git', { 'type__protocol' : 'ssh', }
+NeoBundle 'lervag/vim-latex.git', { 'type__protocol' : 'ssh' }
 
 " {{{2 Other plugins and scripts
 NeoBundle 'altercation/vim-colors-solarized'
@@ -366,10 +364,12 @@ let g:gundo_close_on_revert=1
 map <silent> <F5> :GundoToggle<cr>
 
 "{{{2 latex
+let g:latex_enabled = 1
 let g:latex_viewer = 'mupdf -r 95'
 let g:latex_default_mappings = 1
 
 "{{{2 LaTeX-BoX
+let b:LatexBox_loaded = 1
 let g:LatexBox_latexmk_async = 1
 let g:LatexBox_latexmk_preview_continuously = 1
 let g:LatexBox_Folding = 1
