@@ -29,7 +29,7 @@ NeoBundle 'Shougo/neocomplete', {
       \ }
 
 " {{{2 Projects I participate in
-NeoBundle 'LaTeX-Box-Team/LaTeX-Box.git', { 'type__protocol' : 'ssh', }
+"NeoBundle 'LaTeX-Box-Team/LaTeX-Box.git', { 'type__protocol' : 'ssh', }
 NeoBundle 'lervag/vim-latex.git', { 'type__protocol' : 'ssh' }
 
 " {{{2 Other plugins and scripts
@@ -206,6 +206,9 @@ if neobundle#is_sourced('vim-colors-solarized')
   colorscheme solarized
   call togglebg#map("<F6>")
 endif
+
+highlight clear MatchParen
+highlight MatchParen gui=bold guifg=#eed
 
 "{{{2 Searching and movement
 set ignorecase
