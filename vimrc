@@ -209,7 +209,7 @@ if neobundle#is_sourced('vim-colors-solarized')
 endif
 
 highlight clear MatchParen
-highlight MatchParen gui=bold guifg=#eed
+highlight MatchParen gui=bold guibg=#bfb
 
 "{{{2 Searching and movement
 set ignorecase
