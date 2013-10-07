@@ -29,8 +29,9 @@ NeoBundle 'Shougo/neocomplete', {
       \ }
 
 " {{{2 Projects I participate in
-"NeoBundle 'LaTeX-Box-Team/LaTeX-Box.git', { 'type__protocol' : 'ssh', }
-NeoBundle 'lervag/vim-latex.git', { 'type__protocol' : 'ssh' }
+NeoBundleLazy 'LaTeX-Box-Team/LaTeX-Box.git', { 'type__protocol' : 'ssh', }
+NeoBundleLazy 'lervag/vim-latex.git', { 'type__protocol' : 'ssh' }
+NeoBundleSource vim-latex
 
 " {{{2 Other plugins and scripts
 NeoBundle 'altercation/vim-colors-solarized'
