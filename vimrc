@@ -40,8 +40,8 @@ NeoBundle 'dahu/vim-fanfingtastic'
 NeoBundle 'ervandew/screen'
 NeoBundle 'ervandew/supertab'
 NeoBundle 'git://repo.or.cz/vcscommand.git'
-NeoBundle 'godlygeek/tabular'
 NeoBundle 'gregsexton/MatchTag'
+NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'mhinz/vim-signify'
@@ -355,6 +355,13 @@ nnoremap <silent> <space>h :CtrlP /home/lervag<cr>
 nnoremap <silent> <space>v :CtrlP /home/lervag/.vim<cr>
 nnoremap <silent> <space>q :CtrlPQuickfix<cr>
 
+"{{{2 vim-easy-align
+nnoremap <silent> <cr> gv:EasyAlign<cr>
+vnoremap <silent> <cr> :EasyAlign<cr>
+let g:easy_align_delimiters = {
+      \ '&' : { 'pattern' : '&' },
+      \ }
+
 "{{{2 Fanfingtastic
 let g:fanfingtastic_fix_t = 1
 let g:fanfingtastic_use_jumplist = 1
@@ -510,16 +517,6 @@ let g:syntastic_fortran_include_dirs = [
                             \ '../obj/gfortran_debug',
                             \ '../objects/debug_gfortran_Linux',
                             \ ]
-
-"{{{2 Tabular
-nmap <leader>a= :Tabularize /=<cr>
-vmap <leader>a= :Tabularize /=<cr>
-nmap <leader>a: :Tabularize /:\zs<cr>
-vmap <leader>a: :Tabularize /:\zs<cr>
-nmap <leader>a& :Tabularize /&\zs<cr>
-vmap <leader>a& :Tabularize /&\zs<cr>
-nmap <leader>aa :Tabularize /
-vmap <leader>aa :Tabularize /
 
 "{{{2 Ultisnips
 let g:UltiSnipsJumpForwardTrigger="<tab>"
