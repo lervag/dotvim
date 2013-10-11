@@ -163,8 +163,8 @@ set smarttab
 set expandtab
 set wrap
 set linebreak
-set showbreak=↪
-set formatoptions=tcrq1nj
+let &showbreak = '+++ '
+set formatoptions+=rnl1j
 set formatlistpat=^\\s*\\(\\(\\d\\+\\\|[a-z]\\)[.:)]\\\|[-*]\\)\\s\\+
 
 "{{{2 Backup and Undofile
@@ -358,9 +358,6 @@ nnoremap <silent> <space>q :CtrlPQuickfix<cr>
 "{{{2 vim-easy-align
 nnoremap <silent> <cr> gv:EasyAlign<cr>
 vnoremap <silent> <cr> :EasyAlign<cr>
-let g:easy_align_delimiters = {
-      \ '&' : { 'pattern' : '&' },
-      \ }
 
 "{{{2 Fanfingtastic
 let g:fanfingtastic_fix_t = 1
