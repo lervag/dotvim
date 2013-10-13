@@ -392,7 +392,6 @@ let g:neocomplete#max_list = 15
 " Plugin key-mappings
 inoremap <expr> <C-g> neocomplete#undo_completion()
 inoremap <expr> <C-l> neocomplete#complete_common_string()
-inoremap <expr> <C-o> neocomplete#start_manual_complete('omni')
 
 " Enable omni completion
 augroup neocomplete_omni_complete
