@@ -447,6 +447,7 @@ endif
 "{{{2 Screen
 let g:ScreenImpl = "GnuScreen"
 let g:ScreenShellTerminal = "xfce4-terminal"
+let g:ScreenShellActive = 0
 
 " Dynamic keybindings
 function! s:ScreenShellListenerMain()
