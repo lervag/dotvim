@@ -134,11 +134,9 @@ set foldcolumn=0
 set foldtext=TxtFoldText()
 
 function! TxtFoldText()
-  let title = substitute(getline(v:foldstart), '^[ "%#*]*{\{3}\d\s*', '', '')
-  if v:foldlevel > 1
-    let title = repeat('  ', v:foldlevel-2) . '* ' . title
-  endif
-  return printf(' %-71S #%5d', title[0:71], v:foldend - v:foldstart + 1)
+  let level = '+' . repeat('-', v:foldlevel-1)
+  let title = substitute(getline(v:foldstart), '^.*{\{3}\d\s*', '', '')
+  return printf('%-4s %-s', level, title)
 endfunction
 
 " Set foldoption for bash scripts
