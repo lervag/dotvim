@@ -134,7 +134,7 @@ set foldcolumn=0
 set foldtext=TxtFoldText()
 
 function! TxtFoldText()
-  let level = '+' . repeat('-', v:foldlevel-1)
+  let level = repeat('-', min([v:foldlevel-1,3])) . '+'
   let title = substitute(getline(v:foldstart), '^.*{\{3}\d\s*', '', '')
   return printf('%-4s %-s', level, title)
 endfunction
