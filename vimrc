@@ -354,6 +354,7 @@ nnoremap <silent> <space>v :CtrlP /home/lervag/.vim<cr>
 nnoremap <silent> <space>q :CtrlPQuickfix<cr>
 
 "{{{2 vim-easy-align
+let g:easy_align_bypass_fold = 1
 nnoremap <silent> <cr> gv:EasyAlign<cr>
 vnoremap <silent> <cr> :EasyAlign<cr>
 vnoremap <silent> <bs> :<c-r>=g:easy_align_last_command<cr><cr>
