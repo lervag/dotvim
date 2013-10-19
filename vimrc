@@ -355,9 +355,8 @@ nnoremap <silent> <space>q :CtrlPQuickfix<cr>
 
 "{{{2 vim-easy-align
 let g:easy_align_bypass_fold = 1
-nnoremap <silent> <cr> gv:EasyAlign<cr>
-vnoremap <silent> <cr> :EasyAlign<cr>
-vnoremap <silent> <bs> :<c-r>=g:easy_align_last_command<cr><cr>
+vnoremap <silent> <cr> :LiveEasyAlign<cr>
+vnoremap <silent> <meta><cr> :<c-r>=g:easy_align_last_command<cr><cr>
 
 "{{{2 Fanfingtastic
 let g:fanfingtastic_fix_t = 1
