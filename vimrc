@@ -322,6 +322,10 @@ cmap w!! %!sudo tee > /dev/null %
 " Open url in browser
 map <silent> gx <Plug>(open-in-browser)
 
+" Change word under cursor
+nnoremap ,r :'{,'}s/\<<c-r>=expand('<cword>')<cr>\>/
+nnoremap ,R :%s/\<<c-r>=expand('<cword>')<cr>\>/
+
 "{{{1 Plugin settings
 
 "{{{2 Ack settings
