@@ -508,15 +508,17 @@ augroup END
 
 "{{{2 syntactics
 let g:syntastic_auto_loc_list = 2
+let g:syntastic_always_populate_loc_list=1
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'passive_filetypes': ['tex'] }
-let g:syntastic_enabled = 1
-let g:syntastic_enable_highlighting = 1
 let g:syntastic_fortran_compiler_options = " -fdefault-real-8"
 let g:syntastic_fortran_include_dirs = [
                             \ '../obj/gfortran_debug',
                             \ '../objects/debug_gfortran_Linux',
+                            \ '../thermopack/objects/debug_gfortran_Linux',
                             \ ]
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
 
 "{{{2 Ultisnips
 let g:UltiSnipsJumpForwardTrigger="<tab>"
