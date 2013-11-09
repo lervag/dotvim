@@ -361,7 +361,7 @@ nnoremap <silent> <space>q :CtrlPQuickfix<cr>
 "{{{2 vim-easy-align
 let g:easy_align_bypass_fold = 1
 vnoremap <silent> <cr> :LiveEasyAlign<cr>
-vnoremap <silent> <meta><cr> :<c-r>=g:easy_align_last_command<cr><cr>
+vnoremap <silent> <s-cr> :<c-r>=g:easy_align_last_command<cr><cr>
 
 "{{{2 Fanfingtastic
 let g:fanfingtastic_fix_t = 1
@@ -521,8 +521,8 @@ let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 
 "{{{2 Ultisnips
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsJumpForwardTrigger="<m-u>"
+let g:UltiSnipsJumpBackwardTrigger="<s-m-u>"
 let g:UltiSnipsEditSplit = "horizontal"
 let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/personal/snippets"
 let g:UltiSnipsSnippetDirectories = ["snippets"]
