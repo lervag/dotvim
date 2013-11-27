@@ -378,6 +378,13 @@ map <silent> <F5> :GundoToggle<cr>
 let g:latex_enabled = 1
 let g:latex_viewer = 'mupdf -r 95'
 let g:latex_default_mappings = 1
+let g:latex_errorformat_ignore_warnings =
+      \ [
+      \ 'Underfull',
+      \ 'Overfull',
+      \ 'specifier changed to',
+      \ 'Setting ''defernumbers=true',
+      \ ]
 
 let g:LatexBox_latexmk_async = 1
 let g:LatexBox_latexmk_preview_continuously = 1
