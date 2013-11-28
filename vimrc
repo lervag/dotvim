@@ -424,7 +424,7 @@ endif
 let g:neocomplete#keyword_patterns._ = '\h\w*'
 let g:neocomplete#keyword_patterns.tex = '\h\w\+'
 let g:neocomplete#force_omni_input_patterns.tex =
-      \ '\v\\\a*(ref|cite)\a*\{([^}]*,)?'
+      \ '\v\\\a*(ref|cite)\a*\{(|[^}]*,)'
 
 "{{{2 Rainbox Parentheses
 nnoremap <leader>R :RainbowParenthesesToggle<cr>
