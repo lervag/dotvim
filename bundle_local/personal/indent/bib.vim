@@ -7,6 +7,9 @@ if exists("b:did_indent")
 endif
 let b:did_indent = 1
 
+let s:cpo_save = &cpo
+set cpo&vim
+
 setlocal nolisp
 setlocal nosmartindent
 setlocal autoindent
@@ -16,6 +19,7 @@ if exists("*GetBibIndent")
   finish
 endif
 
+" {{{1 GetBibIndent
 function GetBibIndent()
   " Find first non-blank line above the current line
   let lnum = prevnonblank(v:lnum - 1)
@@ -30,27 +34,45 @@ function GetBibIndent()
 
   " Zero indent for first line of each entry
   if cline =~ '^@'
-    let ind = 0
+    return 0
   endif
 
-  " Check conditions and return
+  " Title line of entry
   if line =~ '^@'
     if cline =~ '^\s*}'
-      let ind = 0
+      return 0
     else
-      let ind = &sw
+      return &sw
     endif
-  elseif line =~ '.\+}' || line =~ '= \d\+,'
-    if cline =~ '^\s*}'
-      let ind = 0
-    else
-      let line = search('.*= {','bcn')
-      let ind = indent(line)
-    endif
-  elseif line =~ '.*= {.*'
-    let match = searchpos('.*= {','bcne')
-    let ind = match[1]
   endif
-  return ind
+
+  if line =~ '='
+    " Indent continued bib info entries
+    if s:count('{', line) - s:count('}', line) > 0
+      let match = searchpos('.*=\s*{','bcne')
+      return match[1]
+    endif
+  elseif s:count('{', line) - s:count('}', line) < 0
+    return &sw
+  endif
+
+  return indent(line)
 endfunction
 
+" {{{1 s:count
+function! s:count(pattern, line)
+  let sum = 0
+  let indx = match(a:line, a:pattern)
+  while indx >= 0
+    let sum += 1
+    let indx += 1
+    let indx = match(a:line, a:pattern, indx)
+  endwhile
+  return sum
+endfunction
+" }}}1
+
+let &cpo = s:cpo_save
+unlet s:cpo_save
+
+" vim:fdm=marker:ff=unix
