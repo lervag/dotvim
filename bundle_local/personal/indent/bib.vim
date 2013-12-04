@@ -56,7 +56,7 @@ function GetBibIndent()
     return &sw
   endif
 
-  return indent(line)
+  return ind
 endfunction
 
 " {{{1 s:count
