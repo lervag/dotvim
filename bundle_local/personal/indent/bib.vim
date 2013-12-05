@@ -33,7 +33,7 @@ function GetBibIndent()
   let cline = getline(v:lnum)
 
   " Zero indent for first line of each entry
-  if cline =~ '^@'
+  if cline =~ '^\s*@'
     return 0
   endif
 
