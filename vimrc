@@ -361,8 +361,8 @@ nnoremap <silent> <space>q :CtrlPQuickfix<cr>
 
 "{{{2 vim-easy-align
 let g:easy_align_bypass_fold = 1
-vnoremap <silent> <cr> :LiveEasyAlign<cr>
-vnoremap <silent> <s-cr> :<c-r>=g:easy_align_last_command<cr><cr>
+map ga <Plug>(EasyAlign)
+map gA <Plug>(LiveEasyAlign)
 
 "{{{2 Fanfingtastic
 let g:fanfingtastic_fix_t = 1
@@ -398,7 +398,6 @@ let g:LatexBox_split_resize = 1
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
-let g:neocomplete#max_list = 15
 
 " Plugin key-mappings
 inoremap <expr> <C-g> neocomplete#undo_completion()
