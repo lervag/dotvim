@@ -51,9 +51,15 @@ function GetBibIndent()
     if s:count('{', line) - s:count('}', line) > 0
       let match = searchpos('.*=\s*{','bcne')
       return match[1]
+    elseif cline =~ '^\s*}'
+      return 0
     endif
   elseif s:count('{', line) - s:count('}', line) < 0
-    return &sw
+    if s:count('{', cline) - s:count('}', cline) < 0
+      return 0
+    else
+      return &sw
+    endif
   endif
 
   return ind
