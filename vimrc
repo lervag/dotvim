@@ -207,8 +207,16 @@ if neobundle#is_sourced('vim-colors-solarized')
   call togglebg#map("<F6>")
 endif
 
+" Custom highlighting for Matchparen
 highlight clear MatchParen
 highlight MatchParen gui=bold guibg=#bfb
+
+" Custom highlighting for spell
+highlight clear SpellBad SpellCap SpellRare SpellLocal
+highlight SpellBad   gui=bold guibg=#faa
+highlight SpellCap   gui=bold guibg=#faf
+highlight SpellRare  gui=bold guibg=#aff
+highlight SpellLocal gui=bold guibg=#ffa
 
 "{{{2 Searching and movement
 set ignorecase
@@ -385,6 +393,7 @@ let g:latex_errorformat_ignore_warnings =
       \ 'Overfull',
       \ 'specifier changed to',
       \ 'Setting ''defernumbers=true',
+      \ 'Editor ''',
       \ ]
 
 let g:LatexBox_latexmk_async = 1
@@ -424,7 +433,7 @@ endif
 let g:neocomplete#keyword_patterns._ = '\h\w*'
 let g:neocomplete#keyword_patterns.tex = '\h\w\+'
 let g:neocomplete#force_omni_input_patterns.tex =
-      \ '\v\\\a*(ref|cite)\a*\{(|[^}]*,)'
+      \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{(|[^}]*,)'
 
 "{{{2 Rainbox Parentheses
 nnoremap <leader>R :RainbowParenthesesToggle<cr>
@@ -497,8 +506,8 @@ nmap <silent> <leader>gt <plug>(signify-toggle):ResizeSplits<cr>
 
 "{{{2 Splice
 let g:splice_initial_mode = "grid"
-let g:splice_initial_layout_grid = 2
-let g:splice_initial_layout_compare = 1
+let g:splice_initial_layout_grid = 1
+let g:splice_initial_diff_grid = 1
 
 "{{{2 Supertab
 let g:SuperTabDefaultCompletionType = "context"
