@@ -44,7 +44,6 @@ NeoBundle 'gregsexton/MatchTag'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'kien/rainbow_parentheses.vim'
-NeoBundle 'mhinz/vim-signify'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'Peeja/vim-cdo'
 NeoBundle 'rbtnn/vimconsole.vim'
@@ -497,12 +496,6 @@ augroup END
 augroup ScreenShellExit
   au USER * :call <SID>ScreenShellListenerMain()
 augroup END
-
-"{{{2 Signify
-let g:signify_sign_change = "~"
-let g:signify_disable_by_default = 1
-highlight SignColumn ctermbg=12 guibg=#eee8d5
-nmap <silent> <leader>gt <plug>(signify-toggle):ResizeSplits<cr>
 
 "{{{2 Splice
 let g:splice_initial_mode = "grid"
