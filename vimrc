@@ -260,9 +260,8 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.paste = 'Þ'
 
 " Extensions
-let g:airline#extensions#whitespace#symbol = ''
+let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#hunks#non_zero_only = 1
-let g:airline#extensions#whitespace#checks = [ 'trailing' ]
 
 " Theme and customization
 let g:airline_section_z = '%3p%% %l:%c'
