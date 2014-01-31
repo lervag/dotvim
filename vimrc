@@ -114,7 +114,7 @@ set autoindent
 set fileformat=unix
 set spelllang=en_gb
 set list
-set listchars=tab:▸\ ,trail:\ ,nbsp:%,extends:❯,precedes:❮
+set listchars=tab:▸\ ,nbsp:%,extends:❯,precedes:❮
 set cursorline
 set autochdir
 set cpoptions+=J
