@@ -52,7 +52,6 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'sjl/clam.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'sjl/splice.vim'
-NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'thinca/vim-prettyprint'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'tpope/vim-abolish'
@@ -156,7 +155,7 @@ set shiftwidth=2
 set textwidth=79
 set columns=80
 if v:version >= 703
-  set colorcolumn=81
+  set colorcolumn=81,82,83
 end
 set smarttab
 set expandtab
@@ -195,6 +194,7 @@ syntax on
 set background=light
 if has("gui_running")
   set lines=56
+  set columns=82
   set guioptions=aeci
   set guifont=Inconsolata-g\ Medium\ 9
 else
@@ -522,7 +522,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
 let g:syntastic_fortran_compiler_options = " -fdefault-real-8"
 let g:syntastic_fortran_include_dirs = [
                             \ '../obj/gfortran_debug',
-                            \ '../objects/debug_gfortran_Linux',
+                            \ '../objects/debug_gfortran',
                             \ '../thermopack/objects/debug_gfortran_Linux',
                             \ ]
 let g:syntastic_error_symbol='✗'
