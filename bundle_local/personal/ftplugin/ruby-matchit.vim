@@ -70,4 +70,5 @@ function! s:Ruby_Matchit()
 endfunction
 nnoremap <buffer> \\\\\ %
 nnoremap <buffer> % :call <SID>Ruby_Matchit()<CR>
-" vim: foldmethod=marker:ff=unix
+
+" vim: fdm=marker

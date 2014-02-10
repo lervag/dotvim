@@ -286,4 +286,4 @@ endfun
 
 let &cpo = s:save_cpo
 
-" vim:sts=2:sw=2:ff=unix:
+" vim: sts=2 sw=2
