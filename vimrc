@@ -119,7 +119,7 @@ set cursorline
 set autochdir
 set cpoptions+=J
 set autoread
-set wildmode=longest,list:longest
+set wildmode=longest,list:longest,full
 
 if executable("ack-grep")
   set grepprg=ack-grep\ --nocolor
