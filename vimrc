@@ -204,7 +204,6 @@ else
 endif
 if neobundle#is_sourced('vim-colors-solarized')
   colorscheme solarized
-  call togglebg#map("<F6>")
 endif
 
 " Custom highlighting for Matchparen
