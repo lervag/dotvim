@@ -8,7 +8,7 @@ let s:source = {
       \}
 
 function! s:source.gather_candidates(context)
-  return keys(UltiSnips_SnippetsInCurrentScope())
+  return keys(UltiSnips#SnippetsInCurrentScope())
 endfunction
 
 function! neocomplete#sources#ultisnips#define()
