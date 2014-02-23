@@ -369,6 +369,7 @@ nnoremap <silent> <space>q :CtrlPQuickfix<cr>
 let g:easy_align_bypass_fold = 1
 map ga <Plug>(EasyAlign)
 map gA <Plug>(LiveEasyAlign)
+vmap . <Plug>(EasyAlignRepeat)
 
 "{{{2 Fanfingtastic
 let g:fanfingtastic_fix_t = 1
