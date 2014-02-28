@@ -9,5 +9,4 @@ let b:did_ft_text = 1
 
 setlocal fdm=marker
 setlocal textwidth=78
-setlocal formatoptions-=c
-
+setlocal formatoptions=tron1jl
