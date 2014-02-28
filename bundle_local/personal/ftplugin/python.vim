@@ -14,6 +14,7 @@ setlocal smarttab
 setlocal smartindent
 setlocal makeprg=python\ %
 setlocal fdm=indent
+setlocal omnifunc=pythoncomplete#Complete
 
 syn keyword pythonDecorator True None False self
 
@@ -22,7 +23,7 @@ function! s:ScreenShellListener()
     nmap <C-c><C-c> :. ScreenSend<CR>
     nmap <C-c><C-f> :?^\(def\\|class\)?,/^$/ ScreenSend<CR>
   else
-    nmap <C-c><C-c> :ScreenShell ipython<CR>
+    nmap <C-c><C-c> :ScreenShell ipython2<CR>
     nmap <C-c><C-f> <Nop>
   endif
 endfunction
