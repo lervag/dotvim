@@ -336,7 +336,7 @@ nnoremap ,R :%s/\<<c-r>=expand('<cword>')<cr>\>/
 "{{{1 Plugin settings
 
 "{{{2 Ack settings
-let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+let g:ackprg="ack -H --nocolor --nogroup --column"
 
 "{{{2 Clam
 if !has('gui_running')
@@ -393,6 +393,7 @@ let g:latex_errorformat_ignore_warnings =
       \ 'specifier changed to',
       \ 'Setting ''defernumbers=true',
       \ 'Editor ''',
+      \ 'Package microtype Warning',
       \ ]
 
 let g:LatexBox_latexmk_async = 1
@@ -419,7 +420,6 @@ augroup neocomplete_omni_complete
   autocmd FileType markdown   setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType xml        setlocal omnifunc=xmlcomplete#CompleteTags
-  autocmd FileType python     setlocal omnifunc=pythoncomplete#Complete
 augroup END
 
 " Define keyword and omni patterns
@@ -526,6 +526,7 @@ let g:syntastic_fortran_include_dirs = [
                             \ '../objects/debug_gfortran',
                             \ '../thermopack/objects/debug_gfortran_Linux',
                             \ ]
+let g:syntastic_python_checkers = ['pylint2']
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 
