@@ -4,14 +4,29 @@ endif
 
 " Standard syntax elements
 syn match date    /^\d\d\d\d-\d\d-\d\d/
-syn match entries /^  .*\%<17c/
-syn match number  /[0-9x][0-9x]:[0-9x][0-9x]/
-syn match number  /[0-9x]\+\.[0-9x]\+/
+syn match entries /^  .*/                    contains=error,number
+syn match entries /^  \(La meg\|Sto opp\).*/ contains=error,time
+syn match error   /[0-9x]\+.[0-9x]\+.*/           contained
+syn match time    /[0-9x][0-9x]:[0-9x][0-9x]/     contained
+syn match number  /[0-9x]\+\.[0-9x]\+\( \w\+\)\?/ contained
 
-" Define some common errors
-syn match error   /[0-9x]\+,[0-9x]\+/
+" Define spell region
+syn spell default
+syn region notat
+      \ matchgroup=entries
+      \ start = /^  Notat\s\+/
+      \ end =   /^$/
+      \ contains=@Spell
+
+" Define fold regions
+syn region fold
+      \ start = /^\d\d\d\d-\d\d-\d\d/
+      \ end =   /^$/
+      \ transparent fold
 
 " Set colors
 hi def date    guifg=blue 
 hi def entries guifg=green 
-hi def time    guifg=magenta 
+hi link time    number
+hi link numbers number
+hi link unit    number
