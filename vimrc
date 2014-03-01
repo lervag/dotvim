@@ -407,7 +407,9 @@ let g:LatexBox_split_resize = 1
 "{{{2 Neocomplete
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
+let g:neocomplete#enable_refresh_always = 1
 
 " Plugin key-mappings
 inoremap <expr> <C-g> neocomplete#undo_completion()
@@ -424,16 +426,16 @@ augroup neocomplete_omni_complete
 augroup END
 
 " Define keyword and omni patterns
-if !exists('g:neocomplete#keyword_patterns')
-  let g:neocomplete#keyword_patterns = {}
-endif
 if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
 endif
-let g:neocomplete#keyword_patterns._ = '\h\w*'
-let g:neocomplete#keyword_patterns.tex = '\h\w\+'
 let g:neocomplete#force_omni_input_patterns.tex =
       \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{(|[^}]*,)'
+if !exists('g:neocomplete#keyword_patterns')
+  let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns._   = '[a-åA-Å][a-åA-Å0-9]\+'
+let g:neocomplete#keyword_patterns.tex = '[a-åA-Å][a-åA-Å0-9]\+'
 
 "{{{2 Rainbox Parentheses
 nnoremap <leader>R :RainbowParenthesesToggle<cr>
@@ -535,8 +537,7 @@ let g:syntastic_warning_symbol='⚠'
 let g:UltiSnipsJumpForwardTrigger="<m-u>"
 let g:UltiSnipsJumpBackwardTrigger="<s-m-u>"
 let g:UltiSnipsEditSplit = "horizontal"
-let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/personal/snippets"
-let g:UltiSnipsSnippetDirectories = ["snippets"]
+let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/personal/UltiSnips"
 map <leader>es :UltiSnipsEdit<cr>
 
 "{{{2 Unite
