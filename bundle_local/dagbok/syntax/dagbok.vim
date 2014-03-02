@@ -2,16 +2,20 @@ if exists('b:current_syntax')
   finish
 endif
 
+" Set spell option
+syn spell default
+
 " Standard syntax elements
 syn match date    /^\d\d\d\d-\d\d-\d\d/
 syn match entries /^  .*/                    contains=error,number
 syn match entries /^  \(La meg\|Sto opp\).*/ contains=error,time
+syn match entries /^  Trening.*/             contains=trening
 syn match error   /[0-9x]\+.[0-9x]\+.*/           contained
 syn match time    /[0-9x][0-9x]:[0-9x][0-9x]/     contained
 syn match number  /[0-9x]\+\.[0-9x]\+\( \w\+\)\?/ contained
+syn match trening /\%>17c.*/                      contained
 
-" Define spell region
-syn spell default
+" Syntax regions
 syn region notat
       \ matchgroup=entries
       \ start = /^  Notat\s\+/

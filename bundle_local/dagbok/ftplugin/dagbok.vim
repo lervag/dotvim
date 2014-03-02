@@ -1,3 +1,3 @@
 set fdm=syntax
 
-autocmd BufEnter dagbok.txt normal GkzoGzozz
+autocmd BufEnter dagbok.txt silent! normal GkzoGzozz
