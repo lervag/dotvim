@@ -358,6 +358,7 @@ let g:ctrlp_mruf_exclude .= '|share\/vim.*doc\/'
 let g:ctrlp_mruf_exclude .= '|\.neobundle\/'
 let g:ctrlp_mruf_exclude .= '|\/\.git\/'
 let g:ctrlp_mruf_exclude .= '|journal\.txt$'
+let g:ctrlp_mruf_exclude .= '|^\/tmp'
 let g:ctrlp_root_markers = ['CVS']
 let g:ctrlp_show_hidden = 0
 
