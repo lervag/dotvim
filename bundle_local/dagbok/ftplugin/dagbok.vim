@@ -1,3 +1,6 @@
 set fdm=syntax
 
-autocmd BufEnter dagbok.txt silent! normal GkzoGzozz
+nnoremap <silent> ,t /xx\.x<cr>
+nnoremap <silent> ,n Gonew=UltiSnips#ExpandSnippet()
+
+autocmd BufWinEnter dagbok.txt silent! normal GkzoGzo,t
