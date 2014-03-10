@@ -66,7 +66,6 @@ NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-speeddating'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired'
-NeoBundle 'tsaleh/vim-matchit'
 NeoBundle 'tyru/current-func-info.vim'
 NeoBundle 'vim-ruby/vim-ruby', {
       \ 'autoload' : {
