@@ -44,6 +44,7 @@ NeoBundle 'git://repo.or.cz/vcscommand.git'
 NeoBundle 'gregsexton/MatchTag'
 NeoBundle 'guns/vim-sexp'
 NeoBundle 'honza/vim-snippets'
+NeoBundle 'jaxbot/github-issues.vim'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'kien/rainbow_parentheses.vim'
@@ -75,6 +76,12 @@ NeoBundle 'vim-ruby/vim-ruby', {
       \ }
 
 " }}}2
+" {{{2 TimL plugins
+NeoBundle 'tpope/timl'
+NeoBundle 'sjl/tslime2.vim'
+
+" }}}2
+
 
 " Temporary
 NeoBundle 'xolox/vim-misc'
@@ -121,6 +128,8 @@ set autochdir
 set cpoptions+=J
 set autoread
 set wildmode=longest,list:longest,full
+set splitbelow
+set splitright
 
 if executable("ack-grep")
   set grepprg=ack-grep\ --nocolor
