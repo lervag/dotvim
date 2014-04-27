@@ -529,19 +529,35 @@ augroup Supertab
 augroup END
 
 "{{{2 syntactics
-let g:syntastic_auto_loc_list = 2
 let g:syntastic_always_populate_loc_list=1
-let g:syntastic_mode_map = { 'mode': 'active',
-                           \ 'passive_filetypes': ['tex'] }
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_error_symbol='E'
+let g:syntastic_warning_symbol='W'
+let g:syntastic_style_error_symbol='SE'
+let g:syntastic_style_warning_symbol='SW'
+
+" Disable for LaTeX
+let g:syntastic_mode_map = {
+      \ 'mode':              'active',
+      \ 'passive_filetypes': ['tex'],
+      \ }
+
+" Fortran settings
 let g:syntastic_fortran_compiler_options = " -fdefault-real-8"
 let g:syntastic_fortran_include_dirs = [
                             \ '../obj/gfortran_debug',
                             \ '../objects/debug_gfortran',
                             \ '../thermopack/objects/debug_gfortran_Linux',
                             \ ]
-let g:syntastic_python_checkers = ['pylint2']
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
+
+" Use python 2
+let g:syntastic_python_pylint_exec = 'pylint2'
+let g:syntastic_python_python_exec = 'python2'
+
+" Some mappings
+nmap ,sc :SyntasticCheck<cr>
+nmap ,si :SyntasticInfo<cr>
+nmap ,st :SyntasticToggleMode<cr>
 
 "{{{2 Ultisnips
 let g:UltiSnipsJumpForwardTrigger="<m-u>"
