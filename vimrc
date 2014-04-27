@@ -2,7 +2,7 @@
 " -----------------------------------------------------------------------------
 " Author: Karl Yngve Lervåg
 
-"{{{1 Preamble | Load packages
+"{{{1 Load packages
 
 set nocompatible
 if has('vim_starting')
@@ -93,6 +93,13 @@ NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-reload'
 NeoBundle 'xuhdev/SingleCompile'
 
+NeoBundle 'Shougo/vimfiler.vim'
+let g:vimfiler_as_default_explorer = 1
+
+NeoBundle 'junegunn/goyo.vim'
+
+NeoBundle 'vim-pandoc/vim-pandoc'
+
 NeoBundle 'klen/python-mode'
 " K -> docs
 " \r -> run code
@@ -106,7 +113,12 @@ let g:pymode_rope_show_doc_bind = 'K'
 let g:pymode_rope_completion = 0
 autocmd FileType python setlocal define=^\s*\\(def\\\\|class\\)
 " }}}2
+" {{{2 Reedes writing plugins
+NeoBundle 'reedes/vim-pencil'
+NeoBundle 'reedes/vim-wordy'
+NeoBundle 'reedes/vim-lexical'
 
+" }}}2
 
 " Call on_source hook when reloading .vimrc.
 if !has('vim_starting')
@@ -114,7 +126,6 @@ if !has('vim_starting')
 endif
 
 filetype plugin indent on
-
 NeoBundleCheck
 
 "{{{1 General options
