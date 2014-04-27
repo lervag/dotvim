@@ -82,17 +82,31 @@ NeoBundle 'vim-ruby/vim-ruby', {
         \ },
       \ }
 
-" }}}2
 " {{{2 TimL plugins
 NeoBundle 'tpope/timl'
 NeoBundle 'sjl/tslime2.vim'
 
 " }}}2
-
-
-" Temporary
+" {{{2 Testing/Temporary
+NeoBundle 't9md/vim-smalls'
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-reload'
+NeoBundle 'xuhdev/SingleCompile'
+
+NeoBundle 'klen/python-mode'
+" K -> docs
+" \r -> run code
+let g:pymode_lint = 0
+let g:pymode_options = 0
+let g:pymode_doc = 0
+let g:pymode_trim_whitespaces = 0
+let g:pymode_run_bind = '<leader>pr'
+let g:pymode_breakpoint_bind = '<leader>pb'
+let g:pymode_rope_show_doc_bind = 'K'
+let g:pymode_rope_completion = 0
+autocmd FileType python setlocal define=^\s*\\(def\\\\|class\\)
+" }}}2
+
 
 " Call on_source hook when reloading .vimrc.
 if !has('vim_starting')
@@ -509,6 +523,11 @@ augroup END
 augroup ScreenShellExit
   au USER * :call <SID>ScreenShellListenerMain()
 augroup END
+
+"{{{2 Smalls
+nmap <c-s> <plug>(smalls)
+omap <c-s> <plug>(smalls)
+xmap <c-s> <plug>(smalls)
 
 "{{{2 Splice
 let g:splice_initial_mode = "grid"
