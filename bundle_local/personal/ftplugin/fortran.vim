@@ -9,6 +9,7 @@ let b:did_ft_fortran = 1
 
 " Options
 setlocal foldmethod=syntax
+let fortran_free_source = 1
 
 " Mappings
 map <silent> [[ ?^\s*\(end\s*\)\@!\zs\(function\\|subroutine\)<CR>
