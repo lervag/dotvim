@@ -29,8 +29,15 @@ NeoBundle 'Shougo/neocomplete', {
       \ }
 
 " {{{2 Projects I participate in
-NeoBundleLazy 'LaTeX-Box-Team/LaTeX-Box.git', { 'type__protocol' : 'ssh', }
+NeoBundleLazy 'LaTeX-Box-Team/LaTeX-Box.git', { 'type__protocol' : 'ssh' }
 NeoBundle 'lervag/vim-latex.git', { 'type__protocol' : 'ssh' }
+
+let g:LatexBox_latexmk_async = 1
+let g:LatexBox_latexmk_preview_continuously = 1
+let g:LatexBox_Folding = 1
+let g:LatexBox_viewer = 'mupdf -r 95'
+let g:LatexBox_quickfix = 2
+let g:LatexBox_split_resize = 1
 
 " {{{2 Other plugins and scripts
 NeoBundle 'altercation/vim-colors-solarized'
@@ -406,13 +413,6 @@ let g:latex_errorformat_ignore_warnings =
       \ 'Editor ''',
       \ 'Package microtype Warning',
       \ ]
-
-let g:LatexBox_latexmk_async = 1
-let g:LatexBox_latexmk_preview_continuously = 1
-let g:LatexBox_Folding = 1
-let g:LatexBox_viewer = 'mupdf -r 95'
-let g:LatexBox_quickfix = 2
-let g:LatexBox_split_resize = 1
 
 "{{{2 Neocomplete
 let g:neocomplete#enable_at_startup = 1
