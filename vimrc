@@ -52,6 +52,7 @@ NeoBundle 'gregsexton/MatchTag'
 NeoBundle 'guns/vim-sexp'
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'jaxbot/github-issues.vim'
+NeoBundle 'junegunn/goyo.vim'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'kien/rainbow_parentheses.vim'
@@ -95,8 +96,6 @@ NeoBundle 'xuhdev/SingleCompile'
 
 NeoBundle 'Shougo/vimfiler.vim'
 let g:vimfiler_as_default_explorer = 1
-
-NeoBundle 'junegunn/goyo.vim'
 
 NeoBundle 'vim-pandoc/vim-pandoc'
 
@@ -418,6 +417,33 @@ vmap . <Plug>(EasyAlignRepeat)
 let g:fanfingtastic_fix_t = 1
 let g:fanfingtastic_use_jumplist = 1
 
+" {{{2 Goyo
+function! s:goyo_before()
+  let b:quitting = 0
+  let b:quitting_bang = 0
+  autocmd QuitPre <buffer> let b:quitting = 1
+  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+
+  call fontsize#inc()
+  call fontsize#inc()
+endfunction
+
+function! s:goyo_after()
+  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+    if b:quitting_bang
+      qa!
+    else
+      qa
+    endif
+  endif
+
+  call fontsize#default()
+endfunction
+
+let g:goyo_callbacks = [function('s:goyo_before'), function('s:goyo_after')]
+map <F8> :Goyo<cr>
+
+" }}}
 "{{{2 Gundo
 let g:gundo_width=60
 let g:gundo_preview_height=20
