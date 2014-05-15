@@ -441,9 +441,10 @@ function! s:goyo_after()
 endfunction
 
 let g:goyo_callbacks = [function('s:goyo_before'), function('s:goyo_after')]
+let g:goyo_margin_top = 0
+let g:goyo_margin_bottom = 0
 map <F8> :Goyo<cr>
 
-" }}}
 "{{{2 Gundo
 let g:gundo_width=60
 let g:gundo_preview_height=20
