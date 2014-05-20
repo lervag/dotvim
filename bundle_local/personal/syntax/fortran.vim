@@ -440,6 +440,10 @@ if version >= 600 && exists("fortran_fold")
                      \ fortranSubroutine,
                      \ fortranFunction,
                      \ fortranBlockData
+      syn match  fortranWhereBlock
+            \ /^\s*\<where\s*(\(.*&.*\|\n\)*.*\([^=<>]=[^=]\)/
+            \ transparent
+            \ contains=ALLBUT, fortranWhereBlock
       syn region fortranCase transparent fold keepend extend start="\<select\s*case\>" skip="^\s*[!#].*$" end="\<end\s*select\>" contains=ALLBUT,fortranUnitHeader,fortranStructure,fortranStorageClass,fortranType,fortranProgram,fortranModule,fortranSubroutine,fortranFunction,fortranBlockData
     endif
   endif
