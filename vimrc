@@ -96,6 +96,7 @@ NeoBundle 'xuhdev/SingleCompile'
 
 NeoBundle 'Shougo/vimfiler.vim'
 let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_execute_file_list = { '_' : 'vim' }
 
 NeoBundle 'vim-pandoc/vim-pandoc'
 
