@@ -290,10 +290,15 @@ set noshowmode
 set laststatus=2
 
 " Separators
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_alt_sep = ''
+if has('gui_running')
+  let g:airline_left_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_alt_sep = ''
+else
+  let g:airline_left_sep = ''
+  let g:airline_right_sep = ''
+endif
 
 " Symbols
 if !exists('g:airline_symbols')
