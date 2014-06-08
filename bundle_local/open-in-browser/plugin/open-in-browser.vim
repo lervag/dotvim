@@ -22,7 +22,7 @@ function! OpenInBrowser()
              \ . '[a-zA-Z0-9][a-zA-Z0-9_-]*'
              \ . '\(\.[a-zA-Z0-9][a-zA-Z0-9_-]*\)\+\(:\d\+\)\?'
              \ . '\(/[a-zA-Z0-9_/.+%#?&=;@$,!''*~-]*\)\?'
-    silent execute '!xdg-open ' . url . '&'
+    silent execute '!xdg-open ' . shellescape(url,1) . '&'
   endif
 endfunction
 
