@@ -65,8 +65,8 @@ NeoBundle 'sjl/clam.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'sjl/splice.vim'
 NeoBundle 'thinca/vim-prettyprint'
-NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'tpope/vim-abolish'
+NeoBundle 'tpope/vim-commentary'
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'tpope/vim-fugitive', {
       \ 'augroup' : 'fugitive',
