@@ -100,6 +100,8 @@ let g:vimfiler_execute_file_list = { '_' : 'vim' }
 
 NeoBundle 'vim-pandoc/vim-pandoc'
 
+NeoBundle 'thinca/vim-ft-markdown_fold'
+
 NeoBundle 'klen/python-mode'
 " K -> docs
 " \r -> run code
@@ -407,6 +409,7 @@ nnoremap <silent> <space><space> :CtrlPMRUFiles<cr>
 nnoremap <silent> <space>h :CtrlP /home/lervag<cr>
 nnoremap <silent> <space>v :CtrlP /home/lervag/.vim<cr>
 nnoremap <silent> <space>q :CtrlPQuickfix<cr>
+nnoremap <silent> <space>t :CtrlPTag<cr>
 
 "{{{2 vim-easy-align
 let g:easy_align_bypass_fold = 1
