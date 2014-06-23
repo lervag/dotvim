@@ -451,6 +451,7 @@ map <silent> <F5> :GundoToggle<cr>
 let g:latex_enabled = 1
 let g:latex_viewer = 'mupdf -r 95'
 let g:latex_default_mappings = 1
+let g:latex_quickfix_open_on_warning = 0
 
 "{{{2 Neocomplete
 let g:neocomplete#enable_at_startup = 1
