@@ -93,6 +93,7 @@ NeoBundle 't9md/vim-smalls'
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-reload'
 NeoBundle 'xuhdev/SingleCompile'
+NeoBundle 'chrisbra/NrrwRgn'
 
 NeoBundle 'Shougo/vimfiler.vim'
 let g:vimfiler_as_default_explorer = 1
