@@ -53,6 +53,7 @@ NeoBundle 'guns/vim-sexp'
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'jaxbot/github-issues.vim'
 NeoBundle 'junegunn/goyo.vim'
+NeoBundle 'junegunn/limelight.vim'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'kien/rainbow_parentheses.vim'
@@ -415,6 +416,8 @@ let g:fanfingtastic_use_jumplist = 1
 
 " {{{2 Goyo
 function! s:goyo_before()
+  Limelight
+
   let b:quitting = 0
   let b:quitting_bang = 0
   autocmd QuitPre <buffer> let b:quitting = 1
@@ -425,6 +428,8 @@ function! s:goyo_before()
 endfunction
 
 function! s:goyo_after()
+  Limelight!
+
   if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
     if b:quitting_bang
       qa!
