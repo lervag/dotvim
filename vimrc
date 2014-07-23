@@ -4,11 +4,12 @@
 
 "{{{1 Load packages
 
-set nocompatible
 if has('vim_starting')
+  set nocompatible
   set rtp+=~/.vim/bundle/neobundle.vim
 endif
-call neobundle#rc(expand('~/.vim/bundle/'))
+
+call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleLocal ~/.vim/bundle_local/
 
 " Load packages
@@ -22,7 +23,6 @@ NeoBundle 'Shougo/vimproc', {
       \ }
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-help'
-NeoBundle 'Shougo/unite-outline'
 NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'Shougo/neocomplete', {
       \ 'vim_version' : '7.3.885'
@@ -39,16 +39,26 @@ let g:LatexBox_viewer = 'mupdf -r 95'
 let g:LatexBox_quickfix = 2
 let g:LatexBox_split_resize = 1
 
-" {{{2 Other plugins and scripts
+" {{{2 Passive plugins
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'bogado/file-line'
+NeoBundle 'gregsexton/MatchTag'
+NeoBundle 'kien/rainbow_parentheses.vim'
+NeoBundle 'tpope/vim-markdown'
+NeoBundle 'tyru/current-func-info.vim'
+NeoBundle 'xolox/vim-misc'
+NeoBundle 'xolox/vim-reload'
+NeoBundle 'thinca/vim-ft-markdown_fold'
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'reedes/vim-textobj-sentence'
+
+" {{{2 Active plugins (commands, etc)
 NeoBundle 'dahu/vim-fanfingtastic'
 NeoBundle 'drmikehenry/vim-fontsize'
 NeoBundle 'ervandew/screen'
 NeoBundle 'ervandew/supertab'
 NeoBundle 'git://repo.or.cz/vcscommand.git'
-NeoBundle 'gregsexton/MatchTag'
 NeoBundle 'guns/vim-sexp'
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'jaxbot/github-issues.vim'
@@ -56,7 +66,6 @@ NeoBundle 'junegunn/goyo.vim'
 NeoBundle 'junegunn/limelight.vim'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'Peeja/vim-cdo'
 NeoBundle 'rbtnn/vimconsole.vim'
@@ -72,65 +81,42 @@ NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'tpope/vim-fugitive', {
       \ 'augroup' : 'fugitive',
       \ }
-NeoBundle 'tpope/vim-markdown'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-speeddating'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired'
-NeoBundle 'tyru/current-func-info.vim'
 NeoBundle 'vim-ruby/vim-ruby', {
       \ 'autoload' : {
         \ 'filetypes' : ['rb'],
         \ },
       \ }
-
-" {{{2 TimL plugins
-NeoBundle 'tpope/timl'
-NeoBundle 'sjl/tslime2.vim'
-
-" }}}2
-" {{{2 Testing/Temporary
 NeoBundle 't9md/vim-smalls'
-NeoBundle 'xolox/vim-misc'
-NeoBundle 'xolox/vim-reload'
-NeoBundle 'xuhdev/SingleCompile'
-NeoBundle 'chrisbra/NrrwRgn'
-
 NeoBundle 'Shougo/vimfiler.vim'
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_execute_file_list = { '_' : 'vim' }
-
-NeoBundle 'vim-pandoc/vim-pandoc'
-
-NeoBundle 'thinca/vim-ft-markdown_fold'
-
 NeoBundle 'klen/python-mode'
-" K -> docs
-" \r -> run code
-let g:pymode_lint = 0
-let g:pymode_options = 0
-let g:pymode_doc = 0
-let g:pymode_trim_whitespaces = 0
-let g:pymode_run_bind = '<leader>pr'
-let g:pymode_breakpoint_bind = '<leader>pb'
-let g:pymode_rope_show_doc_bind = 'K'
-let g:pymode_rope_completion = 0
-autocmd FileType python setlocal define=^\s*\\(def\\\\|class\\)
-" }}}2
-" {{{2 Reedes writing plugins
-NeoBundle 'reedes/vim-pencil'
+NeoBundle 'reedes/vim-thematic'
+
+" {{{2 Testing
+NeoBundle 'vim-pandoc/vim-pandoc'
+NeoBundle 'vim-pandoc/vim-pandoc-syntax'
+let g:pandoc#filetypes#pandoc_markdown = 0
+let g:pandoc#folding#mode = "relative"
+
 NeoBundle 'reedes/vim-wordy'
 NeoBundle 'reedes/vim-lexical'
 
 " }}}2
 
+call neobundle#end()
+
+filetype plugin indent on
+syntax on
+
+NeoBundleCheck
+
 " Call on_source hook when reloading .vimrc.
 if !has('vim_starting')
   call neobundle#call_hook('on_source')
 endif
-
-filetype plugin indent on
-NeoBundleCheck
 
 "{{{1 General options
 
@@ -236,34 +222,6 @@ set thesaurus+=~/.vim/thesaurus/mythesaurus.txt
 set spellfile+=~/.vim/spell/mywords.latin1.add
 set spellfile+=~/.vim/spell/mywords.utf-8.add
 
-"{{{2 Gui and colorscheme options
-syntax on
-set background=light
-if has("gui_running")
-  set lines=56
-  set columns=82
-  set guioptions=aeci
-  set guifont=Inconsolata-g\ Medium\ 9
-else
-  set t_Co=256
-  set background=dark
-  let g:solarized_termcolors=256
-endif
-if neobundle#is_sourced('vim-colors-solarized')
-  colorscheme solarized
-endif
-
-" Custom highlighting for Matchparen
-highlight clear MatchParen
-highlight MatchParen gui=bold guibg=#bfb
-
-" Custom highlighting for spell
-highlight clear SpellBad SpellCap SpellRare SpellLocal
-highlight SpellBad   gui=bold guibg=#faa
-highlight SpellCap   gui=bold guibg=#faf
-highlight SpellRare  gui=bold guibg=#aff
-highlight SpellLocal gui=bold guibg=#ffa
-
 "{{{2 Searching and movement
 set ignorecase
 set smartcase
@@ -287,20 +245,20 @@ set completeopt=longest,menu,preview
 
 " Note: See also under plugins like supertab and neocomplete
 
-"{{{1 Statusline (Airline plugin)
+"{{{1 UI customization (Airline and themes)
 
-set noshowmode
-set laststatus=2
+if has("gui_running")
+  set lines=46
+  set columns=82
+  set guifont=Inconsolata-g\ Medium\ 9
+  set guioptions=aeci
+endif
 
-" Separators
+" Airline
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
-
-" Extensions
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#hunks#non_zero_only = 1
-
-" Theme and customization
 let g:airline_section_z = '%3p%% %l:%c'
 let g:airline_mode_map = {
       \ '__' : '-',
@@ -315,6 +273,42 @@ let g:airline_mode_map = {
       \ 'S'  : 'S',
       \ '' : 'S',
       \ }
+
+" Thematic
+let g:thematic#defaults = {
+      \   'colorscheme': 'solarized',
+      \   'airline-theme': 'solarized',
+      \   'background': 'light',
+      \   'laststatus': 2,
+      \ }
+let g:thematic#themes = {
+      \ 'light' : {
+      \   'background': 'light',
+      \   },
+      \ 'dark'  : {
+      \   'background': 'dark',
+      \   },
+      \ 'large' : {
+      \   'font-size': '14',
+      \   },
+      \ }
+let g:thematic#theme_name = 'light'
+
+if neobundle#is_sourced('vim-colors-solarized')
+  colorscheme solarized
+endif
+
+" {{{2 Custom highlighting
+" Matchparen
+highlight clear MatchParen
+highlight MatchParen gui=bold guibg=#bfb
+
+" Spelling
+highlight clear SpellBad SpellCap SpellRare SpellLocal
+highlight SpellBad   gui=bold guibg=#faa
+highlight SpellCap   gui=bold guibg=#faf
+highlight SpellRare  gui=bold guibg=#aff
+highlight SpellLocal gui=bold guibg=#ffa
 
 "{{{1 Autocommands
 
@@ -483,17 +477,36 @@ augroup neocomplete_omni_complete
   autocmd FileType xml        setlocal omnifunc=xmlcomplete#CompleteTags
 augroup END
 
-" Define keyword and omni patterns
+" let g:neocomplete#sources#dictionary#dictionaries = {
+"       \ 'default' : '',
+"       \ }
+
+" Define omni patterns
 if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
 endif
 let g:neocomplete#force_omni_input_patterns.tex =
       \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{(|[^}]*,)'
+
+" Define keyword patterns
 if !exists('g:neocomplete#keyword_patterns')
   let g:neocomplete#keyword_patterns = {}
 endif
 let g:neocomplete#keyword_patterns._   = '[a-åA-Å][a-åA-Å0-9]\+'
 let g:neocomplete#keyword_patterns.tex = '[a-åA-Å][a-åA-Å0-9]\+'
+
+" {{{2 Python-mode
+" K -> docs
+" \r -> run code
+let g:pymode_lint = 0
+let g:pymode_options = 0
+let g:pymode_doc = 0
+let g:pymode_trim_whitespaces = 0
+let g:pymode_run_bind = '<leader>pr'
+let g:pymode_breakpoint_bind = '<leader>pb'
+let g:pymode_rope_show_doc_bind = 'K'
+let g:pymode_rope_completion = 0
+autocmd FileType python setlocal define=^\s*\\(def\\\\|class\\)
 
 "{{{2 Rainbox Parentheses
 nnoremap <leader>R :RainbowParenthesesToggle<cr>
@@ -559,9 +572,7 @@ augroup ScreenShellExit
 augroup END
 
 "{{{2 Smalls
-nmap <c-s> <plug>(smalls)
-omap <c-s> <plug>(smalls)
-xmap <c-s> <plug>(smalls)
+map <c-s> <plug>(smalls)
 
 "{{{2 Splice
 let g:splice_initial_mode = "grid"
@@ -611,6 +622,9 @@ let g:syntastic_python_python_exec = 'python2'
 nmap ,sc :SyntasticCheck<cr>
 nmap ,si :SyntasticInfo<cr>
 nmap ,st :SyntasticToggleMode<cr>
+
+"{{{2 textobj-sentence
+call textobj#sentence#init()
 
 "{{{2 Ultisnips
 let g:UltiSnipsJumpForwardTrigger="<m-u>"
@@ -665,6 +679,10 @@ endif
 if v:version < 700
   let VCSCommandDisableAll='1'
 end
+
+"{{{2 Vimfiler
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_execute_file_list = { '_' : 'vim' }
 
 "{{{2 vim-ruby
 let g:ruby_fold=1
