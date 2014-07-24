@@ -50,8 +50,6 @@ NeoBundle 'tyru/current-func-info.vim'
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-reload'
 NeoBundle 'thinca/vim-ft-markdown_fold'
-NeoBundle 'kana/vim-textobj-user'
-NeoBundle 'reedes/vim-textobj-sentence'
 
 " {{{2 Active plugins (commands, etc)
 NeoBundle 'dahu/vim-fanfingtastic'
@@ -103,6 +101,10 @@ let g:pandoc#folding#mode = "relative"
 
 NeoBundle 'reedes/vim-wordy'
 NeoBundle 'reedes/vim-lexical'
+
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'reedes/vim-textobj-sentence'
+"call textobj#sentence#init()
 
 " }}}2
 
@@ -292,7 +294,11 @@ let g:thematic#themes = {
       \   'font-size': '14',
       \   },
       \ }
-let g:thematic#theme_name = 'light'
+if has("gui_running")
+  let g:thematic#theme_name = 'light'
+else
+  let g:thematic#theme_name = 'dark'
+endif
 
 if neobundle#is_sourced('vim-colors-solarized')
   colorscheme solarized
@@ -452,6 +458,7 @@ let g:latex_enabled = 1
 let g:latex_viewer = 'mupdf -r 95'
 let g:latex_default_mappings = 1
 let g:latex_quickfix_open_on_warning = 0
+let g:latex_fold_automatic = 0
 
 " Custom mappings
 inoremap <silent><buffer> <m-i> \item<space>
@@ -622,9 +629,6 @@ let g:syntastic_python_python_exec = 'python2'
 nmap ,sc :SyntasticCheck<cr>
 nmap ,si :SyntasticInfo<cr>
 nmap ,st :SyntasticToggleMode<cr>
-
-"{{{2 textobj-sentence
-call textobj#sentence#init()
 
 "{{{2 Ultisnips
 let g:UltiSnipsJumpForwardTrigger="<m-u>"
