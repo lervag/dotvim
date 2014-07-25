@@ -250,7 +250,7 @@ set completeopt=longest,menu,preview
 "{{{1 UI customization (Airline and themes)
 
 if has("gui_running")
-  set lines=46
+  set lines=60
   set columns=82
   set guifont=Inconsolata-g\ Medium\ 9
   set guioptions=aeci
