@@ -461,7 +461,10 @@ let g:latex_quickfix_open_on_warning = 0
 let g:latex_fold_automatic = 0
 
 " Custom mappings
-inoremap <silent><buffer> <m-i> \item<space>
+augroup latex_settings
+  autocmd!
+  autocmd FileType tex inoremap <silent><buffer> <m-i> \item<space><cr>
+augroup END
 
 "{{{2 Neocomplete
 let g:neocomplete#enable_at_startup = 1
