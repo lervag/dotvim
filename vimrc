@@ -50,6 +50,7 @@ NeoBundle 'tyru/current-func-info.vim'
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-reload'
 NeoBundle 'thinca/vim-ft-markdown_fold'
+NeoBundle 'reedes/vim-thematic'
 
 " {{{2 Active plugins (commands, etc)
 NeoBundle 'dahu/vim-fanfingtastic'
@@ -91,7 +92,6 @@ NeoBundle 'vim-ruby/vim-ruby', {
 NeoBundle 't9md/vim-smalls'
 NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'klen/python-mode'
-NeoBundle 'reedes/vim-thematic'
 
 " {{{2 Testing
 NeoBundle 'vim-pandoc/vim-pandoc'
@@ -294,9 +294,7 @@ let g:thematic#themes = {
       \   'font-size': '14',
       \   },
       \ }
-if has("gui_running")
-  let g:thematic#theme_name = 'light'
-else
+if !has("gui_running")
   let g:thematic#theme_name = 'dark'
 endif
 
