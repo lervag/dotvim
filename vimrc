@@ -50,7 +50,6 @@ NeoBundle 'tyru/current-func-info.vim'
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-reload'
 NeoBundle 'thinca/vim-ft-markdown_fold'
-NeoBundle 'reedes/vim-thematic'
 
 " {{{2 Active plugins (commands, etc)
 NeoBundle 'dahu/vim-fanfingtastic'
@@ -247,13 +246,20 @@ set completeopt=longest,menu,preview
 
 " Note: See also under plugins like supertab and neocomplete
 
-"{{{1 UI customization (Airline and themes)
+"{{{1 Customize UI
 
+set laststatus=2
+set background=dark
 if has("gui_running")
   set lines=60
   set columns=82
   set guifont=Inconsolata-g\ Medium\ 9
   set guioptions=aeci
+  set background=light
+endif
+
+if neobundle#is_sourced('vim-colors-solarized')
+  colorscheme solarized
 endif
 
 " Airline
@@ -275,32 +281,6 @@ let g:airline_mode_map = {
       \ 'S'  : 'S',
       \ '' : 'S',
       \ }
-
-" Thematic
-let g:thematic#defaults = {
-      \   'colorscheme': 'solarized',
-      \   'airline-theme': 'solarized',
-      \   'background': 'light',
-      \   'laststatus': 2,
-      \ }
-let g:thematic#themes = {
-      \ 'light' : {
-      \   'background': 'light',
-      \   },
-      \ 'dark'  : {
-      \   'background': 'dark',
-      \   },
-      \ 'large' : {
-      \   'font-size': '14',
-      \   },
-      \ }
-if !has("gui_running")
-  let g:thematic#theme_name = 'dark'
-endif
-
-if neobundle#is_sourced('vim-colors-solarized')
-  colorscheme solarized
-endif
 
 " {{{2 Custom highlighting
 " Matchparen
