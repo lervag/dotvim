@@ -90,6 +90,9 @@ NeoBundle 'vim-ruby/vim-ruby', {
 NeoBundle 't9md/vim-smalls'
 NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'klen/python-mode'
+NeoBundle 'vimwiki/vimwiki'
+"NeoBundle 'itchyny/calendar.vim'
+NeoBundle 'mattn/calendar-vim'
 
 " {{{2 Testing
 NeoBundle 'vim-pandoc/vim-pandoc'
@@ -350,7 +353,12 @@ nnoremap ,R :%s/\<<c-r>=expand('<cword>')<cr>\>/
 "{{{1 Plugin settings
 
 "{{{2 Ack settings
-let g:ackprg="ack -H --nocolor --nogroup --column"
+let g:ackpreview = 1
+let g:ack_mappings = {
+      \ 'o'  : '<cr>zMzvzz',
+      \ 'O'  : '<cr><c-w><c-w>:ccl<cr>zMzvzz',
+      \ 'go' : '<cr>zMzvzz<c-w>j',
+      \ }
 
 "{{{2 Clam
 if !has('gui_running')
@@ -362,11 +370,11 @@ let g:ctrlp_custom_ignore = {}
 let g:ctrlp_custom_ignore.dir =
       \ '\vCVS|\.(git|hg|vim\/undofiles|vim\/backup)$'
 let g:ctrlp_custom_ignore.file =
-      \ '\v\.(aux|pdf|gz)$|documents\/ntnu\/phd'
+      \ '\v\.(aux|pdf|gz|wiki)$|documents\/ntnu\/phd'
 let g:ctrlp_follow_symlinks = 1
 let g:ctrlp_map = ''
 let g:ctrlp_match_window = 'top,order:ttb,max:25'
-let g:ctrlp_mruf_exclude  = '\v\.(pdf|aux|bbl|blg)$'
+let g:ctrlp_mruf_exclude  = '\v\.(pdf|aux|bbl|blg|wiki)$'
 let g:ctrlp_mruf_exclude .= '|share\/vim.*doc\/'
 let g:ctrlp_mruf_exclude .= '|\.neobundle\/'
 let g:ctrlp_mruf_exclude .= '|\/\.git\/'
@@ -440,7 +448,7 @@ let g:latex_fold_automatic = 0
 " Custom mappings
 augroup latex_settings
   autocmd!
-  autocmd FileType tex inoremap <silent><buffer> <m-i> \item<space><cr>
+  autocmd FileType tex inoremap <silent><buffer> <m-i> \item<space>
 augroup END
 
 "{{{2 Neocomplete
@@ -667,6 +675,34 @@ end
 "{{{2 Vimfiler
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_execute_file_list = { '_' : 'vim' }
+
+"{{{2 Vimwiki
+
+" Set up main wiki
+let wiki = {}
+let wiki.path = '~/documents/wiki'
+let wiki.maxhi = 1
+let wiki.diary_rel_path = 'journal'
+let wiki.list_margin = 0
+let wiki.nested_syntaxes = {
+      \ 'python' : 'python',
+      \ 'sh'     : 'zsh',
+      \ 'tex'    : 'latex',
+      \ }
+
+" Set up global options
+let g:vimwiki_list = [wiki]
+let g:vimwiki_folding = 'expr'
+let g:vimwiki_hl_headers = 1
+let g:vimwiki_hl_cb_checked = 1
+let g:vimwiki_dir_link = 'index'
+
+" Wrapping does not work with conceal
+augroup MyVimWiki
+  autocmd!
+  autocmd FileType vimwiki setlocal nowrap
+  autocmd FileType vimwiki setlocal concealcursor=nc
+augroup END
 
 "{{{2 vim-ruby
 let g:ruby_fold=1
