@@ -508,6 +508,10 @@ endif
 let g:neocomplete#keyword_patterns._   = '[a-åA-Å][a-åA-Å0-9]\+'
 let g:neocomplete#keyword_patterns.tex = '[a-åA-Å][a-åA-Å0-9]\+'
 
+" {{{2 Online thesaurus
+let g:online_thesaurus_map_keys = 0
+nnoremap K :OnlineThesaurusCurrentWord<CR>
+
 " {{{2 Python-mode
 " K -> docs
 " \r -> run code
