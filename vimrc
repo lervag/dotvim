@@ -723,7 +723,7 @@ let g:vimwiki_dir_link = 'index'
 augroup MyVimWiki
   autocmd!
   autocmd FileType vimwiki setlocal nowrap
-  autocmd FileType vimwiki setlocal concealcursor=nc
+  autocmd FileType vimwiki setlocal fdl=1
 augroup END
 
 "{{{2 vim-ruby
