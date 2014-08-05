@@ -641,7 +641,7 @@ let g:UltiSnipsJumpForwardTrigger="<m-u>"
 let g:UltiSnipsJumpBackwardTrigger="<s-m-u>"
 let g:UltiSnipsEditSplit = "horizontal"
 let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/personal/UltiSnips"
-map <leader>es :UltiSnipsEdit<cr>
+map <leader>es :UltiSnipsEdit!<cr>
 
 "{{{2 Unite
 let g:unite_enable_start_insert = 1
