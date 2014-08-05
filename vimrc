@@ -39,7 +39,7 @@ let g:LatexBox_viewer = 'mupdf -r 95'
 let g:LatexBox_quickfix = 2
 let g:LatexBox_split_resize = 1
 
-" {{{2 Passive plugins
+" {{{2 Passive
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'bogado/file-line'
@@ -51,7 +51,7 @@ NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-reload'
 NeoBundle 'thinca/vim-ft-markdown_fold'
 
-" {{{2 Active plugins (commands, etc)
+" {{{2 Active (commands, etc)
 NeoBundle 'dahu/vim-fanfingtastic'
 NeoBundle 'drmikehenry/vim-fontsize'
 NeoBundle 'ervandew/screen'
@@ -90,9 +90,8 @@ NeoBundle 'vim-ruby/vim-ruby', {
 NeoBundle 't9md/vim-smalls'
 NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'klen/python-mode'
+NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'vimwiki/vimwiki'
-"NeoBundle 'itchyny/calendar.vim'
-NeoBundle 'mattn/calendar-vim'
 
 " {{{2 Testing
 NeoBundle 'vim-pandoc/vim-pandoc'
@@ -106,6 +105,17 @@ NeoBundle 'reedes/vim-lexical'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'reedes/vim-textobj-sentence'
 "call textobj#sentence#init()
+
+NeoBundle 'mattn/calendar-vim'
+let g:calendar_keys = {
+      \ 'goto_next_month' : 'n',
+      \ 'goto_prev_month' : 'p',
+      \ }
+let g:calendar_mark = 'left-fit'
+let g:calendar_monday = 1
+let g:calendar_weeknm = 5
+let g:calendar_datetime = ''
+nmap <localleader>cal :CalendarH<cr>
 
 " }}}2
 
