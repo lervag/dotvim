@@ -7,10 +7,16 @@ set cpo&vim
 
 function! OpenInBrowser()
   let url = expand('<cWORD>')
-  let url = substitute(url, '<\(.*\)>',   '\1', '')
-  let url = substitute(url, '"\(.*\)"',   '\1', '')
-  let url = substitute(url, '''\(.*\)''', '\1', '')
-  let url = substitute(url, '\(.*\),$',   '\1', '')
+
+  " Remove surrounding delimiters
+  let url = substitute(url, '<\(.*\)>',        '\1', '')
+  let url = substitute(url, '\[\+\(.*\)\]\+',  '\1', '')
+  let url = substitute(url, '(\+\(.*\))\+',    '\1', '')
+  let url = substitute(url, '"\+\(.*\)"\+',    '\1', '')
+  let url = substitute(url, '''\+\(.*\)''\+',  '\1', '')
+
+  " Remove comma and point
+  let url = substitute(url, '\(.*\)\(,\|.\)$', '\1', '')
 
   " Easy to open neobundle urls
   if url =~# '^\w*\/[a-zA-Z][a-zA-Z0-9_.-]*$'
