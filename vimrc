@@ -93,6 +93,7 @@ NeoBundle 'klen/python-mode'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'vimwiki/vimwiki'
 NeoBundle 'itchyny/calendar.vim'
+NeoBundle 'beloglazov/vim-online-thesaurus'
 
 " {{{2 Testing
 NeoBundle 'vim-pandoc/vim-pandoc'
@@ -220,8 +221,7 @@ if v:version >= 703
   endif
 end
 
-"{{{2 Spellfile, thesaurus, similar
-set thesaurus+=~/.vim/thesaurus/mythesaurus.txt
+"{{{2 Spellfile
 set spellfile+=~/.vim/spell/mywords.latin1.add
 set spellfile+=~/.vim/spell/mywords.utf-8.add
 
