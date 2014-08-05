@@ -92,6 +92,7 @@ NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'klen/python-mode'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'vimwiki/vimwiki'
+NeoBundle 'itchyny/calendar.vim'
 
 " {{{2 Testing
 NeoBundle 'vim-pandoc/vim-pandoc'
@@ -105,17 +106,6 @@ NeoBundle 'reedes/vim-lexical'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'reedes/vim-textobj-sentence'
 "call textobj#sentence#init()
-
-NeoBundle 'mattn/calendar-vim'
-let g:calendar_keys = {
-      \ 'goto_next_month' : 'n',
-      \ 'goto_prev_month' : 'p',
-      \ }
-let g:calendar_mark = 'left-fit'
-let g:calendar_monday = 1
-let g:calendar_weeknm = 5
-let g:calendar_datetime = ''
-nmap <localleader>cal :CalendarH<cr>
 
 " }}}2
 
@@ -369,6 +359,24 @@ let g:ack_mappings = {
       \ 'O'  : '<cr><c-w><c-w>:ccl<cr>zMzvzz',
       \ 'go' : '<cr>zMzvzz<c-w>j',
       \ }
+
+" {{{2 Calendar
+let g:calendar_first_day = 'monday'
+let g:calendar_date_endian = 'big'
+let g:calendar_frame = 'space'
+
+nnoremap <silent> <localleader>cal :Calendar -position=below<cr>
+
+" Connect to diary
+autocmd FileType calendar nmap <silent><buffer> <cr> :<c-u>call OpenDiary()<cr>
+function! OpenDiary()
+  let d = b:calendar.day().get_day()
+  let m = b:calendar.day().get_month()
+  let y = b:calendar.day().get_year()
+  let w = b:calendar.day().week()
+  wincmd p
+  call vimwiki#diary#calendar_action(d, m, y, w, 'V')
+endfunction
 
 "{{{2 Clam
 if !has('gui_running')
