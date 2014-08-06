@@ -700,6 +700,10 @@ let g:vimfiler_execute_file_list = { '_' : 'vim' }
 
 "{{{2 Vimwiki
 
+"
+" Also see personal vimwiki ftplugin in bundle_local
+"
+
 " Set up main wiki
 let wiki = {}
 let wiki.path = '~/documents/wiki'
@@ -718,13 +722,7 @@ let g:vimwiki_folding = 'expr'
 let g:vimwiki_hl_headers = 1
 let g:vimwiki_hl_cb_checked = 1
 let g:vimwiki_dir_link = 'index'
-
-" Wrapping does not work with conceal
-augroup MyVimWiki
-  autocmd!
-  autocmd FileType vimwiki setlocal nowrap
-  autocmd FileType vimwiki setlocal fdl=1
-augroup END
+let g:vimwiki_table_mappings = 0
 
 "{{{2 vim-ruby
 let g:ruby_fold=1
