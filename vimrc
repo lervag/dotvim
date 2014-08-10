@@ -418,9 +418,12 @@ let g:fanfingtastic_fix_t = 1
 let g:fanfingtastic_use_jumplist = 1
 
 " {{{2 Goyo
-function! s:goyo_before()
-  Limelight
+let g:goyo_margin_top = 0
+let g:goyo_margin_bottom = 0
 
+map <F8> :Goyo<cr>
+
+function! s:goyo_enter()
   let b:quitting = 0
   let b:quitting_bang = 0
   autocmd QuitPre <buffer> let b:quitting = 1
@@ -430,9 +433,7 @@ function! s:goyo_before()
   call fontsize#inc()
 endfunction
 
-function! s:goyo_after()
-  Limelight!
-
+function! s:goyo_leave()
   if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
     if b:quitting_bang
       qa!
@@ -444,10 +445,12 @@ function! s:goyo_after()
   call fontsize#default()
 endfunction
 
-let g:goyo_callbacks = [function('s:goyo_before'), function('s:goyo_after')]
-let g:goyo_margin_top = 0
-let g:goyo_margin_bottom = 0
-map <F8> :Goyo<cr>
+autocmd! User GoyoEnter
+autocmd  User GoyoEnter Limelight
+autocmd  User GoyoEnter call <SID>goyo_enter()
+autocmd! User GoyoLeave
+autocmd! User GoyoLeave Limelight!
+autocmd  User GoyoLeave call <SID>goyo_leave()
 
 "{{{2 Gundo
 let g:gundo_width=60
