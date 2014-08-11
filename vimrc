@@ -91,7 +91,7 @@ NeoBundle 't9md/vim-smalls'
 NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'klen/python-mode'
 NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'vimwiki/vimwiki'
+NeoBundle 'vimwiki/vimwiki', 'dev'
 NeoBundle 'itchyny/calendar.vim'
 NeoBundle 'beloglazov/vim-online-thesaurus'
 
@@ -503,6 +503,8 @@ if !exists('g:neocomplete#force_omni_input_patterns')
 endif
 let g:neocomplete#force_omni_input_patterns.tex =
       \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{(|[^}]*,)'
+let g:neocomplete#force_omni_input_patterns.vimwiki =
+      \ '\v[[\S*#'
 
 " Define keyword patterns
 if !exists('g:neocomplete#keyword_patterns')
