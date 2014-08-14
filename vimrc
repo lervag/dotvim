@@ -493,25 +493,29 @@ augroup neocomplete_omni_complete
   autocmd FileType xml        setlocal omnifunc=xmlcomplete#CompleteTags
 augroup END
 
-" let g:neocomplete#sources#dictionary#dictionaries = {
-"       \ 'default' : '',
-"       \ }
-
 " Define omni patterns
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
+" if !exists('g:neocomplete#force_omni_input_patterns')
+"   let g:neocomplete#force_omni_input_patterns = {}
+" endif
+" let g:neocomplete#force_omni_input_patterns.tex =
+"       \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{(|[^}]*,)'
+" let g:neocomplete#force_omni_input_patterns.vimwiki =
+"       \ '\v[[(\S*#)?'
+
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
 endif
-let g:neocomplete#force_omni_input_patterns.tex =
-      \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{(|[^}]*,)'
-let g:neocomplete#force_omni_input_patterns.vimwiki =
-      \ '\v[[\S*#'
+let g:neocomplete#sources#omni#input_patterns.vimwiki =
+       \ '\v[[\S*'
+let g:neocomplete#sources#omni#input_patterns.tex =
+       \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{([^}]*,)*[^}]*'
 
 " Define keyword patterns
 if !exists('g:neocomplete#keyword_patterns')
   let g:neocomplete#keyword_patterns = {}
 endif
-let g:neocomplete#keyword_patterns._   = '[a-åA-Å][a-åA-Å0-9]\+'
-let g:neocomplete#keyword_patterns.tex = '[a-åA-Å][a-åA-Å0-9]\+'
+let g:neocomplete#keyword_patterns._       = '[a-åA-Å][a-åA-Å0-9]\+'
+let g:neocomplete#keyword_patterns.tex     = '[a-åA-Å][a-åA-Å0-9]\+'
 
 " {{{2 Online thesaurus
 let g:online_thesaurus_map_keys = 0
