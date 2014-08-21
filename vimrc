@@ -101,9 +101,6 @@ NeoBundle 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc#filetypes#pandoc_markdown = 0
 let g:pandoc#folding#mode = "relative"
 
-NeoBundle 'reedes/vim-wordy'
-NeoBundle 'reedes/vim-lexical'
-
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'reedes/vim-textobj-sentence'
 "call textobj#sentence#init()
@@ -146,7 +143,6 @@ set showcmd
 set backspace=indent,eol,start
 set autoindent
 set fileformat=unix
-set spelllang=en_gb
 set list
 set listchars=tab:▸\ ,nbsp:%,extends:❯,precedes:❮
 set cursorline
@@ -221,10 +217,6 @@ if v:version >= 703
   endif
 end
 
-"{{{2 Spellfile
-set spellfile+=~/.vim/spell/mywords.latin1.add
-set spellfile+=~/.vim/spell/mywords.utf-8.add
-
 "{{{2 Searching and movement
 set ignorecase
 set smartcase
@@ -241,12 +233,35 @@ noremap j gj
 noremap k gk
 "}}}2
 
-"{{{1 Completion
-
-set complete+=U,s,k,kspell,d
-set completeopt=longest,menu,preview
+"{{{1 Completion and dictionaries/spell settings
 
 " Note: See also under plugins like supertab and neocomplete
+
+set complete+=U,s,k,kspell,d,]
+set completeopt=longest,menu,preview
+
+" Spell check options
+set spelllang=en_gb
+set spellfile+=~/.vim/spell/mywords.latin1.add
+set spellfile+=~/.vim/spell/mywords.utf-8.add
+
+" Add simple switch for spell languages
+let g:spell_list = ['nospell', 'en_gb', 'nn', 'nb']
+function! LoopSpellLanguage()
+  if !exists('b:spell_nr') | let b:spell_nr = 0 | endif
+  let b:spell_nr += 1
+  if b:spell_nr >= len(g:spell_list) | let b:spell_nr = 0 | endif
+  if b:spell_nr == 0
+    setlocal nospell
+    echo 'Spell off'
+  else
+    let &l:spelllang = g:spell_list[b:spell_nr]
+    setlocal spell
+    echo 'Spell language:' g:spell_list[b:spell_nr]
+  endif
+endfunction
+nmap <silent> <F6> :<c-u>call LoopSpellLanguage()<cr>
+imap <silent> <F6> <c-o>:call LoopSpellLanguage()<cr>
 
 "{{{1 Customize UI
 
