@@ -101,10 +101,6 @@ NeoBundle 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc#filetypes#pandoc_markdown = 0
 let g:pandoc#folding#mode = "relative"
 
-NeoBundle 'kana/vim-textobj-user'
-NeoBundle 'reedes/vim-textobj-sentence'
-"call textobj#sentence#init()
-
 " }}}2
 
 call neobundle#end()
@@ -194,7 +190,6 @@ set smarttab
 set expandtab
 set wrap
 set linebreak
-let &showbreak = '+++ '
 set formatoptions+=rnl1j
 set formatlistpat=^\\s*\\(\\(\\d\\+\\\|[a-z]\\)[.:)]\\\|[-*]\\)\\s\\+
 
