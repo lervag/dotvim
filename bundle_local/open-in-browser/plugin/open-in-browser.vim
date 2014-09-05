@@ -9,11 +9,11 @@ function! OpenInBrowser()
   let url = expand('<cWORD>')
 
   " Remove surrounding delimiters
-  let url = substitute(url, '<\(.*\)>',        '\1', '')
-  let url = substitute(url, '\[\+\(.*\)\]\+',  '\1', '')
-  let url = substitute(url, '(\+\(.*\))\+',    '\1', '')
-  let url = substitute(url, '"\+\(.*\)"\+',    '\1', '')
-  let url = substitute(url, '''\+\(.*\)''\+',  '\1', '')
+  let url = substitute(url, '^<\(.\{-}\)>$',        '\1', '')
+  let url = substitute(url, '^\[\+\(.\{-}\)\]\+$',  '\1', '')
+  let url = substitute(url, '^(\+\(.\{-}\))\+$',    '\1', '')
+  let url = substitute(url, '^"\+\(.\{-}\)"\+$',    '\1', '')
+  let url = substitute(url, '^''\+\(.\{-}\)''\+$',  '\1', '')
 
   " Remove comma and point
   let url = substitute(url, '\(.*\)\(,\|\.\)$', '\1', '')
