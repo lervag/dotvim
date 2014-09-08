@@ -424,6 +424,11 @@ map ga <Plug>(EasyAlign)
 map gA <Plug>(LiveEasyAlign)
 vmap . <Plug>(EasyAlignRepeat)
 
+"{{{2 fugitive
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gd :Gdiff<cr>
+
 "{{{2 Fanfingtastic
 let g:fanfingtastic_fix_t = 1
 let g:fanfingtastic_use_jumplist = 1
