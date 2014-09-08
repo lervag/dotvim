@@ -10,7 +10,6 @@ if has('vim_starting')
 endif
 
 call neobundle#begin(expand('~/.vim/bundle/'))
-NeoBundleLocal ~/.vim/bundle_local/
 
 " Load packages
 " {{{2 Neobundle, Unite, and neocomplete
@@ -102,6 +101,8 @@ let g:pandoc#filetypes#pandoc_markdown = 0
 let g:pandoc#folding#mode = "relative"
 
 " }}}2
+
+NeoBundleLocal ~/.vim/bundle_local/
 
 call neobundle#end()
 
