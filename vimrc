@@ -510,19 +510,17 @@ augroup neocomplete_omni_complete
 augroup END
 
 " Define omni patterns
-" if !exists('g:neocomplete#force_omni_input_patterns')
-"   let g:neocomplete#force_omni_input_patterns = {}
-" endif
-" let g:neocomplete#force_omni_input_patterns.tex =
-"       \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{(|[^}]*,)'
-" let g:neocomplete#force_omni_input_patterns.vimwiki =
-"       \ '\v[[(\S*#)?'
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.vimwiki =
+      \ '#\S*'
 
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
 let g:neocomplete#sources#omni#input_patterns.vimwiki =
-       \ '\v[[\S*'
+       \ '\[\[[^\]]*\|[[.\{-}#\S*'
 let g:neocomplete#sources#omni#input_patterns.tex =
        \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{([^}]*,)*[^}]*'
 
