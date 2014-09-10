@@ -735,16 +735,16 @@ let wiki.diary_rel_path = 'journal'
 let wiki.list_margin = 0
 let wiki.nested_syntaxes = {
       \ 'python' : 'python',
-      \ 'sh'     : 'zsh',
+      \ 'sh'     : 'sh',
       \ 'tex'    : 'latex',
       \ }
 
 " Set up global options
 let g:vimwiki_list = [wiki]
 let g:vimwiki_folding = 'expr'
+let g:vimwiki_toc_header = 'Innhald'
 let g:vimwiki_hl_headers = 1
 let g:vimwiki_hl_cb_checked = 1
-let g:vimwiki_dir_link = 'index'
 let g:vimwiki_table_mappings = 0
 
 "{{{2 vim-ruby
