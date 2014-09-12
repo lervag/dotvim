@@ -375,6 +375,7 @@ let g:ack_mappings = {
 let g:calendar_first_day = 'monday'
 let g:calendar_date_endian = 'big'
 let g:calendar_frame = 'space'
+let g:calendar_week_number = 1
 
 nnoremap <silent> <localleader>cal :Calendar -position=below<cr>
 
@@ -494,6 +495,7 @@ let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#enable_refresh_always = 1
+let g:neocomplete#enable_omni_fallback = 1
 
 " Plugin key-mappings
 inoremap <expr> <C-g> neocomplete#undo_completion()
