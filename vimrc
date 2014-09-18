@@ -59,7 +59,6 @@ NeoBundle 'git://repo.or.cz/vcscommand.git'
 NeoBundle 'guns/vim-sexp'
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'junegunn/goyo.vim'
-NeoBundle 'junegunn/limelight.vim'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'mileszs/ack.vim'
@@ -440,17 +439,24 @@ let g:goyo_margin_bottom = 0
 
 map <F8> :Goyo<cr>
 
-function! s:goyo_enter()
+autocmd! User GoyoEnter
+autocmd  User GoyoEnter call <SID>goyo_enter()
+autocmd  User GoyoEnter Goyo 80
+autocmd! User GoyoLeave
+autocmd  User GoyoLeave call <SID>goyo_leave()
+
+function! s:goyo_enter() " {{{3
   let b:quitting = 0
   let b:quitting_bang = 0
   autocmd QuitPre <buffer> let b:quitting = 1
   cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
 
-  call fontsize#inc()
-  call fontsize#inc()
-endfunction
+  set columns+=2
 
-function! s:goyo_leave()
+  call fontsize#inc()
+  call fontsize#inc()
+endfunction " }}}3
+function! s:goyo_leave() " {{{3
   if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
     if b:quitting_bang
       qa!
@@ -459,15 +465,10 @@ function! s:goyo_leave()
     endif
   endif
 
-  call fontsize#default()
-endfunction
+  set columns-=2
 
-autocmd! User GoyoEnter
-autocmd  User GoyoEnter Limelight
-autocmd  User GoyoEnter call <SID>goyo_enter()
-autocmd! User GoyoLeave
-autocmd! User GoyoLeave Limelight!
-autocmd  User GoyoLeave call <SID>goyo_leave()
+  call fontsize#default()
+endfunction " }}}3
 
 "{{{2 Gundo
 let g:gundo_width=60
