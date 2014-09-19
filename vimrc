@@ -122,7 +122,6 @@ map <c-s> <plug>(smalls)
 
 " General programming
 Plug 'git://repo.or.cz/vcscommand.git'
-Plug 'honza/vim-snippets'
 Plug 'thinca/vim-quickrun'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
@@ -141,7 +140,8 @@ let g:splice_initial_diff_grid = 1
 
 " }}}2
 " {{{2 Syntactics
-Plug 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic',
+      \ { 'for' : ['python', 'f90'] }
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_error_symbol='E'
@@ -173,17 +173,9 @@ nmap ,si :SyntasticInfo<cr>
 nmap ,st :SyntasticToggleMode<cr>
 
 " }}}2
-"{{{2 Ultisnips
-Plug 'SirVer/ultisnips'
-let g:UltiSnipsJumpForwardTrigger="<m-u>"
-let g:UltiSnipsJumpBackwardTrigger="<s-m-u>"
-let g:UltiSnipsEditSplit = "horizontal"
-let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/personal/UltiSnips"
-map <leader>es :UltiSnipsEdit!<cr>
 
-" }}}2
-
-" Completion
+" Completion and snippets
+Plug 'honza/vim-snippets'
 "{{{2 Neocomplete
 Plug 'Shougo/neocomplete'
 let g:neocomplete#enable_at_startup = 1
@@ -243,6 +235,21 @@ augroup Supertab
 augroup END
 
 " }}}2
+"{{{2 Ultisnips
+Plug 'SirVer/ultisnips', { 'on' : [] }
+let g:UltiSnipsJumpForwardTrigger="<m-u>"
+let g:UltiSnipsJumpBackwardTrigger="<s-m-u>"
+let g:UltiSnipsEditSplit = "horizontal"
+let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/personal/UltiSnips"
+map <leader>es :UltiSnipsEdit!<cr>
+
+" }}}2
+
+augroup load_on_insert
+  autocmd!
+  autocmd InsertEnter * call plug#load('ultisnips')
+                        \ | autocmd! load_on_insert
+augroup END
 
 " Filetype specific
 " {{{2 HTML, XML, ...
@@ -284,7 +291,7 @@ let g:pandoc#folding#mode = "relative"
 
 " }}}2
 " {{{2 Python
-Plug 'klen/python-mode', { 'branch' : 'develop' }
+Plug 'klen/python-mode', { 'branch' : 'develop', 'for' : 'python' }
 
 " Enables some nice commands, like
 "   K  -> docs
