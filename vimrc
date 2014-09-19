@@ -1,36 +1,271 @@
-" Setup for VIM: The number one text editor!
-" -----------------------------------------------------------------------------
-" Author: Karl Yngve Lervåg
+"{{{1 Load plugins
 
-"{{{1 Load packages
+silent! if plug#begin('~/.vim/bundle')
+let g:plug_window = 'vertical'
 
-if has('vim_starting')
-  set nocompatible
-  set rtp+=~/.vim/bundle/neobundle.vim
+" Personal projects
+Plug '~/.vim/bundle_local/personal'
+Plug '~/.vim/bundle_local/resize_splits'
+Plug '~/.vim/bundle_local/toggle-verbose'
+Plug '~/.vim/bundle_local/dagbok',
+      \ { 'for' : 'dagbok' }
+Plug '~/.vim/bundle_local/open-in-browser',
+      \ { 'on' : ['OpenInBrowser', '<Plug>(open-in-browser)'] }
+
+" User interface
+Plug 'altercation/vim-colors-solarized'
+Plug 'drmikehenry/vim-fontsize'
+" {{{2 Airline
+Plug 'bling/vim-airline'
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#hunks#non_zero_only = 1
+let g:airline_section_z = '%3p%% %l:%c'
+let g:airline_mode_map = {
+      \ '__' : '-',
+      \ 'n'  : 'N',
+      \ 'i'  : 'I',
+      \ 'R'  : 'R',
+      \ 'c'  : 'C',
+      \ 'v'  : 'V',
+      \ 'V'  : 'V',
+      \ '' : 'V',
+      \ 's'  : 'S',
+      \ 'S'  : 'S',
+      \ '' : 'S',
+      \ }
+
+" }}}2
+" {{{2 Goyo
+Plug 'junegunn/goyo.vim',
+      \ { 'on' : 'Goyo' }
+let g:goyo_margin_top = 0
+let g:goyo_margin_bottom = 0
+
+map <F8> :Goyo<cr>
+
+autocmd! User GoyoEnter
+autocmd  User GoyoEnter call <SID>goyo_enter()
+autocmd  User GoyoEnter Goyo 80
+autocmd! User GoyoLeave
+autocmd  User GoyoLeave call <SID>goyo_leave()
+
+function! s:goyo_enter() " {{{3
+  let b:quitting = 0
+  let b:quitting_bang = 0
+  autocmd QuitPre <buffer> let b:quitting = 1
+  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+
+  set columns+=2
+
+  call fontsize#inc()
+  call fontsize#inc()
+endfunction " }}}3
+function! s:goyo_leave() " {{{3
+  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+    if b:quitting_bang
+      qa!
+    else
+      qa
+    endif
+  endif
+
+  set columns-=2
+
+  call fontsize#default()
+endfunction " }}}3
+
+" }}}2
+" {{{2 Rainbox Parentheses
+Plug 'kien/rainbow_parentheses.vim'
+nnoremap <leader>R :RainbowParenthesesToggle<cr>
+let g:rbpt_max = 14
+let g:rbpt_colorpairs = [
+    \ ['033', '#268bd2'],
+    \ ['037', '#2aa198'],
+    \ ['061', '#6c71c4'],
+    \ ['064', '#859900'],
+    \ ['125', '#d33682'],
+    \ ['136', '#b58900'],
+    \ ['160', '#dc322f'],
+    \ ['166', '#cb4b16'],
+    \ ['234', '#002b36'],
+    \ ['235', '#073642'],
+    \ ['240', '#586e75'],
+    \ ['241', '#657b83'],
+    \ ['244', '#839496'],
+    \ ['245', '#93a1a1'],
+    \ ]
+
+augroup RainbowParens
+  au!
+  au VimEnter * RainbowParenthesesToggle
+  au Syntax * RainbowParenthesesLoadRound
+augroup END
+
+" }}}2
+
+" General motions
+Plug 'guns/vim-sexp'
+" {{{2 Fanfingtastic
+Plug 'dahu/vim-fanfingtastic'
+let g:fanfingtastic_fix_t = 1
+let g:fanfingtastic_use_jumplist = 1
+
+" }}}2
+" {{{2 Smalls
+Plug 't9md/vim-smalls'
+map <c-s> <plug>(smalls)
+
+" }}}2
+
+" General programming
+Plug 'git://repo.or.cz/vcscommand.git'
+Plug 'honza/vim-snippets'
+Plug 'thinca/vim-quickrun'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
+" {{{2 Fugitive
+Plug 'tpope/vim-fugitive'
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gd :Gdiff<cr>
+
+" }}}2
+"{{{2 Splice
+Plug 'sjl/splice.vim'
+let g:splice_initial_mode = "grid"
+let g:splice_initial_layout_grid = 1
+let g:splice_initial_diff_grid = 1
+
+" }}}2
+" {{{2 Syntactics
+Plug 'scrooloose/syntastic'
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_error_symbol='E'
+let g:syntastic_warning_symbol='W'
+let g:syntastic_style_error_symbol='SE'
+let g:syntastic_style_warning_symbol='SW'
+
+" Disable for LaTeX
+let g:syntastic_mode_map = {
+      \ 'mode':              'active',
+      \ 'passive_filetypes': ['tex'],
+      \ }
+
+" Fortran settings
+let g:syntastic_fortran_compiler_options = " -fdefault-real-8"
+let g:syntastic_fortran_include_dirs = [
+                            \ '../obj/gfortran_debug',
+                            \ '../objects/debug_gfortran',
+                            \ '../thermopack/objects/debug_gfortran_Linux',
+                            \ ]
+
+" Use python 2
+let g:syntastic_python_pylint_exec = 'pylint2'
+let g:syntastic_python_python_exec = 'python2'
+
+" Some mappings
+nmap ,sc :SyntasticCheck<cr>
+nmap ,si :SyntasticInfo<cr>
+nmap ,st :SyntasticToggleMode<cr>
+
+" }}}2
+"{{{2 Ultisnips
+Plug 'SirVer/ultisnips'
+let g:UltiSnipsJumpForwardTrigger="<m-u>"
+let g:UltiSnipsJumpBackwardTrigger="<s-m-u>"
+let g:UltiSnipsEditSplit = "horizontal"
+let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/personal/UltiSnips"
+map <leader>es :UltiSnipsEdit!<cr>
+
+" }}}2
+
+" Completion
+"{{{2 Neocomplete
+Plug 'Shougo/neocomplete'
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#enable_camel_case = 1
+let g:neocomplete#enable_auto_delimiter = 1
+let g:neocomplete#enable_refresh_always = 1
+let g:neocomplete#enable_omni_fallback = 1
+
+" Plugin key-mappings
+inoremap <expr> <C-g> neocomplete#undo_completion()
+inoremap <expr> <C-l> neocomplete#complete_common_string()
+
+" Enable omni completion
+augroup neocomplete_omni_complete
+  autocmd!
+  autocmd FileType css        setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html       setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType markdown   setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType xml        setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
+
+" Define omni patterns
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
 endif
+let g:neocomplete#force_omni_input_patterns.vimwiki = '#\S*'
 
-call neobundle#begin(expand('~/.vim/bundle/'))
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.vimwiki =
+       \ '\[\[[^\]]*\|[[.\{-}#\S*'
+let g:neocomplete#sources#omni#input_patterns.tex =
+       \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{([^}]*,)*[^}]*'
 
-" Load packages
-" {{{2 Neobundle, Unite, and neocomplete
-NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc', {
-      \ 'name'  : 'neovimproc',
-      \ 'build' : {
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ }
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/unite-help'
-NeoBundle 'tsukkee/unite-tag'
-NeoBundle 'Shougo/neocomplete', {
-      \ 'vim_version' : '7.3.885'
-      \ }
+" Define keyword patterns
+if !exists('g:neocomplete#keyword_patterns')
+  let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns._       = '[a-åA-Å][a-åA-Å0-9]\+'
+let g:neocomplete#keyword_patterns.tex     = '[a-åA-Å][a-åA-Å0-9]\+'
 
-" {{{2 Projects I participate in
-NeoBundleLazy 'LaTeX-Box-Team/LaTeX-Box.git', { 'type__protocol' : 'ssh' }
-NeoBundle 'lervag/vim-latex.git', { 'type__protocol' : 'ssh' }
+" {{{2 Supertab
+Plug 'ervandew/supertab'
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
+let g:SuperTabRetainCompletionDuration = "session"
+let g:SuperTabLongestEnhanced = 1
+let g:SuperTabCrMapping = 0
 
+augroup Supertab
+  autocmd!
+  autocmd FileType fortran call SuperTabSetDefaultCompletionType("<c-n>")
+  autocmd FileType text    call SuperTabSetDefaultCompletionType("<c-n>")
+augroup END
+
+" }}}2
+
+" Filetype specific
+" {{{2 HTML, XML, ...
+Plug 'gregsexton/MatchTag'
+
+" }}}2
+" {{{2 LaTeX
+Plug 'git@github.com:lervag/vim-latex.git',
+      \ { 'for' : 'tex' }
+let g:latex_enabled = 1
+let g:latex_viewer = 'mupdf -r 95'
+let g:latex_default_mappings = 1
+let g:latex_quickfix_open_on_warning = 0
+let g:latex_fold_automatic = 0
+
+" Custom mappings
+augroup latex_settings
+  autocmd!
+  autocmd FileType tex inoremap <silent><buffer> <m-i> \item<space>
+augroup END
+
+Plug 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git',
+      \ { 'for' : 'tex', 'on' : [] }
 let g:LatexBox_latexmk_async = 1
 let g:LatexBox_latexmk_preview_continuously = 1
 let g:LatexBox_Folding = 1
@@ -38,81 +273,196 @@ let g:LatexBox_viewer = 'mupdf -r 95'
 let g:LatexBox_quickfix = 2
 let g:LatexBox_split_resize = 1
 
-" {{{2 Passive
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'bogado/file-line'
-NeoBundle 'gregsexton/MatchTag'
-NeoBundle 'kien/rainbow_parentheses.vim'
-NeoBundle 'tpope/vim-markdown'
-NeoBundle 'tyru/current-func-info.vim'
-NeoBundle 'xolox/vim-misc'
-NeoBundle 'xolox/vim-reload'
-NeoBundle 'thinca/vim-ft-markdown_fold'
-
-" {{{2 Active (commands, etc)
-NeoBundle 'dahu/vim-fanfingtastic'
-NeoBundle 'drmikehenry/vim-fontsize'
-NeoBundle 'ervandew/screen'
-NeoBundle 'ervandew/supertab'
-NeoBundle 'git://repo.or.cz/vcscommand.git'
-NeoBundle 'guns/vim-sexp'
-NeoBundle 'honza/vim-snippets'
-NeoBundle 'junegunn/goyo.vim'
-NeoBundle 'junegunn/vim-easy-align'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'mileszs/ack.vim'
-NeoBundle 'Peeja/vim-cdo'
-NeoBundle 'rbtnn/vimconsole.vim'
-NeoBundle 'SirVer/ultisnips'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'sjl/clam.vim'
-NeoBundle 'sjl/gundo.vim'
-NeoBundle 'sjl/splice.vim'
-NeoBundle 'thinca/vim-prettyprint'
-NeoBundle 'tpope/vim-abolish'
-NeoBundle 'tpope/vim-commentary'
-NeoBundle 'tpope/vim-dispatch'
-NeoBundle 'tpope/vim-fugitive', {
-      \ 'augroup' : 'fugitive',
-      \ }
-NeoBundle 'tpope/vim-repeat'
-NeoBundle 'tpope/vim-speeddating'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-unimpaired'
-NeoBundle 'vim-ruby/vim-ruby', {
-      \ 'autoload' : {
-        \ 'filetypes' : ['rb'],
-        \ },
-      \ }
-NeoBundle 't9md/vim-smalls'
-NeoBundle 'Shougo/vimfiler.vim'
-NeoBundle 'klen/python-mode'
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'vimwiki/vimwiki', 'dev'
-NeoBundle 'itchyny/calendar.vim'
-NeoBundle 'beloglazov/vim-online-thesaurus'
-
-" {{{2 Testing
-NeoBundle 'vim-pandoc/vim-pandoc'
-NeoBundle 'vim-pandoc/vim-pandoc-syntax'
+" }}}2
+" {{{2 Markdown
+Plug 'tpope/vim-markdown'
+Plug 'thinca/vim-ft-markdown_fold'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc#filetypes#pandoc_markdown = 0
 let g:pandoc#folding#mode = "relative"
 
 " }}}2
+" {{{2 Python
+Plug 'klen/python-mode', { 'branch' : 'develop' }
 
-NeoBundleLocal ~/.vim/bundle_local/
+" Enables some nice commands, like
+"   K  -> docs
+"   \r -> run code
 
-call neobundle#end()
+let g:pymode_lint = 0
+let g:pymode_options = 0
+let g:pymode_doc = 0
+let g:pymode_trim_whitespaces = 0
+let g:pymode_run_bind = '<leader>pr'
+let g:pymode_breakpoint_bind = '<leader>pb'
+let g:pymode_rope_show_doc_bind = 'K'
+let g:pymode_rope_completion = 0
 
-filetype plugin indent on
-syntax on
+autocmd FileType python setlocal define=^\s*\\(def\\\\|class\\)
 
-NeoBundleCheck
+"}}}2
+"{{{2 Ruby
+Plug 'vim-ruby/vim-ruby', { 'for' : 'rb' }
+let g:ruby_fold=1
 
-" Call on_source hook when reloading .vimrc.
-if !has('vim_starting')
-  call neobundle#call_hook('on_source')
+" }}}2
+" {{{2 Vimwiki
+Plug 'vimwiki/vimwiki',
+      \ { 'branch' : 'dev', 'for' : 'vimwiki' }
+Plug '~/.vim/bundle_local/vimwiki-journal',
+      \ { 'for' : 'vimwiki' }
+
+"
+" Also see personal vimwiki ftplugin in bundle_local
+"
+
+" Set up main wiki
+let s:wiki = {}
+let s:wiki.path = '~/documents/wiki'
+let s:wiki.maxhi = 1
+let s:wiki.diary_rel_path = 'journal'
+let s:wiki.list_margin = 0
+let s:wiki.nested_syntaxes = {
+      \ 'python' : 'python',
+      \ 'sh'     : 'sh',
+      \ 'tex'    : 'latex',
+      \ }
+
+" Set up global options
+let g:vimwiki_list = [s:wiki]
+let g:vimwiki_folding = 'expr'
+let g:vimwiki_toc_header = 'Innhald'
+let g:vimwiki_hl_headers = 1
+let g:vimwiki_hl_cb_checked = 1
+let g:vimwiki_table_mappings = 0
+
+" }}}2
+
+" Utility plugins
+Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
+Plug 'thinca/vim-prettyprint'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-vinegar'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-reload'
+" {{{2 Ack
+Plug 'mileszs/ack.vim'
+let g:ackpreview = 1
+let g:ack_mappings = {
+      \ 'o'  : '<cr>zMzvzz',
+      \ 'O'  : '<cr><c-w><c-w>:ccl<cr>zMzvzz',
+      \ 'go' : '<cr>zMzvzz<c-w>j',
+      \ }
+
+" }}}2
+" {{{2 Calendar
+Plug 'itchyny/calendar.vim'
+let g:calendar_first_day = 'monday'
+let g:calendar_date_endian = 'big'
+let g:calendar_frame = 'space'
+let g:calendar_week_number = 1
+
+nnoremap <silent> <localleader>cal :Calendar -position=below<cr>
+
+" Connect to diary
+autocmd FileType calendar nmap <silent><buffer> <cr> :<c-u>call OpenDiary()<cr>
+function! OpenDiary()
+  let d = b:calendar.day().get_day()
+  let m = b:calendar.day().get_month()
+  let y = b:calendar.day().get_year()
+  let w = b:calendar.day().week()
+  wincmd p
+  call vimwiki#diary#calendar_action(d, m, y, w, 'V')
+endfunction
+
+" }}}2
+"{{{2 Clam
+Plug 'sjl/clam.vim'
+let g:clam_winpos = 'topleft'
+
+" }}}2
+"{{{2 CtrlP
+Plug 'kien/ctrlp.vim'
+let g:ctrlp_custom_ignore = {}
+let g:ctrlp_custom_ignore.dir =
+      \ '\vCVS|\.(git|hg|vim\/undofiles|vim\/backup)$'
+let g:ctrlp_custom_ignore.file =
+      \ '\v\.(aux|pdf|gz|wiki)$|documents\/ntnu\/phd'
+let g:ctrlp_follow_symlinks = 1
+let g:ctrlp_map = ''
+let g:ctrlp_match_window = 'top,order:ttb,max:25'
+let g:ctrlp_mruf_exclude  = '\v\.(pdf|aux|bbl|blg|wiki)$'
+let g:ctrlp_mruf_exclude .= '|share\/vim.*doc\/'
+let g:ctrlp_mruf_exclude .= '|\/\.git\/'
+let g:ctrlp_mruf_exclude .= '|journal\.txt$'
+let g:ctrlp_mruf_exclude .= '|^\/tmp'
+let g:ctrlp_root_markers = ['CVS']
+let g:ctrlp_show_hidden = 0
+
+nnoremap <silent> <space><space> :CtrlPMRUFiles<cr>
+nnoremap <silent> <space>h :CtrlP /home/lervag<cr>
+nnoremap <silent> <space>v :CtrlP /home/lervag/.vim<cr>
+nnoremap <silent> <space>q :CtrlPQuickfix<cr>
+nnoremap <silent> <space>t :CtrlPTag<cr>
+
+" }}}2
+"{{{2 Screen
+Plug 'ervandew/screen', { 'on' : 'ScreenShell' }
+let g:ScreenImpl = "GnuScreen"
+let g:ScreenShellTerminal = "xfce4-terminal"
+let g:ScreenShellActive = 0
+
+" Dynamic keybindings
+function! s:ScreenShellListenerMain()
+  if g:ScreenShellActive
+    nmap <silent> <C-c><C-c> <S-v>:ScreenSend<CR>
+    vmap <silent> <C-c><C-c> :ScreenSend<CR>
+    nmap <silent> <C-c><C-a> :ScreenSend<CR>
+    nmap <silent> <C-c><C-q> :ScreenQuit<CR>
+    if exists(':C') != 2
+      command -nargs=? C :call ScreenShellSend('<args>')
+    endif
+  else
+    nmap <C-c><C-a> <Nop>
+    vmap <C-c><C-c> <Nop>
+    nmap <C-c><C-q> <Nop>
+    nmap <silent> <C-c><C-c> :ScreenShell<cr>
+    if exists(':C') == 2
+      delcommand C
+    endif
+  endif
+endfunction
+
+" Initialize and define auto group stuff
+nmap <silent> <C-c><C-c> :ScreenShell<cr>
+augroup ScreenShellEnter
+  au USER * :call <SID>ScreenShellListenerMain()
+augroup END
+augroup ScreenShellExit
+  au USER * :call <SID>ScreenShellListenerMain()
+augroup END
+
+" }}}2
+" {{{2 vim-online-thesaurus
+Plug 'beloglazov/vim-online-thesaurus'
+let g:online_thesaurus_map_keys = 0
+nnoremap K :OnlineThesaurusCurrentWord<CR>
+
+" }}}2
+"{{{2 vim-easy-align
+Plug 'junegunn/vim-easy-align'
+let g:easy_align_bypass_fold = 1
+map ga <Plug>(EasyAlign)
+map gA <Plug>(LiveEasyAlign)
+vmap . <Plug>(EasyAlignRepeat)
+
+" }}}2
+
+call plug#end()
 endif
 
 "{{{1 General options
@@ -230,8 +580,6 @@ noremap k gk
 
 "{{{1 Completion and dictionaries/spell settings
 
-" Note: See also under plugins like supertab and neocomplete
-
 set complete+=U,s,k,kspell,d,]
 set completeopt=longest,menu,preview
 
@@ -270,29 +618,7 @@ if has("gui_running")
   set background=light
 endif
 
-if neobundle#is_sourced('vim-colors-solarized')
-  colorscheme solarized
-endif
-
-" Airline
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#hunks#non_zero_only = 1
-let g:airline_section_z = '%3p%% %l:%c'
-let g:airline_mode_map = {
-      \ '__' : '-',
-      \ 'n'  : 'N',
-      \ 'i'  : 'I',
-      \ 'R'  : 'R',
-      \ 'c'  : 'C',
-      \ 'v'  : 'V',
-      \ 'V'  : 'V',
-      \ '' : 'V',
-      \ 's'  : 'S',
-      \ 'S'  : 'S',
-      \ '' : 'S',
-      \ }
+silent! colorscheme solarized
 
 " {{{2 Custom highlighting
 " Matchparen
@@ -326,7 +652,7 @@ augroup vimrc_autocommands
         \ endif
 augroup END
 
-"{{{1 Key mappings
+"{{{1 Custom key mappings
 
 noremap  H      ^
 noremap  L      g_
@@ -360,401 +686,6 @@ map <silent> gx <Plug>(open-in-browser)
 nnoremap ,r :'{,'}s/\<<c-r>=expand('<cword>')<cr>\>/
 nnoremap ,R :%s/\<<c-r>=expand('<cword>')<cr>\>/
 
-"{{{1 Plugin settings
-
-"{{{2 Ack settings
-let g:ackpreview = 1
-let g:ack_mappings = {
-      \ 'o'  : '<cr>zMzvzz',
-      \ 'O'  : '<cr><c-w><c-w>:ccl<cr>zMzvzz',
-      \ 'go' : '<cr>zMzvzz<c-w>j',
-      \ }
-
-" {{{2 Calendar
-let g:calendar_first_day = 'monday'
-let g:calendar_date_endian = 'big'
-let g:calendar_frame = 'space'
-let g:calendar_week_number = 1
-
-nnoremap <silent> <localleader>cal :Calendar -position=below<cr>
-
-" Connect to diary
-autocmd FileType calendar nmap <silent><buffer> <cr> :<c-u>call OpenDiary()<cr>
-function! OpenDiary()
-  let d = b:calendar.day().get_day()
-  let m = b:calendar.day().get_month()
-  let y = b:calendar.day().get_year()
-  let w = b:calendar.day().week()
-  wincmd p
-  call vimwiki#diary#calendar_action(d, m, y, w, 'V')
-endfunction
-
-"{{{2 Clam
-if !has('gui_running')
-  let g:clam_winpos = 'topleft'
-endif
-
-"{{{2 CtrlP
-let g:ctrlp_custom_ignore = {}
-let g:ctrlp_custom_ignore.dir =
-      \ '\vCVS|\.(git|hg|vim\/undofiles|vim\/backup)$'
-let g:ctrlp_custom_ignore.file =
-      \ '\v\.(aux|pdf|gz|wiki)$|documents\/ntnu\/phd'
-let g:ctrlp_follow_symlinks = 1
-let g:ctrlp_map = ''
-let g:ctrlp_match_window = 'top,order:ttb,max:25'
-let g:ctrlp_mruf_exclude  = '\v\.(pdf|aux|bbl|blg|wiki)$'
-let g:ctrlp_mruf_exclude .= '|share\/vim.*doc\/'
-let g:ctrlp_mruf_exclude .= '|\.neobundle\/'
-let g:ctrlp_mruf_exclude .= '|\/\.git\/'
-let g:ctrlp_mruf_exclude .= '|journal\.txt$'
-let g:ctrlp_mruf_exclude .= '|^\/tmp'
-let g:ctrlp_root_markers = ['CVS']
-let g:ctrlp_show_hidden = 0
-
-nnoremap <silent> <space><space> :CtrlPMRUFiles<cr>
-nnoremap <silent> <space>h :CtrlP /home/lervag<cr>
-nnoremap <silent> <space>v :CtrlP /home/lervag/.vim<cr>
-nnoremap <silent> <space>q :CtrlPQuickfix<cr>
-nnoremap <silent> <space>t :CtrlPTag<cr>
-
-"{{{2 vim-easy-align
-let g:easy_align_bypass_fold = 1
-map ga <Plug>(EasyAlign)
-map gA <Plug>(LiveEasyAlign)
-vmap . <Plug>(EasyAlignRepeat)
-
-"{{{2 fugitive
-nnoremap <leader>gs :Gstatus<cr>
-nnoremap <leader>gc :Gcommit<cr>
-nnoremap <leader>gd :Gdiff<cr>
-
-"{{{2 Fanfingtastic
-let g:fanfingtastic_fix_t = 1
-let g:fanfingtastic_use_jumplist = 1
-
-" {{{2 Goyo
-let g:goyo_margin_top = 0
-let g:goyo_margin_bottom = 0
-
-map <F8> :Goyo<cr>
-
-autocmd! User GoyoEnter
-autocmd  User GoyoEnter call <SID>goyo_enter()
-autocmd  User GoyoEnter Goyo 80
-autocmd! User GoyoLeave
-autocmd  User GoyoLeave call <SID>goyo_leave()
-
-function! s:goyo_enter() " {{{3
-  let b:quitting = 0
-  let b:quitting_bang = 0
-  autocmd QuitPre <buffer> let b:quitting = 1
-  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
-
-  set columns+=2
-
-  call fontsize#inc()
-  call fontsize#inc()
-endfunction " }}}3
-function! s:goyo_leave() " {{{3
-  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-    if b:quitting_bang
-      qa!
-    else
-      qa
-    endif
-  endif
-
-  set columns-=2
-
-  call fontsize#default()
-endfunction " }}}3
-
-"{{{2 Gundo
-let g:gundo_width=60
-let g:gundo_preview_height=20
-let g:gundo_right=1
-let g:gundo_close_on_revert=1
-map <silent> <F5> :GundoToggle<cr>
-
-"{{{2 latex
-let g:latex_enabled = 1
-let g:latex_viewer = 'mupdf -r 95'
-let g:latex_default_mappings = 1
-let g:latex_quickfix_open_on_warning = 0
-let g:latex_fold_automatic = 0
-
-" Custom mappings
-augroup latex_settings
-  autocmd!
-  autocmd FileType tex inoremap <silent><buffer> <m-i> \item<space>
-augroup END
-
-"{{{2 Neocomplete
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#enable_camel_case = 1
-let g:neocomplete#enable_auto_delimiter = 1
-let g:neocomplete#enable_refresh_always = 1
-let g:neocomplete#enable_omni_fallback = 1
-
-" Plugin key-mappings
-inoremap <expr> <C-g> neocomplete#undo_completion()
-inoremap <expr> <C-l> neocomplete#complete_common_string()
-
-" Enable omni completion
-augroup neocomplete_omni_complete
-  autocmd!
-  autocmd FileType css        setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html       setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType markdown   setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType xml        setlocal omnifunc=xmlcomplete#CompleteTags
-augroup END
-
-" Define omni patterns
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_omni_input_patterns.vimwiki =
-      \ '#\S*'
-
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.vimwiki =
-       \ '\[\[[^\]]*\|[[.\{-}#\S*'
-let g:neocomplete#sources#omni#input_patterns.tex =
-       \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{([^}]*,)*[^}]*'
-
-" Define keyword patterns
-if !exists('g:neocomplete#keyword_patterns')
-  let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns._       = '[a-åA-Å][a-åA-Å0-9]\+'
-let g:neocomplete#keyword_patterns.tex     = '[a-åA-Å][a-åA-Å0-9]\+'
-
-" {{{2 Online thesaurus
-let g:online_thesaurus_map_keys = 0
-nnoremap K :OnlineThesaurusCurrentWord<CR>
-
-" {{{2 Python-mode
-" K -> docs
-" \r -> run code
-let g:pymode_lint = 0
-let g:pymode_options = 0
-let g:pymode_doc = 0
-let g:pymode_trim_whitespaces = 0
-let g:pymode_run_bind = '<leader>pr'
-let g:pymode_breakpoint_bind = '<leader>pb'
-let g:pymode_rope_show_doc_bind = 'K'
-let g:pymode_rope_completion = 0
-autocmd FileType python setlocal define=^\s*\\(def\\\\|class\\)
-
-"{{{2 Rainbox Parentheses
-nnoremap <leader>R :RainbowParenthesesToggle<cr>
-let g:rbpt_max = 14
-let g:rbpt_colorpairs = [
-    \ ['033', '#268bd2'],
-    \ ['037', '#2aa198'],
-    \ ['061', '#6c71c4'],
-    \ ['064', '#859900'],
-    \ ['125', '#d33682'],
-    \ ['136', '#b58900'],
-    \ ['160', '#dc322f'],
-    \ ['166', '#cb4b16'],
-    \ ['234', '#002b36'],
-    \ ['235', '#073642'],
-    \ ['240', '#586e75'],
-    \ ['241', '#657b83'],
-    \ ['244', '#839496'],
-    \ ['245', '#93a1a1'],
-    \ ]
-
-if neobundle#is_sourced('rainbow_parentheses.vim')
-  augroup RainbowParens
-    au!
-    au VimEnter * RainbowParenthesesToggle
-    au Syntax * RainbowParenthesesLoadRound
-  augroup END
-endif
-
-"{{{2 Screen
-let g:ScreenImpl = "GnuScreen"
-let g:ScreenShellTerminal = "xfce4-terminal"
-let g:ScreenShellActive = 0
-
-" Dynamic keybindings
-function! s:ScreenShellListenerMain()
-  if g:ScreenShellActive
-    nmap <silent> <C-c><C-c> <S-v>:ScreenSend<CR>
-    vmap <silent> <C-c><C-c> :ScreenSend<CR>
-    nmap <silent> <C-c><C-a> :ScreenSend<CR>
-    nmap <silent> <C-c><C-q> :ScreenQuit<CR>
-    if exists(':C') != 2
-      command -nargs=? C :call ScreenShellSend('<args>')
-    endif
-  else
-    nmap <C-c><C-a> <Nop>
-    vmap <C-c><C-c> <Nop>
-    nmap <C-c><C-q> <Nop>
-    nmap <silent> <C-c><C-c> :ScreenShell<cr>
-    if exists(':C') == 2
-      delcommand C
-    endif
-  endif
-endfunction
-
-" Initialize and define auto group stuff
-nmap <silent> <C-c><C-c> :ScreenShell<cr>
-augroup ScreenShellEnter
-  au USER * :call <SID>ScreenShellListenerMain()
-augroup END
-augroup ScreenShellExit
-  au USER * :call <SID>ScreenShellListenerMain()
-augroup END
-
-"{{{2 Smalls
-map <c-s> <plug>(smalls)
-
-"{{{2 Splice
-let g:splice_initial_mode = "grid"
-let g:splice_initial_layout_grid = 1
-let g:splice_initial_diff_grid = 1
-
-"{{{2 Supertab
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
-let g:SuperTabRetainCompletionDuration = "session"
-let g:SuperTabLongestEnhanced = 1
-let g:SuperTabCrMapping = 0
-
-augroup Supertab
-  autocmd!
-  autocmd FileType fortran call SuperTabSetDefaultCompletionType("<c-n>")
-  autocmd FileType text    call SuperTabSetDefaultCompletionType("<c-n>")
-augroup END
-
-"{{{2 syntactics
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_error_symbol='E'
-let g:syntastic_warning_symbol='W'
-let g:syntastic_style_error_symbol='SE'
-let g:syntastic_style_warning_symbol='SW'
-
-" Disable for LaTeX
-let g:syntastic_mode_map = {
-      \ 'mode':              'active',
-      \ 'passive_filetypes': ['tex'],
-      \ }
-
-" Fortran settings
-let g:syntastic_fortran_compiler_options = " -fdefault-real-8"
-let g:syntastic_fortran_include_dirs = [
-                            \ '../obj/gfortran_debug',
-                            \ '../objects/debug_gfortran',
-                            \ '../thermopack/objects/debug_gfortran_Linux',
-                            \ ]
-
-" Use python 2
-let g:syntastic_python_pylint_exec = 'pylint2'
-let g:syntastic_python_python_exec = 'python2'
-
-" Some mappings
-nmap ,sc :SyntasticCheck<cr>
-nmap ,si :SyntasticInfo<cr>
-nmap ,st :SyntasticToggleMode<cr>
-
-"{{{2 Ultisnips
-let g:UltiSnipsJumpForwardTrigger="<m-u>"
-let g:UltiSnipsJumpBackwardTrigger="<s-m-u>"
-let g:UltiSnipsEditSplit = "horizontal"
-let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/personal/UltiSnips"
-map <leader>es :UltiSnipsEdit!<cr>
-
-"{{{2 Unite
-let g:unite_enable_start_insert = 1
-let g:unite_enable_short_source_names = 1
-let g:unite_source_buffer_time_format = "(%H:%M) "
-let g:unite_source_file_mru_time_format = "(%d.%m %H:%M) "
-
-if neobundle#is_sourced('unite.vim')
-  call unite#filters#matcher_default#use(['matcher_fuzzy'])
-  call unite#custom#source('command',  'matchers', 'matcher_fuzzy')
-  call unite#custom#source('grep',     'matchers', 'matcher_fuzzy')
-  call unite#custom#source('outline',  'matchers', 'matcher_fuzzy')
-  call unite#custom#source('find',     'matchers', 'matcher_fuzzy')
-  call unite#custom#source('function', 'matchers', 'matcher_fuzzy')
-  call unite#custom#source('line',     'matchers', 'matcher_fuzzy')
-  call unite#custom#source('vimgrep',  'matchers', 'matcher_fuzzy')
-endif
-
-" Custom mappings for the unite buffer
-autocmd FileType unite call s:unite_settings()
-function! s:unite_settings()
-  let b:SuperTabDisabled=1
-  imap <buffer> jk      <Plug>(unite_insert_leave)
-  imap <buffer> <c-c>   <Plug>(unite_exit)
-  imap <buffer> <c-j>   <Plug>(unite_select_next_line)
-  imap <buffer> <c-k>   <Plug>(unite_select_previous_line)
-endfunction
-
-" Unite mappings
-nnoremap <silent> <space>c :Unite -buffer-name=commands -no-split command<cr>
-nnoremap <silent> <space>u :Unite
-      \ -buffer-name=neobundle
-      \ -no-start-insert
-      \ -no-split
-      \ -max-multi-lines=1
-      \ -multi-line
-      \ -silent
-      \ -log
-      \ neobundle/update:all<cr>
-
-"{{{2 VCSCommand
-if !has('gui_running')
-  let VCSCommandSplit = 'horizontal'
-endif
-if v:version < 700
-  let VCSCommandDisableAll='1'
-end
-
-"{{{2 Vimfiler
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_execute_file_list = { '_' : 'vim' }
-
-"{{{2 Vimwiki
-
-"
-" Also see personal vimwiki ftplugin in bundle_local
-"
-
-" Set up main wiki
-let wiki = {}
-let wiki.path = '~/documents/wiki'
-let wiki.maxhi = 1
-let wiki.diary_rel_path = 'journal'
-let wiki.list_margin = 0
-let wiki.nested_syntaxes = {
-      \ 'python' : 'python',
-      \ 'sh'     : 'sh',
-      \ 'tex'    : 'latex',
-      \ }
-
-" Set up global options
-let g:vimwiki_list = [wiki]
-let g:vimwiki_folding = 'expr'
-let g:vimwiki_toc_header = 'Innhald'
-let g:vimwiki_hl_headers = 1
-let g:vimwiki_hl_cb_checked = 1
-let g:vimwiki_table_mappings = 0
-
-"{{{2 vim-ruby
-let g:ruby_fold=1
-
-"}}}2
-
-"}}}1
+" }}}1
 
 " vim: fdm=marker
