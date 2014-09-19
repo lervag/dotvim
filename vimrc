@@ -1,7 +1,7 @@
 "{{{1 Load plugins
 
 silent! if plug#begin('~/.vim/bundle')
-let g:plug_window = 'vertical'
+let g:plug_window = 'above new'
 
 " Personal projects
 Plug '~/.vim/bundle_local/personal'
