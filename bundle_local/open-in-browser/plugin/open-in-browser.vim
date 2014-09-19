@@ -1,5 +1,5 @@
 if exists('g:loaded_openinbrowser') && g:loaded_openinbrowser
-    finish
+  finish
 endif
 let g:loaded_openinbrowser = 1
 let s:save_cpo = &cpo
@@ -9,7 +9,7 @@ function! OpenInBrowser()
   let url = expand('<cWORD>')
 
   " Remove surrounding delimiters
-  let url = substitute(url, '^[(\[{<]\+\(.\{-}\)[,.\])}>]\+$', '\1', '')
+  let url = substitute(url, '^[''"\[({<]\+\(.\{-}\)[''",.\])}>]\+$', '\1', '')
 
   " Easy to open neobundle urls
   if url =~# '^\w*\/[a-zA-Z][a-zA-Z0-9_.-]*$'
