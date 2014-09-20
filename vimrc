@@ -265,12 +265,6 @@ let g:latex_default_mappings = 1
 let g:latex_quickfix_open_on_warning = 0
 let g:latex_fold_automatic = 0
 
-" Custom mappings
-augroup latex_settings
-  autocmd!
-  autocmd FileType tex inoremap <silent><buffer> <m-i> \item<space>
-augroup END
-
 Plug 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git',
       \ { 'for' : 'tex', 'on' : [] }
 let g:LatexBox_latexmk_async = 1
@@ -279,6 +273,12 @@ let g:LatexBox_Folding = 1
 let g:LatexBox_viewer = 'mupdf -r 95'
 let g:LatexBox_quickfix = 2
 let g:LatexBox_split_resize = 1
+
+" Custom mappings
+augroup latex_settings
+  autocmd!
+  autocmd FileType tex inoremap <silent><buffer> <m-i> \item<space>
+augroup END
 
 " }}}2
 " {{{2 Markdown
@@ -316,7 +316,7 @@ let g:ruby_fold=1
 " }}}2
 " {{{2 Vimwiki
 Plug 'vimwiki/vimwiki',
-      \ { 'branch' : 'dev', 'for' : 'vimwiki' }
+      \ { 'branch' : 'dev' }
 Plug '~/.vim/bundle_local/vimwiki-journal',
       \ { 'for' : 'vimwiki' }
 
