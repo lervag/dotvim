@@ -3,15 +3,6 @@
 silent! if plug#begin('~/.vim/bundle')
 let g:plug_window = 'above new'
 
-" Personal projects
-Plug '~/.vim/bundle_local/personal'
-Plug '~/.vim/bundle_local/resize_splits'
-Plug '~/.vim/bundle_local/toggle-verbose'
-Plug '~/.vim/bundle_local/dagbok',
-      \ { 'for' : 'dagbok' }
-Plug '~/.vim/bundle_local/open-in-browser',
-      \ { 'on' : ['OpenInBrowser', '<Plug>(open-in-browser)'] }
-
 " User interface
 Plug 'altercation/vim-colors-solarized'
 Plug 'drmikehenry/vim-fontsize'
@@ -235,7 +226,7 @@ Plug 'SirVer/ultisnips', { 'on' : [] }
 let g:UltiSnipsJumpForwardTrigger="<m-u>"
 let g:UltiSnipsJumpBackwardTrigger="<s-m-u>"
 let g:UltiSnipsEditSplit = "horizontal"
-let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/personal/UltiSnips"
+let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/UltiSnips/UltiSnips"
 map <leader>es :UltiSnipsEdit!<cr>
 
 " }}}2
@@ -312,8 +303,7 @@ let g:ruby_fold=1
 " {{{2 Vimwiki
 Plug 'vimwiki/vimwiki',
       \ { 'branch' : 'dev' }
-Plug '~/.vim/bundle_local/vimwiki-journal',
-      \ { 'for' : 'vimwiki' }
+Plug '~/.vim/bundle_local/vimwiki-journal'
 
 "
 " Also see personal vimwiki ftplugin in bundle_local
@@ -463,6 +453,30 @@ map gA <Plug>(LiveEasyAlign)
 vmap . <Plug>(EasyAlignRepeat)
 
 " }}}2
+
+" Local plugins (filetype)
+Plug '~/.vim/bundle_local/dagbok',   { 'for' : 'dagbok' }
+Plug '~/.vim/bundle_local/fortran',  { 'for' : 'fortran' }
+Plug '~/.vim/bundle_local/lisp',     { 'for' : 'lisp' }
+Plug '~/.vim/bundle_local/make',     { 'for' : 'make' }
+Plug '~/.vim/bundle_local/markdown', { 'for' : 'markdown' }
+Plug '~/.vim/bundle_local/python',   { 'for' : 'python' }
+Plug '~/.vim/bundle_local/ruby',     { 'for' : 'ruby' }
+Plug '~/.vim/bundle_local/tex',      { 'for' : 'tex' }
+Plug '~/.vim/bundle_local/text',     { 'for' : 'text' }
+Plug '~/.vim/bundle_local/vim',      { 'for' : 'vim' }
+
+" Local plugins
+Plug '~/.vim/bundle_local/UltiSnips'
+Plug '~/.vim/bundle_local/grep-operator'
+Plug '~/.vim/bundle_local/open-in-browser',
+      \ { 'on' : ['OpenInBrowser', '<Plug>(open-in-browser)'] }
+Plug '~/.vim/bundle_local/resize_splits'
+Plug '~/.vim/bundle_local/scriptnames'
+Plug '~/.vim/bundle_local/speeddating'
+Plug '~/.vim/bundle_local/syntaxcomplete'
+Plug '~/.vim/bundle_local/text-object-indent'
+Plug '~/.vim/bundle_local/toggle-verbose'
 
 call plug#end()
 endif
