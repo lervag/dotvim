@@ -46,18 +46,15 @@ let g:goyo_margin_bottom = 0
 map <F8> :Goyo<cr>
 
 autocmd! User GoyoEnter
-autocmd  User GoyoEnter call <SID>goyo_enter()
-autocmd  User GoyoEnter Goyo 80
+autocmd  User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave
-autocmd  User GoyoLeave call <SID>goyo_leave()
+autocmd  User GoyoLeave nested call <SID>goyo_leave()
 
 function! s:goyo_enter() " {{{3
   let b:quitting = 0
   let b:quitting_bang = 0
   autocmd QuitPre <buffer> let b:quitting = 1
   cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
-
-  set columns+=2
 
   call fontsize#inc()
   call fontsize#inc()
@@ -70,8 +67,6 @@ function! s:goyo_leave() " {{{3
       qa
     endif
   endif
-
-  set columns-=2
 
   call fontsize#default()
 endfunction " }}}3
