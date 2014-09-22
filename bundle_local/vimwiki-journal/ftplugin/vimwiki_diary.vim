@@ -18,7 +18,7 @@ function! s:normalize() " {{{1
 
   try
     normal! gv""y
-    let replace = '[[..a/' . @" . '|' . @" . ']]'
+    let replace = '[[../' . @" . '|' . @" . ']]'
     call setreg('"', replace, 'v')
     normal! `>""pgvd
   finally
