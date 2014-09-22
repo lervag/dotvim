@@ -3,6 +3,8 @@
 silent! if plug#begin('~/.vim/bundle')
 let g:plug_window = 'above new'
 
+Plug 'junegunn/vim-plug', { 'on' : [] }
+
 " User interface
 Plug 'altercation/vim-colors-solarized'
 Plug 'drmikehenry/vim-fontsize'
@@ -301,9 +303,8 @@ let g:ruby_fold=1
 
 " }}}2
 " {{{2 Vimwiki
-Plug 'vimwiki/vimwiki',
-      \ { 'branch' : 'dev' }
-Plug '~/.vim/bundle_local/vimwiki-journal'
+Plug 'vimwiki/vimwiki',                     { 'branch' : 'dev' }
+Plug '~/.vim/bundle_local/vimwiki-journal', { 'for'    : 'vimwiki' }
 
 "
 " Also see personal vimwiki ftplugin in bundle_local
