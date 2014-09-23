@@ -174,7 +174,6 @@ let g:neocomplete#enable_refresh_always = 1
 let g:neocomplete#enable_omni_fallback = 1
 
 " Plugin key-mappings
-inoremap <expr> <C-g> neocomplete#undo_completion()
 inoremap <expr> <C-l> neocomplete#complete_common_string()
 
 " Enable omni completion
