@@ -253,7 +253,7 @@ let g:latex_quickfix_open_on_warning = 0
 let g:latex_fold_automatic = 0
 
 Plug 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git',
-      \ { 'for' : 'tex', 'on' : [] }
+      \ { 'on' : [] }
 let g:LatexBox_latexmk_async = 1
 let g:LatexBox_latexmk_preview_continuously = 1
 let g:LatexBox_Folding = 1
