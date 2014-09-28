@@ -128,7 +128,6 @@ function! s:source(from, ...)
 endfunction
 
 function! plug#end()
-  let reload = !has('vim_starting')
   if !exists('g:plugs')
     return s:err('Call plug#begin() first')
   endif
@@ -189,12 +188,13 @@ function! plug#end()
     augroup END
   endfor
 
-  if reload
-    call s:reload()
-  endif
   call s:reorg_rtp()
   filetype plugin indent on
-  syntax enable
+  if has('vim_starting')
+    syntax enable
+  else
+    call s:reload()
+  endif
 endfunction
 
 function! s:loaded_names()
@@ -1015,10 +1015,9 @@ function! s:clean(force)
 
   " List of valid directories
   let dirs = []
-  let managed = filter(copy(g:plugs), 's:is_managed(v:key)')
-  let [cnt, total] = [0, len(managed)]
-  for spec in values(managed)
-    if s:git_valid(spec, 0, 1)[0]
+  let [cnt, total] = [0, len(g:plugs)]
+  for [name, spec] in items(g:plugs)
+    if !s:is_managed(name) || s:git_valid(spec, 0, 1)[0]
       call add(dirs, spec.dir)
     endif
     let cnt += 1
