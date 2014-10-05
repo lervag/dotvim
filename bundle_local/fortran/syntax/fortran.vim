@@ -13,14 +13,6 @@
 "  Walter Dieudonné, Alexander Wagner, Roman Bertle, Charles Rendleman,
 "  Andrew Griffiths, Joe Krahn, and Hendrik Merx.
 
-" Settings: {{{1
-let fortran_dialect="f90"
-let fortran_fold=1
-let fortran_fold_conditionals=1
-let fortran_do_enddo=1
-"let fortran_fold_multilinecomments=1
-"let fortran_more_precise=1
-
 " Compatability: {{{1
 " For version 5.x: Clear all syntax items
 " For version 6.x: Quit if a syntax file is already loaded

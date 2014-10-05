@@ -10,6 +10,10 @@ let b:did_ft_fortran = 1
 " Options
 setlocal foldmethod=syntax
 let fortran_free_source = 1
+let fortran_dialect="f90"
+let fortran_fold=1
+let fortran_fold_conditionals=1
+let fortran_do_enddo=1
 
 " Mappings
 map <silent> [[ ?^\s*\(end\s*\)\@!\zs\(function\\|subroutine\)<CR>
