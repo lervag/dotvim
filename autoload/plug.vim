@@ -84,6 +84,7 @@ let s:loaded = get(s:, 'loaded', {})
 
 function! plug#begin(...)
   if a:0 > 0
+    let s:plug_home_org = a:1
     let home = s:path(fnamemodify(expand(a:1), ':p'))
   elseif exists('g:plug_home')
     let home = s:path(g:plug_home)
@@ -113,6 +114,7 @@ function! s:define_commands()
   command! -nargs=0 -bar PlugUpgrade if s:upgrade() | execute 'source' s:me | endif
   command! -nargs=0 -bar PlugStatus  call s:status()
   command! -nargs=0 -bar PlugDiff    call s:diff()
+  command! -nargs=? -bar PlugSnapshot call s:snapshot(<f-args>)
 endfunction
 
 function! s:to_a(v)
@@ -540,11 +542,11 @@ function! s:do(pull, force, todo)
     if !isdirectory(spec.dir)
       continue
     endif
-    execute 'cd' s:esc(spec.dir)
     let installed = has_key(s:prev_update.new, name)
     let updated = installed ? 0 :
-      \ (a:pull && !empty(s:system_chomp('git log --pretty=format:"%h" "HEAD...HEAD@{1}"')))
+      \ (a:pull && !empty(s:system_chomp('git log --pretty=format:"%h" "HEAD...HEAD@{1}"', spec.dir)))
     if a:force || installed || updated
+      execute 'cd' s:esc(spec.dir)
       call append(3, '- Post-update hook for '. name .' ... ')
       let type = type(spec.do)
       if type == s:TYPE.string
@@ -569,8 +571,8 @@ function! s:do(pull, force, todo)
         let result = 'Error: Invalid type!'
       endif
       call setline(4, getline(4) . result)
+      cd -
     endif
-    cd -
   endfor
 endfunction
 
@@ -695,26 +697,23 @@ function! s:update_serial(pull, todo)
   for [name, spec] in items(todo)
     let done[name] = 1
     if isdirectory(spec.dir)
-      execute 'cd' s:esc(spec.dir)
-      let [valid, msg] = s:git_valid(spec, 0, 0)
+      let [valid, msg] = s:git_valid(spec, 0)
       if valid
         let result = a:pull ?
           \ s:system(
           \ printf('git checkout -q %s 2>&1 && git pull --no-rebase origin %s 2>&1 && git submodule update --init --recursive 2>&1',
-          \   s:shellesc(spec.branch), s:shellesc(spec.branch))) : 'Already installed'
+          \   s:shellesc(spec.branch), s:shellesc(spec.branch)), spec.dir) : 'Already installed'
         let error = a:pull ? v:shell_error != 0 : 0
       else
         let result = msg
         let error = 1
       endif
-      cd -
     else
       let result = s:system(
-            \ printf('git clone --recursive %s -b %s %s 2>&1 && cd %s && git submodule update --init --recursive 2>&1',
+            \ printf('git clone --recursive %s -b %s %s 2>&1',
             \ s:shellesc(spec.uri),
             \ s:shellesc(spec.branch),
-            \ s:shellesc(s:trim(spec.dir)),
-            \ s:shellesc(spec.dir)))
+            \ s:shellesc(s:trim(spec.dir))))
       let error = v:shell_error != 0
       if !error | let s:prev_update.new[name] = 1 | endif
     endif
@@ -921,7 +920,7 @@ function! s:update_parallel(pull, todo, threads)
             else
               d = esc dir.sub(%r{[\\/]+$}, '')
               log.call name, 'Installing ...', :install
-              bt.call "(git clone #{progress} --recursive #{uri} -b #{branch} #{d} 2>&1 && cd #{esc dir} && #{subm})", name, :install, proc {
+              bt.call "git clone #{progress} --recursive #{uri} -b #{branch} #{d} 2>&1", name, :install, proc {
                 FileUtils.rm_rf dir
               }
             end
@@ -965,21 +964,21 @@ function! s:format_message(ok, name, message)
   endif
 endfunction
 
-function! s:system(cmd)
-  return system(s:is_win ? '('.a:cmd.')' : a:cmd)
+function! s:system(cmd, ...)
+  let cmd = a:0 > 0 ? 'cd '.s:esc(a:1).' && '.a:cmd : a:cmd
+  return system(s:is_win ? '('.cmd.')' : cmd)
 endfunction
 
-function! s:system_chomp(str)
-  let ret = s:system(a:str)
+function! s:system_chomp(...)
+  let ret = call('s:system', a:000)
   return v:shell_error ? '' : substitute(ret, '\n$', '', '')
 endfunction
 
-function! s:git_valid(spec, check_branch, cd)
+function! s:git_valid(spec, check_branch)
   let ret = 1
   let msg = 'OK'
   if isdirectory(a:spec.dir)
-    if a:cd | execute 'cd' s:esc(a:spec.dir) | endif
-    let result = split(s:system('git rev-parse --abbrev-ref HEAD 2>&1 && git config remote.origin.url'), '\n')
+    let result = split(s:system('git rev-parse --abbrev-ref HEAD 2>&1 && git config remote.origin.url', a:spec.dir), '\n')
     let remote = result[-1]
     if v:shell_error
       let msg = join([remote, 'PlugClean required.'], "\n")
@@ -992,7 +991,7 @@ function! s:git_valid(spec, check_branch, cd)
     elseif a:check_branch
       let branch = result[0]
       if a:spec.branch !=# branch
-        let tag = s:system_chomp('git describe --exact-match --tags HEAD 2>&1')
+        let tag = s:system_chomp('git describe --exact-match --tags HEAD 2>&1', a:spec.dir)
         if a:spec.branch !=# tag
           let msg = printf('Invalid branch/tag: %s (expected: %s). Try PlugUpdate.',
                 \ (empty(tag) ? branch : tag), a:spec.branch)
@@ -1000,7 +999,6 @@ function! s:git_valid(spec, check_branch, cd)
         endif
       endif
     endif
-    if a:cd | cd - | endif
   else
     let msg = 'Not found'
     let ret = 0
@@ -1017,7 +1015,7 @@ function! s:clean(force)
   let dirs = []
   let [cnt, total] = [0, len(g:plugs)]
   for [name, spec] in items(g:plugs)
-    if !s:is_managed(name) || s:git_valid(spec, 0, 1)[0]
+    if !s:is_managed(name) || s:git_valid(spec, 0)[0]
       call add(dirs, spec.dir)
     endif
     let cnt += 1
@@ -1121,7 +1119,7 @@ function! s:status()
   for [name, spec] in items(g:plugs)
     if has_key(spec, 'uri')
       if isdirectory(spec.dir)
-        let [valid, msg] = s:git_valid(spec, 1, 1)
+        let [valid, msg] = s:git_valid(spec, 1)
       else
         let [valid, msg] = [0, 'Not found. Try PlugInstall.']
       endif
@@ -1219,9 +1217,7 @@ function! s:preview_commit()
   execute 'pedit' sha
   wincmd P
   setlocal filetype=git buftype=nofile nobuflisted
-  execute 'cd' s:esc(g:plugs[name].dir)
-  execute 'silent read !git show' sha
-  cd -
+  execute 'silent read !cd' s:esc(g:plugs[name].dir) '&& git show' sha
   normal! gg"_dd
   wincmd p
 endfunction
@@ -1242,9 +1238,8 @@ function! s:diff()
       continue
     endif
 
-    execute 'cd' s:esc(v.dir)
-    let diff = system('git log --pretty=format:"%h %s (%cr)" "HEAD...HEAD@{1}"')
-    if !v:shell_error && !empty(diff)
+    let diff = s:system_chomp('git log --pretty=format:"%h %s (%cr)" "HEAD...HEAD@{1}"', v.dir)
+    if !empty(diff)
       call append(1, '')
       call append(2, '- '.k.':')
       call append(3, map(split(diff, '\n'), '"  ". v:val'))
@@ -1252,7 +1247,6 @@ function! s:diff()
       normal! gg
       redraw
     endif
-    cd -
   endfor
 
   call setline(1, cnt == 0 ? 'No updates.' : 'Last update:')
@@ -1272,13 +1266,49 @@ function! s:revert()
     return
   endif
 
-  execute 'cd' s:esc(g:plugs[name].dir)
-  call system('git reset --hard HEAD@{1} && git checkout '.s:esc(g:plugs[name].branch))
-  cd -
+  call s:system('git reset --hard HEAD@{1} && git checkout '.s:esc(g:plugs[name].branch), g:plugs[name].dir)
   setlocal modifiable
   normal! "_dap
   setlocal nomodifiable
   echo 'Reverted.'
+endfunction
+
+function! s:snapshot(...) abort
+  let home = get(s:, 'plug_home_org', g:plug_home)
+  let [type, var, header] = s:is_win ?
+    \ ['dosbatch', '%PLUG_HOME%',
+    \   ['@echo off', ':: Generated by vim-plug', ':: '.strftime("%c"), '',
+    \    ':: Make sure to PlugUpdate first', '', 'set PLUG_HOME='.s:esc(home)]] :
+    \ ['sh', '$PLUG_HOME',
+    \   ['#!/bin/bash',  '# Generated by vim-plug', '# '.strftime("%c"), '',
+    \    'vim +PlugUpdate +qa', '', 'PLUG_HOME='.s:esc(home)]]
+
+  call s:prepare()
+  execute 'setf' type
+  call append(0, header)
+  call append('$', '')
+  1
+  redraw
+
+  let dirs = sort(map(values(filter(copy(g:plugs),
+        \'has_key(v:val, "uri") && isdirectory(v:val.dir)')), 'v:val.dir'))
+  let anchor = line('$') - 1
+  for dir in reverse(dirs)
+    let sha = s:system_chomp('git rev-parse --short HEAD', dir)
+    if !empty(sha)
+      call append(anchor, printf('cd %s && git reset --hard %s',
+            \ substitute(dir, '^'.g:plug_home, var, ''), sha))
+      redraw
+    endif
+  endfor
+
+  if a:0 > 0
+    let fn = s:esc(expand(a:1))
+    call writefile(getline(1, '$'), fn)
+    if !s:is_win | call system('chmod +x ' . fn) | endif
+    echo 'Saved to '.a:1
+    silent execute 'e' fn
+  endif
 endfunction
 
 function! s:split_rtp()
