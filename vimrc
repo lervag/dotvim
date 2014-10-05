@@ -319,6 +319,7 @@ let s:wiki.nested_syntaxes = {
       \ 'python' : 'python',
       \ 'sh'     : 'sh',
       \ 'tex'    : 'latex',
+      \ 'f90'    : 'fortran',
       \ }
 
 " Set up global options
