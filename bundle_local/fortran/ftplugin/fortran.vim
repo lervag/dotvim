@@ -8,6 +8,7 @@ if exists('b:did_ft_fortran') | finish | endif
 let b:did_ft_fortran = 1
 
 " Options
+setlocal textwidth=79
 setlocal foldmethod=syntax
 let fortran_free_source = 1
 let fortran_dialect="f90"
