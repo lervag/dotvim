@@ -440,6 +440,11 @@ augroup ScreenShellExit
 augroup END
 
 " }}}2
+" {{{2 Smartpairs
+Plug 'gorkunov/smartpairs.vim'
+let g:smartpairs_uber_mode = 1
+
+" }}}2
 " {{{2 vim-online-thesaurus
 Plug 'beloglazov/vim-online-thesaurus'
 let g:online_thesaurus_map_keys = 0
