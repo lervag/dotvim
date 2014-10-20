@@ -102,6 +102,31 @@ let g:fanfingtastic_fix_t = 1
 let g:fanfingtastic_use_jumplist = 1
 
 " }}}2
+" {{{2 Incsearch
+Plug 'haya14busa/incsearch.vim'
+let g:incsearch#auto_nohlsearch = 1
+let g:incsearch#consistent_n_direction = 1
+let g:incsearch#separate_highlight = 1
+let g:incsearch#highlight = {
+\   'cursor' : {
+\     'group' : 'ErrorMsg',
+\     'priority' : '1000'
+\   }
+\ }
+
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+set hlsearch
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
+
+" }}}2
 " {{{2 Smalls
 Plug 't9md/vim-smalls'
 map <c-s> <plug>(smalls)
@@ -587,7 +612,6 @@ end
 "{{{2 Searching and movement
 set ignorecase
 set smartcase
-set nohls
 set incsearch
 set showmatch
 
