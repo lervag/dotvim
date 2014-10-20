@@ -2,6 +2,9 @@ if exists('b:current_syntax')
   finish
 endif
 
+" Ensure syntax at top of buffer window is correct
+syntax sync minlines=100
+
 " Set spell option
 syn spell default
 
