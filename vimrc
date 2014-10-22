@@ -345,6 +345,7 @@ let s:wiki.nested_syntaxes = {
       \ 'sh'     : 'sh',
       \ 'tex'    : 'latex',
       \ 'f90'    : 'fortran',
+      \ 'make'   : 'make',
       \ }
 
 " Set up global options
