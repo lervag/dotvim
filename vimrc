@@ -427,6 +427,7 @@ nnoremap <silent> <space>h :CtrlP /home/lervag<cr>
 nnoremap <silent> <space>v :CtrlP /home/lervag/.vim<cr>
 nnoremap <silent> <space>q :CtrlPQuickfix<cr>
 nnoremap <silent> <space>t :CtrlPTag<cr>
+nnoremap <silent> <space>b :CtrlPBuffer<cr>
 
 " }}}2
 "{{{2 Screen
