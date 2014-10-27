@@ -548,6 +548,7 @@ set autoread
 set wildmode=longest,list:longest,full
 set splitbelow
 set splitright
+set previewheight=20
 
 if executable("ack-grep")
   set grepprg=ack-grep\ --nocolor
