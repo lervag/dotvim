@@ -1,9 +1,14 @@
 "{{{1 Load plugins
 
 silent! if plug#begin('~/.vim/bundle')
+
+" {{{2 VimPlug
+Plug 'junegunn/vim-plug', { 'on' : [] }
 let g:plug_window = 'above new'
 
-Plug 'junegunn/vim-plug', { 'on' : [] }
+nnoremap <silent> <space>u :PlugUpdate<cr>
+nnoremap <silent> <space>d :PlugDiff<cr>
+" }}}2
 
 " User interface
 Plug 'altercation/vim-colors-solarized'
@@ -255,13 +260,12 @@ let g:UltiSnipsEditSplit = "horizontal"
 let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/UltiSnips/UltiSnips"
 map <leader>es :UltiSnipsEdit!<cr>
 
-" }}}2
-
 augroup load_on_insert
   autocmd!
   autocmd InsertEnter * call plug#load('ultisnips')
                         \ | autocmd! load_on_insert
 augroup END
+" }}}2
 
 " Filetype specific
 " {{{2 HTML, XML, ...
