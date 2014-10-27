@@ -488,16 +488,17 @@ vmap . <Plug>(EasyAlignRepeat)
 " }}}2
 
 " Local plugins (filetype)
-Plug '~/.vim/bundle_local/dagbok',   { 'for' : 'dagbok' }
-Plug '~/.vim/bundle_local/fortran',  { 'for' : 'fortran' }
-Plug '~/.vim/bundle_local/lisp',     { 'for' : 'lisp' }
-Plug '~/.vim/bundle_local/make',     { 'for' : 'make' }
-Plug '~/.vim/bundle_local/markdown', { 'for' : 'markdown' }
-Plug '~/.vim/bundle_local/python',   { 'for' : 'python' }
-Plug '~/.vim/bundle_local/ruby',     { 'for' : 'ruby' }
-Plug '~/.vim/bundle_local/tex',      { 'for' : 'tex' }
-Plug '~/.vim/bundle_local/text',     { 'for' : 'text' }
-Plug '~/.vim/bundle_local/vim',      { 'for' : 'vim' }
+Plug '~/.vim/bundle_local/dagbok',    { 'for' : 'dagbok' }
+Plug '~/.vim/bundle_local/fortran',   { 'for' : 'fortran' }
+Plug '~/.vim/bundle_local/lisp',      { 'for' : 'lisp' }
+Plug '~/.vim/bundle_local/make',      { 'for' : 'make' }
+Plug '~/.vim/bundle_local/markdown',  { 'for' : 'markdown' }
+Plug '~/.vim/bundle_local/python',    { 'for' : 'python' }
+Plug '~/.vim/bundle_local/ruby',      { 'for' : 'ruby' }
+Plug '~/.vim/bundle_local/tex',       { 'for' : 'tex' }
+Plug '~/.vim/bundle_local/text',      { 'for' : 'text' }
+Plug '~/.vim/bundle_local/vim',       { 'for' : 'vim' }
+Plug '~/.vim/bundle_local/quickfix/', { 'for' : 'qf' }
 
 " Local plugins
 Plug '~/.vim/bundle_local/UltiSnips'
