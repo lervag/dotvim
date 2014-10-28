@@ -381,6 +381,8 @@ let g:ack_mappings = {
       \ 'go' : '<cr>zMzvzz<c-w>j',
       \ }
 
+nnoremap <space>a :Ack 
+
 " }}}2
 " {{{2 Calendar
 Plug 'itchyny/calendar.vim'
