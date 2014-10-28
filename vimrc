@@ -425,6 +425,7 @@ let g:ctrlp_mruf_exclude .= '|journal\.txt$'
 let g:ctrlp_mruf_exclude .= '|^\/tmp'
 let g:ctrlp_root_markers = ['CVS']
 let g:ctrlp_show_hidden = 0
+let g:ctrlp_extensions = ['tag']
 
 nnoremap <silent> <space><space> :CtrlPMRUFiles<cr>
 nnoremap <silent> <space>h :CtrlP /home/lervag<cr>

@@ -7,6 +7,7 @@ setlocal fdl=1
 
 command! -n=? -com=buffer CtrlPVimwiki call ctrlp#init(ctrlp#vimwiki#cmd())
 nnoremap <buffer> <space>w :CtrlPVimwiki<cr>
+let g:ctrlp_extensions += ['vimwiki']
 
 function! VimwikiLinkHandler(link)
   let [idx, scheme, path, subdir, lnk, ext, url, anchor] =
