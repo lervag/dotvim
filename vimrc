@@ -557,6 +557,12 @@ set splitbelow
 set splitright
 set previewheight=20
 
+" Turn off all bells on terminal vim (necessary for vim through putty)
+if !has('gui_running')
+  set visualbell
+  set t_vb=
+endif
+
 if executable("ack-grep")
   set grepprg=ack-grep\ --nocolor
 endif
