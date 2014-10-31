@@ -236,6 +236,7 @@ if !exists('g:neocomplete#keyword_patterns')
 endif
 let g:neocomplete#keyword_patterns._       = '[a-åA-Å][a-åA-Å0-9]\+'
 let g:neocomplete#keyword_patterns.tex     = '[a-åA-Å][a-åA-Å0-9]\+'
+let g:neocomplete#keyword_patterns.vimwiki = '[a-åA-Å][a-åA-Å0-9]\+'
 
 " {{{2 Supertab
 Plug 'ervandew/supertab'
