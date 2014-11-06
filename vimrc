@@ -500,7 +500,7 @@ let g:vimfiler_as_default_explorer = 1
 
 " }}}2
 
-" Local plugins (filetype)
+" Local filetype plugins
 Plug '~/.vim/bundle_local/dagbok',    { 'for' : 'dagbok' }
 Plug '~/.vim/bundle_local/fortran',   { 'for' : 'fortran' }
 Plug '~/.vim/bundle_local/lisp',      { 'for' : 'lisp' }
@@ -736,6 +736,8 @@ nnoremap gb     :bnext<cr>
 nnoremap gB     :bprevious<cr>
 nnoremap dp     dp]c
 nnoremap do     do]c
+
+nnoremap - <C-^>
 
 " Search for todos
 nmap <silent> gt :call search('todo')<cr>zf
