@@ -364,13 +364,13 @@ let g:vimwiki_table_mappings = 0
 " }}}2
 
 " Utility plugins
+Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
 Plug 'thinca/vim-prettyprint'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-vinegar'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
 " {{{2 Ack
@@ -492,6 +492,11 @@ let g:easy_align_bypass_fold = 1
 map ga <Plug>(EasyAlign)
 map gA <Plug>(LiveEasyAlign)
 vmap . <Plug>(EasyAlignRepeat)
+
+" }}}2
+"{{{2 vimfiler
+Plug 'Shougo/vimfiler.vim'
+let g:vimfiler_as_default_explorer = 1
 
 " }}}2
 
