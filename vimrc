@@ -692,7 +692,7 @@ if has("gui_running")
   set background=light
 endif
 
-if &t_Co == 8 && &TERM !~# '^linux'
+if &t_Co == 8 && $TERM !~# '^linux'
   set t_Co=16
 endif
 
