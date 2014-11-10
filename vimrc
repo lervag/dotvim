@@ -4,7 +4,7 @@ silent! if plug#begin('~/.vim/bundle')
 
 " {{{2 VimPlug
 Plug 'junegunn/vim-plug', { 'on' : [] }
-let g:plug_window = 'above new'
+let g:plug_window = 'above'
 
 nnoremap <silent> <space>u :PlugUpdate<cr>
 nnoremap <silent> <space>d :PlugDiff<cr>
@@ -558,10 +558,12 @@ set cursorline
 set autochdir
 set cpoptions+=J
 set autoread
+set wildmenu
 set wildmode=longest,list:longest,full
 set splitbelow
 set splitright
 set previewheight=20
+set nrformats-=octal
 
 " Turn off all bells on terminal vim (necessary for vim through putty)
 if !has('gui_running')
@@ -639,6 +641,8 @@ set incsearch
 set showmatch
 
 set scrolloff=10
+set sidescrolloff=5
+set display+=lastline
 set virtualedit+=block
 
 runtime macros/matchit.vim
@@ -685,6 +689,10 @@ if has("gui_running")
   set guifont=Inconsolata-g\ Medium\ 9
   set guioptions=aeci
   set background=light
+endif
+
+if &t_Co == 8 && &TERM !~# '^linux'
+  set t_Co=16
 endif
 
 silent! colorscheme solarized
@@ -756,6 +764,16 @@ map <silent> gx <Plug>(open-in-browser)
 " Change word under cursor
 nnoremap ,r :'{,'}s/\<<c-r>=expand('<cword>')<cr>\>/
 nnoremap ,R :%s/\<<c-r>=expand('<cword>')<cr>\>/
+
+" Show syntax stack info
+function! SynStack()
+  PP map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunction
+
+" Use <C-L> to clear the highlighting of :set hlsearch.
+if maparg('<C-L>', 'n') ==# ''
+  nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+endif
 
 " }}}1
 
