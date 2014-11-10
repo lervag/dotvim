@@ -564,6 +564,7 @@ set splitbelow
 set splitright
 set previewheight=20
 set nrformats-=octal
+set cryptmethod=blowfish2
 
 " Turn off all bells on terminal vim (necessary for vim through putty)
 if !has('gui_running')
