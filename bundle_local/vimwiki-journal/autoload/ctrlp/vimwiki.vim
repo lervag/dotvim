@@ -12,7 +12,12 @@ cal add(g:ctrlp_ext_vars, {
 let s:id = g:ctrlp_builtins + len(g:ctrlp_ext_vars)
 
 function! ctrlp#vimwiki#init(bufnr)
-  return Complete_wikifiles(0,'')
+  if getcwd() =~ 'wiki'
+    return Complete_wikifiles(0,'')
+  else
+    return map(globpath('~/documents/wiki', '**/*.wiki', 0, 1),
+          \ 'fnamemodify(v:val, ":.:r")')
+  endif
 endfunction
 
 function! ctrlp#vimwiki#accept(mode, str)

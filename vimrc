@@ -326,11 +326,10 @@ let g:ruby_fold=1
 " }}}2
 " {{{2 Vimwiki
 Plug 'vimwiki/vimwiki',                     { 'branch' : 'dev' }
-Plug '~/.vim/bundle_local/vimwiki-journal', { 'for'    : 'vimwiki' }
+Plug '~/.vim/bundle_local/vimwiki-journal'
 
-"
-" Also see personal vimwiki ftplugin in bundle_local
-"
+command! -n=? CtrlPVimwiki call ctrlp#init(ctrlp#vimwiki#cmd())
+nnoremap <space>w :CtrlPVimwiki<cr>
 
 " Set up main wiki
 let s:wiki = {}

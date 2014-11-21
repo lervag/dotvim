@@ -5,9 +5,9 @@ setlocal autoindent
 setlocal nowrap
 setlocal fdl=1
 
-command! -n=? -com=buffer CtrlPVimwiki call ctrlp#init(ctrlp#vimwiki#cmd())
-nnoremap <buffer> <space>w :CtrlPVimwiki<cr>
 let g:ctrlp_extensions += ['vimwiki']
+
+nnoremap <buffer> <leader>wl :call vimwiki#backlinks()<cr>
 
 function! VimwikiLinkHandler(link)
   let [idx, scheme, path, subdir, lnk, ext, url, anchor] =
@@ -21,3 +21,4 @@ function! VimwikiLinkHandler(link)
 
   return 0
 endfunction
+
