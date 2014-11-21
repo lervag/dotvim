@@ -132,7 +132,6 @@ map <c-s> <plug>(smalls)
 " }}}2
 
 " General programming
-Plug 'git://repo.or.cz/vcscommand.git'
 Plug 'thinca/vim-quickrun'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
@@ -143,6 +142,10 @@ nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gd :Gdiff<cr>
 
 " }}}2
+" {{{2 Lawrencium
+Plug 'ludovicchabant/vim-lawrencium'
+
+" }}}
 "{{{2 Splice
 Plug 'sjl/splice.vim'
 let g:splice_initial_mode = "grid"
@@ -184,6 +187,15 @@ nmap ,si :SyntasticInfo<cr>
 nmap ,st :SyntasticToggleMode<cr>
 
 " }}}2
+" {{{2 VCSCommand
+Plug 'git://repo.or.cz/vcscommand.git'
+let g:VCSCommandSplit = 'vertical'
+nnoremap <leader>vs :VCSStatus<cr>
+nnoremap <leader>vc :VCSCommit<cr>
+nnoremap <leader>vd :VCSDiff<cr>
+nnoremap <leader>vD :VCSVimDiff<cr>
+
+" }}}
 
 " Completion and snippets
 Plug 'honza/vim-snippets'
