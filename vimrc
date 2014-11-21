@@ -13,6 +13,7 @@ nnoremap <silent> <space>d :PlugDiff<cr>
 " User interface
 Plug 'altercation/vim-colors-solarized'
 Plug 'drmikehenry/vim-fontsize'
+Plug 'moll/vim-bbye', { 'on': 'Bdelete' }
 " {{{2 Airline
 Plug 'bling/vim-airline'
 let g:airline_left_sep = ''
@@ -482,6 +483,7 @@ augroup END
 " {{{2 Smartpairs
 Plug 'gorkunov/smartpairs.vim'
 let g:smartpairs_uber_mode = 1
+let g:smartpairs_revert_key = ''
 
 " }}}2
 " {{{2 vim-online-thesaurus
@@ -564,11 +566,13 @@ set cpoptions+=J
 set autoread
 set wildmenu
 set wildmode=longest,list:longest,full
+set wildignore=*.o,*~,*.pyc,.git/*,.hg/*,.svn/*,*.DS_Store,CVS/*
 set splitbelow
 set splitright
 set previewheight=20
 set nrformats-=octal
 set cryptmethod=blowfish2
+set nostartofline
 
 " Turn off all bells on terminal vim (necessary for vim through putty)
 if !has('gui_running')
@@ -642,11 +646,10 @@ end
 "{{{2 Searching and movement
 set ignorecase
 set smartcase
+set infercase
 set incsearch
 set showmatch
 
-set scrolloff=10
-set sidescrolloff=5
 set display+=lastline
 set virtualedit+=block
 
@@ -693,6 +696,7 @@ if has("gui_running")
   set columns=82
   set guifont=Inconsolata-g\ Medium\ 9
   set guioptions=aeci
+  set guiheadroom=0
   set background=light
 endif
 
@@ -701,6 +705,17 @@ if &t_Co == 8 && $TERM !~# '^linux'
 endif
 
 silent! colorscheme solarized
+
+if has("gui_running")
+  highlight iCursor guibg=#b58900
+  highlight rCursor guibg=#dc322f
+  highlight vCursor guibg=#d33682
+  set guicursor+=n-c:blinkon0-block-Cursor
+  set guicursor+=o:blinkon0-hor50-Cursor
+  set guicursor+=v:blinkon0-block-vCursor
+  set guicursor+=i:blinkon0-ver20-iCursor
+  set guicursor+=r:blinkon0-hor20-rCursor
+endif
 
 " {{{2 Custom highlighting
 " Matchparen
@@ -744,7 +759,7 @@ inoremap jk     <esc>
 inoremap <f1>   <nop>
 nnoremap  Y     y$
 nnoremap J      mzJ`z
-nnoremap <c-u>  :bd<cr>
+nnoremap <c-u>  :Bdelete<cr>
 nnoremap gb     :bnext<cr>
 nnoremap gB     :bprevious<cr>
 nnoremap dp     dp]c
@@ -779,6 +794,9 @@ endfunction
 if maparg('<C-L>', 'n') ==# ''
   nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
 endif
+
+" sudo to write
+cnoremap w!! w !sudo tee % >/dev/null
 
 " }}}1
 
