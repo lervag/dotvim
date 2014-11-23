@@ -525,7 +525,7 @@ Plug '~/.vim/bundle_local/grep-operator'
 Plug '~/.vim/bundle_local/open-in-browser',
       \ { 'on' : ['OpenInBrowser', '<Plug>(open-in-browser)'] }
 Plug '~/.vim/bundle_local/resize_splits'
-Plug '~/.vim/bundle_local/scriptnames'
+Plug '~/.vim/bundle_local/bufferize'
 Plug '~/.vim/bundle_local/speeddating'
 Plug '~/.vim/bundle_local/syntaxcomplete'
 Plug '~/.vim/bundle_local/text-object-indent'
