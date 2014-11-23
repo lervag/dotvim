@@ -521,7 +521,6 @@ Plug '~/.vim/bundle_local/quickfix/', { 'for' : 'qf' }
 
 " Local plugins
 Plug '~/.vim/bundle_local/UltiSnips'
-Plug '~/.vim/bundle_local/grep-operator'
 Plug '~/.vim/bundle_local/open-in-browser',
       \ { 'on' : ['OpenInBrowser', '<Plug>(open-in-browser)'] }
 Plug '~/.vim/bundle_local/resize_splits'
