@@ -140,7 +140,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
-nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gd :Gdiff<cr>:ResizeSplits<cr>
 
 " }}}2
 " {{{2 Lawrencium
@@ -758,7 +758,7 @@ inoremap jk     <esc>
 inoremap <f1>   <nop>
 nnoremap  Y     y$
 nnoremap J      mzJ`z
-nnoremap <c-u>  :Bdelete<cr>
+nnoremap <c-u>  :Bdelete<cr>:ResizeSplits<cr>
 nnoremap gb     :bnext<cr>
 nnoremap gB     :bprevious<cr>
 nnoremap dp     dp]c

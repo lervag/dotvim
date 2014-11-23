@@ -13,20 +13,10 @@ augroup resize_splits
   autocmd BufHidden,BufWinLeave * let w:count = 0
 augroup END
 
-nnoremap <silent> <c-w>o <c-w>o:ResizeSplits<cr>
 nnoremap <silent> <c-w>r :ResizeSplits<cr>
-
-"if has("gui_running")
-"  augroup resize_splits
-"    autocmd!
-"    autocmd WinEnter    * let w:count = 1 | ResizeSplits
-"    autocmd BufEnter    * let w:count = 1 | ResizeSplits
-"    autocmd WinLeave    * ResizeSplits
-"    autocmd BufHidden   * let w:count = 0 | ResizeSplits
-"    autocmd BufWinLeave * let w:count = 0 | ResizeSplits
-"  augroup END
-"  nnoremap <silent> <c-w>o <c-w>o:ResizeSplits<cr>
-"endif
+nnoremap <silent> <c-w>o <c-w>o:ResizeSplits<cr>
+nnoremap <silent> <c-w>c <c-w>c:ResizeSplits<cr>
+nnoremap <silent> <c-w>v <c-w>v:ResizeSplits<cr>
 
 " {{{1 ResizeSplits
 function! s:ResizeSplits()
