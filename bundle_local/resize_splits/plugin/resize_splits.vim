@@ -23,7 +23,7 @@ function! s:ResizeSplits()
   let l:curwin = winnr()
   let l:x = getwinposx()
   let l:y = getwinposy()
-  let l:colwidth = 80 + &foldcolumn
+  let l:colwidth = 82 + &foldcolumn
   if &number
     let l:colwidth += &numberwidth
   endif
