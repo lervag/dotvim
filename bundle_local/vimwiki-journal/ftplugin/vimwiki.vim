@@ -7,6 +7,9 @@ setlocal fdl=1
 
 nnoremap <buffer> <leader>wl :call vimwiki#backlinks()<cr>
 
+"
+" Custom link handlers
+"
 function! VimwikiLinkHandler(link)
   let [idx, scheme, path, subdir, lnk, ext, url, anchor] =
        \ vimwiki#base#resolve_scheme(a:link, 0)
@@ -19,4 +22,3 @@ function! VimwikiLinkHandler(link)
 
   return 0
 endfunction
-
