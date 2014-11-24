@@ -5,8 +5,6 @@ setlocal autoindent
 setlocal nowrap
 setlocal fdl=1
 
-let g:ctrlp_extensions += ['vimwiki']
-
 nnoremap <buffer> <leader>wl :call vimwiki#backlinks()<cr>
 
 function! VimwikiLinkHandler(link)
