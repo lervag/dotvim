@@ -442,6 +442,7 @@ nnoremap <silent> <space>b :CtrlPBuffer<cr>
 " Add some extensions
 Plug '~/.vim/bundle_local/ctrlp'
 nnoremap <space>w :CtrlPVimwiki<cr>
+nnoremap <space>h :CtrlPHelp<cr>
 
 " }}}2
 "{{{2 Screen

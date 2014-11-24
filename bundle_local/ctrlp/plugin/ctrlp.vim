@@ -1,2 +1,2 @@
-" Define commands
-command! -n=? CtrlPVimwiki call ctrlp#init(ctrlp#vimwiki#cmd())
+command! CtrlPVimwiki call ctrlp#init(ctrlp#vimwiki#id())
+command! CtrlPhelp call ctrlp#init(ctrlp#help#id())
