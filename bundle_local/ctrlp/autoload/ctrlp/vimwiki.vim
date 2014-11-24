@@ -11,16 +11,13 @@ call add(g:ctrlp_ext_vars, {
       \ })
 
 function! ctrlp#vimwiki#init(bufnr)
-  if getcwd() =~ 'wiki'
-    return Complete_wikifiles(0,'')
-  else
-    return map(globpath('~/documents/wiki', '**/*.wiki', 0, 1),
-          \ 'fnamemodify(v:val, ":.:r")')
-  endif
+  let s:prepend = expand('~/documents/wiki/')
+  return map(globpath(s:prepend, '**/*.wiki', 0, 1),
+        \ 'strpart(fnamemodify(v:val, ":p:r"), ' . len(s:prepend) . ')')
 endfunction
 
 function! ctrlp#vimwiki#accept(mode, str)
-  call ctrlp#acceptfile(a:mode, a:str . '.wiki')
+  call ctrlp#acceptfile(a:mode, s:prepend . a:str . '.wiki')
 endfunction
 
 
