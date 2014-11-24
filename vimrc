@@ -341,9 +341,6 @@ let g:ruby_fold=1
 Plug 'vimwiki/vimwiki',                     { 'branch' : 'dev' }
 Plug '~/.vim/bundle_local/vimwiki-journal'
 
-command! -n=? CtrlPVimwiki call ctrlp#init(ctrlp#vimwiki#cmd())
-nnoremap <space>w :CtrlPVimwiki<cr>
-
 " Set up main wiki
 let s:wiki = {}
 let s:wiki.path = '~/documents/wiki'
@@ -441,6 +438,10 @@ nnoremap <silent> <space>v :CtrlP /home/lervag/.vim<cr>
 nnoremap <silent> <space>q :CtrlPQuickfix<cr>
 nnoremap <silent> <space>t :CtrlPTag<cr>
 nnoremap <silent> <space>b :CtrlPBuffer<cr>
+
+" Add some extensions
+Plug '~/.vim/bundle_local/ctrlp'
+nnoremap <space>w :CtrlPVimwiki<cr>
 
 " }}}2
 "{{{2 Screen
