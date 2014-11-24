@@ -7,13 +7,18 @@ call add(g:ctrlp_ext_vars, {
       \ 'accept': 'ctrlp#help#accept',
       \ 'lname': 'help',
       \ 'sname': 'help',
-      \ 'type': 'line',
+      \ 'type': 'path',
       \ })
 
 
 function! ctrlp#help#init()
-  return map(split(globpath(&runtimepath, 'doc/*.txt'), "\n"),
-        \ 'fnamemodify(v:val, ":t:r")')
+  let results = []
+  for tagfile in split(globpath(&runtimepath, 'doc/tags'), "\n")
+    if filereadable(tagfile)
+      let results += map(readfile(tagfile), 'split(v:val, "\t")[0]')
+    endif
+  endfor
+  return results
 endfunction
 
 function! ctrlp#help#accept(mode, str)
