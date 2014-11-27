@@ -572,8 +572,12 @@ set splitbelow
 set splitright
 set previewheight=20
 set nrformats-=octal
-set cryptmethod=blowfish2
 set nostartofline
+if has('patch-7.4.399')
+  set cryptmethod=blowfish2
+else
+  set cryptmethod=blowfish
+endif
 
 " Turn off all bells on terminal vim (necessary for vim through putty)
 if !has('gui_running')
