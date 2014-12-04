@@ -303,6 +303,21 @@ augroup latex_settings
   autocmd FileType tex inoremap <silent><buffer> <m-i> \item<space>
 augroup END
 
+function! MuPDFForward()
+  let l:cmd = "synctex view -i "
+        \ . (line(".") + 1) . ":"
+        \ . (col(".") + 1) . ":"
+        \ . fnameescape(expand("%:p"))
+        \ . " -o " . fnameescape(expand("%:p:r") . '.pdf')
+        \ . " | grep -m1 'Page:' | sed 's/Page://' | tr -d '\n'"
+  echom l:cmd
+  let l:page = system(l:cmd)
+  if l:page > 0
+    exec ':!xdotool search --class mupdf type --window \%1 "' . l:page . 'g"'
+  endif
+endfunction
+nnoremap <silent> <leader>lf :call MuPDFForward()<CR>
+
 " }}}2
 " {{{2 Markdown
 Plug 'tpope/vim-markdown'
