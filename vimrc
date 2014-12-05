@@ -145,6 +145,8 @@ nnoremap <leader>gd :Gdiff<cr>:ResizeSplits<cr>
 " }}}2
 " {{{2 Lawrencium
 Plug 'ludovicchabant/vim-lawrencium'
+nnoremap <leader>hs :Hgstatus<cr>
+nnoremap <leader>hd :Hgvdiff<cr>:ResizeSplits<cr>
 
 " }}}
 "{{{2 Splice
@@ -156,13 +158,13 @@ let g:splice_initial_diff_grid = 1
 " }}}2
 " {{{2 Syntactics
 Plug 'scrooloose/syntastic',
-      \ { 'for' : ['python', 'f90'] }
+      \ { 'for' : ['f90'] }
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_aggregate_errors = 1
-let g:syntastic_error_symbol='E'
-let g:syntastic_warning_symbol='W'
-let g:syntastic_style_error_symbol='SE'
-let g:syntastic_style_warning_symbol='SW'
+" let g:syntastic_error_symbol='E'
+" let g:syntastic_warning_symbol='W'
+" let g:syntastic_style_error_symbol='SE'
+" let g:syntastic_style_warning_symbol='SW'
 
 " Disable for LaTeX
 let g:syntastic_mode_map = {
@@ -178,7 +180,7 @@ let g:syntastic_fortran_include_dirs = [
                             \ '../thermopack/objects/debug_gfortran_Linux',
                             \ ]
 
-" Use python 2
+" Python settings
 let g:syntastic_python_pylint_exec = 'pylint2'
 let g:syntastic_python_python_exec = 'python2'
 
@@ -329,7 +331,7 @@ let g:pandoc#folding#mode = "relative"
 
 " }}}2
 " {{{2 Python
-Plug 'klen/python-mode', { 'branch' : 'develop', 'for' : 'python' }
+" Plug 'klen/python-mode', { 'branch' : 'develop', 'for' : 'python' }
 
 " Enables some nice commands, like
 "   K  -> docs
@@ -753,6 +755,9 @@ highlight SpellLocal gui=bold guibg=#ffa
 
 augroup vimrc_autocommands
   autocmd!
+  " Only use cursorline for current window
+  autocmd WinEnter * setlocal cursorline
+  autocmd WinLeave * setlocal nocursorline
 
   " When editing a file, always jump to the last known cursor position.  Don't
   " do it when the position is invalid or when inside an event handler (happens
