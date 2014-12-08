@@ -285,8 +285,9 @@ Plug 'gregsexton/MatchTag'
 Plug 'git@github.com:lervag/vim-latex.git',
       \ { 'for' : 'tex' }
 let g:latex_enabled = 1
-let g:latex_viewer = 'mupdf -r 95'
 let g:latex_default_mappings = 1
+let g:latex_view_method = 'mupdf'
+let g:latex_view_mupdf_options = ''
 let g:latex_quickfix_open_on_warning = 0
 let g:latex_fold_automatic = 0
 
@@ -304,21 +305,6 @@ augroup latex_settings
   autocmd!
   autocmd FileType tex inoremap <silent><buffer> <m-i> \item<space>
 augroup END
-
-function! MuPDFForward()
-  let l:cmd = "synctex view -i "
-        \ . (line(".") + 1) . ":"
-        \ . (col(".") + 1) . ":"
-        \ . fnameescape(expand("%:p"))
-        \ . " -o " . fnameescape(expand("%:p:r") . '.pdf')
-        \ . " | grep -m1 'Page:' | sed 's/Page://' | tr -d '\n'"
-  echom l:cmd
-  let l:page = system(l:cmd)
-  if l:page > 0
-    exec ':!xdotool search --class mupdf type --window \%1 "' . l:page . 'g"'
-  endif
-endfunction
-nnoremap <silent> <leader>lf :call MuPDFForward()<CR>
 
 " }}}2
 " {{{2 Markdown
