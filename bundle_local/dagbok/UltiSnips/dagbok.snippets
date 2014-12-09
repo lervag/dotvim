@@ -1,14 +1,21 @@
 snippet new "New entry" b
 `date +%Y-%m-%d`
-  Sto opp        ${1:06:30}
+  Sto opp        ${1:06:00}
   La meg         xx:xx
   Vekt           xx.x kg
   Vekt (Helene)  xx.x kg
   Vekt (Are)     xx.x kg
   Lengde (Are)   xx.x cm
+  Are
+    Sto opp      ${2:06:00}
+    Dupp         xx:xx - xx:xx
+                 xx:xx - xx:xx
+    Mat          xx:xx - 
+                 xx:xx - 
+    La seg       xx:xx
   Trening        
   Snopefri
-  Notat          $2
+  Notat          $3
 
 endsnippet
 

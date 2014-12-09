@@ -13,6 +13,11 @@ syn match date    /^\d\d\d\d-\d\d-\d\d/
 syn match entries /^  .*/                    contains=error,number
 syn match entries /^  \(La meg\|Sto opp\).*/ contains=error,time
 syn match entries /^  Trening.*/             contains=trening
+
+syn match are        /^  Are/
+syn match areentries /^    \(Sto opp\|Dupp\|Mat\|La seg\|\s*\).*/
+      \ contains=error,number,time
+
 syn match error   /[0-9x]\+.[0-9x]\+.*/           contained
 syn match time    /[0-9x][0-9x]:[0-9x][0-9x]/     contained
 syn match number  /[0-9x]\+\.[0-9x]\+\( \w\+\)\?/ contained
@@ -32,8 +37,10 @@ syn region fold
       \ transparent fold
 
 " Set colors
-hi def date    guifg=blue 
-hi def entries guifg=green 
+hi def date       guifg=blue 
+hi def entries    guifg=green 
+hi def areentries guifg=black 
+hi link are     entries
 hi link time    number
 hi link numbers number
 hi link unit    number
