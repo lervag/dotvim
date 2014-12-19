@@ -10,6 +10,12 @@ nnoremap <silent> <space>u :PlugUpdate<cr>
 nnoremap <silent> <space>d :PlugDiff<cr>
 " }}}2
 
+" Testing
+Plug 'sjbach/lusty'
+Plug 'itchyny/thumbnail.vim', { 'on': 'Thumbnail' }
+Plug 'mattboehm/vim-accordion', { 'on': 'Accordion' }
+Plug 'bogado/file-line'
+
 " User interface
 Plug 'altercation/vim-colors-solarized'
 Plug 'drmikehenry/vim-fontsize'
