@@ -540,6 +540,7 @@ Plug '~/.vim/bundle_local/speeddating'
 Plug '~/.vim/bundle_local/syntaxcomplete'
 Plug '~/.vim/bundle_local/text-object-indent'
 Plug '~/.vim/bundle_local/toggle-verbose'
+Plug '~/.vim/bundle_local/man-wrapper'
 
 call plug#end()
 endif
@@ -708,7 +709,7 @@ set background=dark
 if has("gui_running")
   set lines=60
   set columns=82
-  set guifont=Inconsolata-g\ Medium\ 9
+  set guifont=Inconsolata-g\ Medium\ 10
   set guioptions=aeci
   set guiheadroom=0
   set background=light
