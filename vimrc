@@ -362,6 +362,7 @@ let s:wiki.nested_syntaxes = {
       \ 'tex'    : 'latex',
       \ 'f90'    : 'fortran',
       \ 'make'   : 'make',
+      \ 'vim'    : 'vim',
       \ }
 
 " Set up global options
@@ -520,6 +521,7 @@ let g:vimfiler_as_default_explorer = 1
 " Local filetype plugins
 Plug '~/.vim/bundle_local/dagbok',    { 'for' : 'dagbok' }
 Plug '~/.vim/bundle_local/fortran',   { 'for' : 'fortran' }
+Plug '~/.vim/bundle_local/help',      { 'for' : 'help' }
 Plug '~/.vim/bundle_local/lisp',      { 'for' : 'lisp' }
 Plug '~/.vim/bundle_local/make',      { 'for' : 'make' }
 Plug '~/.vim/bundle_local/markdown',  { 'for' : 'markdown' }
@@ -548,7 +550,7 @@ endif
 "{{{1 General options
 
 "{{{2 Basic options
-set history=1000
+set history=10000
 set confirm
 set winaltkeys=no
 set ruler
