@@ -15,8 +15,8 @@ function! s:man(...)
   noremap <buffer>         q       :q<cr>
   noremap <buffer>         <cr>    :MyMan <c-r><c-w><cr>
   noremap <buffer><silent> <bs>    <c-o><c-o>
-  noremap <buffer>         <tab>   /\w\+(\d)<cr>
-  noremap <buffer>         <s-tab> ?\w\+(\d)<cr>
+  nmap    <buffer>         <tab>   /\w\+(\d)<cr>
+  nmap    <buffer>         <s-tab> ?\w\+(\d)<cr>
 endfunction
 
 command! -nargs=+ ManWrapper call s:man(<f-args>)
