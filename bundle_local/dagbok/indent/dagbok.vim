@@ -11,6 +11,9 @@ setlocal nosmartindent
 setlocal autoindent
 setlocal indentexpr=GetDagbokIndent()
 
+let &cpo = s:cpo_save
+unlet s:cpo_save
+
 if exists("*GetDagbokIndent")
   finish
 endif
@@ -40,6 +43,3 @@ function GetDagbokIndent()
 
   return ind
 endfunction
-
-let &cpo = s:cpo_save
-unlet s:cpo_save

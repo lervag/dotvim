@@ -1,6 +1,7 @@
 if exists('b:current_syntax')
   finish
 endif
+let b:current_syntax = 1
 
 " Ensure syntax at top of buffer window is correct
 syntax sync minlines=100
