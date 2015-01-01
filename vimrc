@@ -141,7 +141,12 @@ map <c-s> <plug>(smalls)
 " General programming
 Plug 'thinca/vim-quickrun'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-dispatch', { 'on': [ 'Copen',
+                                   \ 'Dispatch',
+                                   \ 'Focus',
+                                   \ 'FocusDispatch',
+                                   \ 'Make',
+                                   \ 'Start' ] }
 " {{{2 Fugitive
 Plug 'tpope/vim-fugitive'
 nnoremap <leader>gs :Gstatus<cr>
@@ -353,7 +358,6 @@ Plug '~/.vim/bundle_local/vimwiki-journal'
 " Set up main wiki
 let s:wiki = {}
 let s:wiki.path = '~/documents/wiki'
-let s:wiki.maxhi = 1
 let s:wiki.diary_rel_path = 'journal'
 let s:wiki.list_margin = 0
 let s:wiki.nested_syntaxes = {
@@ -387,11 +391,12 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
 " {{{2 Ack
 Plug 'mileszs/ack.vim'
-let g:ackpreview = 1
+let g:ackhighlight = 1
+let g:ack_autofold_results = 1
 let g:ack_mappings = {
       \ 'o'  : '<cr>zMzvzz',
       \ 'O'  : '<cr><c-w><c-w>:ccl<cr>zMzvzz',
-      \ 'go' : '<cr>zMzvzz<c-w>j',
+      \ 'p'  : '<cr>zMzvzz<c-w><c-w>',
       \ }
 
 nnoremap <space>a :Ack 
