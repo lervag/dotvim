@@ -10,6 +10,152 @@ nnoremap <silent> <space>u :PlugUpdate<cr>
 nnoremap <silent> <space>d :PlugDiff<cr>
 " }}}2
 
+"
+" A collection of interesting plugins that I want to check out when I get the
+" time for it.
+"
+" {{{2 Interesting plugins
+" " movement
+" Plug 'rhysd/clever-f.vim'
+" Plug 'vim-scripts/matchit.zip'
+" Plug 'myusuf3/numbers.vim'
+" Plug 'christoomey/vim-tmux-navigator'
+" Plug 'bruno-/vim-vertical-move'
+
+" " repeat
+" Plug 'daisuzu/autorepeat.vim', { 'on': '<Plug>(autorepeat)' }
+" Plug 'vim-scripts/visualrepeat'
+
+" " undo
+" Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+
+" " align
+" Plug 'JLimperg/Align'
+" Plug 'sk1418/blockit'
+" Plug 'atweiden/vim-dragvisuals'
+" Plug 'dhruvasagar/vim-table-mode'
+" Plug 'atsepkov/vim-tabularity'
+" Plug 'vim-scripts/vis'
+
+" " textobj
+" Plug 'tommcdo/vim-centaur'
+" Plug 'terryma/vim-expand-region'
+" Plug 'tek/vim-fieldtrip'
+" Plug 'michaeljsmith/vim-indent-object'
+" Plug 'vim-scripts/LineJuggler'
+" Plug 'vim-scripts/LineJugglerCommands', { 'on': [ 'Replace', 'Swap' ] }
+" Plug 'kana/vim-operator-user'
+" Plug 'AndrewRadev/sideways.vim'
+" Plug 'kana/vim-submode'
+" Plug 'wellle/targets.vim'
+" Plug 'kana/vim-textobj-entire'
+" Plug 'coderifous/textobj-word-column.vim'
+
+" " macros
+" Plug 'dahu/VimLocalMacros'
+" Plug 'vim-scripts/marvim'
+" Plug 'naquad/Partial.vim', { 'on': 'Partial' }
+
+" " multiple cursors
+" Plug 'terryma/vim-multiple-cursors'
+
+" " tags
+" Plug 'xolox/vim-easytags', { 'on': [ 'HighlightTags', 'UpdateTags' ] }
+" Plug 'majutsushi/tagbar'
+
+" " diffs
+" Plug 'AndrewRadev/linediff.vim'
+
+" " vcs
+" Plug 'rhysd/committia.vim', { 'for': 'gitcommit' }
+" Plug 'gregsexton/gitv', { 'on': 'Gitv' }
+" Plug 'jmcantrell/vim-reporoot', { 'on': 'RepoRoot' }
+
+" " math
+" Plug 'arecarn/crunch.vim'
+" Plug 'jmcantrell/vim-numbered', { 'on': 'Numbered' }
+
+" " command runners
+" Plug 'tyru/capture.vim', { 'on': 'Capture' }
+" Plug 'xuhdev/SingleCompile', { 'on': [ 'SCChooseCompiler',
+"                                      \ 'SCChooseInterpreter',
+"                                      \ 'SCCompile',
+"                                      \ 'SCCompileAF',
+"                                      \ 'SCCompileRun',
+"                                      \ 'SCCompileRunAF',
+"                                      \ 'SCCompileRunAsync',
+"                                      \ 'SCCompileRunAsyncAF',
+"                                      \ 'SCIsRunningAsync',
+"                                      \ 'SCTerminateAsync',
+"                                      \ 'SCViewResult',
+"                                      \ 'SCViewResultAsync',
+"                                      \ 'SingleCompile',
+"                                      \ 'SingleCompileRun' ] }
+" Plug 'epeli/slimux', { 'on': [ 'SlimuxREPLConfigure',
+"                              \ 'SlimuxREPLSendLine',
+"                              \ 'SlimuxREPLSendSelection',
+"                              \ 'SlimuxSendKeysConfigure',
+"                              \ 'SlimuxSendKeysLast',
+"                              \ 'SlimuxSendKeysPrompt',
+"                              \ 'SlimuxShellConfigure',
+"                              \ 'SlimuxShellLast',
+"                              \ 'SlimuxShellPrompt',
+"                              \ 'SlimuxShellRun' ] }
+" Plug 'tpope/vim-tbone', { 'on': [ 'Tattach',
+"                                 \ 'Tmux',
+"                                 \ 'Tput',
+"                                 \ 'Twrite',
+"                                 \ 'Tyank' ] }
+" Plug 'benmills/vimux', { 'on': [ 'VimuxClearRunnerHistory',
+"                                \ 'VimuxCloseRunner',
+"                                \ 'VimuxInspectRunner',
+"                                \ 'VimuxInterruptRunner',
+"                                \ 'VimuxOpenPane',
+"                                \ 'VimuxPromptCommand',
+"                                \ 'VimuxRunCommand',
+"                                \ 'VimuxRunLastCommand',
+"                                \ 'VimuxSendKeys',
+"                                \ 'VimuxSendText',
+"                                \ 'VimuxZoomRunner' ] }
+
+" " languages
+" Plug 'groenewege/vim-less', { 'for': 'less' }
+" Plug 'chrisbra/csv.vim', { 'for': 'csv' }
+" Plug 'mattreduce/vim-mix', { 'on': [ 'Mclean',
+"                                    \ 'Mcompile',
+"                                    \ 'Mdeps',
+"                                    \ 'Mix',
+"                                    \ 'Mtest' ] }
+" Plug 'spiegela/vimix', { 'on': [ 'VimixClean',
+"                                \ 'VimixCompile',
+"                                \ 'VimixDepsCompile',
+"                                \ 'VimixDepsGet',
+"                                \ 'VimixDepsStatus',
+"                                \ 'VimixDepsUpdate',
+"                                \ 'VimixLocal',
+"                                \ 'VimixPromptRun',
+"                                \ 'VimixTestAll',
+"                                \ 'VimixTestCurrentFile',
+"                                \ 'VimuxRunLastCommand' ] }
+" Plug 'mitsuhiko/vim-python-combined', { 'for': 'python' }
+" Plug 'jmcantrell/vim-virtualenv', { 'on': [ 'VirtualEnvActivate',
+"                                           \ 'VirtualEnvDeactivate',
+"                                           \ 'VirtualEnvList' ] }
+" Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+" Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+" Plug 'yaymukund/vim-rabl', { 'for': 'ruby' }
+" Plug 'tpope/vim-rbenv', { 'on': 'Rbenv' }
+" Plug 'darvelo/vim-systemd', { 'for': [ 'systemd', 'udev' ] }
+" Plug 'whatyouhide/vim-tmux-syntax', { 'for': 'tmux-conf' }
+" Plug 'trapd00r/vim-after-syntax-vim', { 'for': 'vim' }
+
+" " utilities
+" Plug 'kana/vim-arpeggio'
+" Plug 'drmikehenry/vim-fixkey'
+" Plug 'vim-scripts/ingo-library'
+" Plug 'tpope/vim-scriptease'
+" }}}
+
 " Testing
 Plug 'sjbach/lusty'
 Plug 'itchyny/thumbnail.vim', { 'on': 'Thumbnail' }
