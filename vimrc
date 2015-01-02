@@ -254,12 +254,6 @@ augroup END
 
 " General motions
 Plug 'guns/vim-sexp'
-" {{{2 Fanfingtastic
-Plug 'dahu/vim-fanfingtastic'
-let g:fanfingtastic_fix_t = 1
-let g:fanfingtastic_use_jumplist = 1
-
-" }}}2
 " {{{2 Incsearch
 Plug 'haya14busa/incsearch.vim'
 let g:incsearch#auto_nohlsearch = 1
