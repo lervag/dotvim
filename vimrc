@@ -413,18 +413,13 @@ augroup END
 
 " }}}2
 "{{{2 Ultisnips
-Plug 'SirVer/ultisnips', { 'on' : [] }
+Plug 'SirVer/ultisnips'
 let g:UltiSnipsJumpForwardTrigger="<m-u>"
 let g:UltiSnipsJumpBackwardTrigger="<s-m-u>"
 let g:UltiSnipsEditSplit = "horizontal"
 let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/UltiSnips/UltiSnips"
 map <leader>es :UltiSnipsEdit!<cr>
 
-augroup load_on_insert
-  autocmd!
-  autocmd InsertEnter * call plug#load('ultisnips')
-                        \ | autocmd! load_on_insert
-augroup END
 " }}}2
 
 " Filetype specific
