@@ -8,4 +8,5 @@ let b:did_ft_vim = 1
 
 if exists('ruby_fold') | unlet ruby_fold | endif
 set foldmethod=marker
+let g:vimsyn_folding = 'f'
 
