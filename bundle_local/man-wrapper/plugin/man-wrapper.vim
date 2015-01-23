@@ -11,6 +11,7 @@ function! s:man(...)
   setlocal tabstop=8
   setlocal softtabstop=8
   setlocal shiftwidth=8
+  setlocal colorcolumn=
 
   noremap <buffer>         q       :q<cr>
   noremap <buffer>         <cr>    :MyMan <c-r><c-w><cr>
