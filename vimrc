@@ -432,10 +432,12 @@ Plug 'git@github.com:lervag/vim-latex.git',
       \ { 'for' : 'tex' }
 let g:latex_enabled = 1
 let g:latex_default_mappings = 1
+let g:latex_fold_automatic = 0
+let g:latex_quickfix_open_on_warning = 0
+let g:latex_toc_resize = 0
+let g:latex_toc_split_pos = 'below'
 let g:latex_view_method = 'mupdf'
 let g:latex_view_mupdf_options = ''
-let g:latex_quickfix_open_on_warning = 0
-let g:latex_fold_automatic = 0
 
 Plug 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git',
       \ { 'on' : [] }
