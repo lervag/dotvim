@@ -438,6 +438,7 @@ let g:latex_toc_resize = 0
 let g:latex_toc_split_pos = 'below'
 let g:latex_view_method = 'mupdf'
 let g:latex_view_mupdf_options = ''
+let g:latex_view_mupdf_send_keys = 'H'
 
 Plug 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git',
       \ { 'on' : [] }
@@ -722,6 +723,7 @@ set autoread
 set wildmenu
 set wildmode=longest,list:longest,full
 set wildignore=*.o,*~,*.pyc,.git/*,.hg/*,.svn/*,*.DS_Store,CVS/*
+silent! set shortmess+=c
 set splitbelow
 set splitright
 set previewheight=20
