@@ -715,7 +715,7 @@ set backspace=indent,eol,start
 set autoindent
 set fileformat=unix
 set list
-set listchars=tab:▸\ ,nbsp:%,extends:❯,precedes:❮
+set listchars=tab:▸\ ,nbsp:%,extends:,precedes:
 set cursorline
 set autochdir
 set cpoptions+=J
@@ -780,7 +780,7 @@ if v:version >= 703
 end
 set smarttab
 set expandtab
-set wrap
+set nowrap
 set linebreak
 set formatoptions+=rnl1j
 set formatlistpat=^\\s*\\(\\(\\d\\+\\\|[a-z]\\)[.:)]\\\|[-*]\\)\\s\\+
