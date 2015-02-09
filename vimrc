@@ -533,7 +533,6 @@ Plug 'xolox/vim-reload'
 " {{{2 Ack
 Plug 'mileszs/ack.vim'
 let g:ackhighlight = 1
-let g:ack_autofold_results = 1
 let g:ack_mappings = {
       \ 'o'  : '<cr>zMzvzz',
       \ 'O'  : '<cr><c-w><c-w>:ccl<cr>zMzvzz',
@@ -575,7 +574,7 @@ let g:ctrlp_custom_ignore = {}
 let g:ctrlp_custom_ignore.dir =
       \ '\vCVS|\.(git|hg|vim\/undofiles|vim\/backup)$'
 let g:ctrlp_custom_ignore.file =
-      \ '\v\.(aux|pdf|gz|wiki)$|documents\/ntnu\/phd'
+      \ '\v\.(aux|pdf|gz|wiki)$'
 let g:ctrlp_follow_symlinks = 1
 let g:ctrlp_map = ''
 let g:ctrlp_match_window = 'top,order:ttb,max:25'
