@@ -279,14 +279,7 @@ map <c-s> <plug>(smalls)
 " }}}2
 
 " General programming
-Plug 'thinca/vim-quickrun'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-dispatch', { 'on': [ 'Copen',
-                                   \ 'Dispatch',
-                                   \ 'Focus',
-                                   \ 'FocusDispatch',
-                                   \ 'Make',
-                                   \ 'Start' ] }
 " {{{2 Fugitive
 Plug 'tpope/vim-fugitive'
 nnoremap <leader>gs :Gstatus<cr>
@@ -300,6 +293,16 @@ nnoremap <leader>hs :Hgstatus<cr>
 nnoremap <leader>hd :Hgvdiff<cr>:ResizeSplits<cr>
 
 " }}}
+"{{{2 Quickrun
+Plug 'thinca/vim-quickrun'
+let g:quickrun_config = {}
+let g:quickrun_config._ = {
+      \ 'outputter/buffer/close_on_empty' : 1
+      \ }
+
+map <space>r <plug>(quickrun-op)
+
+" }}}2
 "{{{2 Splice
 Plug 'sjl/splice.vim'
 let g:splice_initial_mode = "grid"
