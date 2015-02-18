@@ -259,11 +259,27 @@ Plug 'haya14busa/incsearch.vim'
 let g:incsearch#auto_nohlsearch = 1
 let g:incsearch#separate_highlight = 1
 
+set hlsearch
+highlight IncSearchMatch
+      \ term=bold cterm=bold ctermfg=9 gui=bold guifg=#268bd2
+highlight IncSearchMatchReverse
+      \ term=bold cterm=bold ctermfg=9 gui=bold guifg=#ffffff
+highlight IncSearchCursor
+      \ term=bold cterm=bold ctermfg=9 gui=bold guifg=#00ffff
+highlight IncSearchOnCursor
+      \ term=bold cterm=bold ctermfg=9 gui=bold guifg=#ff00ff
+highlight IncSearchUnderline
+      \ term=bold cterm=bold ctermfg=9 gui=bold guifg=#ff0000
+
+" Use <c-l> to clear the highlighting of :set hlsearch.
+if maparg('<c-l>', 'n') ==# ''
+  nnoremap <silent> <c-l> :nohlsearch<cr><c-l>
+endif
+
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
-set hlsearch
 map n  <Plug>(incsearch-nohl-n)
 map N  <Plug>(incsearch-nohl-N)
 map *  <Plug>(incsearch-nohl-*)
@@ -961,11 +977,6 @@ nnoremap ,R :%s/\<<c-r>=expand('<cword>')<cr>\>/
 function! SynStack()
   PP map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunction
-
-" Use <C-L> to clear the highlighting of :set hlsearch.
-if maparg('<C-L>', 'n') ==# ''
-  nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
-endif
 
 " sudo to write
 cnoremap w!! w !sudo tee % >/dev/null
