@@ -443,6 +443,8 @@ let g:latex_view_method = 'mupdf'
 let g:latex_view_mupdf_options = ''
 let g:latex_view_mupdf_send_keys = 'H'
 
+let g:tex_isk='48-57,a-z,A-Z,192-255,:'
+
 Plug 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git',
       \ { 'on' : [] }
 let g:LatexBox_latexmk_async = 1
