@@ -738,6 +738,7 @@ if has('patch-7.4.399')
 else
   set cryptmethod=blowfish
 endif
+set path=.,**
 
 " Turn off all bells on terminal vim (necessary for vim through putty)
 if !has('gui_running')
