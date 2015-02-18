@@ -883,17 +883,20 @@ if has("gui_running")
   set guicursor+=r:blinkon0-hor20-rCursor
 endif
 
-" {{{2 Custom highlighting
-" Matchparen
-highlight clear MatchParen
-highlight MatchParen gui=bold guibg=#bfb
+highlight clear
+      \ MatchParen
+      \ Search
+      \ SpellBad
+      \ SpellCap
+      \ SpellRare
+      \ SpellLocal
 
-" Spelling
-highlight clear SpellBad SpellCap SpellRare SpellLocal
-highlight SpellBad   gui=bold guibg=#faa
-highlight SpellCap   gui=bold guibg=#faf
-highlight SpellRare  gui=bold guibg=#aff
-highlight SpellLocal gui=bold guibg=#ffa
+highlight MatchParen term=bold cterm=bold ctermfg=33  gui=bold guifg=Blue
+highlight SpellBad   term=bold cterm=bold ctermfg=124 gui=bold guifg=Red
+highlight SpellCap   term=bold cterm=bold ctermfg=33  gui=bold guifg=Blue
+highlight SpellRare  term=bold cterm=bold ctermfg=104 gui=bold guifg=Purple
+highlight SpellLocal term=bold cterm=bold ctermfg=227 gui=bold guifg=Yellow
+highlight Search     term=bold cterm=bold ctermfg=127 gui=bold guifg=Magenta
 
 "{{{1 Autocommands
 
