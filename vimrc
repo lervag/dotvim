@@ -260,32 +260,24 @@ let g:incsearch#auto_nohlsearch = 1
 let g:incsearch#separate_highlight = 1
 
 set hlsearch
-highlight IncSearchMatch
-      \ term=bold cterm=bold ctermfg=9 gui=bold guifg=#268bd2
-highlight IncSearchMatchReverse
-      \ term=bold cterm=bold ctermfg=9 gui=bold guifg=#ffffff
-highlight IncSearchCursor
-      \ term=bold cterm=bold ctermfg=9 gui=bold guifg=#00ffff
-highlight IncSearchOnCursor
-      \ term=bold cterm=bold ctermfg=9 gui=bold guifg=#ff00ff
-highlight IncSearchUnderline
-      \ term=bold cterm=bold ctermfg=9 gui=bold guifg=#ff0000
-
-" Use <c-l> to clear the highlighting of :set hlsearch.
-if maparg('<c-l>', 'n') ==# ''
-  nnoremap <silent> <c-l> :nohlsearch<cr><c-l>
-endif
-
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
-
 map n  <Plug>(incsearch-nohl-n)
 map N  <Plug>(incsearch-nohl-N)
 map *  <Plug>(incsearch-nohl-*)
 map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
+
+" Use <c-l> to clear the highlighting of :set hlsearch.
+if maparg('<c-l>', 'n') ==# ''
+  nnoremap <silent> <c-l> :nohlsearch<cr><c-l>
+endif
+
+"
+" Highlight options are defined under "Customize UI" (see below)
+"
 
 " }}}2
 " {{{2 Smalls
@@ -797,7 +789,7 @@ set shiftwidth=2
 set textwidth=79
 set columns=80
 if v:version >= 703
-  set colorcolumn=81,82,83
+  execute "set colorcolumn=" . join(range(81,335), ',')
 end
 set smarttab
 set expandtab
@@ -907,12 +899,27 @@ highlight clear
       \ SpellRare
       \ SpellLocal
 
-highlight MatchParen term=bold cterm=bold ctermfg=33  gui=bold guifg=Blue
-highlight SpellBad   term=bold cterm=bold ctermfg=124 gui=bold guifg=Red
-highlight SpellCap   term=bold cterm=bold ctermfg=33  gui=bold guifg=Blue
-highlight SpellRare  term=bold cterm=bold ctermfg=104 gui=bold guifg=Purple
-highlight SpellLocal term=bold cterm=bold ctermfg=227 gui=bold guifg=Yellow
-highlight Search     term=bold cterm=bold ctermfg=127 gui=bold guifg=Magenta
+highlight MatchParen term=bold cterm=bold gui=bold ctermfg=33  guifg=Blue
+highlight SpellBad   term=bold cterm=bold gui=bold ctermfg=124 guifg=Red
+highlight SpellCap   term=bold cterm=bold gui=bold ctermfg=33  guifg=Blue
+highlight SpellRare  term=bold cterm=bold gui=bold ctermfg=104 guifg=Purple
+highlight SpellLocal term=bold cterm=bold gui=bold ctermfg=227 guifg=Yellow
+
+highlight Search
+      \ term=bold,underline cterm=bold,underline gui=bold,underline
+      \ ctermfg=201 guifg=Magenta
+highlight IncSearchMatch
+      \ term=bold,underline cterm=bold,underline gui=bold,underline
+      \ ctermfg=201 guifg=Magenta
+highlight IncSearchMatchReverse
+      \ term=bold,underline cterm=bold,underline gui=bold,underline
+      \ ctermfg=127 guifg=LightMagenta
+highlight IncSearchOnCursor
+      \ term=bold,underline cterm=bold,underline gui=bold,underline
+      \ ctermfg=39 guifg=#00afff
+highlight IncSearchCursor
+      \ term=bold,underline cterm=bold,underline gui=bold,underline
+      \ ctermfg=39 guifg=#00afff
 
 "{{{1 Autocommands
 
