@@ -965,17 +965,16 @@ noremap  H      ^
 noremap  L      g_
 noremap  <f1>   <nop>
 inoremap <esc>  <nop>
+nnoremap -      <C-^>
 inoremap jk     <esc>
 inoremap <f1>   <nop>
-nnoremap  Y     y$
+nnoremap Y      y$
 nnoremap J      mzJ`z
-nnoremap <c-u>  :Bdelete<cr>:ResizeSplits<cr>
-nnoremap gb     :bnext<cr>
-nnoremap gB     :bprevious<cr>
 nnoremap dp     dp]c
 nnoremap do     do]c
-
-nnoremap - <C-^>
+nnoremap <silent> <c-u> :Bdelete<cr>:ResizeSplits<cr>
+nnoremap <silent> gb    :bnext<cr>
+nnoremap <silent> gB    :bprevious<cr>
 
 " Shortcuts for some files
 map <leader>ev :e ~/.vim/vimrc<cr>
