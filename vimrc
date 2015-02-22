@@ -4,7 +4,7 @@ silent! if plug#begin('~/.vim/bundle')
 
 " {{{2 VimPlug
 Plug 'junegunn/vim-plug', { 'on' : [] }
-let g:plug_window = 'above new'
+let g:plug_window = 'tab new'
 
 nnoremap <silent> <space>u :PlugUpdate<cr>
 nnoremap <silent> <space>d :PlugDiff<cr>
