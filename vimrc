@@ -7,7 +7,7 @@ Plug 'junegunn/vim-plug', { 'on' : [] }
 let g:plug_window = 'tab new'
 
 nnoremap <silent> <space>u :PlugUpdate<cr>
-nnoremap <silent> <space>d :PlugDiff<cr>
+nnoremap <silent> <space>s :PlugStatus<cr>
 " }}}2
 
 "
@@ -16,7 +16,6 @@ nnoremap <silent> <space>d :PlugDiff<cr>
 "
 " {{{2 Interesting plugins
 " " movement
-" Plug 'rhysd/clever-f.vim'
 " Plug 'vim-scripts/matchit.zip'
 " Plug 'myusuf3/numbers.vim'
 " Plug 'christoomey/vim-tmux-navigator'
@@ -157,10 +156,7 @@ nnoremap <silent> <space>d :PlugDiff<cr>
 " }}}
 
 " Testing
-Plug 'sjbach/lusty'
 Plug 'itchyny/thumbnail.vim', { 'on': 'Thumbnail' }
-Plug 'mattboehm/vim-accordion', { 'on': 'Accordion' }
-Plug 'bogado/file-line'
 
 " User interface
 Plug 'altercation/vim-colors-solarized'
@@ -261,6 +257,7 @@ augroup END
 
 " General motions
 Plug 'guns/vim-sexp'
+Plug 'rhysd/clever-f.vim'
 " {{{2 Incsearch
 Plug 'haya14busa/incsearch.vim'
 let g:incsearch#auto_nohlsearch = 1
@@ -546,6 +543,7 @@ let g:vimwiki_table_mappings = 0
 " }}}2
 
 " Utility plugins
+Plug 'bogado/file-line'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
 Plug 'thinca/vim-prettyprint'
