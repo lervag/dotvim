@@ -12,7 +12,7 @@ function! OpenInBrowser()
   let url = substitute(url, '^[''"\[({<]\+\(.\{-}\)[''",.\])}>]\+$', '\1', '')
 
   " Easy to open neobundle urls
-  if url =~# '^\w*\/[a-zA-Z][a-zA-Z0-9_.-]*$'
+  if url =~# '^[a-zA-Z][a-zA-Z0-9_.-]*\/[a-zA-Z][a-zA-Z0-9_.-]*$'
     let url = 'https://github.com/' . url
   endif
 
