@@ -475,13 +475,15 @@ augroup latex_settings
 augroup END
 
 " }}}2
-" {{{2 Markdown
-Plug 'tpope/vim-markdown'
-Plug 'thinca/vim-ft-markdown_fold'
+" {{{2 Pandoc (including Markdown)
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
-let g:pandoc#filetypes#pandoc_markdown = 0
-let g:pandoc#folding#mode = "relative"
+
+let g:pandoc#folding#level = 9
+let g:pandoc#folding#fdc = 0
+let g:pandoc#formatting = "h"
+let g:pandoc#spell#enabled = 0
+let g:pandoc#toc#position = "top"
 
 " }}}2
 " {{{2 Python
