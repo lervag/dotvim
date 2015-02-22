@@ -352,6 +352,12 @@ nmap ,si :SyntasticInfo<cr>
 nmap ,st :SyntasticToggleMode<cr>
 
 " }}}2
+" {{{2 Vebugger
+Plug 'idanarye/vim-vebugger'
+
+let g:vebugger_leader = '\v'
+
+" }}}
 " {{{2 VCSCommand
 Plug 'git://repo.or.cz/vcscommand.git'
 let g:VCSCommandSplit = 'vertical'
