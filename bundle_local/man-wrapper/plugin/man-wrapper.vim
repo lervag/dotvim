@@ -14,7 +14,7 @@ function! s:man(...)
   setlocal colorcolumn=
 
   noremap <buffer>         q       :q<cr>
-  noremap <buffer>         <cr>    :MyMan <c-r><c-w><cr>
+  noremap <buffer>         <cr>    :ManWrapper <c-r><c-w><cr>
   noremap <buffer><silent> <bs>    <c-o><c-o>
   nmap    <buffer>         <tab>   /\w\+(\d)<cr>
   nmap    <buffer>         <s-tab> ?\w\+(\d)<cr>
