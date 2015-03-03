@@ -6,8 +6,10 @@ silent! if plug#begin('~/.vim/bundle')
 Plug 'junegunn/vim-plug', { 'on' : [] }
 let g:plug_window = 'tab new'
 
-nnoremap <silent> <space>u :PlugUpdate<cr>
-nnoremap <silent> <space>s :PlugStatus<cr>
+nnoremap <silent> <space>pd :PlugDiff<cr>
+nnoremap <silent> <space>pi :PlugInstall<cr>
+nnoremap <silent> <space>pu :PlugUpdate<cr>
+nnoremap <silent> <space>ps :PlugStatus<cr>
 " }}}2
 
 "
@@ -15,26 +17,6 @@ nnoremap <silent> <space>s :PlugStatus<cr>
 " time for it.
 "
 " {{{2 Interesting plugins
-" " movement
-" Plug 'vim-scripts/matchit.zip'
-" Plug 'myusuf3/numbers.vim'
-" Plug 'christoomey/vim-tmux-navigator'
-" Plug 'bruno-/vim-vertical-move'
-
-" " repeat
-" Plug 'daisuzu/autorepeat.vim', { 'on': '<Plug>(autorepeat)' }
-" Plug 'vim-scripts/visualrepeat'
-
-" " undo
-" Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-
-" " align
-" Plug 'JLimperg/Align'
-" Plug 'sk1418/blockit'
-" Plug 'atweiden/vim-dragvisuals'
-" Plug 'dhruvasagar/vim-table-mode'
-" Plug 'atsepkov/vim-tabularity'
-" Plug 'vim-scripts/vis'
 
 " " textobj
 " Plug 'tommcdo/vim-centaur'
@@ -153,10 +135,11 @@ nnoremap <silent> <space>s :PlugStatus<cr>
 " Plug 'drmikehenry/vim-fixkey'
 " Plug 'vim-scripts/ingo-library'
 " Plug 'tpope/vim-scriptease'
-" }}}
 
-" Testing
-Plug 'itchyny/thumbnail.vim', { 'on': 'Thumbnail' }
+" Stage 2
+" Plug 'dhruvasagar/vim-table-mode'
+
+" }}}
 
 " User interface
 Plug 'altercation/vim-colors-solarized'
@@ -663,6 +646,16 @@ augroup END
 Plug 'gorkunov/smartpairs.vim'
 let g:smartpairs_uber_mode = 1
 let g:smartpairs_revert_key = ''
+
+" }}}2
+" {{{2 Undotree
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+
+let g:undotree_WindowLayout = 2
+let g:undotree_SetFocusWhenToggle = 1
+
+
+nnoremap <f5> :UndotreeToggle<cr>
 
 " }}}2
 " {{{2 vim-online-thesaurus
