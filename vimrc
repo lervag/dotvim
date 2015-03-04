@@ -242,11 +242,17 @@ map <c-s> <plug>(smalls)
 
 " General programming
 Plug 'tpope/vim-commentary'
-" {{{2 Fugitive
+" {{{2 Fugitive and gitv
 Plug 'tpope/vim-fugitive'
+Plug 'gregsexton/gitv'
+
+let g:Gitv_OpenHorizontal = 1
+
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gd :Gdiff<cr>:ResizeSplits<cr>
+nnoremap <leader>gl :Gitv<cr>
+nnoremap <leader>gL :Gitv!<cr>
 
 " }}}2
 " {{{2 Lawrencium
