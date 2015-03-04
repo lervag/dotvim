@@ -19,44 +19,6 @@ nnoremap <silent> <space>pc :PlugClean<cr>
 "
 " {{{2 Interesting plugins
 
-" " textobj
-" Plug 'tommcdo/vim-centaur'
-" Plug 'terryma/vim-expand-region'
-" Plug 'tek/vim-fieldtrip'
-" Plug 'michaeljsmith/vim-indent-object'
-" Plug 'vim-scripts/LineJuggler'
-" Plug 'vim-scripts/LineJugglerCommands', { 'on': [ 'Replace', 'Swap' ] }
-" Plug 'kana/vim-operator-user'
-" Plug 'AndrewRadev/sideways.vim'
-" Plug 'kana/vim-submode'
-" Plug 'wellle/targets.vim'
-" Plug 'kana/vim-textobj-entire'
-" Plug 'coderifous/textobj-word-column.vim'
-
-" " macros
-" Plug 'dahu/VimLocalMacros'
-" Plug 'vim-scripts/marvim'
-" Plug 'naquad/Partial.vim', { 'on': 'Partial' }
-
-" " multiple cursors
-" Plug 'terryma/vim-multiple-cursors'
-
-" " tags
-" Plug 'xolox/vim-easytags', { 'on': [ 'HighlightTags', 'UpdateTags' ] }
-" Plug 'majutsushi/tagbar'
-
-" " diffs
-" Plug 'AndrewRadev/linediff.vim'
-
-" " vcs
-" Plug 'rhysd/committia.vim', { 'for': 'gitcommit' }
-" Plug 'gregsexton/gitv', { 'on': 'Gitv' }
-" Plug 'jmcantrell/vim-reporoot', { 'on': 'RepoRoot' }
-
-" " math
-" Plug 'arecarn/crunch.vim'
-" Plug 'jmcantrell/vim-numbered', { 'on': 'Numbered' }
-
 " " command runners
 " Plug 'tyru/capture.vim', { 'on': 'Capture' }
 " Plug 'xuhdev/SingleCompile', { 'on': [ 'SCChooseCompiler',
@@ -139,6 +101,10 @@ nnoremap <silent> <space>pc :PlugClean<cr>
 
 " Stage 2
 " Plug 'dhruvasagar/vim-table-mode'
+" Plug 'xolox/vim-easytags'
+" Plug 'coderifous/textobj-word-column.vim'
+" Plug 'kana/vim-operator-user'
+" Plug 'arecarn/crunch.vim'
 
 " }}}
 
