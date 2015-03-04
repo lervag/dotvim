@@ -10,6 +10,7 @@ nnoremap <silent> <space>pd :PlugDiff<cr>
 nnoremap <silent> <space>pi :PlugInstall<cr>
 nnoremap <silent> <space>pu :PlugUpdate<cr>
 nnoremap <silent> <space>ps :PlugStatus<cr>
+nnoremap <silent> <space>pc :PlugClean<cr>
 " }}}2
 
 "
