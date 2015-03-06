@@ -510,6 +510,9 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
 " {{{2 Ack
 Plug 'mileszs/ack.vim'
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
 let g:ackhighlight = 1
 let g:ack_mappings = {
       \ 'o'  : '<cr>zMzvzz',
