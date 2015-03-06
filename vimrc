@@ -413,7 +413,7 @@ let g:latex_fold_automatic = 0
 let g:latex_quickfix_open_on_warning = 0
 let g:latex_toc_resize = 0
 let g:latex_toc_split_pos = 'below'
-let g:latex_view_method = 'mupdf'
+let g:latex_view_method = 'zathura'
 let g:latex_view_mupdf_send_keys = 'H'
 
 let g:tex_isk='48-57,a-z,A-Z,192-255,:'
