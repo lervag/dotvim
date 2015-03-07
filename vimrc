@@ -494,6 +494,7 @@ Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
 Plug 'thinca/vim-prettyprint'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -629,7 +630,7 @@ nnoremap <f5> :UndotreeToggle<cr>
 " {{{2 vim-online-thesaurus
 Plug 'beloglazov/vim-online-thesaurus'
 let g:online_thesaurus_map_keys = 0
-nnoremap K :OnlineThesaurusCurrentWord<CR>
+nnoremap <c-K> :OnlineThesaurusCurrentWord<CR>
 
 " }}}2
 "{{{2 vim-easy-align
