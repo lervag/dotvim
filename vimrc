@@ -20,7 +20,6 @@ nnoremap <silent> <space>pc :PlugClean<cr>
 " {{{2 Interesting plugins
 
 " " command runners
-" Plug 'tyru/capture.vim', { 'on': 'Capture' }
 " Plug 'xuhdev/SingleCompile', { 'on': [ 'SCChooseCompiler',
 "                                      \ 'SCChooseInterpreter',
 "                                      \ 'SCCompile',
@@ -506,6 +505,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'tyru/capture.vim', { 'on': 'Capture' }
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
 " {{{2 Ack
@@ -673,7 +673,6 @@ Plug '~/.vim/bundle_local/UltiSnips'
 Plug '~/.vim/bundle_local/open-in-browser',
       \ { 'on' : ['OpenInBrowser', '<Plug>(open-in-browser)'] }
 Plug '~/.vim/bundle_local/resize_splits'
-Plug '~/.vim/bundle_local/bufferize'
 Plug '~/.vim/bundle_local/speeddating'
 Plug '~/.vim/bundle_local/syntaxcomplete'
 Plug '~/.vim/bundle_local/text-object-indent'
