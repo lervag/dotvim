@@ -302,10 +302,6 @@ let g:syntastic_fortran_include_dirs = [
                             \ '../thermopack/objects/debug_gfortran_Linux',
                             \ ]
 
-" Python settings
-let g:syntastic_python_pylint_exec = 'pylint2'
-let g:syntastic_python_python_exec = 'python2'
-
 " Some mappings
 nmap ,sc :SyntasticCheck<cr>
 nmap ,si :SyntasticInfo<cr>
