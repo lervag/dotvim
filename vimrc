@@ -17,16 +17,12 @@ nnoremap <silent> <space>pc :PlugClean<cr>
 " A collection of interesting plugins that I want to check out when I get the
 " time for it.
 "
-" {{{2 Interesting plugins
-
 " Plug 'kana/vim-arpeggio'
 " Plug 'dhruvasagar/vim-table-mode'
 " Plug 'xolox/vim-easytags'
 " Plug 'coderifous/textobj-word-column.vim'
 " Plug 'kana/vim-operator-user'
 " Plug 'arecarn/crunch.vim'
-
-" }}}
 
 " User interface
 Plug 'altercation/vim-colors-solarized'
