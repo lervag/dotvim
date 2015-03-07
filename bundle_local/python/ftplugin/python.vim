@@ -10,6 +10,7 @@ setlocal smartindent
 setlocal makeprg=python\ %
 setlocal fdm=indent
 setlocal omnifunc=pythoncomplete#Complete
+setlocal define=^\s*\\(def\\\\|class\\)
 
 syn keyword pythonDecorator True None False self
 

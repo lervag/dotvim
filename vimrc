@@ -396,6 +396,9 @@ map <leader>es :UltiSnipsEdit!<cr>
 " }}}2
 
 " Filetype specific
+Plug 'chrisbra/csv.vim', { 'for': 'csv' }
+Plug 'darvelo/vim-systemd', { 'for': [ 'systemd', 'udev' ] }
+Plug 'whatyouhide/vim-tmux-syntax', { 'for': 'tmux-conf' }
 " {{{2 HTML, XML, ...
 Plug 'gregsexton/MatchTag'
 
@@ -442,26 +445,18 @@ let g:pandoc#toc#position = "top"
 
 " }}}2
 " {{{2 Python
-" Plug 'klen/python-mode', { 'branch' : 'develop', 'for' : 'python' }
+Plug 'mitsuhiko/vim-python-combined', { 'for': 'python' }
+Plug 'jmcantrell/vim-virtualenv', { 'on': [ 'VirtualEnvActivate',
+                                          \ 'VirtualEnvDeactivate',
+                                          \ 'VirtualEnvList' ] }
+Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 
-" Enables some nice commands, like
-"   K  -> docs
-"   \r -> run code
-
-let g:pymode_lint = 0
-let g:pymode_options = 0
-let g:pymode_doc = 0
-let g:pymode_trim_whitespaces = 0
-let g:pymode_run_bind = '<leader>pr'
-let g:pymode_breakpoint_bind = '<leader>pb'
-let g:pymode_rope_show_doc_bind = 'K'
-let g:pymode_rope_completion = 0
-
-autocmd FileType python setlocal define=^\s*\\(def\\\\|class\\)
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
 
 "}}}2
 "{{{2 Ruby
-Plug 'vim-ruby/vim-ruby', { 'for' : 'rb' }
+Plug 'vim-ruby/vim-ruby', { 'for' : 'ruby' }
 let g:ruby_fold=1
 
 " }}}2
