@@ -321,27 +321,15 @@ Plug 'gregsexton/MatchTag'
 
 " }}}2
 " {{{2 LaTeX
-Plug 'git@github.com:lervag/vim-latex.git',
-      \ { 'for' : 'tex' }
-let g:latex_enabled = 1
-let g:latex_default_mappings = 1
-let g:latex_fold_automatic = 0
-let g:latex_quickfix_open_on_warning = 0
-let g:latex_toc_resize = 0
-let g:latex_toc_split_pos = 'below'
-let g:latex_view_method = 'zathura'
-let g:latex_view_mupdf_send_keys = 'H'
+Plug 'git@github.com:lervag/vimtex.git', { 'for' : 'tex' }
+let g:vimtex_fold_automatic = 0
+let g:vimtex_quickfix_open_on_warning = 0
+let g:vimtex_toc_resize = 0
+let g:vimtex_toc_split_pos = 'below'
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_view_mupdf_send_keys = 'H'
 
 let g:tex_isk='48-57,a-z,A-Z,192-255,:'
-
-Plug 'git@github.com:LaTeX-Box-Team/LaTeX-Box.git',
-      \ { 'on' : [] }
-let g:LatexBox_latexmk_async = 1
-let g:LatexBox_latexmk_preview_continuously = 1
-let g:LatexBox_Folding = 1
-let g:LatexBox_viewer = 'mupdf -r 95'
-let g:LatexBox_quickfix = 2
-let g:LatexBox_split_resize = 1
 
 " Custom mappings
 augroup latex_settings
