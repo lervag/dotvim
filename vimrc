@@ -17,12 +17,10 @@ nnoremap <silent> <space>pc :PlugClean<cr>
 " A collection of interesting plugins that I want to check out when I get the
 " time for it.
 "
-" Plug 'kana/vim-arpeggio'
 " Plug 'dhruvasagar/vim-table-mode'
 " Plug 'xolox/vim-easytags'
 " Plug 'coderifous/textobj-word-column.vim'
 " Plug 'kana/vim-operator-user'
-" Plug 'arecarn/crunch.vim'
 
 " User interface
 Plug 'altercation/vim-colors-solarized'
@@ -124,7 +122,6 @@ augroup END
 
 " General motions
 Plug 'guns/vim-sexp'
-Plug 'rhysd/clever-f.vim'
 " {{{2 Incsearch
 Plug 'haya14busa/incsearch.vim'
 let g:incsearch#auto_nohlsearch = 1
@@ -153,7 +150,10 @@ endif
 " }}}2
 " {{{2 Smalls
 Plug 't9md/vim-smalls'
-map <c-s> <plug>(smalls)
+
+nmap <c-s> <plug>(smalls)
+xmap <c-s> <plug>(smalls)
+omap <c-s> <plug>(smalls)
 
 " }}}2
 
@@ -516,12 +516,6 @@ augroup ScreenShellExit
 augroup END
 
 " }}}2
-" {{{2 Smartpairs
-Plug 'gorkunov/smartpairs.vim'
-let g:smartpairs_uber_mode = 1
-let g:smartpairs_revert_key = ''
-
-" }}}2
 " {{{2 Undotree
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 
@@ -568,14 +562,18 @@ Plug '~/.vim/bundle_local/quickfix/', { 'for' : 'qf' }
 
 " Local plugins
 Plug '~/.vim/bundle_local/UltiSnips'
-Plug '~/.vim/bundle_local/open-in-browser',
-      \ { 'on' : ['OpenInBrowser', '<Plug>(open-in-browser)'] }
 Plug '~/.vim/bundle_local/resize_splits'
 Plug '~/.vim/bundle_local/speeddating'
 Plug '~/.vim/bundle_local/syntaxcomplete'
 Plug '~/.vim/bundle_local/text-object-indent'
 Plug '~/.vim/bundle_local/toggle-verbose'
 Plug '~/.vim/bundle_local/man-wrapper'
+" {{{2 open-in-browser
+Plug '~/.vim/bundle_local/open-in-browser',
+      \ { 'on' : ['OpenInBrowser', '<plug>(open-in-browser)'] }
+
+map <silent> gx <Plug>(open-in-browser)
+" }}}2
 
 call plug#end()
 endif
@@ -824,13 +822,11 @@ augroup END
 
 "{{{1 Custom key mappings
 
-noremap  H      ^
-noremap  L      g_
 noremap  <f1>   <nop>
-inoremap <esc>  <nop>
-nnoremap -      <C-^>
-inoremap jk     <esc>
 inoremap <f1>   <nop>
+inoremap <esc>  <nop>
+inoremap jk     <esc>
+nnoremap -      <C-^>
 nnoremap Y      y$
 nnoremap J      mzJ`z
 nnoremap dp     dp]c
@@ -842,22 +838,9 @@ nnoremap <silent> gB    :bprevious<cr>
 " Shortcuts for some files
 map <leader>ev :e ~/.vim/vimrc<cr>
 map <leader>ez :e ~/.dotfiles/zshrc<cr>
-map <leader>sv :source $MYVIMRC<cr>
 
 " Make it possible to save as sudo
 cmap w!! %!sudo tee > /dev/null %
-
-" Open url in browser
-map <silent> gx <Plug>(open-in-browser)
-
-" Change word under cursor
-nnoremap ,r :'{,'}s/\<<c-r>=expand('<cword>')<cr>\>/
-nnoremap ,R :%s/\<<c-r>=expand('<cword>')<cr>\>/
-
-" Show syntax stack info
-function! SynStack()
-  PP map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunction
 
 " sudo to write
 cnoremap w!! w !sudo tee % >/dev/null
