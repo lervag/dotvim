@@ -742,7 +742,7 @@ imap <silent> <F6> <c-o>:call LoopSpellLanguage()<cr>
 set laststatus=2
 set background=dark
 if has("gui_running")
-  set lines=60
+  set lines=50
   set columns=82
   set guifont=Inconsolata-g\ Medium\ 10
   set guioptions=aeci
