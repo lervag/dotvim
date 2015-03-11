@@ -395,7 +395,6 @@ let g:vimwiki_table_mappings = 0
 
 " Utility plugins
 Plug 'bogado/file-line'
-Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
 Plug 'thinca/vim-prettyprint'
 Plug 'tpope/vim-repeat'
@@ -538,11 +537,6 @@ let g:easy_align_bypass_fold = 1
 map ga <Plug>(EasyAlign)
 map gA <Plug>(LiveEasyAlign)
 vmap . <Plug>(EasyAlignRepeat)
-
-" }}}2
-"{{{2 vimfiler
-Plug 'Shougo/vimfiler.vim'
-let g:vimfiler_as_default_explorer = 1
 
 " }}}2
 
