@@ -561,12 +561,7 @@ Plug '~/.vim/bundle_local/syntaxcomplete'
 Plug '~/.vim/bundle_local/text-object-indent'
 Plug '~/.vim/bundle_local/toggle-verbose'
 Plug '~/.vim/bundle_local/man-wrapper'
-" {{{2 open-in-browser
-Plug '~/.vim/bundle_local/open-in-browser',
-      \ { 'on' : ['OpenInBrowser', '<plug>(open-in-browser)'] }
-
-map <silent> gx <Plug>(open-in-browser)
-" }}}2
+Plug '~/.vim/bundle_local/open-in-browser'
 
 call plug#end()
 endif

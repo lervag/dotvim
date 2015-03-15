@@ -22,9 +22,12 @@ function! OpenInBrowser()
              \ . '\(\.[a-zA-Z0-9][a-zA-Z0-9_-]*\)\+\(:\d\+\)\?'
              \ . '\(/[a-zA-Z0-9_/.+%#?&=;@$,!''*~-]*\)\?'
     silent execute '!xdg-open ' . shellescape(url,1) . '&'
+    echom "opening " . url
+  else
+    echom "could not open " . url
   endif
 endfunction
 
-nnoremap <silent> <Plug>(open-in-browser) :call OpenInBrowser()<cr>
+nnoremap <silent> gx :call OpenInBrowser()<cr>
 
 let &cpo = s:save_cpo
