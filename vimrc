@@ -22,6 +22,7 @@ nnoremap <silent> <space>pc :PlugClean<cr>
 
 " User interface
 Plug 'altercation/vim-colors-solarized'
+Plug 'amdt/vim-niji'
 Plug 'drmikehenry/vim-fontsize'
 Plug 'moll/vim-bbye', { 'on': 'Bdelete' }
 " {{{2 Airline
@@ -87,34 +88,6 @@ function! s:goyo_leave() " {{{3
 
   call fontsize#default()
 endfunction " }}}3
-
-" }}}2
-" {{{2 Rainbox Parentheses
-Plug 'kien/rainbow_parentheses.vim'
-nnoremap <leader>R :RainbowParenthesesToggle<cr>
-let g:rbpt_max = 14
-let g:rbpt_colorpairs = [
-      \ ['033', '#268bd2'],
-      \ ['037', '#2aa198'],
-      \ ['061', '#6c71c4'],
-      \ ['064', '#859900'],
-      \ ['125', '#d33682'],
-      \ ['136', '#b58900'],
-      \ ['160', '#dc322f'],
-      \ ['166', '#cb4b16'],
-      \ ['234', '#002b36'],
-      \ ['235', '#073642'],
-      \ ['240', '#586e75'],
-      \ ['241', '#657b83'],
-      \ ['244', '#839496'],
-      \ ['245', '#93a1a1'],
-      \ ]
-
-augroup RainbowParens
-  au!
-  au VimEnter * RainbowParenthesesToggle
-  au Syntax * RainbowParenthesesLoadRound
-augroup END
 
 " }}}2
 
