@@ -17,9 +17,7 @@ nnoremap <silent> <space>pc :PlugClean<cr>
 " A collection of interesting plugins that I want to check out when I get the
 " time for it.
 "
-" Plug 'dhruvasagar/vim-table-mode'
 " Plug 'xolox/vim-easytags'
-" Plug 'coderifous/textobj-word-column.vim'
 " Plug 'kana/vim-operator-user'
 
 " User interface
@@ -121,6 +119,7 @@ augroup END
 " }}}2
 
 " General motions
+Plug 'coderifous/textobj-word-column.vim'
 Plug 'guns/vim-sexp'
 " {{{2 Incsearch
 Plug 'haya14busa/incsearch.vim'
