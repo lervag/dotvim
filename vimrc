@@ -183,6 +183,7 @@ let g:syntastic_mode_map = {
       \ }
 
 let g:syntastic_vim_checkers = ['vint']
+let g:syntastic_python_checkers = ['pylint']
 
 " Fortran settings
 let g:syntastic_fortran_compiler_options = ' -fdefault-real-8'
