@@ -186,10 +186,10 @@ let g:syntastic_mode_map = {
 " Fortran settings
 let g:syntastic_fortran_compiler_options = " -fdefault-real-8"
 let g:syntastic_fortran_include_dirs = [
-                            \ '../obj/gfortran_debug',
-                            \ '../objects/debug_gfortran',
-                            \ '../thermopack/objects/debug_gfortran_Linux',
-                            \ ]
+      \ '../obj/gfortran_debug',
+      \ '../objects/debug_gfortran',
+      \ '../thermopack/objects/debug_gfortran_Linux',
+      \ ]
 
 " Some mappings
 nmap ,sc :SyntasticCheck<cr>
@@ -324,8 +324,8 @@ let g:pandoc#toc#position = "top"
 " {{{2 Python
 Plug 'mitsuhiko/vim-python-combined', { 'for': 'python' }
 Plug 'jmcantrell/vim-virtualenv', { 'on': [ 'VirtualEnvActivate',
-                                          \ 'VirtualEnvDeactivate',
-                                          \ 'VirtualEnvList' ] }
+      \ 'VirtualEnvDeactivate',
+      \ 'VirtualEnvList' ] }
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 
 let g:jedi#completions_enabled = 0
@@ -706,7 +706,7 @@ if has("gui_running")
   set lines=50
   set columns=82
   set guifont=Inconsolata-g\ Medium\ 10
-  set guioptions=aeci
+  set guioptions=ac
   set guiheadroom=0
   set background=light
 endif
