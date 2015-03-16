@@ -1,3 +1,5 @@
+scriptencoding utf8
+
 "{{{1 Load plugins
 
 silent! if plug#begin('~/.vim/bundle')
@@ -63,15 +65,18 @@ let g:goyo_margin_bottom = 0
 
 map <F8> :Goyo<cr>
 
-autocmd! User GoyoEnter
-autocmd  User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave
-autocmd  User GoyoLeave nested call <SID>goyo_leave()
+augroup goyo_user
+  autocmd!
+  autocmd! User GoyoEnter
+  autocmd  User GoyoEnter nested call <SID>goyo_enter()
+  autocmd! User GoyoLeave
+  autocmd  User GoyoLeave nested call <SID>goyo_leave()
+augroup END
 
 function! s:goyo_enter() " {{{3
   let b:quitting = 0
   let b:quitting_bang = 0
-  autocmd QuitPre <buffer> let b:quitting = 1
+  autocmd goyo_user QuitPre <buffer> let b:quitting = 1
   cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
 
   call fontsize#inc()
@@ -162,29 +167,25 @@ map <space>r <plug>(quickrun-op)
 " }}}2
 "{{{2 Splice
 Plug 'sjl/splice.vim'
-let g:splice_initial_mode = "grid"
+let g:splice_initial_mode = 'grid'
 let g:splice_initial_layout_grid = 1
 let g:splice_initial_diff_grid = 1
 
 " }}}2
 " {{{2 Syntactics
-Plug 'scrooloose/syntastic',
-      \ { 'for' : ['f90'] }
+Plug 'scrooloose/syntastic'
 let g:syntastic_always_populate_loc_list=1
-let g:syntastic_aggregate_errors = 1
-" let g:syntastic_error_symbol='E'
-" let g:syntastic_warning_symbol='W'
-" let g:syntastic_style_error_symbol='SE'
-" let g:syntastic_style_warning_symbol='SW'
-
-" Disable for LaTeX
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_wq = 0
 let g:syntastic_mode_map = {
       \ 'mode':              'active',
       \ 'passive_filetypes': ['tex'],
       \ }
 
+let g:syntastic_vim_checkers = ['vint']
+
 " Fortran settings
-let g:syntastic_fortran_compiler_options = " -fdefault-real-8"
+let g:syntastic_fortran_compiler_options = ' -fdefault-real-8'
 let g:syntastic_fortran_include_dirs = [
       \ '../obj/gfortran_debug',
       \ '../objects/debug_gfortran',
@@ -192,9 +193,9 @@ let g:syntastic_fortran_include_dirs = [
       \ ]
 
 " Some mappings
-nmap ,sc :SyntasticCheck<cr>
-nmap ,si :SyntasticInfo<cr>
-nmap ,st :SyntasticToggleMode<cr>
+nnoremap ,sc :SyntasticCheck<cr>
+nnoremap ,si :SyntasticInfo<cr>
+nnoremap ,st :SyntasticToggleMode<cr>
 
 " }}}2
 " {{{2 Vebugger
@@ -261,25 +262,25 @@ let g:neocomplete#keyword_patterns.vimwiki = '[a-åA-Å][a-åA-Å0-9]\+'
 
 " {{{2 Supertab
 Plug 'ervandew/supertab'
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
-let g:SuperTabRetainCompletionDuration = "session"
+let g:SuperTabDefaultCompletionType = 'context'
+let g:SuperTabContextDefaultCompletionType = '<c-x><c-o>'
+let g:SuperTabRetainCompletionDuration = 'session'
 let g:SuperTabLongestEnhanced = 1
 let g:SuperTabCrMapping = 0
 
 augroup Supertab
   autocmd!
-  autocmd FileType fortran call SuperTabSetDefaultCompletionType("<c-n>")
-  autocmd FileType text    call SuperTabSetDefaultCompletionType("<c-n>")
+  autocmd FileType fortran call SuperTabSetDefaultCompletionType('<c-n>')
+  autocmd FileType text    call SuperTabSetDefaultCompletionType('<c-n>')
 augroup END
 
 " }}}2
 "{{{2 Ultisnips
 Plug 'SirVer/ultisnips'
-let g:UltiSnipsJumpForwardTrigger="<m-u>"
-let g:UltiSnipsJumpBackwardTrigger="<s-m-u>"
-let g:UltiSnipsEditSplit = "horizontal"
-let g:UltiSnipsSnippetsDir = "~/.vim/bundle_local/UltiSnips/UltiSnips"
+let g:UltiSnipsJumpForwardTrigger='<m-u>'
+let g:UltiSnipsJumpBackwardTrigger='<s-m-u>'
+let g:UltiSnipsEditSplit = 'horizontal'
+let g:UltiSnipsSnippetsDir = '~/.vim/bundle_local/UltiSnips/UltiSnips'
 map <leader>es :UltiSnipsEdit!<cr>
 
 " }}}2
@@ -316,9 +317,9 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 
 let g:pandoc#folding#level = 9
 let g:pandoc#folding#fdc = 0
-let g:pandoc#formatting = "h"
+let g:pandoc#formatting = 'h'
 let g:pandoc#spell#enabled = 0
-let g:pandoc#toc#position = "top"
+let g:pandoc#toc#position = 'top'
 
 " }}}2
 " {{{2 Python
@@ -402,7 +403,11 @@ let g:calendar_week_number = 1
 nnoremap <silent> <localleader>cal :Calendar -position=below<cr>
 
 " Connect to diary
-autocmd FileType calendar nmap <silent><buffer> <cr> :<c-u>call OpenDiary()<cr>
+augroup user_calendar
+  autocmd!
+  autocmd FileType calendar 
+        \ nmap <silent><buffer> <cr> :<c-u>call OpenDiary()<cr>
+augroup END
 function! OpenDiary()
   let d = b:calendar.day().get_day()
   let m = b:calendar.day().get_month()
@@ -452,8 +457,8 @@ nnoremap <space>h :CtrlPHelp<cr>
 " }}}2
 "{{{2 Screen
 Plug 'ervandew/screen', { 'on' : 'ScreenShell' }
-let g:ScreenImpl = "GnuScreen"
-let g:ScreenShellTerminal = "xfce4-terminal"
+let g:ScreenImpl = 'GnuScreen'
+let g:ScreenShellTerminal = 'xfce4-terminal'
 let g:ScreenShellActive = 0
 
 " Dynamic keybindings
@@ -591,12 +596,12 @@ if !has('gui_running')
   set t_vb=
 endif
 
-if executable("ack-grep")
+if executable('ack-grep')
   set grepprg=ack-grep\ --nocolor
 endif
 
 "{{{2 Folding
-if &foldmethod == ""
+if &foldmethod ==# ''
   set foldmethod=syntax
 endif
 set foldlevel=0
@@ -626,7 +631,7 @@ set shiftwidth=2
 set textwidth=79
 set columns=80
 if v:version >= 703
-  execute "set colorcolumn=" . join(range(81,335), ',')
+  execute 'set colorcolumn=' . join(range(81,335), ',')
 end
 set smarttab
 set expandtab
@@ -644,9 +649,9 @@ if v:version >= 703
   set undofile
   set undolevels=1000
   set undoreload=10000
-  if has("unix")
+  if has('unix')
     set undodir=$HOME/.vim/undofiles
-  elseif has("win32")
+  elseif has('win32')
     set undodir=$VIM/undofiles
   endif
   if !isdirectory(&undodir)
@@ -702,7 +707,7 @@ imap <silent> <F6> <c-o>:call LoopSpellLanguage()<cr>
 
 set laststatus=2
 set background=dark
-if has("gui_running")
+if has('gui_running')
   set lines=50
   set columns=82
   set guifont=Inconsolata-g\ Medium\ 10
@@ -717,7 +722,7 @@ endif
 
 silent! colorscheme solarized
 
-if has("gui_running")
+if has('gui_running')
   highlight iCursor guibg=#b58900
   highlight rCursor guibg=#dc322f
   highlight vCursor guibg=#d33682
