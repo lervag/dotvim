@@ -19,7 +19,6 @@ nnoremap <silent> <space>pc :PlugClean<cr>
 " A collection of interesting plugins that I want to check out when I get the
 " time for it.
 "
-" Plug 'xolox/vim-easytags'
 " Plug 'kana/vim-operator-user'
 
 " User interface
@@ -556,7 +555,7 @@ set lazyredraw
 set mouse=
 set hidden
 set modelines=5
-set tags=./tags,./.tags,./../*/.tags,./../*/tags
+set tags=./.tags,../.tags,./tags,../tags
 set fillchars=fold:\ ,diff:⣿
 if has('gui_running')
   set diffopt=filler,foldcolumn:0,context:4,vertical
