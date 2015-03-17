@@ -15,12 +15,6 @@ nnoremap <silent> <space>ps :PlugStatus<cr>
 nnoremap <silent> <space>pc :PlugClean<cr>
 " }}}2
 
-"
-" A collection of interesting plugins that I want to check out when I get the
-" time for it.
-"
-" Plug 'kana/vim-operator-user'
-
 " User interface
 Plug 'altercation/vim-colors-solarized'
 Plug 'amdt/vim-niji'
@@ -299,7 +293,7 @@ let g:vimtex_fold_automatic = 0
 let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_toc_resize = 0
 let g:vimtex_toc_split_pos = 'below'
-let g:vimtex_view_method = 'zathura'
+let g:vimtex_view_method = 'mupdf'
 let g:vimtex_view_mupdf_send_keys = 'H'
 
 let g:tex_isk='48-57,a-z,A-Z,192-255,:'
