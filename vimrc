@@ -51,14 +51,13 @@ let g:airline#extensions#tabline#excludes = ['thesaurus']
 
 " }}}2
 " {{{2 Goyo
-Plug 'junegunn/goyo.vim',
-      \ { 'on' : 'Goyo' }
+Plug 'junegunn/goyo.vim', { 'on' : 'Goyo' }
 let g:goyo_margin_top = 0
 let g:goyo_margin_bottom = 0
 
 map <F8> :Goyo<cr>
 
-augroup goyo_user
+augroup vimrc_goyo
   autocmd!
   autocmd! User GoyoEnter
   autocmd  User GoyoEnter nested call <SID>goyo_enter()
@@ -69,7 +68,7 @@ augroup END
 function! s:goyo_enter() " {{{3
   let b:quitting = 0
   let b:quitting_bang = 0
-  autocmd goyo_user QuitPre <buffer> let b:quitting = 1
+  autocmd vimrc_goyo QuitPre <buffer> let b:quitting = 1
   cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
 
   call fontsize#inc()
@@ -90,7 +89,6 @@ endfunction " }}}3
 " }}}2
 
 " General motions
-Plug 'coderifous/textobj-word-column.vim'
 Plug 'guns/vim-sexp'
 " {{{2 Incsearch
 Plug 'haya14busa/incsearch.vim'
@@ -129,7 +127,7 @@ omap <c-s> <plug>(smalls)
 
 " General programming
 Plug 'tpope/vim-commentary'
-" {{{2 Fugitive and gitv
+" {{{2 Fugitive, gitv, Lawrencium, etc...
 Plug 'tpope/vim-fugitive'
 Plug 'gregsexton/gitv'
 
@@ -141,11 +139,11 @@ nnoremap <leader>gd :Gdiff<cr>:ResizeSplits<cr>
 nnoremap <leader>gl :Gitv<cr>
 nnoremap <leader>gL :Gitv!<cr>
 
-" }}}2
-" {{{2 Lawrencium
 Plug 'ludovicchabant/vim-lawrencium'
 nnoremap <leader>hs :Hgstatus<cr>
 nnoremap <leader>hd :Hgvdiff<cr>:ResizeSplits<cr>
+nnoremap <leader>hl :Hglog<cr>
+nnoremap <leader>hL :Hglogthis<cr>
 
 " }}}
 "{{{2 Quickrun
@@ -198,18 +196,8 @@ Plug 'idanarye/vim-vebugger'
 let g:vebugger_leader = '\v'
 
 " }}}
-" {{{2 VCSCommand
-Plug 'git://repo.or.cz/vcscommand.git'
-let g:VCSCommandSplit = 'vertical'
-nnoremap <leader>vs :VCSStatus<cr>
-nnoremap <leader>vc :VCSCommit<cr>
-nnoremap <leader>vd :VCSDiff<cr>
-nnoremap <leader>vD :VCSVimDiff<cr>
-
-" }}}
 
 " Completion and snippets
-Plug 'honza/vim-snippets'
 "{{{2 Neocomplete
 Plug 'Shougo/neocomplete'
 let g:neocomplete#enable_at_startup = 1
@@ -223,7 +211,7 @@ let g:neocomplete#enable_omni_fallback = 1
 inoremap <expr> <C-l> neocomplete#complete_common_string()
 
 " Enable omni completion
-augroup neocomplete_omni_complete
+augroup vimrc_neocomplete
   autocmd!
   autocmd FileType css        setlocal omnifunc=csscomplete#CompleteCSS
   autocmd FileType html       setlocal omnifunc=htmlcomplete#CompleteTags
@@ -262,7 +250,7 @@ let g:SuperTabRetainCompletionDuration = 'session'
 let g:SuperTabLongestEnhanced = 1
 let g:SuperTabCrMapping = 0
 
-augroup Supertab
+augroup vimrc_supertab
   autocmd!
   autocmd FileType fortran call SuperTabSetDefaultCompletionType('<c-n>')
   autocmd FileType text    call SuperTabSetDefaultCompletionType('<c-n>')
@@ -300,7 +288,7 @@ let g:tex_flavor = 'latex'
 let g:tex_isk='48-57,a-z,A-Z,192-255,:'
 
 " Custom mappings
-augroup latex_settings
+augroup vimrc_latex
   autocmd!
   autocmd FileType tex inoremap <silent><buffer> <m-i> \item<space>
 augroup END
@@ -398,7 +386,7 @@ let g:calendar_week_number = 1
 nnoremap <silent> <localleader>cal :Calendar -position=below<cr>
 
 " Connect to diary
-augroup user_calendar
+augroup vimrc_calendar
   autocmd!
   autocmd FileType calendar 
         \ nmap <silent><buffer> <cr> :<c-u>call OpenDiary()<cr>
@@ -492,7 +480,6 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 
 let g:undotree_WindowLayout = 2
 let g:undotree_SetFocusWhenToggle = 1
-
 
 nnoremap <f5> :UndotreeToggle<cr>
 
