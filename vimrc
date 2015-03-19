@@ -276,7 +276,7 @@ Plug 'gregsexton/MatchTag'
 
 " }}}2
 " {{{2 LaTeX
-Plug 'git@github.com:lervag/vimtex.git', { 'for' : 'tex' }
+Plug 'git@github.com:lervag/vimtex.git', { 'for' : ['tex', 'bib'] }
 let g:vimtex_fold_automatic = 0
 let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_toc_resize = 0
