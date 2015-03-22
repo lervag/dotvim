@@ -208,7 +208,8 @@ let g:neocomplete#enable_refresh_always = 1
 let g:neocomplete#enable_omni_fallback = 1
 
 " Plugin key-mappings
-inoremap <expr> <C-l> neocomplete#complete_common_string()
+inoremap <expr><c-g> neocomplete#undo_completion()
+inoremap <expr><c-l> neocomplete#complete_common_string()
 
 " Enable omni completion
 augroup vimrc_neocomplete
