@@ -19,7 +19,7 @@ nnoremap <silent> <space>pc :PlugClean<cr>
 Plug 'altercation/vim-colors-solarized'
 Plug 'amdt/vim-niji'
 Plug 'drmikehenry/vim-fontsize'
-Plug 'moll/vim-bbye', { 'on': 'Bdelete' }
+Plug 'moll/vim-bbye', { 'on' : 'Bdelete' }
 " {{{2 Airline
 Plug 'bling/vim-airline'
 let g:airline_left_sep = ''
@@ -268,15 +268,15 @@ map <leader>es :UltiSnipsEdit!<cr>
 " }}}2
 
 " Filetype specific
-Plug 'chrisbra/csv.vim', { 'for': 'csv' }
-Plug 'darvelo/vim-systemd', { 'for': [ 'systemd', 'udev' ] }
-Plug 'whatyouhide/vim-tmux-syntax', { 'for': 'tmux-conf' }
+Plug 'chrisbra/csv.vim'
+Plug 'darvelo/vim-systemd'
+Plug 'whatyouhide/vim-tmux-syntax'
 " {{{2 HTML, XML, ...
 Plug 'gregsexton/MatchTag'
 
 " }}}2
 " {{{2 LaTeX
-Plug 'git@github.com:lervag/vimtex.git', { 'for' : ['tex', 'bib'] }
+Plug 'git@github.com:lervag/vimtex.git'
 let g:vimtex_fold_automatic = 0
 let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_index_split = 'below'
@@ -305,23 +305,24 @@ let g:pandoc#toc#position = 'top'
 
 " }}}2
 " {{{2 Python
-Plug 'mitsuhiko/vim-python-combined', { 'for': 'python' }
-Plug 'jmcantrell/vim-virtualenv', { 'on': [ 'VirtualEnvActivate',
-      \ 'VirtualEnvDeactivate',
-      \ 'VirtualEnvList' ] }
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+Plug 'mitsuhiko/vim-python-combined'
+Plug 'jmcantrell/vim-virtualenv', { 'on' : 
+      \ [ 'VirtualEnvActivate',
+      \   'VirtualEnvDeactivate',
+      \   'VirtualEnvList' ] }
+Plug 'davidhalter/jedi-vim'
 
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
 
 "}}}2
 "{{{2 Ruby
-Plug 'vim-ruby/vim-ruby', { 'for' : 'ruby' }
+Plug 'vim-ruby/vim-ruby'
 let g:ruby_fold=1
 
 " }}}2
 " {{{2 Vimwiki
-Plug 'vimwiki/vimwiki',                     { 'branch' : 'dev' }
+Plug 'vimwiki/vimwiki', { 'branch' : 'dev' }
 Plug '~/.vim/bundle_local/vimwiki-journal'
 
 " Set up main wiki
@@ -357,7 +358,7 @@ Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'tyru/capture.vim', { 'on': 'Capture' }
+Plug 'tyru/capture.vim', { 'on' : 'Capture' }
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
 " {{{2 Ack
@@ -475,7 +476,7 @@ augroup END
 
 " }}}2
 " {{{2 Undotree
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
 
 let g:undotree_WindowLayout = 2
 let g:undotree_SetFocusWhenToggle = 1
@@ -499,18 +500,18 @@ vmap . <Plug>(EasyAlignRepeat)
 " }}}2
 
 " Local filetype plugins
-Plug '~/.vim/bundle_local/dagbok',    { 'for' : 'dagbok' }
-Plug '~/.vim/bundle_local/fortran',   { 'for' : 'fortran' }
-Plug '~/.vim/bundle_local/help',      { 'for' : 'help' }
-Plug '~/.vim/bundle_local/lisp',      { 'for' : 'lisp' }
-Plug '~/.vim/bundle_local/make',      { 'for' : 'make' }
-Plug '~/.vim/bundle_local/markdown',  { 'for' : 'markdown' }
-Plug '~/.vim/bundle_local/python',    { 'for' : 'python' }
-Plug '~/.vim/bundle_local/ruby',      { 'for' : 'ruby' }
-Plug '~/.vim/bundle_local/tex',       { 'for' : 'tex' }
-Plug '~/.vim/bundle_local/text',      { 'for' : 'text' }
-Plug '~/.vim/bundle_local/vim',       { 'for' : 'vim' }
-Plug '~/.vim/bundle_local/quickfix/', { 'for' : 'qf' }
+Plug '~/.vim/bundle_local/dagbok'
+Plug '~/.vim/bundle_local/fortran'
+Plug '~/.vim/bundle_local/help'
+Plug '~/.vim/bundle_local/lisp'
+Plug '~/.vim/bundle_local/make'
+Plug '~/.vim/bundle_local/markdown'
+Plug '~/.vim/bundle_local/python'
+Plug '~/.vim/bundle_local/ruby'
+Plug '~/.vim/bundle_local/tex'
+Plug '~/.vim/bundle_local/text'
+Plug '~/.vim/bundle_local/vim'
+Plug '~/.vim/bundle_local/quickfix/'
 
 " Local plugins
 Plug '~/.vim/bundle_local/UltiSnips'
