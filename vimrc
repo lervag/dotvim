@@ -204,7 +204,7 @@ let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#enable_refresh_always = 1
-let g:neocomplete#enable_omni_fallback = 1
+let g:neocomplete#fallback_mappings = ["\<c-x>\<c-o>", "\<c-x>\<c-n>"]
 
 " Plugin key-mappings
 inoremap <expr><c-g> neocomplete#undo_completion()
@@ -230,9 +230,9 @@ if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
 let g:neocomplete#sources#omni#input_patterns.vimwiki =
-       \ '\[\[[^\]]*\|[[.\{-}#\S*'
+      \ '\[\[[^\]]*\|[[.\{-}#\S*'
 let g:neocomplete#sources#omni#input_patterns.tex =
-       \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{([^}]*,)*[^}]*'
+      \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{([^}]*,)*[^}]*'
 
 " Define keyword patterns
 if !exists('g:neocomplete#keyword_patterns')
