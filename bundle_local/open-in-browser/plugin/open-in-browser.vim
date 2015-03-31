@@ -11,7 +11,7 @@ function! OpenInBrowser()
   " Remove surrounding delimiters
   let url = substitute(url, '^[''"\[({<]\+\(.\{-}\)[''",.\])}>]\+$', '\1', '')
 
-  " Easy to open neobundle urls
+  " Parse bundle urls
   if url =~# '^[a-zA-Z][a-zA-Z0-9_.-]*\/[a-zA-Z][a-zA-Z0-9_.-]*$'
     let url = 'https://github.com/' . url
   endif
@@ -22,9 +22,9 @@ function! OpenInBrowser()
              \ . '\(\.[a-zA-Z0-9][a-zA-Z0-9_-]*\)\+\(:\d\+\)\?'
              \ . '\(/[a-zA-Z0-9_/.+%#?&=;@$,!''*~-]*\)\?'
     silent execute '!xdg-open ' . shellescape(url,1) . '&'
-    echom "opening " . url
+    echom 'opening ' . url
   else
-    echom "could not open " . url
+    echom 'could not open ' . url
   endif
 endfunction
 
