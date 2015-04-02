@@ -15,8 +15,8 @@ function! VimwikiLinkHandler(link)
        \ vimwiki#base#resolve_scheme(a:link, 0)
 
   let lnk = expand(url)
-  if filereadable(lnk) && fnamemodify(lnk, ':e') == 'pdf'
-    silent execute '!mupdf ' . lnk . '&'
+  if filereadable(lnk) && fnamemodify(lnk, ':e') ==? 'pdf'
+    silent execute '!mupdf ' lnk '&'
     return 1
   endif
 
