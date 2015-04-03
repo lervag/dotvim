@@ -286,6 +286,7 @@ let g:vimtex_index_split_pos = 'below'
 let g:vimtex_view_method = 'mupdf'
 let g:vimtex_view_mupdf_send_keys = 'H'
 
+let g:tex_stylish = 1
 let g:tex_flavor = 'latex'
 let g:tex_isk='48-57,a-z,A-Z,192-255,:'
 
