@@ -4,13 +4,13 @@ let &rtp = '~/.vim/bundle/<bundle>,' . &rtp
 
 filetype plugin indent on
 syntax enable
-if has("gui_running")
+if has('gui_running')
   set lines=56
   set guioptions=aeci
 else
   set t_Co=256
 endif
-set keywordprg=":help"
+set keywordprg=':help'
 set autoindent
 set backspace=indent,eol,start
 set ttimeout
