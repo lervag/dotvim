@@ -542,7 +542,7 @@ set lazyredraw
 set mouse=
 set hidden
 set modelines=5
-set tags=./.tags,../.tags,./tags,../tags
+set tags=tags;~,.tags;~
 set fillchars=fold:\ ,diff:⣿
 if has('gui_running')
   set diffopt=filler,foldcolumn:0,context:4,vertical
