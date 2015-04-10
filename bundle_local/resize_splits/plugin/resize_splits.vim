@@ -44,8 +44,10 @@ function! s:ResizeSplits()
 
   if &columns != l:totwidth
     silent! execute 'set co=' . l:totwidth
-    silent! execute 'winpos ' . l:x . ' ' . l:y
     silent! execute 'wincmd ='
+    if has('gui_running')
+      silent! execute 'winpos ' . l:x . ' ' . l:y
+    endif
   endif
   silent! execute l:curwin . 'wincmd w'
 
@@ -57,7 +59,7 @@ function! s:HasSignCols()
   let save_more = &more
   set nomore
   redir => lines
-  silent execute "sign place"
+  silent execute 'sign place'
   redir END
   let &more = save_more
   return len(split(lines,"\n")) > 1
