@@ -303,9 +303,9 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 
 let g:pandoc#folding#level = 9
 let g:pandoc#folding#fdc = 0
-let g:pandoc#formatting = 'h'
-let g:pandoc#spell#enabled = 0
+let g:pandoc#formatting#mode = 'h'
 let g:pandoc#toc#position = 'top'
+let g:pandoc#modules#disabled = ['spell']
 
 " }}}2
 " {{{2 Python
@@ -387,6 +387,8 @@ let g:calendar_first_day = 'monday'
 let g:calendar_date_endian = 'big'
 let g:calendar_frame = 'space'
 let g:calendar_week_number = 1
+let g:calendar_google_calendar = 1
+let g:calendar_google_task = 1
 
 nnoremap <silent> <localleader>cal :Calendar -position=below<cr>
 
