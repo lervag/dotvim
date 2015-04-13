@@ -518,7 +518,7 @@ Plug '~/.vim/bundle_local/ruby'
 Plug '~/.vim/bundle_local/tex'
 Plug '~/.vim/bundle_local/text'
 Plug '~/.vim/bundle_local/vim'
-Plug '~/.vim/bundle_local/quickfix/'
+Plug '~/.vim/bundle_local/quickfix'
 
 " Local plugins
 Plug '~/.vim/bundle_local/UltiSnips'
