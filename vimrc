@@ -446,9 +446,9 @@ nnoremap <space>h :CtrlPHelp<cr>
 
 " }}}2
 "{{{2 Screen
-Plug 'ervandew/screen', { 'on' : 'ScreenShell' }
+Plug 'ervandew/screen'
 let g:ScreenImpl = 'GnuScreen'
-let g:ScreenShellTerminal = 'xfce4-terminal'
+let g:ScreenShellTerminal = 'urxvt'
 let g:ScreenShellActive = 0
 
 " Dynamic keybindings
