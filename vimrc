@@ -283,8 +283,7 @@ Plug 'gregsexton/MatchTag'
 Plug 'git@github.com:lervag/vimtex.git'
 let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_index_split_pos = 'below'
-let g:vimtex_view_method = 'mupdf'
-let g:vimtex_view_mupdf_send_keys = 'H'
+let g:vimtex_view_method = 'zathura'
 
 let g:tex_stylish = 1
 let g:tex_flavor = 'latex'
