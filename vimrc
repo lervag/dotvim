@@ -544,7 +544,7 @@ set mouse=
 set hidden
 set modelines=5
 set tags=tags;~,.tags;~
-set fillchars=fold:\ ,diff:⣿
+set fillchars=vert:│,fold:\ ,diff:⣿
 if has('gui_running')
   set diffopt=filler,foldcolumn:0,context:4,vertical
 else
@@ -721,6 +721,8 @@ if has('gui_running')
   set guicursor+=i:blinkon0-ver20-iCursor
   set guicursor+=r:blinkon0-hor20-rCursor
 endif
+
+highlight VertSplit ctermbg=NONE guibg=NONE
 
 highlight clear
       \ MatchParen
