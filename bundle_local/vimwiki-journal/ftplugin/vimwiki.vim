@@ -19,5 +19,11 @@ function! VimwikiLinkHandler(link)
     return 1
   endif
 
+  if link_info.scheme ==# 'doi'
+    let url = substitute(link_info.filename, 'doi:', '', '')
+    silent execute '!xdg-open http://dx.doi.org/' . url .'&'
+    return 1
+  endif
+
   return 0
 endfunction
