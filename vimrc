@@ -76,6 +76,8 @@ function! s:goyo_enter() " {{{3
 
   call fontsize#inc()
   call fontsize#inc()
+  set columns+=8
+  vertical resize 82
 endfunction " }}}3
 function! s:goyo_leave() " {{{3
   if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
@@ -87,6 +89,7 @@ function! s:goyo_leave() " {{{3
   endif
 
   call fontsize#default()
+  set columns-=8
 endfunction " }}}3
 
 " }}}2
