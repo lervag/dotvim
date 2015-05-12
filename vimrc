@@ -211,21 +211,10 @@ let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#enable_refresh_always = 1
-let g:neocomplete#fallback_mappings = ["\<c-x>\<c-o>", "\<c-x>\<c-n>"]
 
 " Plugin key-mappings
 inoremap <expr><c-g> neocomplete#undo_completion()
 inoremap <expr><c-l> neocomplete#complete_common_string()
-
-" Enable omni completion
-augroup vimrc_neocomplete
-  autocmd!
-  autocmd FileType css        setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html       setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType markdown   setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType xml        setlocal omnifunc=xmlcomplete#CompleteTags
-augroup END
 
 " Define omni patterns
 if !exists('g:neocomplete#force_omni_input_patterns')
