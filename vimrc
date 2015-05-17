@@ -152,6 +152,11 @@ nnoremap <leader>hl :Hglog<cr>
 nnoremap <leader>hL :Hglogthis<cr>
 
 " }}}
+" {{{2 Gutentags
+Plug 'ludovicchabant/vim-gutentags'
+let g:gutentags_tagfile = '.tags'
+
+" }}}2
 "{{{2 Quickrun
 Plug 'thinca/vim-quickrun'
 let g:quickrun_config = {}
