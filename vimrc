@@ -196,9 +196,9 @@ let g:syntastic_fortran_include_dirs = [
       \ ]
 
 " Some mappings
-nnoremap ,sc :SyntasticCheck<cr>
-nnoremap ,si :SyntasticInfo<cr>
-nnoremap ,st :SyntasticToggleMode<cr>
+nnoremap <leader>sc :SyntasticCheck<cr>
+nnoremap <leader>si :SyntasticInfo<cr>
+nnoremap <leader>st :SyntasticToggleMode<cr>
 
 " }}}2
 " {{{2 Vebugger
