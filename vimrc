@@ -360,8 +360,6 @@ Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-reload'
 " {{{2 Ack
 Plug 'mileszs/ack.vim'
 if executable('ag')
