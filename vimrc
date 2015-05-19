@@ -21,7 +21,6 @@ nnoremap <silent> <space>pc :PlugClean<cr>
 
 " User interface
 Plug 'altercation/vim-colors-solarized'
-Plug 'amdt/vim-niji'
 Plug 'drmikehenry/vim-fontsize'
 Plug 'moll/vim-bbye', { 'on' : 'Bdelete' }
 " {{{2 Airline
@@ -91,6 +90,22 @@ function! s:goyo_leave() " {{{3
   call fontsize#default()
   set columns-=8
 endfunction " }}}3
+
+" }}}2
+" {{{2 Rainbow parantheses
+Plug 'luochen1990/rainbow'
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+      \ 'guifgs': ['#f92672', '#00afff', '#268bd2', '#93a1a1', '#dc322f',
+      \   '#6c71c4', '#b58900', '#657b83', '#d33682', '#719e07', '#2aa198'],
+      \ 'ctermfgs': ['9', '127', '4', '1', '3', '12', '5', '2', '6', '33',
+      \   '104', '124', '7', '39'],
+      \ 'separately' : {
+      \   '*' : {},
+      \   }
+      \ }
+
+Plug 'junegunn/rainbow_parentheses.vim'
 
 " }}}2
 
