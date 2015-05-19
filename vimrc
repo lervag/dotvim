@@ -61,10 +61,8 @@ map <F8> :Goyo<cr>
 
 augroup vimrc_goyo
   autocmd!
-  autocmd! User GoyoEnter
-  autocmd  User GoyoEnter nested call <SID>goyo_enter()
-  autocmd! User GoyoLeave
-  autocmd  User GoyoLeave nested call <SID>goyo_leave()
+  autocmd! User GoyoEnter nested call <SID>goyo_enter()
+  autocmd! User GoyoLeave nested call <SID>goyo_leave()
 augroup END
 
 function! s:goyo_enter() " {{{3
