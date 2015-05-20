@@ -100,6 +100,7 @@ let g:rainbow_conf = {
       \   '104', '124', '7', '39'],
       \ 'separately' : {
       \   '*' : {},
+      \   'vimwiki' : 0,
       \   }
       \ }
 
