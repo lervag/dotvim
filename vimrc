@@ -4,10 +4,6 @@ scriptencoding utf8
 
 silent! if plug#begin('~/.vim/bundle')
 
-" For testing
-"   https://github.com/pelodelfuego/vim-swoop
-"   https://github.com/tpope/vim-vinegar
-
 " {{{2 VimPlug
 Plug 'junegunn/vim-plug', { 'on' : [] }
 let g:plug_window = 'tab new'
