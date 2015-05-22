@@ -50,8 +50,8 @@ let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 " }}}2
 " {{{2 Goyo
 Plug 'junegunn/goyo.vim', { 'on' : 'Goyo' }
-let g:goyo_margin_top = 0
-let g:goyo_margin_bottom = 0
+let g:goyo_height = 100
+let g:goyo_width = 82
 
 map <F8> :Goyo<cr>
 
