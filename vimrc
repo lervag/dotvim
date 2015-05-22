@@ -95,10 +95,10 @@ let g:rainbow_conf = {
       \ 'ctermfgs': ['9', '127', '4', '1', '3', '12', '5', '2', '6', '33',
       \   '104', '124', '7', '39'],
       \ 'separately' : {
-      \   '*' : {},
-      \   'vimwiki' : 0,
-      \   }
+      \   '*' : 0,
+      \   'fortran' : {},
       \ }
+      \}
 
 Plug 'junegunn/rainbow_parentheses.vim'
 
