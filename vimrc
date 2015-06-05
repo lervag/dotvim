@@ -391,8 +391,6 @@ let g:calendar_first_day = 'monday'
 let g:calendar_date_endian = 'big'
 let g:calendar_frame = 'space'
 let g:calendar_week_number = 1
-let g:calendar_google_calendar = 1
-let g:calendar_google_task = 1
 
 nnoremap <silent> <localleader>cal :Calendar -position=below<cr>
 
