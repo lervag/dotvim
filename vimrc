@@ -435,9 +435,9 @@ let g:ctrlp_show_hidden = 0
 let g:ctrlp_extensions = ['tag']
 
 nnoremap <silent> <space><space> :CtrlPMRUFiles<cr>
-nnoremap <silent> <space>f :CtrlP /home/lervag<cr>
-nnoremap <silent> <space>v :CtrlP /home/lervag/.vim<cr>
-nnoremap <silent> <space>q :CtrlPQuickfix<cr>
+nnoremap <silent> <space>oo :CtrlP<cr>
+nnoremap <silent> <space>oh :CtrlP /home/lervag<cr>
+nnoremap <silent> <space>ov :CtrlP /home/lervag/.vim<cr>
 nnoremap <silent> <space>t :CtrlPTag<cr>
 nnoremap <silent> <space>b :CtrlPBuffer<cr>
 
