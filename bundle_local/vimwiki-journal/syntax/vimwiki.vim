@@ -7,6 +7,7 @@ syn spell default
 syn match TODO    /TODO/
 syn match line    /-\{10,}/
 syn match number  /\d\+\.\d\+/
+syn match version /\d\+\.\d\+\(\.\d\)\+/
 syn match time    /\d\d:\d\d/
 syn match date    /\d\d\d\d-\d\d-\d\d/
 
@@ -15,6 +16,7 @@ hi def  date    guifg=blue
 hi def  line    guifg=black 
 hi link line    line
 hi link time    number
-hi link numbers number
+hi link number  Constant
+hi link version Statement
 hi link TODO    TODO
 
