@@ -318,6 +318,8 @@ let g:pandoc#formatting#mode = 'h'
 let g:pandoc#toc#position = 'top'
 let g:pandoc#modules#disabled = ['spell']
 
+map <silent><leader>pp :Pandoc! #sintefpres<cr>
+
 " }}}2
 " {{{2 Python
 Plug 'mitsuhiko/vim-python-combined'
