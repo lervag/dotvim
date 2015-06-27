@@ -23,7 +23,7 @@ endfunction
 
 function! ctrlp#help#accept(mode, str)
   call ctrlp#exit()
-  execute 'tab help ' . a:str
+  execute 'help ' . a:str
 endfunction
 
 
