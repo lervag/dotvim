@@ -370,7 +370,7 @@ let g:vimwiki_table_mappings = 0
 " }}}2
 
 " Utility plugins
-Plug 'bogado/file-line'
+Plug 'git@github.com:lervag/file-line'
 Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
 Plug 'thinca/vim-prettyprint'
 Plug 'tpope/vim-repeat'
