@@ -577,6 +577,7 @@ set autoread
 set wildmenu
 set wildmode=longest,list:longest,full
 set wildignore=*.o,*~,*.pyc,.git/*,.hg/*,.svn/*,*.DS_Store,CVS/*
+set shortmess=aoOtT
 silent! set shortmess+=cI
 set splitbelow
 set splitright
