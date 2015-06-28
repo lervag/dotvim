@@ -19,10 +19,10 @@ syn match are        /^  Are/
 syn match areentries /^    \(Sto opp\|Dupp\|Mat\|La seg\|\s*\).*/
       \ contains=error,number,time
 
-syn match error   /[0-9x]\+.[0-9x]\+.*/           contained
-syn match time    /[0-9x][0-9x]:[0-9x][0-9x]/     contained
-syn match number  /[0-9x]\+\.[0-9x]\+\( \w\+\)\?/ contained
-syn match trening /\%>17c.*/                      contained
+syn match error   /[0-9x]\+.[0-9x]\+.*/         contained
+syn match time    /[0-9][0-9]:[0-9][0-9]/       contained
+syn match number  /[0-9]\+\.[0-9]\+\( \w\+\)\?/ contained
+syn match trening /\%>17c.*/                    contained
 
 " Syntax regions
 syn region notat
