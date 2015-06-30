@@ -10,4 +10,7 @@ function! DagbokFold(lnum)
   return getline(a:lnum) =~# '^\d' ? '>1' : '1'
 endfunction
 
-silent! normal GkzoGzo,t
+augroup dagbok
+  autocmd!
+  autocmd! BufWinEnter dagbok.txt silent! normal GkzoGzo,t
+augroup END
