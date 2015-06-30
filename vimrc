@@ -733,6 +733,12 @@ if has('gui_running')
   set guicursor+=v:blinkon0-block-vCursor
   set guicursor+=i:blinkon0-ver20-iCursor
   set guicursor+=r:blinkon0-hor20-rCursor
+elseif exists('$TMUX')
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
+else
+  let &t_SI = "\e[5 q"
+  let &t_EI = "\e[2 q"
 endif
 
 highlight VertSplit ctermbg=NONE guibg=NONE
