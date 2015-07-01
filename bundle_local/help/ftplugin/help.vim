@@ -11,5 +11,3 @@ augroup help_insert
   autocmd InsertEnter <buffer> setlocal conceallevel=0 | highlight clear Ignore
   autocmd InsertLeave <buffer> setlocal conceallevel=2
 augroup END
-
-wincmd o
