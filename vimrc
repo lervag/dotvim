@@ -275,10 +275,13 @@ augroup END
 " }}}2
 "{{{2 Ultisnips
 Plug 'SirVer/ultisnips'
-let g:UltiSnipsJumpForwardTrigger='<m-u>'
-let g:UltiSnipsJumpBackwardTrigger='<s-m-u>'
+
+let g:UltiSnipsJumpForwardTrigger = '<m-u>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-m-u>'
+let g:UltiSnipsListSnippets = '<m-l>'
 let g:UltiSnipsEditSplit = 'horizontal'
-let g:UltiSnipsSnippetsDir = '~/.vim/bundle_local/UltiSnips/UltiSnips'
+let g:UltiSnipsSnippetDirectories = [$HOME . '/.vim/bundle_local/UltiSnips']
+let g:UltiSnipsSnippetsDir = '~/.vim/bundle_local/UltiSnips'
 map <leader>es :UltiSnipsEdit!<cr>
 
 " }}}2
@@ -532,7 +535,6 @@ Plug '~/.vim/bundle_local/vim'
 Plug '~/.vim/bundle_local/quickfix'
 
 " Local plugins
-Plug '~/.vim/bundle_local/UltiSnips'
 Plug '~/.vim/bundle_local/resize_splits'
 Plug '~/.vim/bundle_local/speeddating'
 Plug '~/.vim/bundle_local/syntaxcomplete'
