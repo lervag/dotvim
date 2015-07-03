@@ -133,7 +133,7 @@ if maparg('<c-l>', 'n') ==# ''
 endif
 
 "
-" Highlight options are defined under "Customize UI" (see below)
+" Highlights are defined under "Customize UI" (see below)
 "
 
 " }}}2
@@ -425,6 +425,27 @@ endfunction
 "{{{2 Clam
 Plug 'sjl/clam.vim'
 let g:clam_winpos = 'topleft'
+
+" }}}2
+"{{{2 CtrlFS
+Plug 'dyng/ctrlsf.vim'
+
+let g:ctrlsf_indent = 2
+let g:ctrlsf_mapping = {
+      \ 'tab' : '',
+      \ 'tabb': '',
+      \ 'next': 'n',
+      \ 'prev': 'N',
+      \ }
+let g:ctrlsf_position = 'bottom'
+
+nnoremap         <space>fp :CtrlSF 
+nnoremap         <space>ff :CtrlSF <c-r>=expand('<cWORD>')<cr>
+vmap     <silent><space>f  <Plug>CtrlSFVwordExec
+
+"
+" Highlights are defined under "Customize UI" (see below)
+"
 
 " }}}2
 "{{{2 CtrlP
@@ -759,6 +780,7 @@ highlight SpellCap   term=bold cterm=bold gui=bold ctermfg=33  guifg=Blue
 highlight SpellRare  term=bold cterm=bold gui=bold ctermfg=104 guifg=Purple
 highlight SpellLocal term=bold cterm=bold gui=bold ctermfg=227 guifg=Yellow
 
+" Highlighting for searches and incsearch
 highlight Search
       \ term=bold,underline cterm=bold,underline gui=bold,underline
       \ ctermfg=201 guifg=Magenta
@@ -773,6 +795,11 @@ highlight IncSearchOnCursor
       \ ctermfg=39 guifg=#00afff
 highlight IncSearchCursor
       \ term=bold,underline cterm=bold,underline gui=bold,underline
+      \ ctermfg=39 guifg=#00afff
+
+" Highlighting for CtrlSF selected line
+highlight ctrlsfSelectedLine
+      \ term=bold cterm=bold gui=bold
       \ ctermfg=39 guifg=#00afff
 
 "{{{1 Autocommands
