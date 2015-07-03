@@ -845,9 +845,6 @@ map <leader>ev :e ~/.vim/vimrc<cr>
 map <leader>ez :e ~/.dotfiles/zshrc<cr>
 
 " Make it possible to save as sudo
-cmap w!! %!sudo tee > /dev/null %
-
-" sudo to write
 cnoremap w!! w !sudo tee % >/dev/null
 
 " }}}1
