@@ -4,6 +4,15 @@ scriptencoding utf8
 
 silent! if plug#begin('~/.vim/bundle')
 
+" Plugin option hook
+"
+" The functions defined in this dictionary will be called at the end of the
+" vimrc file.  The reason for this option is simply that some plugin options
+" must be set after the plugin has been loaded (after `plug#end`), and some
+" must be set after the colorscheme has been loaded.
+"
+let s:hooks = {}
+
 " {{{2 VimPlug
 Plug 'junegunn/vim-plug', { 'on' : [] }
 let g:plug_window = 'tab new'
@@ -132,9 +141,17 @@ if maparg('<c-l>', 'n') ==# ''
   nnoremap <silent> <c-l> :nohlsearch<cr><c-l>
 endif
 
-"
-" Highlights are defined under "Customize UI" (see below)
-"
+" Define highlightings
+function! s:hooks.incsearch()
+  highlight IncSearchMatch
+        \ cterm=bold,underline gui=bold,underline ctermfg=201 guifg=Magenta
+  highlight IncSearchMatchReverse
+        \ cterm=bold,underline gui=bold,underline ctermfg=127 guifg=LightMagenta
+  highlight IncSearchOnCursor
+        \ cterm=bold,underline gui=bold,underline ctermfg=39  guifg=#00afff
+  highlight IncSearchCursor
+        \ cterm=bold,underline gui=bold,underline ctermfg=39  guifg=#00afff
+endfunction
 
 " }}}2
 " {{{2 Smalls
@@ -443,9 +460,10 @@ nnoremap         <space>fp :CtrlSF
 nnoremap         <space>ff :CtrlSF <c-r>=expand('<cWORD>')<cr>
 vmap     <silent><space>f  <Plug>CtrlSFVwordExec
 
-"
-" Highlights are defined under "Customize UI" (see below)
-"
+" Highlighting for CtrlSF selected line
+function! s:hooks.ctrlsf()
+  hi ctrlsfSelectedLine term=bold cterm=bold gui=bold ctermfg=39 guifg=#00afff
+endfunction
 
 " }}}2
 "{{{2 CtrlP
@@ -764,43 +782,21 @@ else
   let &t_EI = "\e[2 q"
 endif
 
-highlight VertSplit ctermbg=NONE guibg=NONE
-
-highlight clear
+hi clear
       \ MatchParen
       \ Search
       \ SpellBad
       \ SpellCap
       \ SpellRare
-      \ SpellLocal
+      \ SpellLocal 
 
-highlight MatchParen term=bold cterm=bold gui=bold ctermfg=33  guifg=Blue
-highlight SpellBad   term=bold cterm=bold gui=bold ctermfg=124 guifg=Red
-highlight SpellCap   term=bold cterm=bold gui=bold ctermfg=33  guifg=Blue
-highlight SpellRare  term=bold cterm=bold gui=bold ctermfg=104 guifg=Purple
-highlight SpellLocal term=bold cterm=bold gui=bold ctermfg=227 guifg=Yellow
-
-" Highlighting for searches and incsearch
-highlight Search
-      \ term=bold,underline cterm=bold,underline gui=bold,underline
-      \ ctermfg=201 guifg=Magenta
-highlight IncSearchMatch
-      \ term=bold,underline cterm=bold,underline gui=bold,underline
-      \ ctermfg=201 guifg=Magenta
-highlight IncSearchMatchReverse
-      \ term=bold,underline cterm=bold,underline gui=bold,underline
-      \ ctermfg=127 guifg=LightMagenta
-highlight IncSearchOnCursor
-      \ term=bold,underline cterm=bold,underline gui=bold,underline
-      \ ctermfg=39 guifg=#00afff
-highlight IncSearchCursor
-      \ term=bold,underline cterm=bold,underline gui=bold,underline
-      \ ctermfg=39 guifg=#00afff
-
-" Highlighting for CtrlSF selected line
-highlight ctrlsfSelectedLine
-      \ term=bold cterm=bold gui=bold
-      \ ctermfg=39 guifg=#00afff
+hi MatchParen cterm=bold           gui=bold           ctermfg=33  guifg=Blue
+hi Search     cterm=bold,underline gui=bold,underline ctermfg=201 guifg=Magenta
+hi SpellBad   cterm=bold           gui=bold           ctermfg=124 guifg=Red
+hi SpellCap   cterm=bold           gui=bold           ctermfg=33  guifg=Blue
+hi SpellRare  cterm=bold           gui=bold           ctermfg=104 guifg=Purple
+hi SpellLocal cterm=bold           gui=bold           ctermfg=227 guifg=Yellow
+hi VertSplit  ctermbg=NONE guibg=NONE
 
 "{{{1 Autocommands
 
@@ -846,6 +842,13 @@ map <leader>ez :e ~/.dotfiles/zshrc<cr>
 
 " Make it possible to save as sudo
 cnoremap w!! w !sudo tee % >/dev/null
+
+" }}}1
+" {{{1 Plugin hooks
+
+for key in keys(s:hooks)
+  call s:hooks[key]()
+endfor
 
 " }}}1
 
