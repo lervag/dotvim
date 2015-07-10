@@ -120,6 +120,7 @@ Plug 'junegunn/rainbow_parentheses.vim'
 
 " General motions
 Plug 'guns/vim-sexp'
+Plug 'wellle/targets.vim'
 " {{{2 Incsearch
 Plug 'haya14busa/incsearch.vim'
 let g:incsearch#auto_nohlsearch = 1
