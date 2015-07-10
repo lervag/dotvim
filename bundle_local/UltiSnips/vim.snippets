@@ -16,9 +16,16 @@ endif
 let $1 = 1${3}
 endsnippet
 
-snippet f "function" b
-fun ${1:function_name}(${2})
+snippet 'fun(ction)?' "function" br
+function! ${1:function_name}(${2:args})
 	${3:" code}
-endf
+endfunction
+endsnippet
+
+snippet fold "Insert a vim fold marker" b
+" {{{${1:1} ${2:Fold description}
+$0
+
+" }}}$1
 endsnippet
 # vim:ft=snippets:
