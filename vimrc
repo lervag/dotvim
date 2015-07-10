@@ -396,7 +396,6 @@ Plug 'thinca/vim-prettyprint'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
 " {{{2 Ack
@@ -556,6 +555,22 @@ let g:easy_align_bypass_fold = 1
 map ga <Plug>(EasyAlign)
 map gA <Plug>(LiveEasyAlign)
 vmap . <Plug>(EasyAlignRepeat)
+
+" }}}2
+" {{{2 vim-sandwich
+Plug 'machakann/vim-sandwich'
+
+function! s:hooks.sandwhich()
+  " Change some default options
+  call operator#sandwich#set('delete', 'all', 'highlight', 0)
+  call operator#sandwich#set('all', 'all', 'cursor', 'keep')
+
+  " Set custom highlighting
+  hi OperatorSandwichBuns cterm=bold gui=bold ctermfg=5 guifg=Magenta
+endfunction
+
+nnoremap s <nop>
+xnoremap s <nop>
 
 " }}}2
 
