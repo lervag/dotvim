@@ -1,32 +1,34 @@
 scriptencoding utf8
 
+" {{{1 Initialize
+
+" Use space as leader key
+let mapleader = "\<space>"
+
+" Option hook
+"   Some things, in particular for plugins, must be set at end of vimrc.  This
+"   dictionary allows to create hook functions that are called at the end of
+"   the vimrc file.
+let s:hooks = {}
+
+" }}}1
 "{{{1 Load plugins
 
 silent! if plug#begin('~/.vim/bundle')
-
-" Plugin option hook
-"
-" The functions defined in this dictionary will be called at the end of the
-" vimrc file.  The reason for this option is simply that some plugin options
-" must be set after the plugin has been loaded (after `plug#end`), and some
-" must be set after the colorscheme has been loaded.
-"
-let s:hooks = {}
 
 " {{{2 VimPlug
 Plug 'junegunn/vim-plug', { 'on' : [] }
 let g:plug_window = 'tab new'
 
-nnoremap <silent> <space>pd :PlugDiff<cr>
-nnoremap <silent> <space>pi :PlugInstall<cr>
-nnoremap <silent> <space>pu :PlugUpdate<cr>
-nnoremap <silent> <space>ps :PlugStatus<cr>
-nnoremap <silent> <space>pc :PlugClean<cr>
+nnoremap <silent> <leader>pd :PlugDiff<cr>
+nnoremap <silent> <leader>pi :PlugInstall<cr>
+nnoremap <silent> <leader>pu :PlugUpdate<cr>
+nnoremap <silent> <leader>ps :PlugStatus<cr>
+nnoremap <silent> <leader>pc :PlugClean<cr>
 " }}}2
 
 " User interface
 Plug 'altercation/vim-colors-solarized'
-Plug 'drmikehenry/vim-fontsize'
 Plug 'moll/vim-bbye', { 'on' : 'Bdelete' }
 " {{{2 Airline
 Plug 'bling/vim-airline'
@@ -117,6 +119,15 @@ let g:rainbow_conf = {
 Plug 'junegunn/rainbow_parentheses.vim'
 
 " }}}2
+" {{{2 vim-fontsize
+Plug 'drmikehenry/vim-fontsize'
+
+nmap <silent> <leader>+                   <plug>FontsizeBegin
+nmap <silent> <sid>DisableFontsizeInc     <plug>FontsizeInc
+nmap <silent> <sid>DisableFontsizeDec     <plug>FontsizeDec
+nmap <silent> <sid>DisableFontsizeDefault <plug>FontsizeDefault
+
+" }}}2
 
 " General motions
 Plug 'guns/vim-sexp'
@@ -127,15 +138,15 @@ let g:incsearch#auto_nohlsearch = 1
 let g:incsearch#separate_highlight = 1
 
 set hlsearch
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
+nmap /  <plug>(incsearch-forward)
+nmap ?  <plug>(incsearch-backward)
+nmap g/ <plug>(incsearch-stay)
+nmap n  <plug>(incsearch-nohl-n)zf
+nmap N  <plug>(incsearch-nohl-N)zf
+nmap *  <plug>(incsearch-nohl-*)zf
+nmap #  <plug>(incsearch-nohl-#)zf
+nmap g* <plug>(incsearch-nohl-g*)zf
+nmap g# <plug>(incsearch-nohl-g#)zf
 
 " Use <c-l> to clear the highlighting of :set hlsearch.
 if maparg('<c-l>', 'n') ==# ''
@@ -197,7 +208,8 @@ let g:quickrun_config._ = {
       \ 'outputter/buffer/close_on_empty' : 1
       \ }
 
-map <space>r <plug>(quickrun-op)
+nmap <leader>rr <plug>(quickrun)
+nmap <leader>ro <plug>(quickrun-op)
 
 " }}}2
 "{{{2 Splice
@@ -237,7 +249,7 @@ nnoremap <leader>st :SyntasticToggleMode<cr>
 " {{{2 Vebugger
 Plug 'idanarye/vim-vebugger'
 
-let g:vebugger_leader = '\v'
+let g:vebugger_leader = '<leader>v'
 
 " }}}
 
@@ -300,7 +312,7 @@ let g:UltiSnipsListSnippets = '<m-l>'
 let g:UltiSnipsEditSplit = 'horizontal'
 let g:UltiSnipsSnippetDirectories = [$HOME . '/.vim/bundle_local/UltiSnips']
 let g:UltiSnipsSnippetsDir = '~/.vim/bundle_local/UltiSnips'
-map <leader>es :UltiSnipsEdit!<cr>
+nnoremap <leader>es :UltiSnipsEdit!<cr>
 
 " }}}2
 
@@ -340,7 +352,7 @@ let g:pandoc#formatting#mode = 'h'
 let g:pandoc#toc#position = 'top'
 let g:pandoc#modules#disabled = ['spell']
 
-map <silent><leader>pp :Pandoc! #sintefpres<cr>
+nnoremap <silent><leader>rp :Pandoc! #sintefpres<cr>
 
 " }}}2
 " {{{2 Python
@@ -411,7 +423,7 @@ let g:ack_mappings = {
       \ 'p'  : '<cr>zMzvzz<c-w><c-w>',
       \ }
 
-nnoremap <space>a :Ack 
+nnoremap <leader>fa :Ack 
 
 " }}}2
 " {{{2 Calendar
@@ -421,13 +433,13 @@ let g:calendar_date_endian = 'big'
 let g:calendar_frame = 'space'
 let g:calendar_week_number = 1
 
-nnoremap <silent> <localleader>cal :Calendar -position=below<cr>
+nnoremap <silent> <leader>c :Calendar -position=below<cr>
 
 " Connect to diary
 augroup vimrc_calendar
   autocmd!
   autocmd FileType calendar 
-        \ nmap <silent><buffer> <cr> :<c-u>call OpenDiary()<cr>
+        \ nnoremap <silent><buffer> <cr> :<c-u>call OpenDiary()<cr>
 augroup END
 function! OpenDiary()
   let d = b:calendar.day().get_day()
@@ -456,9 +468,9 @@ let g:ctrlsf_mapping = {
       \ }
 let g:ctrlsf_position = 'bottom'
 
-nnoremap         <space>fp :CtrlSF 
-nnoremap         <space>ff :CtrlSF <c-r>=expand('<cWORD>')<cr>
-vmap     <silent><space>f  <Plug>CtrlSFVwordExec
+nnoremap         <leader>fp :CtrlSF 
+nnoremap         <leader>ff :CtrlSF <c-r>=expand('<cWORD>')<cr>
+vmap     <silent><leader>f  <Plug>CtrlSFVwordExec
 
 " Highlighting for CtrlSF selected line
 function! s:hooks.ctrlsf()
@@ -485,17 +497,17 @@ let g:ctrlp_root_markers = ['CVS']
 let g:ctrlp_show_hidden = 0
 let g:ctrlp_extensions = ['tag']
 
-nnoremap <silent> <space><space> :CtrlPMRUFiles<cr>
-nnoremap <silent> <space>oo :CtrlP<cr>
-nnoremap <silent> <space>oh :CtrlP /home/lervag<cr>
-nnoremap <silent> <space>ov :CtrlP /home/lervag/.vim<cr>
-nnoremap <silent> <space>t :CtrlPTag<cr>
-nnoremap <silent> <space>b :CtrlPBuffer<cr>
+nnoremap <silent> <leader><leader> :CtrlPMRUFiles<cr>
+nnoremap <silent> <leader>oo :CtrlP<cr>
+nnoremap <silent> <leader>oh :CtrlP /home/lervag<cr>
+nnoremap <silent> <leader>ov :CtrlP /home/lervag/.vim<cr>
+nnoremap <silent> <leader>ot :CtrlPTag<cr>
+nnoremap <silent> <leader>ob :CtrlPBuffer<cr>
 
 " Add some extensions
 Plug '~/.vim/bundle_local/ctrlp'
-nnoremap <space>w :CtrlPVimwiki<cr>
-nnoremap <space>h :CtrlPHelp<cr>
+nnoremap <leader>ow :CtrlPVimwiki<cr>
+nnoremap <leader>oh :CtrlPHelp<cr>
 
 " }}}2
 "{{{2 Screen
@@ -507,18 +519,18 @@ let g:ScreenShellActive = 0
 " Dynamic keybindings
 function! s:ScreenShellListenerMain()
   if g:ScreenShellActive
-    nmap <silent> <C-c><C-c> <S-v>:ScreenSend<CR>
-    vmap <silent> <C-c><C-c> :ScreenSend<CR>
-    nmap <silent> <C-c><C-a> :ScreenSend<CR>
-    nmap <silent> <C-c><C-q> :ScreenQuit<CR>
+    nnoremap <silent> <c-c><c-c> <s-v>:ScreenSend<cr>
+    vnoremap <silent> <c-c><c-c> :ScreenSend<cr>
+    nnoremap <silent> <c-c><c-a> :ScreenSend<cr>
+    nnoremap <silent> <c-c><c-q> :ScreenQuit<cr>
     if exists(':C') != 2
       command -nargs=? C :call ScreenShellSend('<args>')
     endif
   else
-    nmap <C-c><C-a> <Nop>
-    vmap <C-c><C-c> <Nop>
-    nmap <C-c><C-q> <Nop>
-    nmap <silent> <C-c><C-c> :ScreenShell<cr>
+    nnoremap <c-c><c-a> <nop>
+    vnoremap <c-c><c-c> <nop>
+    nnoremap <c-c><c-q> <nop>
+    nnoremap <silent> <c-c><c-c> :ScreenShell<cr>
     if exists(':C') == 2
       delcommand C
     endif
@@ -526,12 +538,12 @@ function! s:ScreenShellListenerMain()
 endfunction
 
 " Initialize and define auto group stuff
-nmap <silent> <C-c><C-c> :ScreenShell<cr>
+nnoremap <silent> <c-c><c-c> :ScreenShell<cr>
 augroup ScreenShellEnter
-  au USER * :call <SID>ScreenShellListenerMain()
+  autocmd User * :call <sid>ScreenShellListenerMain()
 augroup END
 augroup ScreenShellExit
-  au USER * :call <SID>ScreenShellListenerMain()
+  autocmd User * :call <sid>ScreenShellListenerMain()
 augroup END
 
 " }}}2
@@ -553,9 +565,9 @@ nnoremap <c-K> :OnlineThesaurusCurrentWord<CR>
 "{{{2 vim-easy-align
 Plug 'junegunn/vim-easy-align'
 let g:easy_align_bypass_fold = 1
-map ga <Plug>(EasyAlign)
-map gA <Plug>(LiveEasyAlign)
-vmap . <Plug>(EasyAlignRepeat)
+nmap ga <plug>(EasyAlign)
+nmap gA <plug>(LiveEasyAlign)
+vmap .  <plug>(EasyAlignRepeat)
 
 " }}}2
 " {{{2 vim-sandwich
@@ -760,8 +772,7 @@ function! LoopSpellLanguage()
     echo 'Spell language:' g:spell_list[b:spell_nr]
   endif
 endfunction
-nmap <silent> <F6> :<c-u>call LoopSpellLanguage()<cr>
-imap <silent> <F6> <c-o>:call LoopSpellLanguage()<cr>
+nnoremap <silent> <F6> :<c-u>call LoopSpellLanguage()<cr>
 
 "{{{1 Customize UI
 
@@ -854,8 +865,8 @@ nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
 
 " Shortcuts for some files
-map <leader>ev :e ~/.vim/vimrc<cr>
-map <leader>ez :e ~/.dotfiles/zshrc<cr>
+nnoremap <leader>ev :e ~/.vim/vimrc<cr>
+nnoremap <leader>ez :e ~/.dotfiles/zshrc<cr>
 
 " Make it possible to save as sudo
 cnoremap w!! w !sudo tee % >/dev/null
