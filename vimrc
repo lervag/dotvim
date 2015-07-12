@@ -245,10 +245,10 @@ let g:vebugger_leader = '\v'
 "{{{2 Neocomplete
 Plug 'Shougo/neocomplete'
 let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#enable_refresh_always = 1
+let g:neocomplete#enable_auto_close_preview = 1
 
 " Plugin key-mappings
 inoremap <expr><c-g> neocomplete#undo_completion()
