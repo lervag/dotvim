@@ -684,8 +684,6 @@ let g:sh_fold_enabled=7
 nnoremap zf zMzvzz
 nnoremap zj zcjzvzz
 nnoremap zk zckzvzz
-nnoremap <space> za
-vnoremap <space> za
 
 "{{{2 Tabs, spaces, wrapping
 set softtabstop=2
