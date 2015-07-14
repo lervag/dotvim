@@ -575,8 +575,8 @@ Plug 'machakann/vim-sandwich'
 
 function! s:hooks.sandwhich()
   " Change some default options
-  call operator#sandwich#set('delete', 'all', 'highlight', 0)
-  call operator#sandwich#set('all', 'all', 'cursor', 'keep')
+  silent! call operator#sandwich#set('delete', 'all', 'highlight', 0)
+  silent! call operator#sandwich#set('all', 'all', 'cursor', 'keep')
 
   " Set custom highlighting
   hi OperatorSandwichBuns cterm=bold gui=bold ctermfg=5 guifg=Magenta
