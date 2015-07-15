@@ -869,7 +869,7 @@ hi clear
       \ SpellBad
       \ SpellCap
       \ SpellRare
-      \ SpellLocal 
+      \ SpellLocal
 
 hi MatchParen cterm=bold           gui=bold           ctermfg=33  guifg=Blue
 hi Search     cterm=bold,underline gui=bold,underline ctermfg=201 guifg=Magenta
