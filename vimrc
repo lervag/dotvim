@@ -3,6 +3,7 @@ scriptencoding utf8
 " {{{1 Initialize
 
 " Use space as leader key
+nnoremap <space> <nop>
 let mapleader = "\<space>"
 
 " Option hook
@@ -589,17 +590,6 @@ vmap .  <plug>(EasyAlignRepeat)
 " {{{2 vim-sandwich
 Plug 'machakann/vim-sandwich'
 
-let g:sandwich#recipes = [
-      \   {'filetype': ['python'], 'input': ["3'"], 'buns': ["'''", "'''"], 'nesting': 0 },
-      \   {'filetype': ['python'], 'input': ['3"'], 'buns': ['"""', '"""'], 'nesting': 0 },
-      \   {'filetype': ['tex'],    'input': ['l"'], 'buns': ['``',            "''"],             'nesting': 1 },
-      \   {'filetype': ['tex'],    'input': ['m('], 'buns': ['\left(',        '\right)'],        'nesting': 1 },
-      \   {'filetype': ['tex'],    'input': ['m['], 'buns': ['\left[',        '\right]'],        'nesting': 1 },
-      \   {'filetype': ['tex'],    'input': ['m|'], 'buns': ['\left|',        '\right|'],        'nesting': 1 },
-      \   {'filetype': ['tex'],    'input': ['m{'], 'buns': ['\left\{',       '\right\}'],       'nesting': 1 },
-      \   {'filetype': ['tex'],    'input': ['m<'], 'buns': ['\left\langle ', '\right\rangle '], 'nesting': 1 },
-      \ ]
-
 function! s:hooks.sandwhich()
   " Change some default options
   silent! call operator#sandwich#set('delete', 'all', 'highlight', 0)
@@ -607,6 +597,37 @@ function! s:hooks.sandwhich()
 
   " Set custom highlighting
   hi OperatorSandwichBuns cterm=bold gui=bold ctermfg=5 guifg=Magenta
+
+  " Define recipes
+  let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
+
+  " Vim recipes
+  let g:sandwich#recipes += [
+        \ {
+        \   'buns'        : ["'", "'"],
+        \   'skip_regex'  : ["[^']\\%(''\\)*\\%#\\zs''",
+        \                    "[^']\\%(''\\)*'\\%#\\zs'"],
+        \   'filetype'    : ['vim'],
+        \   'nesting'     : 0,
+        \   'match_syntax': 2,
+        \ }
+        \]
+
+  " Python recipes
+  let g:sandwich#recipes += [
+        \   {'filetype': ['python'], 'input': ["3'"], 'buns': ["'''", "'''"], 'nesting': 0 },
+        \   {'filetype': ['python'], 'input': ['3"'], 'buns': ['"""', '"""'], 'nesting': 0 },
+        \ ]
+
+  " LaTeX recipes
+  let g:sandwich#recipes += [
+        \   {'filetype': ['tex'], 'input': ['l"'], 'buns': ['``',            "''"],             'nesting': 1 },
+        \   {'filetype': ['tex'], 'input': ['m('], 'buns': ['\left(',        '\right)'],        'nesting': 1 },
+        \   {'filetype': ['tex'], 'input': ['m['], 'buns': ['\left[',        '\right]'],        'nesting': 1 },
+        \   {'filetype': ['tex'], 'input': ['m|'], 'buns': ['\left|',        '\right|'],        'nesting': 1 },
+        \   {'filetype': ['tex'], 'input': ['m{'], 'buns': ['\left\{',       '\right\}'],       'nesting': 1 },
+        \   {'filetype': ['tex'], 'input': ['m<'], 'buns': ['\left\langle ', '\right\rangle '], 'nesting': 1 },
+        \ ]
 endfunction
 
 nnoremap s <nop>
