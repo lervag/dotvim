@@ -179,50 +179,11 @@ Plug 'machakann/vim-columnmove'
 
 let g:columnmove_no_default_key_mappings = 1
 
-nmap <m-f>  <plug>(columnmove-f)
-nmap <m-t>  <plug>(columnmove-t)
-nmap <m-F>  <plug>(columnmove-F)
-nmap <m-T>  <plug>(columnmove-T)
-nmap <m-;>  <plug>(columnmove-;)
-nmap <m-,>  <plug>(columnmove-,)
-nmap <m-w>  <plug>(columnmove-w)
-nmap <m-b>  <plug>(columnmove-b)
-nmap <m-e>  <plug>(columnmove-e)
-nmap <m-g>e <plug>(columnmove-ge)
-nmap <m-W>  <plug>(columnmove-W)
-nmap <m-B>  <plug>(columnmove-B)
-nmap <m-E>  <plug>(columnmove-E)
-nmap <m-g>E <plug>(columnmove-gE)
-
-xmap <m-f>  <plug>(columnmove-f)
-xmap <m-t>  <plug>(columnmove-t)
-xmap <m-F>  <plug>(columnmove-F)
-xmap <m-T>  <plug>(columnmove-T)
-xmap <m-;>  <plug>(columnmove-;)
-xmap <m-,>  <plug>(columnmove-,)
-xmap <m-w>  <plug>(columnmove-w)
-xmap <m-b>  <plug>(columnmove-b)
-xmap <m-e>  <plug>(columnmove-e)
-xmap <m-g>e <plug>(columnmove-ge)
-xmap <m-W>  <plug>(columnmove-W)
-xmap <m-B>  <plug>(columnmove-B)
-xmap <m-E>  <plug>(columnmove-E)
-xmap <m-g>E <plug>(columnmove-gE)
-
-omap <m-f>  <c-v><plug>(columnmove-f)
-omap <m-t>  <c-v><plug>(columnmove-t)
-omap <m-F>  <c-v><plug>(columnmove-F)
-omap <m-T>  <c-v><plug>(columnmove-T)
-omap <m-;>  <c-v><plug>(columnmove-;)
-omap <m-,>  <c-v><plug>(columnmove-,)
-omap <m-w>  <c-v><plug>(columnmove-w)
-omap <m-b>  <c-v><plug>(columnmove-b)
-omap <m-e>  <c-v><plug>(columnmove-e)
-omap <m-g>e <c-v><plug>(columnmove-ge)
-omap <m-W>  <c-v><plug>(columnmove-W)
-omap <m-B>  <c-v><plug>(columnmove-B)
-omap <m-E>  <c-v><plug>(columnmove-E)
-omap <m-g>E <c-v><plug>(columnmove-gE)
+function! s:hooks.columnmove()
+  for l:char in split('ftFT;,wbeWBE', '\zs') + ['ge', 'gE']
+    call columnmove#utility#map('nxo', l:char, "\<m-" . l:char . '>', 'block')
+  endfor
+endfunction
 
 " }}}2
 
