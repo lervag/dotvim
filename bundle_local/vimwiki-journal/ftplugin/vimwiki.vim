@@ -5,12 +5,15 @@ setlocal autoindent
 setlocal nowrap
 setlocal fdl=1
 
-nnoremap <buffer> <leader>wl :call vimwiki#backlinks()<cr>
+" Define commands
+command! -range Sum call s:sum()
 
-"
-" Custom link handlers
-"
-function! VimwikiLinkHandler(link)
+" Define mappings
+nnoremap <buffer> <leader>wl :call vimwiki#backlinks()<cr>
+vnoremap <leader>m :Sum<cr>
+nnoremap <leader>m V}:Sum<cr>
+
+function! VimwikiLinkHandler(link) " {{{1
   let link_info = vimwiki#base#resolve_link(a:link)
 
   let lnk = expand(link_info.filename)
@@ -27,3 +30,15 @@ function! VimwikiLinkHandler(link)
 
   return 0
 endfunction
+
+" }}}1
+
+function! s:sum() range " {{{1
+  let l:sum = 0
+  for line in getline("'<", "'>")
+    let l:sum += substitute(matchstr(line, '-\?\d\+\s*\d*'), '\s*', '', 'g')
+  endfor
+  echom l:sum
+endfunction
+
+" }}}1
