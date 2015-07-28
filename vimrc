@@ -912,6 +912,10 @@ nnoremap <silent> <c-u> :Bdelete<cr>:ResizeSplits<cr>
 nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
 
+" Backspace and return for improved navigation
+nnoremap        <bs> <c-o>zvzz
+nnoremap <expr> <cr> empty(&buftype) ? '<c-]>zvzz' : '<cr>'
+
 " Shortcuts for some files
 nnoremap <leader>ev :e ~/.vim/vimrc<cr>
 nnoremap <leader>ez :e ~/.dotfiles/zshrc<cr>
