@@ -36,7 +36,8 @@ endfunction
 function! s:sum() range " {{{1
   let l:sum = 0
   for line in getline("'<", "'>")
-    let l:sum += substitute(matchstr(line, '-\?\d\+\s*\d*'), '\s*', '', 'g')
+    let l:sum += substitute(matchstr(line, '-\?\d\+\(\s*\d*\)*'),
+          \ '\s*', '', 'g')
   endfor
   echom l:sum
 endfunction
