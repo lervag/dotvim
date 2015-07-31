@@ -895,10 +895,21 @@ augroup END
 
 "{{{1 Custom key mappings
 
+"
+" Available for mapping
+"
+"   Q
+"   U
+"   gs
+"   CTRL-H
+"   CTRL-J
+"
+
 noremap  <f1>   <nop>
 inoremap <f1>   <nop>
 inoremap <esc>  <nop>
 inoremap jk     <esc>
+nnoremap Q      <nop>
 nnoremap -      <C-^>
 nnoremap Y      y$
 nnoremap J      mzJ`z
