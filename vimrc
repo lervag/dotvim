@@ -525,7 +525,7 @@ nnoremap <leader>oh :CtrlPHelp<cr>
 " }}}2
 "{{{2 Screen
 Plug 'ervandew/screen'
-let g:ScreenImpl = 'GnuScreen'
+let g:ScreenImpl = 'Tmux'
 let g:ScreenShellTerminal = 'urxvt'
 let g:ScreenShellActive = 0
 
