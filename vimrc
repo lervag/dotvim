@@ -183,7 +183,7 @@ let g:columnmove_no_default_key_mappings = 1
 function! s:hooks.columnmove()
   for l:char in split('ftFT;,wbeWBE', '\zs') + ['ge', 'gE']
     " vint: -ProhibitUnnecessaryDoubleQuote
-    call columnmove#utility#map('nxo', l:char, "\<m-" . l:char . '>', 'block')
+    silent! call columnmove#utility#map('nxo', l:char, "\<m-" . l:char . '>', 'block')
     " vint: +ProhibitUnnecessaryDoubleQuote
   endfor
 endfunction
