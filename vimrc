@@ -285,7 +285,7 @@ inoremap <expr><c-l> neocomplete#complete_common_string()
 if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
 endif
-let g:neocomplete#force_omni_input_patterns.vimwiki = '\[\[[^|\]]*#\S*'
+let g:neocomplete#force_omni_input_patterns.vimwiki = '\[\[[^]|]*#\S*'
 
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
@@ -299,9 +299,8 @@ let g:neocomplete#sources#omni#input_patterns.tex =
 if !exists('g:neocomplete#keyword_patterns')
   let g:neocomplete#keyword_patterns = {}
 endif
-let g:neocomplete#keyword_patterns._       = '[a-zA-ZæÆøØåÅ][a-zA-ZæÆøØåÅ0-9]\+'
-let g:neocomplete#keyword_patterns.tex     = '[a-zA-ZæÆøØåÅ][a-zA-ZæÆøØåÅ0-9]\+'
-let g:neocomplete#keyword_patterns.vimwiki = '[a-zA-ZæÆøØåÅ][a-zA-ZæÆøØåÅ0-9]\+'
+let g:neocomplete#keyword_patterns.tex     = '[a-zA-ZæÆøØåÅ][0-9a-zA-ZæÆøØåÅ]\+'
+let g:neocomplete#keyword_patterns.vimwiki = '[a-zA-ZæÆøØåÅ][0-9a-zA-ZæÆøØåÅ]\+'
 
 " {{{2 Supertab
 Plug 'ervandew/supertab'
