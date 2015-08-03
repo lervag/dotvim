@@ -274,19 +274,18 @@ Plug 'Shougo/neocomplete'
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
-let g:neocomplete#enable_insert_char_pre = 1
 let g:neocomplete#enable_auto_close_preview = 1
 
-" Plugin key-mappings
-inoremap <expr><c-g> neocomplete#undo_completion()
-inoremap <expr><c-l> neocomplete#complete_common_string()
+inoremap <expr><c-l> neocomplete#start_manual_complete()
 
-" Define omni patterns
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
+" Define keyword patterns
+if !exists('g:neocomplete#keyword_patterns')
+  let g:neocomplete#keyword_patterns = {}
 endif
-let g:neocomplete#force_omni_input_patterns.vimwiki = '\[\[[^]|]*#\S*'
+let g:neocomplete#keyword_patterns.tex     = '[a-zA-ZæÆøØåÅ][0-9a-zA-ZæÆøØåÅ]\+'
+let g:neocomplete#keyword_patterns.vimwiki = '[a-zA-ZæÆøØåÅ][0-9a-zA-ZæÆøØåÅ]\+'
 
+" Define omni input patterns
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
@@ -295,12 +294,11 @@ let g:neocomplete#sources#omni#input_patterns.vimwiki =
 let g:neocomplete#sources#omni#input_patterns.tex =
       \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{([^}]*,)*[^}]*'
 
-" Define keyword patterns
-if !exists('g:neocomplete#keyword_patterns')
-  let g:neocomplete#keyword_patterns = {}
+" Define omni force patterns
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
 endif
-let g:neocomplete#keyword_patterns.tex     = '[a-zA-ZæÆøØåÅ][0-9a-zA-ZæÆøØåÅ]\+'
-let g:neocomplete#keyword_patterns.vimwiki = '[a-zA-ZæÆøØåÅ][0-9a-zA-ZæÆøØåÅ]\+'
+let g:neocomplete#force_omni_input_patterns.vimwiki = '\[\[[^]|]*#\S*'
 
 " {{{2 Supertab
 Plug 'ervandew/supertab'
