@@ -500,14 +500,19 @@ let g:ctrlp_custom_ignore = {
       \ 'dir'  : '\vCVS|\.(git|hg|vim\/undofiles|vim\/backup)$',
       \ 'file' : '\v\.(aux|pdf|gz|wiki)$',
       \}
+let g:ctrlp_extensions = ['tag']
 let g:ctrlp_follow_symlinks = 1
 let g:ctrlp_map = ''
 let g:ctrlp_match_window = 'top,order:ttb,max:25'
-let g:ctrlp_mruf_exclude_nomod = 0
+let g:ctrlp_mruf_exclude = '\v' . join([
+      \ '\/\.(git|hg)',
+      \ '\.wiki$',
+      \ '\.vim\/vimrc$',
+      \ '^\/tmp',
+      \ ], '|')
+let g:ctrlp_mruf_exclude_nomod = 1
 let g:ctrlp_tilde_homedir = 1
-let g:ctrlp_root_markers = ['CVS']
 let g:ctrlp_show_hidden = 0
-let g:ctrlp_extensions = ['tag']
 
 nnoremap <silent> <leader><leader> :CtrlPMRUFiles<cr>
 nnoremap <silent> <leader>oo :CtrlP<cr>
