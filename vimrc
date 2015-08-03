@@ -274,7 +274,7 @@ Plug 'Shougo/neocomplete'
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
-let g:neocomplete#enable_refresh_always = 1
+let g:neocomplete#enable_insert_char_pre = 1
 let g:neocomplete#enable_auto_close_preview = 1
 
 " Plugin key-mappings
@@ -299,9 +299,9 @@ let g:neocomplete#sources#omni#input_patterns.tex =
 if !exists('g:neocomplete#keyword_patterns')
   let g:neocomplete#keyword_patterns = {}
 endif
-let g:neocomplete#keyword_patterns._       = '[a-åA-Å][a-åA-Å0-9]\+'
-let g:neocomplete#keyword_patterns.tex     = '[a-åA-Å][a-åA-Å0-9]\+'
-let g:neocomplete#keyword_patterns.vimwiki = '[a-åA-Å][a-åA-Å0-9]\+'
+let g:neocomplete#keyword_patterns._       = '[a-zA-ZæÆøØåÅ][a-zA-ZæÆøØåÅ0-9]\+'
+let g:neocomplete#keyword_patterns.tex     = '[a-zA-ZæÆøØåÅ][a-zA-ZæÆøØåÅ0-9]\+'
+let g:neocomplete#keyword_patterns.vimwiki = '[a-zA-ZæÆøØåÅ][a-zA-ZæÆøØåÅ0-9]\+'
 
 " {{{2 Supertab
 Plug 'ervandew/supertab'
