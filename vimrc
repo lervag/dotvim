@@ -308,12 +308,6 @@ let g:SuperTabRetainCompletionDuration = 'session'
 let g:SuperTabLongestEnhanced = 1
 let g:SuperTabCrMapping = 0
 
-augroup vimrc_supertab
-  autocmd!
-  autocmd FileType fortran call SuperTabSetDefaultCompletionType('<c-n>')
-  autocmd FileType text    call SuperTabSetDefaultCompletionType('<c-n>')
-augroup END
-
 " }}}2
 "{{{2 Ultisnips
 Plug 'SirVer/ultisnips'
