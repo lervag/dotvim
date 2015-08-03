@@ -864,6 +864,7 @@ else
 endif
 set path=.,**
 set scrolloff=10
+set clipboard=autoselect,unnamed
 
 " Turn off all bells on terminal vim (necessary for vim through putty)
 if !has('gui_running')
