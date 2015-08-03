@@ -181,11 +181,11 @@ Plug 'machakann/vim-columnmove'
 let g:columnmove_no_default_key_mappings = 1
 
 function! s:hooks.columnmove()
-  for l:char in split('ftFT;,wbeWBE', '\zs') + ['ge', 'gE']
-    " vint: -ProhibitUnnecessaryDoubleQuote
-    silent! call columnmove#utility#map('nxo', l:char, "\<m-" . l:char . '>', 'block')
-    " vint: +ProhibitUnnecessaryDoubleQuote
+  for l:x in split('ftFT;,wbeWBE', '\zs')
+    silent! call columnmove#utility#map('nxo', l:x, '<m-' . l:x . '>', 'block')
   endfor
+  silent! call columnmove#utility#map('nxo', 'ge', '<m-g>e', 'block')
+  silent! call columnmove#utility#map('nxo', 'gE', '<m-g>E', 'block')
 endfunction
 
 " }}}2
