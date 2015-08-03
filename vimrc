@@ -285,13 +285,13 @@ inoremap <expr><c-l> neocomplete#complete_common_string()
 if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
 endif
-let g:neocomplete#force_omni_input_patterns.vimwiki = '#\S*'
+let g:neocomplete#force_omni_input_patterns.vimwiki = '\[\[[^|\]]*#\S*'
 
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
 let g:neocomplete#sources#omni#input_patterns.vimwiki =
-      \ '\[\[[^\]]*\|[[.\{-}#\S*'
+      \ '\[\[\S*'
 let g:neocomplete#sources#omni#input_patterns.tex =
       \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{([^}]*,)*[^}]*'
 
