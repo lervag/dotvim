@@ -598,54 +598,8 @@ function! s:hooks.sandwhich()
   hi OperatorSandwichBuns cterm=bold gui=bold ctermfg=5 guifg=Magenta
 
   " Default recipes
-  let g:sandwich#recipes = [
-        \ {
-        \   'buns' : ['<', '>'],
-        \   'expand_range' : 0,
-        \   'match_syntax' : 1,
-        \ },
-        \ {
-        \   'buns' : ['"', '"'],
-        \   'quoteescape' : 1,
-        \   'expand_range' : 0,
-        \   'nesting' : 0,
-        \   'match_syntax' : 2,
-        \ },
-        \ {
-        \   'buns' : ["'", "'"],
-        \   'quoteescape' : 1,
-        \   'expand_range' : 0,
-        \   'nesting' : 0,
-        \   'match_syntax' : 2,
-        \ },
-        \ {
-        \   'buns' : ['{ ', ' }'],
-        \   'input' : ['}'],
-        \   'kind' : ['add', 'replace'],
-        \   'action' : ['add'],
-        \   'nesting' : 1,
-        \   'match_syntax' : 1,
-        \   'skip_break' : 1,
-        \   'indentkeys-' : '{,},0{,0}' 
-        \ },
-        \ {
-        \   'buns' : ['[ ', ' ]'],
-        \   'input' : [']'],
-        \   'kind' : ['add', 'replace'],
-        \   'action' : ['add'],
-        \   'nesting' : 1,
-        \   'match_syntax' : 1,
-        \   'indentkeys-' : '[,]' 
-        \ },
-        \ {
-        \   'buns' : ['( ', ' )'],
-        \   'input' : [')'],
-        \   'kind' : ['add', 'replace'],
-        \   'action' : ['add'],
-        \   'nesting' : 1,
-        \   'match_syntax' : 1,
-        \   'indentkeys-' : '(,)' 
-        \ },
+  let g:sandwich#recipes  = deepcopy(g:sandwich#default_recipes)
+  let g:sandwich#recipes += [
         \ {
         \   'buns' : ['{\s*', '\s*}'],
         \   'input' : ['}'],
@@ -704,86 +658,6 @@ function! s:hooks.sandwhich()
         \   {'filetype': ['tex'], 'input': ['m{'], 'buns': ['\left\{',       '\right\}'],       'nesting': 1, 'indentkeys-' : '{,},0{,0}' },
         \   {'filetype': ['tex'], 'input': ['m<'], 'buns': ['\left\langle ', '\right\rangle '], 'nesting': 1 },
         \ ]
-
-  let g:TexEnvironments = [
-        \   'array', 'center', 'description', 'enumerate', 'eqnarray', 'equation',
-        \   'equation*', 'figure', 'flushleft', 'flushright', 'itemize', 'list',
-        \   'minipage', 'picture', 'quotation', 'quote', 'tabbing', 'table',
-        \   'tabular', 'tabular*', 'thebibliography', 'theorem', 'titlepage',
-        \   'verbatim', 'verse'
-        \ ]
-
-  let g:sandwich#recipes += [
-        \   {
-        \       'filetype': ['tex'],
-        \       'input'   : ['c'],
-        \       'buns'    : ['TexCmdInput(1)', 'TexCmdInput(0)'],
-        \       'kind'    : ['add', 'replace'],
-        \       'action'  : ['add'],
-        \       'expr'    : 1,
-        \       'nesting' : 1,
-        \       'indentkeys-' : '{,},0{,0}' 
-        \   },
-        \   {
-        \       'filetype': ['tex'],
-        \       'input'   : ['c'],
-        \       'buns'    : ['\\\a\+\*\?{', '}'],
-        \       'kind'    : ['delete', 'replace', 'auto', 'query'],
-        \       'regex'   : 1,
-        \       'nesting' : 1,
-        \       'indentkeys-' : '{,},0{,0}' 
-        \   },
-        \   {
-        \       'filetype': ['tex'],
-        \       'input'   : ['e'],
-        \       'buns'    : ['TexEnvInput(1)', 'TexEnvInput(0)'],
-        \       'kind'    : ['add', 'replace'],
-        \       'action'  : ['add'],
-        \       'expr'    : 1,
-        \       'nesting' : 1,
-        \       'linewise' : 1,
-        \       'indentkeys-' : '{,},0{,0}' 
-        \   },
-        \   {
-        \       'filetype': ['tex'],
-        \       'input'   : ['e'],
-        \       'buns'    : ['\\begin{[^}]*}\(\[.*\]\)\?', '\\end{[^}]*}'],
-        \       'kind'    : ['delete', 'replace', 'auto', 'query'],
-        \       'regex'   : 1,
-        \       'nesting' : 1,
-        \       'linewise' : 1,
-        \       'indentkeys-' : '{,},0{,0}' 
-        \   },
-        \ ]
-
-  function! TexCmdInput(is_head) abort
-    if a:is_head
-      let l:TexCmdLast = input('Command: ', '')
-      let command = printf('\%s{', l:TexCmdLast)
-    else
-      let command = '}'
-    endif
-    return command
-  endfunction
-
-  function! TexEnvInput(is_head) abort
-    if a:is_head
-      let b:TexEnvLast = input('Environment-name: ', '', 'customlist,TexEnvCompl')
-      let command = printf('\begin{%s}', b:TexEnvLast)
-    else
-      let command = printf('\end{%s}', b:TexEnvLast)
-    endif
-    return command
-  endfunction
-
-  function! TexEnvCompl(argread, cmdline, cursorpos) abort
-    let n = strlen(a:argread)
-    let list = copy(g:TexEnvironments)
-    if n > 0
-      let list = filter(list, 'v:val[: n-1] ==# a:argread')
-    endif
-    return list
-  endfunction
 endfunction
 
 " }}}2
