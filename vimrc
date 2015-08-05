@@ -335,7 +335,7 @@ Plug 'git@github.com:lervag/vimtex.git'
 let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_index_split_pos = 'below'
 let g:vimtex_view_method = 'zathura'
-let g:vimtex_snippets_leader = ','
+let g:vimtex_imaps_leader = 'æ'
 
 let g:tex_stylish = 1
 let g:tex_flavor = 'latex'
