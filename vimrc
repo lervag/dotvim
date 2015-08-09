@@ -490,7 +490,7 @@ endfunction
 Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_custom_ignore = {
       \ 'dir'  : '\vCVS|\.(git|hg|vim\/undofiles|vim\/backup)$',
-      \ 'file' : '\v\.(aux|pdf|gz|wiki)$',
+      \ 'file' : '\v\.(aux|pdf|gz|wiki|mod)$',
       \}
 let g:ctrlp_extensions = ['tag']
 let g:ctrlp_follow_symlinks = 1
@@ -720,7 +720,7 @@ set cpoptions+=J
 set autoread
 set wildmenu
 set wildmode=longest,list:longest,full
-set wildignore=*.o,*~,*.pyc,.git/*,.hg/*,.svn/*,*.DS_Store,CVS/*
+set wildignore=*.o,*~,*.pyc,.git/*,.hg/*,.svn/*,*.DS_Store,CVS/*,*.mod
 set shortmess=aoOtT
 silent! set shortmess+=cI
 set splitbelow
