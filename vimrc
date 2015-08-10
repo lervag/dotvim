@@ -967,4 +967,26 @@ endfor
 
 " }}}1
 
+function! s:git_merge()
+  " Set some options
+  nnoremap <silent> ]C /\v^[<>=]{4,7}($\|\s)<cr>
+  nnoremap <silent> [C ?\v^[<>=]{4,7}($\|\s)<cr>
+  nnoremap <silent> <c-w>u :wincmd p <bar> undo <bar> wincmd p <bar> diffupdate<cr>
+
+  " Remote
+  wincmd t
+  setlocal readonly
+
+  " Merged
+  wincmd l
+
+  " Local
+  wincmd l
+  setlocal readonly
+
+  wincmd p
+  redraw!
+endfunction
+command GitMerge :call s:git_merge()
+
 " vim: fdm=marker
