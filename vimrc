@@ -512,6 +512,7 @@ nnoremap <silent> <leader>oh :CtrlP /home/lervag<cr>
 nnoremap <silent> <leader>ov :CtrlP /home/lervag/.vim<cr>
 nnoremap <silent> <leader>ot :CtrlPTag<cr>
 nnoremap <silent> <leader>ob :CtrlPBuffer<cr>
+nnoremap          <leader>om :ManWrapper 
 
 " Add some extensions
 Plug '~/.vim/bundle_local/ctrlp'
