@@ -28,6 +28,10 @@ nnoremap <silent> <leader>ps :PlugStatus<cr>
 nnoremap <silent> <leader>pc :PlugClean<cr>
 " }}}2
 
+" Testing
+Plug 'Shougo/neco-vim'
+Plug 'Shougo/neoinclude'
+
 " User interface
 Plug 'altercation/vim-colors-solarized'
 Plug 'moll/vim-bbye', { 'on' : 'Bdelete' }
