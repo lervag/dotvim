@@ -146,12 +146,12 @@ set hlsearch
 nmap /  <plug>(incsearch-forward)
 nmap ?  <plug>(incsearch-backward)
 nmap g/ <plug>(incsearch-stay)
-nmap n  <plug>(incsearch-nohl-n)zf
-nmap N  <plug>(incsearch-nohl-N)zf
-nmap *  <plug>(incsearch-nohl-*)zf
-nmap #  <plug>(incsearch-nohl-#)zf
-nmap g* <plug>(incsearch-nohl-g*)zf
-nmap g# <plug>(incsearch-nohl-g#)zf
+nmap n  <plug>(incsearch-nohl-n)zvzz
+nmap N  <plug>(incsearch-nohl-N)zvzz
+nmap *  <plug>(incsearch-nohl-*)zvzz
+nmap #  <plug>(incsearch-nohl-#)zvzz
+nmap g* <plug>(incsearch-nohl-g*)zvzz
+nmap g# <plug>(incsearch-nohl-g#)zvzz
 
 " Use <c-l> to clear the highlighting of :set hlsearch.
 if maparg('<c-l>', 'n') ==# ''
