@@ -30,7 +30,7 @@ nnoremap <silent> <leader>pc :PlugClean<cr>
 
 " Testing
 Plug 'Shougo/neco-vim'
-Plug 'Shougo/neoinclude'
+Plug 'Shougo/neoinclude.vim'
 
 " User interface
 Plug 'altercation/vim-colors-solarized'
