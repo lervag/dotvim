@@ -687,6 +687,7 @@ Plug '~/.vim/bundle_local/text-object-indent'
 Plug '~/.vim/bundle_local/toggle-verbose'
 Plug '~/.vim/bundle_local/man-wrapper'
 Plug '~/.vim/bundle_local/open-in-browser'
+Plug '~/.vim/bundle_local/log-autocmds'
 
 call plug#end()
 endif
