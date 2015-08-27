@@ -31,6 +31,12 @@ nnoremap <silent> <leader>pc :PlugClean<cr>
 " Testing
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/neoinclude.vim'
+Plug 'Yggdroot/indentLine'
+
+let g:indentLine_char = '┊'
+let g:indentLine_color_term = 239
+let g:indentLine_color_gui = '#d6d0bf'
+let g:indentLine_noConcealCursor = 1
 
 " User interface
 Plug 'altercation/vim-colors-solarized'
@@ -340,6 +346,7 @@ let g:vimtex_view_method = 'zathura'
 let g:vimtex_imaps_leader = ';'
 
 let g:tex_stylish = 1
+let g:tex_conceal = ''
 let g:tex_flavor = 'latex'
 let g:tex_isk='48-57,a-z,A-Z,192-255,:'
 
@@ -506,7 +513,8 @@ let g:ctrlp_mruf_exclude = '\v' . join([
       \ ], '|')
 let g:ctrlp_mruf_exclude_nomod = 1
 let g:ctrlp_tilde_homedir = 1
-let g:ctrlp_show_hidden = 0
+let g:ctrlp_working_path_mode = 'a'
+let g:ctrlp_max_files = 0
 
 nnoremap <silent> <leader><leader> :CtrlPMRUFiles<cr>
 nnoremap <silent> <leader>oo :CtrlP<cr>
@@ -854,6 +862,7 @@ nnoremap <silent> <F6> :<c-u>call LoopSpellLanguage()<cr>
 
 set laststatus=2
 set background=dark
+set winwidth=70
 if has('gui_running')
   set lines=50
   set columns=82
