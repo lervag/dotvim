@@ -31,12 +31,6 @@ nnoremap <silent> <leader>pc :PlugClean<cr>
 " Testing
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/neoinclude.vim'
-Plug 'Yggdroot/indentLine'
-
-let g:indentLine_char = '┊'
-let g:indentLine_color_term = 239
-let g:indentLine_color_gui = '#d6d0bf'
-let g:indentLine_noConcealCursor = 1
 
 " User interface
 Plug 'altercation/vim-colors-solarized'
@@ -71,6 +65,14 @@ let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tabline#show_tab_type = 0
 let g:airline#extensions#tabline#tab_min_count = 2
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+
+" }}}2
+" {{{2 indentLine
+Plug 'Yggdroot/indentLine'
+let g:indentLine_char = '┊'
+let g:indentLine_color_term = 239
+let g:indentLine_color_gui = '#d6d0bf'
+let g:indentLine_noConcealCursor = 1
 
 " }}}2
 " {{{2 Goyo
