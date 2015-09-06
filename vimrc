@@ -788,9 +788,6 @@ set softtabstop=2
 set shiftwidth=2
 set textwidth=79
 set columns=80
-if v:version >= 703
-  execute 'set colorcolumn=' . join(range(81,335), ',')
-end
 set smarttab
 set expandtab
 set nowrap
