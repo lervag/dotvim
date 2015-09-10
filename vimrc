@@ -568,7 +568,10 @@ function! s:unite_settings()
   nmap <buffer> <esc> <plug>(unite_exit)
   imap <buffer> <esc> <plug>(unite_exit)
 endfunction
-autocmd FileType unite call s:unite_settings()
+augroup unite
+  autocmd!
+  autocmd FileType unite call s:unite_settings()
+augroup END
 
 "
 " Unite mappings
