@@ -532,6 +532,69 @@ nnoremap <leader>ow :CtrlPVimwiki<cr>
 nnoremap <leader>oh :CtrlPHelp<cr>
 
 " }}}2
+" {{{2 Unite
+Plug 'Shougo/unite.vim'
+
+"
+" General unite settings
+"
+let g:unite_source_rec_max_cache_files=5000
+if executable('ag')
+  let g:unite_source_grep_command='ag'
+  let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4'
+  let g:unite_source_grep_recursive_opt=''
+elseif executable('ack')
+  let g:unite_source_grep_command='ack'
+  let g:unite_source_grep_default_opts='--no-heading --no-color -C4'
+  let g:unite_source_grep_recursive_opt=''
+endif
+
+"
+" More settings defined through function calls
+"
+function! s:hooks.unite()
+  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  call unite#filters#sorter_default#use(['sorter_rank'])
+  call unite#custom#profile('default', 'context', {
+        \ 'start_insert': 1,
+        \ 'no_split': 1,
+        \ 'prompt': '> ',
+        \ })
+endfunction
+
+"
+" Mappings and similar inside Unite buffers
+"
+function! s:unite_settings()
+  let b:SuperTabDisabled=1
+  nmap <buffer> q     <plug>(unite_exit)
+  nmap <buffer> Q     <plug>(unite_exit)
+  nmap <buffer> <esc> <plug>(unite_exit)
+  imap <buffer> <esc> <plug>(unite_exit)
+endfunction
+autocmd FileType unite call s:unite_settings()
+
+"
+" Unite mappings
+"
+nnoremap <leader>ub :<c-u>Unite -buffer-name=buffer buffer<cr>
+nnoremap <leader>uf :<c-u>Unite -buffer-name=files file_rec/async:!<cr>
+nnoremap <leader>um :<c-u>Unite -buffer-name=mappings mapping<cr>
+
+"
+" Unite addons
+"
+Plug 'Shougo/neomru.vim'
+Plug 'tsukkee/unite-tag'
+Plug 'Shougo/unite-help'
+
+let g:neomru#time_format = '%F %R > '
+
+nnoremap <leader>uu :<c-u>Unite -buffer-name=mru file_mru buffer file<cr>
+nnoremap <leader>ut :<c-u>Unite -buffer-name=tag tag tag/file<cr>
+nnoremap <leader>uh :<c-u>Unite -buffer-name=help help<cr>
+
+" }}}2
 "{{{2 Screen
 Plug 'ervandew/screen'
 let g:ScreenImpl = 'Tmux'
