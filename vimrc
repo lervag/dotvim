@@ -337,7 +337,7 @@ Plug 'gregsexton/MatchTag'
 
 " }}}2
 " {{{2 LaTeX
-Plug 'git@github.com:lervag/vimtex.git'
+Plug 'git@github.com:lervag/vimtex.git', { 'branch' : 'math-mappings' }
 let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_index_split_pos = 'below'
 let g:vimtex_view_method = 'zathura'
