@@ -233,13 +233,6 @@ nmap <leader>rr <plug>(quickrun)
 nmap <leader>ro <plug>(quickrun-op)
 
 " }}}2
-"{{{2 Splice
-Plug 'sjl/splice.vim'
-let g:splice_initial_mode = 'grid'
-let g:splice_initial_layout_grid = 1
-let g:splice_initial_diff_grid = 1
-
-" }}}2
 " {{{2 Syntactics
 Plug 'scrooloose/syntastic'
 let g:syntastic_always_populate_loc_list=1
@@ -1040,27 +1033,5 @@ for key in keys(s:hooks)
 endfor
 
 " }}}1
-
-function! s:git_merge()
-  " Set some options
-  nnoremap <silent> ]C /\v^[<>=]{4,7}($\|\s)<cr>
-  nnoremap <silent> [C ?\v^[<>=]{4,7}($\|\s)<cr>
-  nnoremap <silent> <c-w>u :wincmd p <bar> undo <bar> wincmd p <bar> diffupdate<cr>
-
-  " Remote
-  wincmd t
-  setlocal readonly
-
-  " Merged
-  wincmd l
-
-  " Local
-  wincmd l
-  setlocal readonly
-
-  wincmd p
-  redraw!
-endfunction
-command GitMerge :call s:git_merge()
 
 " vim: fdm=marker
