@@ -1,7 +1,9 @@
 let s:file = expand('<sfile>')
-execute "nnoremap \<leader>x :source " . s:file . "\<cr>"
 
 function! s:setup_diff_mode()
+  execute "nnoremap \<leader>x :source " . s:file . "\<cr>"
+  execute "nnoremap \<leader>z :split " . s:file . "\<cr>"
+
   if ! &diff | return | endif
 
   " Equalize splits
@@ -10,7 +12,7 @@ function! s:setup_diff_mode()
   " nnoremap <silent> ]C /\v^[<>=]{4,7}($\|\s)<cr>
   " nnoremap <silent> [C ?\v^[<>=]{4,7}($\|\s)<cr>
   " nnoremap <silent> <c-w>u :wincmd p <bar> undo <bar> wincmd p <bar> diffupdate<cr>
-  
+
   if s:fugitive()
     nnoremap <silent> <leader>gl :diffget //3<cr>
     nnoremap <silent> <leader>gr :diffget //2<cr>
