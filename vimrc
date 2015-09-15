@@ -772,8 +772,10 @@ set modelines=5
 set tags=tags;~,.tags;~
 set fillchars=vert:│,fold:\ ,diff:⣿
 set diffopt=filler,foldcolumn:0,context:4
-if !has('gui_running')
-  set diffopt+=horizontal
+if has('gui_running')
+  set diffopt=filler,foldcolumn:0,context:4,vertical
+else
+  set diffopt=filler,foldcolumn:0,context:4,horizontal
 endif
 set matchtime=2
 set matchpairs+=<:>
