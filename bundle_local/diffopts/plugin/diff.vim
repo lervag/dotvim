@@ -6,28 +6,18 @@ function! s:setup_diff_mode()
 
   if ! &diff | return | endif
 
-  " Equalize splits
   ResizeSplits
 
-  " nnoremap <silent> ]C /\v^[<>=]{4,7}($\|\s)<cr>
-  " nnoremap <silent> [C ?\v^[<>=]{4,7}($\|\s)<cr>
-  " nnoremap <silent> <c-w>u :wincmd p <bar> undo <bar> wincmd p <bar> diffupdate<cr>
+  nnoremap dol :diffget 1<cr>
+  nnoremap dor :diffget 3<cr>
+  nnoremap dp  :diffput 2<cr>
+  nnoremap <leader>q :xa!<cr>
 
-  if s:fugitive()
-    nnoremap <silent> <leader>gl :diffget //3<cr>
-    nnoremap <silent> <leader>gr :diffget //2<cr>
-  else
-    nnoremap <silent> <leader>gl :diffget LO<cr>
-    nnoremap <silent> <leader>gr :diffget RE<cr>
-    nnoremap <silent> <leader>gb :diffget BA<cr>
-  endif
-endfunction
+  nnoremap <leader>dr :3wincmd w<cr>
+  nnoremap <leader>do :2wincmd w<cr>
+  nnoremap <leader>dl :1wincmd w<cr>
 
-function! s:fugitive()
-  redir => l:output
-  silent buffers
-  redir END
-  return len(filter(split(l:output, '\n'), "v:val =~# 'fugitive:'")) > 0
+  echom "..."
 endfunction
 
 command! DiffMode :call s:setup_diff_mode()
