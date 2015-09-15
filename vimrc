@@ -65,7 +65,11 @@ let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 " }}}2
 " {{{2 indentLine
 Plug 'Yggdroot/indentLine'
-let g:indentLine_char = '┊'
+if has('gui_running')
+  let g:indentLine_char = '┊'
+else
+  let g:indentLine_char = '|'
+endif
 let g:indentLine_color_term = 239
 let g:indentLine_color_gui = '#d6d0bf'
 let g:indentLine_noConcealCursor = 1
