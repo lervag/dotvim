@@ -216,9 +216,42 @@ nnoremap <leader>gL :Gitv!<cr>
 
 Plug 'ludovicchabant/vim-lawrencium'
 nnoremap <leader>hs :Hgstatus<cr>
-nnoremap <leader>hd :Hgvdiff<cr>:ResizeSplits<cr>
 nnoremap <leader>hl :Hglog<cr>
 nnoremap <leader>hL :Hglogthis<cr>
+
+nnoremap <leader>hd :call MyHgdiff()<cr>
+function! MyHgdiff()
+  let l:vimtex_fold_enabled = g:vimtex_fold_enabled
+  let g:vimtex_fold_enabled = 0
+  Hgvdiff
+  ResizeSplits
+  windo setlocal foldmethod=diff
+  normal gg]c
+  let g:vimtex_fold_enabled = l:vimtex_fold_enabled
+endfunction
+
+nnoremap <leader>hr :call MyHgrecord()<cr>
+function! MyHgrecord()
+  let l:vimtex_fold_enabled = g:vimtex_fold_enabled
+  let g:vimtex_fold_enabled = 0
+  Hgvrecord
+  ResizeSplits
+  windo setlocal foldmethod=diff
+  normal gg]c
+  let g:vimtex_fold_enabled = l:vimtex_fold_enabled
+  let s:record = 1
+endfunction
+
+nnoremap <leader>ha :call MyHgabort()<cr>
+function! MyHgabort()
+  if get(s:, 'record', 0)
+    Hgrecordabort
+  else
+    bdelete lawrencium
+  endif
+  ResizeSplits
+  normal zx
+endfunction
 
 " }}}
 " {{{2 Gutentags
