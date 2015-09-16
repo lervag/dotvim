@@ -1002,7 +1002,7 @@ hi Search     cterm=bold,underline gui=bold,underline ctermfg=201 guifg=Magenta
 hi SpellBad   cterm=bold           gui=bold           ctermfg=124 guifg=Red
 hi SpellCap   cterm=bold           gui=bold           ctermfg=33  guifg=Blue
 hi SpellRare  cterm=bold           gui=bold           ctermfg=104 guifg=Purple
-hi SpellLocal cterm=bold           gui=bold           ctermfg=227 guifg=Yellow
+hi SpellLocal cterm=bold           gui=bold           ctermfg=227 guifg=Green
 hi VertSplit  ctermbg=NONE guibg=NONE
 
 "{{{1 Autocommands
