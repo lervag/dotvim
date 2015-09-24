@@ -321,44 +321,65 @@ inoremap <expr> <bs>    neocomplete#smart_close_popup() . "\<c-h>"
 inoremap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
-" Always use completions from all buffers
-if !exists('g:neocomplete#same_filetypes')
+" Define dictionaries if they don't exist
+if !exists('s:hooks.neocomplete')
   let g:neocomplete#same_filetypes = {}
+  let g:neocomplete#keyword_patterns = {}
+  let g:neocomplete#sources#omni#input_patterns = {}
+  let g:neocomplete#force_omni_input_patterns = {}
 endif
+
+" Always use completions from all buffers
 let g:neocomplete#same_filetypes._ = '_'
 
 " Define keyword patterns
-if !exists('g:neocomplete#keyword_patterns')
-  let g:neocomplete#keyword_patterns = {}
-endif
 let g:neocomplete#keyword_patterns.tex     = '[a-zA-ZæÆøØåÅ][0-9a-zA-ZæÆøØåÅ]\+'
 let g:neocomplete#keyword_patterns.vimwiki = '[a-zA-ZæÆøØåÅ][0-9a-zA-ZæÆøØåÅ]\+'
 
 " Define omni input patterns
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.vimwiki =
-      \ '\[\[\S*'
+let g:neocomplete#sources#omni#input_patterns.vimwiki = '\[\[\S*'
 let g:neocomplete#sources#omni#input_patterns.tex =
       \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{([^}]*,)*[^}]*'
 
 " Define omni force patterns
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-endif
 let g:neocomplete#force_omni_input_patterns.vimwiki = '\[\[[^]|]*#\S*'
+
+function! s:hooks.neocomplete()
+  call neocomplete#custom#source('ultisnips', 'rank', 1000)
+endfunction
 
 "{{{2 Ultisnips
 Plug 'SirVer/ultisnips'
-
-let g:UltiSnipsJumpForwardTrigger = '<m-u>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-m-u>'
-let g:UltiSnipsListSnippets = '<m-l>'
 let g:UltiSnipsEditSplit = 'horizontal'
 let g:UltiSnipsSnippetDirectories = [$HOME . '/.vim/bundle_local/UltiSnips']
 let g:UltiSnipsSnippetsDir = '~/.vim/bundle_local/UltiSnips'
+
+let g:UltiSnipsJumpForwardTrigger = '<c-k>'
+let g:UltiSnipsExpandTrigger = '<c-k>'
+let g:UltiSnipsJumpBackwardTrigger = '<c-j>'
+let g:UltiSnipsListSnippets = '<nop>'
+inoremap <c-l> <c-r>=MyListSnippets()<cr>
+
 nnoremap <leader>es :UltiSnipsEdit!<cr>
+
+function! MyListSnippets()
+  redir => l:output
+  silent call UltiSnips#ListSnippets()
+  redir END
+
+  let l:list = []
+  let l:snips = []
+  for string in map(filter(split(l:output, '\n'),
+                  \        'v:val =~# ''^\d'''),
+                  \ 'substitute(v:val, ''(.*).*\zs\s*(.*)'', '''', '''')')
+    let parts = matchlist(string, '^\(\d\+\): (\(.*\))\(\s*"\(.*\)"\)\?')
+    call add(l:list, printf('%2S - %-10S %S', parts[1], parts[2], parts[4]))
+    call add(l:snips, parts[2])
+  endfor
+
+  call inputlist(l:list)
+  return ''
+endfunction
 
 " }}}2
 
