@@ -1,12 +1,13 @@
-" Vim indent file
-" Language:     Fortran95 (and Fortran90, Fortran77, F and elf90)
-" Version:      0.40
-" Last Change:  2011 Dec. 28
-" Maintainer:   Ajit J. Thakkar <ajit@unb.ca>; <http://www.unb.ca/chem/ajit/>
-" Usage:        Do :help fortran-indent from Vim
+"
+" Personal Vim indent file
+"
+" Based on:
+"   Vim's fortran-indent (0.40)
+"   Sebastian Burtons indent plugin (0.3.1)
+"
 
 " Only load this indent file when no other was loaded.
-if exists("b:did_indent")
+if exists('b:did_indent')
   finish
 endif
 let b:did_indent = 1
@@ -18,130 +19,37 @@ setlocal indentkeys+==~end,=~case,=~if,=~else,=~do,=~where,=~elsewhere,=~select
 setlocal indentkeys+==~endif,=~enddo,=~endwhere,=~endselect,=~elseif
 setlocal indentkeys+==~type,=~interface,=~forall,=~associate,=~block,=~enum
 setlocal indentkeys+==~endforall,=~endassociate,=~endblock,=~endenum
-if exists("b:fortran_indent_more") || exists("g:fortran_indent_more")
-  setlocal indentkeys+==~function,=~subroutine,=~module,=~contains,=~program
-  setlocal indentkeys+==~endfunction,=~endsubroutine,=~endmodule
-  setlocal indentkeys+==~endprogram
-endif
+setlocal indentkeys+==~function,=~subroutine,=~module,=~contains,=~program
+setlocal indentkeys+==~endfunction,=~endsubroutine,=~endmodule
+setlocal indentkeys+==~endprogram
 
-" Determine whether this is a fixed or free format source file
-" if this hasn't been done yet
-if !exists("b:fortran_fixed_source")
-  if exists("fortran_free_source")
-    " User guarantees free source form
-    let b:fortran_fixed_source = 0
-  elseif exists("fortran_fixed_source")
-    " User guarantees fixed source form
-    let b:fortran_fixed_source = 1
-  else
-    " f90 and f95 allow both fixed and free source form
-    " assume fixed source form unless signs of free source form
-    " are detected in the first five columns of the first 250 lines
-    " Detection becomes more accurate and time-consuming if more lines
-    " are checked. Increase the limit below if you keep lots of comments at
-    " the very top of each file and you have a fast computer
-    let s:lmax = 500
-    if ( s:lmax > line("$") )
-      let s:lmax = line("$")
-    endif
-    let b:fortran_fixed_source = 1
-    let s:ln=1
-    while s:ln <= s:lmax
-      let s:test = strpart(getline(s:ln),0,5)
-      if s:test !~ '^[Cc*]'
-            \ && s:test !~ '^ *[!#]'
-            \ && s:test =~ '[^ 0-9\t]'
-            \ && s:test !~ '^[ 0-9]*\t'
-        let b:fortran_fixed_source = 0
-        break
-      endif
-      let s:ln = s:ln + 1
-    endwhile
+setlocal indentexpr=FortranGetIndent()
+
+function! FortranGetIndent()
+  " No indentation for preprocessor instructions
+  if getline(v:lnum) =~ '^\s*#'
+    return 0
   endif
-endif
 
-" Define the appropriate indent function but only once
-if (b:fortran_fixed_source == 1)
-  setlocal indentexpr=FortranGetFixedIndent()
-  if exists("*FortranGetFixedIndent")
-    finish
+  " No indentation at the top of the file
+  if lnum == 0
+    return 0
   endif
-else
-  setlocal indentexpr=FortranGetFreeIndent()
-  if exists("*FortranGetFreeIndent")
-    finish
-  endif
-endif
 
-function FortranGetIndent(lnum)
-  let ind = indent(a:lnum)
-  let prevline = getline(a:lnum)
-  let prev2line = getline(a:lnum-1)
+  " Previous non-blank non-preprocessor line
+  let lnum = SebuPrevNonBlankNonCPP(v:lnum-1)
+  let ind = indent(lnum)
+  let prevline = getline(lnum)
 
-  " Strip tail comments
+  " Strip tail comment
   let prevstat = substitute(prevline, '!.*$', '', '')
+  let prev2line = getline(lnum-1)
   let prev2stat = substitute(prev2line, '!.*$', '', '')
-
-  " Continuation lines
-  let first_matches = [
-        \ '^\s*namelist\> \/\w*\/\s*',
-        \ '^.*:: ',
-        \ '^\s*\(write\s*(.*,.*) \|print\s*\*,\s*\)',
-        \ '^\s*print \ze.*,',
-        \ '^.*= ',
-        \ '^\s*\(subroutine\|\(\w* \)\=function\) \w*(',
-        \ '^\(\s*[0-9A-Za-z_%]\+\)\+(',
-        \ '^\s*use.*only: '
-        \ ]
-  let following_matches=[
-        \ '^\s*call \w*(',
-        \ '^[0-9A-Za-z_% ():]*= [0-9A-Za-z_%]\+('
-        \ ]
-  let match_contline = '&\s*$'
-  if prevstat =~ match_contline
-    if prev2stat !~ match_contline
-
-      "
-      " First continuation line
-      "
-      for match in first_matches
-        if prevstat =~ match
-          let m = searchpos(match,'bcne')
-          let ind = m[1] - &sw
-          break
-        endif
-      endfor
-    else
-
-      "
-      " Following continuation lines
-      "
-      for match in following_matches
-        if prevstat =~? match
-          let m = searchpos(match,'bcne')
-          "let diff = match[1] - ind
-          let ind = m[1]
-          break
-        endfor
-    endif
-  else
-
-    "
-    " Line after last continuation line
-    "
-    if prev2stat =~ match_contline
-      let lnum = a:lnum
-      while getline(lnum - 1) =~ match_contline
-        let lnum = lnum - 1
-      endwhile
-      let ind = indent(lnum) + &sw
-    endif
-  endif
 
   "
   " Indent do loops only if they are all guaranteed to be of do/end do type
   "
-  if exists("b:fortran_do_enddo") || exists("g:fortran_do_enddo")
+  if exists('b:fortran_do_enddo') || exists('g:fortran_do_enddo')
     if prevstat =~? '^\s*\(\d\+\s\)\=\s*\(\a\w*\s*:\)\=\s*do\>'
       let ind = ind + &sw
     endif
@@ -177,7 +85,7 @@ function FortranGetIndent(lnum)
   "
   " Indent program units unless instructed otherwise
   "
-  if !exists("b:fortran_indent_less") && !exists("g:fortran_indent_less")
+  if !exists('b:fortran_indent_less') && !exists('g:fortran_indent_less')
     let prefix='\(\(pure\|impure\|elemental\|recursive\)\s\+\)\{,2}'
     let type='\(\(integer\|real\|double\s\+precision\|complex\|logical'
           \.'\|character\|type\|class\)\s*\S*\s\+\)\='
@@ -202,7 +110,7 @@ function FortranGetIndent(lnum)
   if getline(v:lnum) =~? '^\s*\(\d\+\s\)\=\s*'
         \. '\(else\|else\s*if\|else\s*where\|case\|'
         \. 'end\s*\(if\|where\|select\|interface\|'
-        \. 'type\|forall\|associate\|enum\)\)\>'
+        \. 'type\|forall\|associate\|enum\|block\)\)\>'
     let ind = ind - &sw
     "
     " Fix indent for case statement immediately after select
@@ -212,60 +120,49 @@ function FortranGetIndent(lnum)
     endif
   endif
 
-  return ind
-endfunction
-
-function FortranGetFreeIndent()
-  "Find the previous non-blank line
-  let lnum = prevnonblank(v:lnum - 1)
-
-  "Use zero indent at the top of the file
-  if lnum == 0
-    return 0
+  "First continuation line
+  if prevstat =~# '&\s*$' && prev2stat !~# '&\s*$'
+    let ind = ind + &sw
+  endif
+  if prevstat =~# '&\s*$' && prevstat =~# '\<else\s*if\>'
+    let ind = ind - &sw
+  endif
+  "Line after last continuation line
+  if prevstat !~# '&\s*$' && prev2stat =~# '&\s*$' && prevstat !~? '\<then\>'
+    let ind = ind - &sw
   endif
 
-  let ind=FortranGetIndent(lnum)
-  return ind
-endfunction
-
-function FortranGetFixedIndent()
-  let currline=getline(v:lnum)
-  "Don't indent comments, continuation lines and labelled lines
-  if strpart(currline,0,6) =~ '[^ \t]'
-    let ind = indent(v:lnum)
-    return ind
-  endif
-
-  "Find the previous line which is not blank, not a comment,
-  "not a continuation line, and does not have a label
-  let lnum = v:lnum - 1
-  while lnum > 0
-    let prevline=getline(lnum)
-    if (prevline =~ "^[C*!]") || (prevline =~ "^\s*$")
-        \ || (strpart(prevline,5,1) !~ "[ 0]")
-      " Skip comments, blank lines and continuation lines
-      let lnum = lnum - 1
-    else
-      let test=strpart(prevline,0,5)
-      if test =~ "[0-9]"
-        " Skip lines with statement numbers
-        let lnum = lnum - 1
-      else
-        break
-      endif
-    endif
-  endwhile
-
-  "First line must begin at column 7
-  if lnum == 0
-    return 6
-  endif
-
-  let ind=FortranGetIndent(lnum)
+  " Continued statement indentation rule
+  " Truth table (kind of)
+  " Symbol '&'                    |       Result
+  " No                    0       0       |       0       No change
+  " Appearing             0       1       |       1       Indent
+  " Disappering   1       0       |       -1      Unindent
+  " Continued             1       1       |       0       No change
+  let result = -SebuIsFortranContStat(lnum-1)+SebuIsFortranContStat(lnum)
+  " One shiftwidth indentation for continued statements
+  let ind += result*&sw
   return ind
 endfunction
 
 let &cpoptions=s:cposet
 unlet s:cposet
 
-" vim:sw=2 tw=130
+" SebuPrevNonBlankNonCPP(lnum) is modified prevnonblank(lnum):
+" Returns the line number of the first line at or above 'lnum' that is
+" neither blank nor preprocessor instruction.
+function! SebuPrevNonBlankNonCPP(lnum)
+  let lnum = prevnonblank(a:lnum)
+  while getline(lnum) =~ '^#'
+    let lnum = prevnonblank(lnum-1)
+  endwhile
+  return lnum
+endfunction
+
+" SebuIsFortranContStat(lnum):
+" Returns 1 if the 'lnum' statement ends with the Fortran continue mark '&'
+" and 0 else.
+function! SebuIsFortranContStat(lnum)
+  let line = getline(a:lnum)
+  return substitute(line,'!.*$','','') =~ '&\s*$'
+endfunction
