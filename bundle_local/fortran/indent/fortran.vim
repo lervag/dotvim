@@ -145,9 +145,6 @@ function! FortranGetIndent()
   return ind
 endfunction
 
-let &cpoptions=s:cposet
-unlet s:cposet
-
 " SebuPrevNonBlankNonCPP(lnum) is modified prevnonblank(lnum):
 " Returns the line number of the first line at or above 'lnum' that is
 " neither blank nor preprocessor instruction.
@@ -166,3 +163,6 @@ function! SebuIsFortranContStat(lnum)
   let line = getline(a:lnum)
   return substitute(line,'!.*$','','') =~ '&\s*$'
 endfunction
+
+let &cpoptions=s:cposet
+unlet s:cposet
