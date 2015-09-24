@@ -385,7 +385,7 @@ augroup vimrc_latex
 augroup END
 
 " }}}2
-" {{{2 Pandoc (including Markdown)
+" {{{2 Markdown/Pandoc
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 
