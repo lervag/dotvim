@@ -312,7 +312,20 @@ let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#enable_auto_close_preview = 1
 
-inoremap <expr><c-l> neocomplete#start_manual_complete()
+inoremap <expr> <c-l>   neocomplete#start_manual_complete()
+inoremap <expr> <c-y>   neocomplete#close_popup()
+inoremap <expr> <c-e>   neocomplete#cancel_popup()
+inoremap <expr> <c-h>   neocomplete#smart_close_popup() . "\<c-h>"
+inoremap <expr> <bs>    neocomplete#smart_close_popup() . "\<c-h>"
+
+inoremap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+" Always use completions from all buffers
+if !exists('g:neocomplete#same_filetypes')
+  let g:neocomplete#same_filetypes = {}
+endif
+let g:neocomplete#same_filetypes._ = '_'
 
 " Define keyword patterns
 if !exists('g:neocomplete#keyword_patterns')
@@ -336,15 +349,6 @@ if !exists('g:neocomplete#force_omni_input_patterns')
 endif
 let g:neocomplete#force_omni_input_patterns.vimwiki = '\[\[[^]|]*#\S*'
 
-" {{{2 Supertab
-Plug 'ervandew/supertab'
-let g:SuperTabDefaultCompletionType = 'context'
-let g:SuperTabContextDefaultCompletionType = '<c-x><c-o>'
-let g:SuperTabRetainCompletionDuration = 'session'
-let g:SuperTabLongestEnhanced = 1
-let g:SuperTabCrMapping = 0
-
-" }}}2
 "{{{2 Ultisnips
 Plug 'SirVer/ultisnips'
 
