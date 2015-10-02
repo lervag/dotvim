@@ -564,6 +564,7 @@ let g:ctrlp_mruf_exclude = '\v' . join([
       \ '\.vim\/vimrc$',
       \ '_(LOCAL|REMOTE)_',
       \ '\~record$',
+      \ '^\/tmp\/',
       \ ], '|')
 let g:ctrlp_mruf_exclude_nomod = 1
 let g:ctrlp_tilde_homedir = 1
