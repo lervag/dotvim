@@ -707,8 +707,11 @@ nnoremap <c-K> :OnlineThesaurusCurrentWord<CR>
 "{{{2 vim-easy-align
 Plug 'junegunn/vim-easy-align'
 let g:easy_align_bypass_fold = 1
+
 nmap ga <plug>(EasyAlign)
+vmap ga <plug>(EasyAlign)
 nmap gA <plug>(LiveEasyAlign)
+vmap gA <plug>(LiveEasyAlign)
 vmap .  <plug>(EasyAlignRepeat)
 
 " }}}2
