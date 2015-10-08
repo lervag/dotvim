@@ -9,14 +9,12 @@ command! ResizeSplits call s:ResizeSplits()
 
 augroup resize_splits
   autocmd!
-  autocmd WinEnter,BufEnter     * let w:count = 1
-  autocmd BufHidden,BufWinLeave * let w:count = 0
+  autocmd WinEnter *                      let w:count=1
+  autocmd WinLeave,BufWinLeave *          let w:count=0
+  autocmd WinEnter,WinLeave,BufWinLeave * ResizeSplits
 augroup END
 
-nnoremap <silent> <c-w>r :ResizeSplits<cr>
 nnoremap <silent> <c-w>o <c-w>o:ResizeSplits<cr>
-nnoremap <silent> <c-w>c <c-w>c:ResizeSplits<cr>
-nnoremap <silent> <c-w>v <c-w>v:ResizeSplits<cr>
 
 " {{{1 ResizeSplits
 function! s:ResizeSplits()

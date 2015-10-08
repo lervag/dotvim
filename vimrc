@@ -211,7 +211,7 @@ let g:Gitv_OpenHorizontal = 1
 
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
-nnoremap <leader>gd :Gdiff<cr>:ResizeSplits<cr>
+nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gl :Gitv<cr>
 nnoremap <leader>gL :Gitv!<cr>
 
@@ -225,7 +225,6 @@ function! MyHgdiff()
   let l:vimtex_fold_enabled = g:vimtex_fold_enabled
   let g:vimtex_fold_enabled = 0
   Hgvdiff
-  ResizeSplits
   windo setlocal foldmethod=diff
   normal gg]c
   let g:vimtex_fold_enabled = l:vimtex_fold_enabled
@@ -236,7 +235,6 @@ function! MyHgrecord()
   let l:vimtex_fold_enabled = g:vimtex_fold_enabled
   let g:vimtex_fold_enabled = 0
   Hgvrecord
-  ResizeSplits
   windo setlocal foldmethod=diff
   normal gg]c
   let g:vimtex_fold_enabled = l:vimtex_fold_enabled
@@ -250,7 +248,6 @@ function! MyHgabort()
   else
     bdelete lawrencium
   endif
-  ResizeSplits
   normal zx
 endfunction
 
@@ -1080,7 +1077,7 @@ nnoremap Y      y$
 nnoremap J      mzJ`z
 nnoremap dp     dp]c
 nnoremap do     do]c
-nnoremap <silent> <c-u> :Bdelete<cr>:ResizeSplits<cr>
+nnoremap <silent> <c-u> :Bdelete<cr>
 nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
 
