@@ -19,7 +19,6 @@ function! s:setup_merge_mode() " {{{1
   execute 'nnoremap <silent> u :call ' . l:sid . 'undo()<cr>'
 
   " Set buffer options
-  " ResizeSplits
   1wincmd w
   setlocal noswapfile
   setlocal nomodifiable
@@ -30,6 +29,8 @@ function! s:setup_merge_mode() " {{{1
   " Move to local window and to first conflict
   2wincmd w
   normal gg]]
+
+  setglobal fdm=diff
 endfunction
 
 " }}}1
