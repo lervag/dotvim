@@ -2,6 +2,7 @@ if exists('g:loaded_resizesplits') && g:loaded_resizesplits
     finish
 endif
 let g:loaded_resizesplits = 1
+
 let s:save_cpo = &cpo
 set cpo&vim
 
@@ -21,13 +22,9 @@ function! s:ResizeSplits()
   let l:curwin = winnr()
   let l:x = getwinposx()
   let l:y = getwinposy()
-  let l:colwidth = 82 + &foldcolumn
-  if &number
-    let l:colwidth += &numberwidth
-  endif
-  if s:HasSignCols()
-    let l:colwidth += 2
-  endif
+  let l:colwidth  = 82 + &foldcolumn
+        \ + (&number         ? &numberwidth : 0)
+        \ + (s:HasSignCols() ? 2            : 0)
 
   let l:totheight = 0
   windo   if getwinvar(winnr(), 'count') |
@@ -41,18 +38,17 @@ function! s:ResizeSplits()
   endif
 
   if &columns != l:totwidth
-    silent! execute 'set co=' . l:totwidth
-    silent! execute 'wincmd ='
+    silent execute 'set co=' . l:totwidth
+    silent execute 'wincmd ='
     if has('gui_running')
-      silent! execute 'winpos ' . l:x . ' ' . l:y
+      silent execute 'winpos ' . l:x . ' ' . l:y
     endif
   endif
-  silent! execute l:curwin . 'wincmd w'
+  silent execute l:curwin . 'wincmd w'
 
   let w:count = 1
 endfunction
 
-" {{{1 Utility functions
 function! s:HasSignCols()
   let save_more = &more
   set nomore
@@ -63,5 +59,6 @@ function! s:HasSignCols()
   return len(split(lines,"\n")) > 1
 endfunction
 
-" {{{1 Finish
+" }}}1
+
 let &cpo = s:save_cpo
