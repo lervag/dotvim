@@ -19,7 +19,7 @@ function! s:setup_merge_mode() " {{{1
   execute 'nnoremap <silent> u :call ' . l:sid . 'undo()<cr>'
 
   " Set buffer options
-  ResizeSplits
+  " ResizeSplits
   1wincmd w
   setlocal noswapfile
   setlocal nomodifiable

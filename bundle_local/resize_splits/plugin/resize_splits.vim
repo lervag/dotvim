@@ -1,4 +1,4 @@
-if exists('g:loaded_resizesplits') && g:loaded_resizesplits
+if exists('g:loaded_resizesplits')
     finish
 endif
 let g:loaded_resizesplits = 1
@@ -10,43 +10,32 @@ command! ResizeSplits call s:ResizeSplits()
 
 augroup resize_splits
   autocmd!
-  autocmd WinEnter *                      let w:count=1
-  autocmd WinLeave,BufWinLeave *          let w:count=0
-  autocmd WinEnter,WinLeave,BufWinLeave * ResizeSplits
+  autocmd WinEnter,WinLeave * ResizeSplits
 augroup END
 
 nnoremap <silent> <c-w>o <c-w>o:ResizeSplits<cr>
 
-" {{{1 ResizeSplits
+" {{{1 Functions
 function! s:ResizeSplits()
-  let l:curwin = winnr()
-  let l:x = getwinposx()
-  let l:y = getwinposy()
-  let l:colwidth  = 82 + &foldcolumn
+  let l:column_width  = 82 + &foldcolumn
         \ + (&number         ? &numberwidth : 0)
         \ + (s:HasSignCols() ? 2            : 0)
 
-  let l:totheight = 0
-  windo   if getwinvar(winnr(), 'count') |
-        \   let l:totheight += winheight(winnr()) |
-        \ endif
-  let l:count = float2nr(ceil(l:totheight / (1.0*&lines)))
-  if l:count > 0
-    let l:totwidth = l:count - 1 + l:count*l:colwidth
-  else
-    let l:totwidth = l:colwidth
-  endif
+  let l:total_height = 0
+  let l:heights = map(filter(split(winrestcmd(),'|')[0:-1],
+        \                  'v:val =~# ''^\d'''),
+        \           'matchstr(v:val, ''\d\+$'')')
+  for l:h in l:heights
+    let l:total_height += l:h
+  endfor
 
-  if &columns != l:totwidth
-    silent execute 'set co=' . l:totwidth
+  let l:count = float2nr(ceil(l:total_height / (1.0*&lines)))
+  let l:total_width = l:count*l:column_width
+
+  if &columns != l:total_width
+    silent execute 'set co=' . l:total_width
     silent execute 'wincmd ='
-    if has('gui_running')
-      silent execute 'winpos ' . l:x . ' ' . l:y
-    endif
   endif
-  silent execute l:curwin . 'wincmd w'
-
-  let w:count = 1
 endfunction
 
 function! s:HasSignCols()
