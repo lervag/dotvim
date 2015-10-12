@@ -797,28 +797,11 @@ endfunction
 
 " Local filetype plugins
 Plug '~/.vim/bundle_local/dagbok'
-Plug '~/.vim/bundle_local/fortran'
-Plug '~/.vim/bundle_local/help'
 Plug '~/.vim/bundle_local/lisp'
-Plug '~/.vim/bundle_local/make'
-Plug '~/.vim/bundle_local/markdown'
-Plug '~/.vim/bundle_local/python'
-Plug '~/.vim/bundle_local/ruby'
-Plug '~/.vim/bundle_local/tex'
-Plug '~/.vim/bundle_local/text'
-Plug '~/.vim/bundle_local/vim'
-Plug '~/.vim/bundle_local/quickfix'
 
 " Local plugins
-Plug '~/.vim/bundle_local/resize_splits'
 Plug '~/.vim/bundle_local/speeddating'
 Plug '~/.vim/bundle_local/syntaxcomplete'
-Plug '~/.vim/bundle_local/text-object-indent'
-Plug '~/.vim/bundle_local/toggle-verbose'
-Plug '~/.vim/bundle_local/man-wrapper'
-Plug '~/.vim/bundle_local/open-in-browser'
-Plug '~/.vim/bundle_local/log-autocmds'
-Plug '~/.vim/bundle_local/merge_mode'
 
 call plug#end()
 endif
