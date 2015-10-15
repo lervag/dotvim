@@ -72,6 +72,7 @@ else
 endif
 let g:indentLine_color_term = 239
 let g:indentLine_color_gui = '#d6d0bf'
+let g:indentLine_noConcealCursor = 1
 let g:indentLine_fileTypeExclude = ['help']
 
 " }}}2
@@ -221,7 +222,7 @@ nnoremap <leader>hL :Hglogthis<cr>
 
 nnoremap <leader>hd :call MyHgdiff()<cr>
 function! MyHgdiff()
-  let l:vimtex_fold_enabled = g:vimtex_fold_enabled
+  let l:vimtex_fold_enabled = get(g:, 'vimtex_fold_enabled', 0)
   let g:vimtex_fold_enabled = 0
   Hgvdiff
   windo setlocal foldmethod=diff
@@ -231,7 +232,7 @@ endfunction
 
 nnoremap <leader>hr :call MyHgrecord()<cr>
 function! MyHgrecord()
-  let l:vimtex_fold_enabled = g:vimtex_fold_enabled
+  let l:vimtex_fold_enabled = get(g:, 'vimtex_fold_enabled', 0)
   let g:vimtex_fold_enabled = 0
   Hgvrecord
   windo setlocal foldmethod=diff
@@ -279,7 +280,7 @@ let g:syntastic_mode_map = {
       \ }
 
 let g:syntastic_vim_checkers = ['vint']
-let g:syntastic_python_checkers = ['pylint']
+let g:syntastic_python_checkers = ['pylint2']
 
 " Fortran settings
 let g:syntastic_fortran_compiler_options = ' -fdefault-real-8'
