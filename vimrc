@@ -268,6 +268,23 @@ let g:quickrun_config._ = {
 nmap <leader>rr <plug>(quickrun)
 nmap <leader>ro <plug>(quickrun-op)
 
+nnoremap <leader>rs :call QuickRunSimfex()<cr>
+
+function! QuickRunSimfex()
+  let l:exec = '''%c -v '
+  if getcwd() =~# '\/tests'
+    let l:exec .= '%s'''
+  else
+    let l:file = fnamemodify('../tests/test_' . expand('%:t'), ':p')
+    if !filereadable(l:file)
+      echo 'Could not find corresponding test file.'
+      return
+    endif
+    let l:exec .= l:file . ''''
+  endif
+  execute 'QuickRun -command nosetests2 -exec' l:exec
+endfunction
+
 " }}}2
 " {{{2 Syntactics
 Plug 'scrooloose/syntastic'
