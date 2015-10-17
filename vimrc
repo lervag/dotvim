@@ -408,7 +408,7 @@ Plug 'gregsexton/MatchTag'
 
 " }}}2
 " {{{2 LaTeX
-Plug 'git@github.com:lervag/vimtex.git', { 'branch' : 'math-mappings' }
+Plug 'git@github.com:lervag/vimtex.git'
 let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_index_split_pos = 'below'
 let g:vimtex_view_method = 'zathura'
@@ -418,12 +418,6 @@ let g:tex_stylish = 1
 let g:tex_conceal = ''
 let g:tex_flavor = 'latex'
 let g:tex_isk='48-57,a-z,A-Z,192-255,:'
-
-" Custom mappings
-augroup vimrc_latex
-  autocmd!
-  autocmd FileType tex inoremap <silent><buffer> <m-i> \item<space>
-augroup END
 
 " }}}2
 " {{{2 Markdown/Pandoc
