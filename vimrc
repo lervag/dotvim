@@ -373,7 +373,7 @@ let g:UltiSnipsSnippetsDir = '~/.vim/bundle_local/UltiSnips'
 let g:UltiSnipsJumpForwardTrigger = '<c-k>'
 let g:UltiSnipsExpandTrigger = '<c-k>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-j>'
-let g:UltiSnipsListSnippets = '<nop>'
+let g:UltiSnipsListSnippets = '<c-u>'
 inoremap <c-l> <c-r>=MyListSnippets()<cr>
 
 nnoremap <leader>es :UltiSnipsEdit!<cr>
