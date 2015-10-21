@@ -364,6 +364,12 @@ function! s:hooks.neocomplete()
   call neocomplete#custom#source('ultisnips', 'rank', 1000)
 endfunction
 
+"{{{2 Neosnippet
+Plug 'Shougo/neosnippet.vim'
+
+let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
+
+" }}}2
 "{{{2 Ultisnips
 Plug 'SirVer/ultisnips'
 let g:UltiSnipsEditSplit = 'horizontal'
