@@ -980,6 +980,7 @@ nnoremap <silent> <F6> :<c-u>call LoopSpellLanguage()<cr>
 set laststatus=2
 set background=dark
 set winwidth=70
+set noshowmode
 if has('gui_running')
   set lines=50
   set columns=82
