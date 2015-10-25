@@ -28,6 +28,9 @@ nnoremap <silent> <leader>ps :PlugStatus<cr>
 nnoremap <silent> <leader>pc :PlugClean<cr>
 " }}}2
 
+" Testing
+Plug 'vim-scripts/Conque-GDB'
+
 " User interface
 Plug 'altercation/vim-colors-solarized'
 Plug 'moll/vim-bbye', { 'on' : 'Bdelete' }
