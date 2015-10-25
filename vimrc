@@ -366,42 +366,15 @@ endfunction
 
 "{{{2 Neosnippet
 Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 
-let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
+let g:neosnippet#snippets_directory = '~/.vim/snippets'
 
-" }}}2
-"{{{2 Ultisnips
-Plug 'SirVer/ultisnips'
-let g:UltiSnipsEditSplit = 'horizontal'
-let g:UltiSnipsSnippetDirectories = [$HOME . '/.vim/bundle_local/UltiSnips']
-let g:UltiSnipsSnippetsDir = '~/.vim/bundle_local/UltiSnips'
+imap <c-k> <plug>(neosnippet_expand_or_jump)
+smap <c-k> <plug>(neosnippet_expand_or_jump)
+imap <c-s> <plug>(neosnippet_start_unite_snippet)
 
-let g:UltiSnipsJumpForwardTrigger = '<c-k>'
-let g:UltiSnipsExpandTrigger = '<c-k>'
-let g:UltiSnipsJumpBackwardTrigger = '<c-j>'
-let g:UltiSnipsListSnippets = '<c-u>'
-inoremap <c-l> <c-r>=MyListSnippets()<cr>
-
-nnoremap <leader>es :UltiSnipsEdit!<cr>
-
-function! MyListSnippets()
-  redir => l:output
-  silent call UltiSnips#ListSnippets()
-  redir END
-
-  let l:list = []
-  let l:snips = []
-  for string in map(filter(split(l:output, '\n'),
-                  \        'v:val =~# ''^\d'''),
-                  \ 'substitute(v:val, ''(.*).*\zs\s*(.*)'', '''', '''')')
-    let parts = matchlist(string, '^\(\d\+\): (\(.*\))\(\s*"\(.*\)"\)\?')
-    call add(l:list, printf('%2S - %-10S %S', parts[1], parts[2], parts[4]))
-    call add(l:snips, parts[2])
-  endfor
-
-  call inputlist(l:list)
-  return ''
-endfunction
+nnoremap <leader>es :NeoSnippetEdit<cr>
 
 " }}}2
 
@@ -419,6 +392,7 @@ let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_index_split_pos = 'below'
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_imaps_leader = ';'
+let g:vimtex_imaps_snippet_engine = 'neosnippet'
 
 let g:tex_stylish = 1
 let g:tex_conceal = ''
