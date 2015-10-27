@@ -30,6 +30,7 @@ nnoremap <silent> <leader>pc :PlugClean<cr>
 
 " Testing
 Plug 'vim-scripts/Conque-GDB'
+let g:ConqueGdb_Leader = '<leader>d'
 
 " User interface
 Plug 'altercation/vim-colors-solarized'
