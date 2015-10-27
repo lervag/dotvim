@@ -2,28 +2,28 @@ snippet prog
 options head
         program ${1:name}
                 ${0}
-        end program ${1}
+        end program $1
 
 snippet mod
 options head
         module ${1:name}
                 implicit none
                 ${0}
-        end module ${1}
+        end module $1
 
 snippet sub
 options head
         subroutine ${1:name}(${2})
                 implicit none
                 ${0}
-        end subroutine ${1}
+        end subroutine $1
 
 snippet func
 options head
         function ${1:name}(${2})
                 implicit none
                 ${0}
-        end function ${1}
+        end function $1
 
 snippet if
 options head
