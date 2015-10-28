@@ -207,6 +207,20 @@ endfunction
 
 " General programming
 Plug 'tpope/vim-commentary'
+" {{{2 ConqueGDB
+Plug 'vim-scripts/Conque-GDB'
+
+" ConqueGDB options
+let g:ConqueGdb_Leader = '<leader>d'
+let g:ConqueGdb_SrcSplit = 'left'
+
+" ConqueTerm options
+let g:ConqueTerm_Color = 2
+let g:ConqueTerm_CloseOnEnd = 1
+let g:ConqueTerm_StartMessages = 0
+let g:ConqueTerm_ReadUnfocused = 1
+
+" }}}
 " {{{2 Fugitive, gitv, Lawrencium, etc...
 Plug 'tpope/vim-fugitive'
 Plug 'gregsexton/gitv'
