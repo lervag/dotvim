@@ -692,12 +692,6 @@ let g:undotree_SetFocusWhenToggle = 1
 nnoremap <f5> :UndotreeToggle<cr>
 
 " }}}2
-" {{{2 vim-online-thesaurus
-Plug 'beloglazov/vim-online-thesaurus'
-let g:online_thesaurus_map_keys = 0
-nnoremap <c-K> :OnlineThesaurusCurrentWord<CR>
-
-" }}}2
 "{{{2 vim-easy-align
 Plug 'junegunn/vim-easy-align'
 let g:easy_align_bypass_fold = 1
