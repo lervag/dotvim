@@ -230,7 +230,7 @@ function! MyHgdiff()
   let g:vimtex_fold_enabled = 0
   Hgvdiff
   windo setlocal foldmethod=diff
-  normal gg]c
+  normal! gg]c
   let g:vimtex_fold_enabled = l:vimtex_fold_enabled
 endfunction
 
@@ -240,7 +240,7 @@ function! MyHgrecord()
   let g:vimtex_fold_enabled = 0
   Hgvrecord
   windo setlocal foldmethod=diff
-  normal gg]c
+  normal! gg]c
   let g:vimtex_fold_enabled = l:vimtex_fold_enabled
   let s:record = 1
 endfunction
@@ -253,7 +253,7 @@ function! MyHgabort()
     bdelete lawrencium
   endif
   ResizeSplits
-  normal zx
+  normal! zx
 endfunction
 
 " }}}
