@@ -29,8 +29,8 @@ nnoremap <silent> <leader>pc :PlugClean<cr>
 " }}}2
 
 " Testing
-Plug 'vim-scripts/Conque-GDB'
-let g:ConqueGdb_Leader = '<leader>d'
+Plug 'ggVGc/vim-fuzzysearch'
+nnoremap <leader>fz :FuzzySearch<cr>
 
 " User interface
 Plug 'altercation/vim-colors-solarized'
