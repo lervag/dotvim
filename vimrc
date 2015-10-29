@@ -279,6 +279,7 @@ let g:gutentags_tagfile = '.tags'
 "{{{2 Quickrun
 Plug 'thinca/vim-quickrun'
 let g:quickrun_config = {}
+let g:quickrun_config.python = { 'command' : 'python2' }
 let g:quickrun_config._ = {
       \ 'outputter/buffer/close_on_empty' : 1
       \ }
