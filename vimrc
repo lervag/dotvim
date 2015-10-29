@@ -147,7 +147,13 @@ nmap <silent> <sid>DisableFontsizeDefault <plug>FontsizeDefault
 
 " General motions
 Plug 'guns/vim-sexp'
+" {{{2 targets.vim
 Plug 'wellle/targets.vim'
+
+let g:targets_argOpening = '[({[]'
+let g:targets_argClosing = '[]})]'
+
+" }}}2
 " {{{2 Incsearch
 Plug 'haya14busa/incsearch.vim'
 let g:incsearch#auto_nohlsearch = 1
