@@ -201,11 +201,25 @@ Plug 'gregsexton/gitv'
 
 let g:Gitv_OpenHorizontal = 1
 
-nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gs :Gtogglestatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gl :Gitv<cr>
 nnoremap <leader>gL :Gitv!<cr>
+
+command! Gtogglestatus :call Gtogglestatus()
+function! Gtogglestatus()
+  if buflisted(bufname('.git/index'))
+    bd .git/index
+  else
+    Gstatus
+  endif
+endfunction
+
+augroup my_fugitive
+  autocmd!
+  autocmd BufReadPost fugitive://* set bufhidden=delete
+augroup END
 
 Plug 'ludovicchabant/vim-lawrencium'
 nnoremap <leader>hs :Hgstatus<cr>
