@@ -983,7 +983,7 @@ set noshowmode
 if has('gui_running')
   set lines=50
   set columns=82
-  set guifont=Inconsolata-g\ Medium\ 10
+  set guifont=Inconsolata-g\ for\ Powerline\ Medium\ 10
   set guioptions=ac
   set guiheadroom=0
   set background=light
