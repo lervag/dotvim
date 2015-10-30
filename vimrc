@@ -35,38 +35,6 @@ nnoremap <leader>fz :FuzzySearch<cr>
 " User interface
 Plug 'altercation/vim-colors-solarized'
 Plug 'moll/vim-bbye', { 'on' : 'Bdelete' }
-" {{{2 Airline
-Plug 'bling/vim-airline'
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline_section_z = '%3p%% (%l:%c)'
-let g:airline_mode_map = {
-      \ '__' : '-',
-      \ 'n'  : 'N',
-      \ 'i'  : 'I',
-      \ 'R'  : 'R',
-      \ 'c'  : 'C',
-      \ 'v'  : 'V',
-      \ 'V'  : 'V',
-      \ '' : 'V',
-      \ 's'  : 'S',
-      \ 'S'  : 'S',
-      \ '' : 'S',
-      \ }
-
-let g:airline_symbols = get(g:, 'airline_symbols', {})
-let g:airline_symbols.crypt = 'decrypted'
-
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#hunks#non_zero_only = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_close_button = 0
-let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#tab_min_count = 2
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-
-" }}}2
 " {{{2 indentLine
 Plug 'Yggdroot/indentLine'
 if has('gui_running')
@@ -586,6 +554,10 @@ let g:ctrlp_mruf_exclude_nomod = 1
 let g:ctrlp_tilde_homedir = 1
 let g:ctrlp_working_path_mode = 'a'
 let g:ctrlp_max_files = 0
+let g:ctrlp_status_func = {
+  \ 'main': 'status#ctrlp_main',
+  \ 'prog': 'status#ctrlp_progress'
+  \}
 
 nnoremap <silent> <leader><leader> :CtrlPMRUFiles<cr>
 nnoremap <silent> <leader>oo :CtrlP<cr>
@@ -1032,6 +1004,7 @@ hi VertSplit  ctermbg=NONE guibg=NONE
 
 augroup vimrc_autocommands
   autocmd!
+
   " Only use cursorline for current window
   autocmd WinEnter * setlocal cursorline
   autocmd WinLeave * setlocal nocursorline
@@ -1049,6 +1022,11 @@ augroup vimrc_autocommands
         \ if &omnifunc == "" |
         \   setlocal omnifunc=syntaxcomplete#Complete |
         \ endif
+
+  " Refresh statusline
+  autocmd VimEnter,VimLeave       * :call status#refresh()
+  autocmd WinEnter,WinLeave       * :call status#refresh()
+  autocmd BufWinEnter,BufWinLeave * :call status#refresh()
 augroup END
 
 "{{{1 Custom key mappings
@@ -1087,6 +1065,9 @@ nnoremap <leader>ez :e ~/.dotfiles/zshrc<cr>
 
 " Make it possible to save as sudo
 cnoremap w!! w !sudo tee % >/dev/null
+
+" Toggle statusline stuff
+nnoremap <silent> <leader>qq :call status#toggle_detailed()<cr>
 
 " }}}1
 " {{{1 Plugin hooks
