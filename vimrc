@@ -995,16 +995,20 @@ endif
 
 silent! colorscheme solarized
 
-if has('gui_running')
-  highlight iCursor guibg=#b58900
-  highlight rCursor guibg=#dc322f
-  highlight vCursor guibg=#d33682
-  set guicursor+=n-c:blinkon0-block-Cursor
-  set guicursor+=o:blinkon0-block-iCursor
-  set guicursor+=v:blinkon0-block-vCursor
-  set guicursor+=i:blinkon0-ver30-iCursor
-  set guicursor+=r:blinkon0-hor20-rCursor
-elseif exists('$TMUX')
+" GUI cursor
+highlight iCursor guibg=#b58900
+highlight rCursor guibg=#dc322f
+highlight vCursor guibg=#d33682
+set guicursor=a:block
+set guicursor+=n:Cursor
+set guicursor+=o-c:iCursor
+set guicursor+=v:vCursor
+set guicursor+=i-ci-sm:ver30-iCursor
+set guicursor+=r-cr:hor20-rCursor
+set guicursor+=a:blinkon0
+
+" Terminal cursor
+if exists('$TMUX')
   let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
   let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
 else
