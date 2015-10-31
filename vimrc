@@ -977,11 +977,6 @@ endif
 
 silent! colorscheme solarized
 
-"
-" Initialize statusline
-"
-call statusline#init()
-
 if has('gui_running')
   highlight iCursor guibg=#b58900
   highlight rCursor guibg=#dc322f
@@ -1014,6 +1009,11 @@ hi SpellCap   cterm=bold           gui=bold           ctermfg=33  guifg=Blue
 hi SpellRare  cterm=bold           gui=bold           ctermfg=104 guifg=Purple
 hi SpellLocal cterm=bold           gui=bold           ctermfg=227 guifg=Green
 hi VertSplit  ctermbg=NONE guibg=NONE
+
+"
+" Initialize statusline
+"
+call statusline#init()
 
 "{{{1 Autocommands
 

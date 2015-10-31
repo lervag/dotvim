@@ -6,92 +6,60 @@
 " - http://www.blaenkdenum.com/posts/a-simpler-vim-statusline/
 "
 
+" For developing
 let s:file = expand('<sfile>')
+execute 'nnoremap <leader>as :so ' . s:file . '<cr>:call statusline#init()<cr>'
+execute 'nnoremap <leader>ae :ed ' . s:file . '<cr>'
 
-"
-" The main statusline functions
-"
 function! statusline#init() " {{{1
   augroup statusline
     autocmd!
-    autocmd VimEnter,VimLeave       * :call statusline#refresh()
-    autocmd WinEnter,WinLeave       * :call statusline#refresh()
-    autocmd BufWinEnter,BufWinLeave * :call statusline#refresh()
+    autocmd VimEnter,WinEnter,BufWinEnter * call statusline#refresh()
+    autocmd FileType,BufUnload,VimResized * call statusline#refresh()
   augroup END
 
-  execute 'nnoremap <leader>as  :source ' . s:file . '<cr>'
-  execute 'nnoremap <leader>ae  :edit ' . s:file . '<cr>'
-
-  nnoremap <leader>qq :call statusline#toggle_detailed()<cr>
+  highlight SLHighlight ctermbg=14 ctermfg=2 guibg=#586e75 guifg=#ffe055
+  highlight SLAlert     ctermbg=14 ctermfg=2 guibg=#586e75 guifg=#ffff22
 endfunction
 
 " }}}1
 function! statusline#refresh() " {{{1
   for nr in range(1, winnr('$'))
-    call statusline#set(nr)
+    if !s:ignored(nr)
+      call setwinvar(nr, '&statusline', '%!statusline#main(' . nr . ')')
+    endif
   endfor
 endfunction
 
 "}}}1
-function! statusline#toggle_detailed() " {{{1
-  let w:statusline_detailed = !get(w:, 'statusline_detailed', 0)
-endfunction
+function! statusline#main(winnr) " {{{1
+  let active = a:winnr == winnr()
+  let bufnr = winbufnr(a:winnr)
+  let buftype = getbufvar(bufnr, '&buftype')
+  let name = bufname(bufnr)
 
-"}}}1
-function! statusline#set(winnum) " {{{1
-  let active = a:winnum == winnr()
-  let bufnum = winbufnr(a:winnum)
-  let type = getbufvar(bufnum, '&buftype')
-  let name = bufname(bufnum)
-
+  "
   " Alternative statuslines
-  if type ==# 'help'
-    return '%#SLHelp# HELP %* ' . fnamemodify(name, ':t:r')
+  "
+  if buftype ==# 'help'
+    return s:color(' ' . fnamemodify(name, ':t:r') . ' %= HELP ',
+          \ 'SLHighlight', active)
   endif
 
-  " Ignore some buffers
-  if name =~# '^\%(undotree\|diffpanel\)'
-    return
-  endif
+  " Left part
+  let stat  = s:color(' %<%f', 'SLHighlight', active)
+  let stat .= getbufvar(bufnr, '&modified')
+        \ ? s:color(' +', 'SLAlert', active) : ''
+  let stat .= getbufvar(bufnr, '&readonly')
+        \ ? s:color(' ‼', 'SLAlert', active) : ''
 
-  "
-  " Build statusline
-  "
-
-  " file name
-  let stat = ' %<%f'
-
-  " file modified
-  let modified = getbufvar(bufnum, '&modified')
-  let stat .= s:color(active, 'SLLineNr', modified ? ' +' : '')
-
-  " read only
-  let readonly = getbufvar(bufnum, '&readonly')
-  let stat .= s:color(active, 'SLLineNR', readonly ? ' RO' : '')
-
-  " right side
   let stat .= '%='
 
-  " ...
-  if getwinvar(a:winnum, 'status_detailed', 0)
-    let stat .= s:color(active, 'SLDetails', '%3p%% (%l:%c)')
-  endif
+  " Right part
+  let stat .= fugitive#head(12)
+  let stat .= ' '
 
-  " git branch
-  if exists('*fugitive#head')
-    let head = fugitive#head()
-
-    if empty(head) && exists('*fugitive#detect') && !exists('b:git_dir')
-      call fugitive#detect(getcwd())
-      let head = fugitive#head()
-    endif
-  endif
-
-  if !empty(head)
-    let stat .= s:color(active, 'SLBranch', ' ← ') . head
-  endif
-
-  call setwinvar(a:winnum, '&statusline', stat)
+  return stat
 endfunction
 
 " }}}1
@@ -100,22 +68,27 @@ endfunction
 " CtrlP statusline
 "
 function! statusline#ctrlp_main(focus, byfname, re, prv, cur, nxt, marked) " {{{1
-  let line  = ' CtrlP:'
-
-  let line .= ' ' . a:prv
-  let line .= ' ' . (a:cur ==# 'mru files' ? 'mru' : a:cur)
-  let line .= ' ' . a:nxt
+  let stat  = ' ' . a:prv . ' → '
+  let stat .= s:color(a:cur ==# 'mru files' ? 'mru' : a:cur, 'SLHighlight', 1)
+  let stat .= ' → ' . a:nxt
 
   if a:cur =~# '^\%(files\|dir\|mixed\)'
-    let line .= ' ' . fnamemodify(getcwd(), ':~')
+    let stat .= ' ← '
+    let stat .= s:color(fnamemodify(getcwd(), ':~'), 'SLAlert', 1)
   endif
 
-  return line
+  let stat .= '%='
+  let stat .= s:color(' CtrlP ', 'SLHighlight', 1)
+
+  return stat
 endfunction
 
 " }}}1
 function! statusline#ctrlp_progress(length) " {{{1
-  return ' CtrlP: Loading ... (' . a:length . ')'
+  let stat  = s:color(' Loading ... (' . a:length . ')', 'SLHighlight', 1)
+  let stat .= '%='
+  let stat .= s:color(' CtrlP ', 'SLHighlight', 1)
+  return stat
 endfunction
 
 " }}}1
@@ -123,7 +96,7 @@ endfunction
 "
 " Utilities
 "
-function! s:color(active, group, content) " {{{1
+function! s:color(content, group, active) " {{{1
   if a:active
     return '%#' . a:group . '#' . a:content . '%*'
   else
@@ -132,3 +105,15 @@ function! s:color(active, group, content) " {{{1
 endfunction
 
 " }}}1
+function! s:ignored(winnr) " {{{1
+  let name = bufname(winbufnr(a:winnr))
+
+  if name =~# '^\%(undotree\|diffpanel\)'
+    return 1
+  endif
+
+  return 0
+endfunction
+
+" }}}1
+
