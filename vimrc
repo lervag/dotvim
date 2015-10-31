@@ -569,8 +569,8 @@ let g:ctrlp_tilde_homedir = 1
 let g:ctrlp_working_path_mode = 'a'
 let g:ctrlp_max_files = 0
 let g:ctrlp_status_func = {
-  \ 'main': 'status#ctrlp_main',
-  \ 'prog': 'status#ctrlp_progress'
+  \ 'main': 'statusline#ctrlp_main',
+  \ 'prog': 'statusline#ctrlp_progress'
   \}
 
 nnoremap <silent> <leader><leader> :CtrlPMRUFiles<cr>
@@ -981,6 +981,11 @@ endif
 
 silent! colorscheme solarized
 
+"
+" Initialize statusline
+"
+call statusline#init()
+
 if has('gui_running')
   highlight iCursor guibg=#b58900
   highlight rCursor guibg=#dc322f
@@ -1036,11 +1041,6 @@ augroup vimrc_autocommands
         \ if &omnifunc == "" |
         \   setlocal omnifunc=syntaxcomplete#Complete |
         \ endif
-
-  " Refresh statusline
-  autocmd VimEnter,VimLeave       * :call status#refresh()
-  autocmd WinEnter,WinLeave       * :call status#refresh()
-  autocmd BufWinEnter,BufWinLeave * :call status#refresh()
 augroup END
 
 "{{{1 Custom key mappings
@@ -1079,9 +1079,6 @@ nnoremap <leader>ez :e ~/.dotfiles/zshrc<cr>
 
 " Make it possible to save as sudo
 cnoremap w!! w !sudo tee % >/dev/null
-
-" Toggle statusline stuff
-nnoremap <silent> <leader>qq :call status#toggle_detailed()<cr>
 
 " }}}1
 " {{{1 Plugin hooks
