@@ -6,6 +6,11 @@
 " - http://www.blaenkdenum.com/posts/a-simpler-vim-statusline/
 "
 
+let s:file = expand('<sfile>')
+
+"
+" The main statusline functions
+"
 function! statusline#init() " {{{1
   augroup statusline
     autocmd!
@@ -14,14 +19,16 @@ function! statusline#init() " {{{1
     autocmd BufWinEnter,BufWinLeave * :call statusline#refresh()
   augroup END
 
-  nnoremap <space>a            :source /home/lervag/.vim/autoload/statusline.vim<cr>
-  nnoremap <silent> <leader>qq :call statusline#toggle_detailed()<cr>
+  execute 'nnoremap <leader>as  :source ' . s:file . '<cr>'
+  execute 'nnoremap <leader>ae  :edit ' . s:file . '<cr>'
+
+  nnoremap <leader>qq :call statusline#toggle_detailed()<cr>
 endfunction
 
 " }}}1
 function! statusline#refresh() " {{{1
   for nr in range(1, winnr('$'))
-    call s:set_statusline(nr)
+    call statusline#set(nr)
   endfor
 endfunction
 
@@ -31,11 +38,7 @@ function! statusline#toggle_detailed() " {{{1
 endfunction
 
 "}}}1
-
-"
-" The main statusline function
-"
-function! s:set_statusline(winnum) " {{{1
+function! statusline#set(winnum) " {{{1
   let active = a:winnum == winnr()
   let bufnum = winbufnr(a:winnum)
   let type = getbufvar(bufnum, '&buftype')
