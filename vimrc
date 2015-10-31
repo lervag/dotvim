@@ -28,10 +28,6 @@ nnoremap <silent> <leader>ps :PlugStatus<cr>
 nnoremap <silent> <leader>pc :PlugClean<cr>
 " }}}2
 
-" Testing
-Plug 'ggVGc/vim-fuzzysearch'
-nnoremap <leader>fz :FuzzySearch<cr>
-
 " User interface
 Plug 'altercation/vim-colors-solarized'
 Plug 'moll/vim-bbye', { 'on' : 'Bdelete' }
