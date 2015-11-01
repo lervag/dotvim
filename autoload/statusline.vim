@@ -19,8 +19,10 @@ function! statusline#init() " {{{1
     autocmd BufHidden,BufWinLeave,BufUnload * call statusline#refresh()
   augroup END
 
-  highlight SLHighlight ctermbg=14 ctermfg=2 guibg=#586e75 guifg=#ffe055
-  highlight SLAlert     ctermbg=14 ctermfg=2 guibg=#586e75 guifg=#ffff22
+  highlight StatusLine   ctermfg=12 ctermbg=8 guifg=#657b83 guibg=#eee8d5
+  highlight StatusLineNC ctermfg=11 ctermbg=8 guifg=#839496 guibg=#eee8d5
+  highlight SLHighlight  ctermbg=12 ctermfg=8 guibg=#657b83 guifg=#ffe055
+  highlight SLAlert      ctermbg=12 ctermfg=9 guibg=#657b83 guifg=#ff8888
 endfunction
 
 " }}}1
@@ -52,9 +54,9 @@ function! statusline#main(winnr) " {{{1
   " Left part
   let stat  = s:color(' %<%f', 'SLHighlight', l:active)
   let stat .= getbufvar(l:bufnr, '&modified')
-        \ ? s:color(' +', 'SLAlert', l:active) : ''
+        \ ? s:color(' [+]', 'SLAlert', l:active) : ''
   let stat .= getbufvar(l:bufnr, '&readonly')
-        \ ? s:color(' ‼', 'SLAlert', l:active) : ''
+        \ ? s:color(' [‼]', 'SLAlert', l:active) : ''
 
   let stat .= '%='
 
