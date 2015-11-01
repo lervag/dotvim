@@ -14,8 +14,9 @@ execute 'nnoremap <leader>ae :ed ' . s:file . '<cr>'
 function! statusline#init() " {{{1
   augroup statusline
     autocmd!
-    autocmd VimEnter,WinEnter,BufWinEnter * call statusline#refresh()
-    autocmd FileType,BufUnload,VimResized * call statusline#refresh()
+    autocmd VimEnter,WinEnter,BufWinEnter   * call statusline#refresh()
+    autocmd FileType,VimResized             * call statusline#refresh()
+    autocmd BufHidden,BufWinLeave,BufUnload * call statusline#refresh()
   augroup END
 
   highlight SLHighlight ctermbg=14 ctermfg=2 guibg=#586e75 guifg=#ffe055
@@ -33,25 +34,27 @@ endfunction
 
 "}}}1
 function! statusline#main(winnr) " {{{1
-  let active = a:winnr == winnr()
-  let bufnr = winbufnr(a:winnr)
-  let buftype = getbufvar(bufnr, '&buftype')
-  let name = bufname(bufnr)
+  let l:winnr = winbufnr(a:winnr) == -1 ? 1 : a:winnr
+
+  let l:active = l:winnr == winnr()
+  let l:bufnr = winbufnr(l:winnr)
+  let l:buftype = getbufvar(l:bufnr, '&buftype')
+  let l:name = bufname(l:bufnr)
 
   "
   " Alternative statuslines
   "
-  if buftype ==# 'help'
-    return s:color(' ' . fnamemodify(name, ':t:r') . ' %= HELP ',
-          \ 'SLHighlight', active)
+  if l:buftype ==# 'help'
+    return s:color(' ' . fnamemodify(l:name, ':t:r') . ' %= HELP ',
+          \ 'SLHighlight', l:active)
   endif
 
   " Left part
-  let stat  = s:color(' %<%f', 'SLHighlight', active)
-  let stat .= getbufvar(bufnr, '&modified')
-        \ ? s:color(' +', 'SLAlert', active) : ''
-  let stat .= getbufvar(bufnr, '&readonly')
-        \ ? s:color(' ‼', 'SLAlert', active) : ''
+  let stat  = s:color(' %<%f', 'SLHighlight', l:active)
+  let stat .= getbufvar(l:bufnr, '&modified')
+        \ ? s:color(' +', 'SLAlert', l:active) : ''
+  let stat .= getbufvar(l:bufnr, '&readonly')
+        \ ? s:color(' ‼', 'SLAlert', l:active) : ''
 
   let stat .= '%='
 
@@ -106,9 +109,9 @@ endfunction
 
 " }}}1
 function! s:ignored(winnr) " {{{1
-  let name = bufname(winbufnr(a:winnr))
+  let l:name = bufname(winbufnr(a:winnr))
 
-  if name =~# '^\%(undotree\|diffpanel\)'
+  if l:name =~# '^\%(undotree\|diffpanel\)'
     return 1
   endif
 
