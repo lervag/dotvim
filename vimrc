@@ -40,7 +40,7 @@ else
 endif
 let g:indentLine_color_term = 239
 let g:indentLine_color_gui = '#d6d0bf'
-let g:indentLine_noConcealCursor = 1
+let g:indentLine_concealcursor = ''
 let g:indentLine_fileTypeExclude = ['help']
 
 " }}}2
