@@ -28,45 +28,9 @@ nnoremap <silent> <leader>ps :PlugStatus<cr>
 nnoremap <silent> <leader>pc :PlugClean<cr>
 " }}}2
 
-" Testing
-Plug 'ggVGc/vim-fuzzysearch'
-nnoremap <leader>fz :FuzzySearch<cr>
-
 " User interface
 Plug 'altercation/vim-colors-solarized'
 Plug 'moll/vim-bbye', { 'on' : 'Bdelete' }
-" {{{2 Airline
-Plug 'bling/vim-airline'
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline_section_z = '%3p%% (%l:%c)'
-let g:airline_mode_map = {
-      \ '__' : '-',
-      \ 'n'  : 'N',
-      \ 'i'  : 'I',
-      \ 'R'  : 'R',
-      \ 'c'  : 'C',
-      \ 'v'  : 'V',
-      \ 'V'  : 'V',
-      \ '' : 'V',
-      \ 's'  : 'S',
-      \ 'S'  : 'S',
-      \ '' : 'S',
-      \ }
-
-let g:airline_symbols = get(g:, 'airline_symbols', {})
-let g:airline_symbols.crypt = 'decrypted'
-
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#hunks#non_zero_only = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_close_button = 0
-let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#tab_min_count = 2
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-
-" }}}2
 " {{{2 indentLine
 Plug 'Yggdroot/indentLine'
 if has('gui_running')
@@ -76,7 +40,7 @@ else
 endif
 let g:indentLine_color_term = 239
 let g:indentLine_color_gui = '#d6d0bf'
-let g:indentLine_noConcealCursor = 1
+let g:indentLine_concealcursor = ''
 let g:indentLine_fileTypeExclude = ['help']
 
 " }}}2
@@ -233,11 +197,25 @@ Plug 'gregsexton/gitv'
 
 let g:Gitv_OpenHorizontal = 1
 
-nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gs :Gtogglestatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gl :Gitv<cr>
 nnoremap <leader>gL :Gitv!<cr>
+
+command! Gtogglestatus :call Gtogglestatus()
+function! Gtogglestatus()
+  if buflisted(bufname('.git/index'))
+    bd .git/index
+  else
+    Gstatus
+  endif
+endfunction
+
+augroup my_fugitive
+  autocmd!
+  autocmd BufReadPost fugitive://* set bufhidden=delete
+augroup END
 
 Plug 'ludovicchabant/vim-lawrencium'
 nnoremap <leader>hs :Hgstatus<cr>
@@ -586,6 +564,10 @@ let g:ctrlp_mruf_exclude_nomod = 1
 let g:ctrlp_tilde_homedir = 1
 let g:ctrlp_working_path_mode = 'a'
 let g:ctrlp_max_files = 0
+let g:ctrlp_status_func = {
+  \ 'main': 'statusline#ctrlp_main',
+  \ 'prog': 'statusline#ctrlp_progress'
+  \}
 
 nnoremap <silent> <leader><leader> :CtrlPMRUFiles<cr>
 nnoremap <silent> <leader>oo :CtrlP<cr>
@@ -983,7 +965,7 @@ set noshowmode
 if has('gui_running')
   set lines=50
   set columns=82
-  set guifont=Inconsolata-g\ Medium\ 10
+  set guifont=Inconsolata-g\ for\ Powerline\ Medium\ 10
   set guioptions=ac
   set guiheadroom=0
   set background=light
@@ -1032,10 +1014,16 @@ hi SpellRare  cterm=bold           gui=bold           ctermfg=104 guifg=Purple
 hi SpellLocal cterm=bold           gui=bold           ctermfg=227 guifg=Green
 hi VertSplit  ctermbg=NONE guibg=NONE
 
+"
+" Initialize statusline
+"
+call statusline#init()
+
 "{{{1 Autocommands
 
 augroup vimrc_autocommands
   autocmd!
+
   " Only use cursorline for current window
   autocmd WinEnter * setlocal cursorline
   autocmd WinLeave * setlocal nocursorline
