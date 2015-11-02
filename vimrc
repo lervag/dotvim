@@ -44,44 +44,6 @@ let g:indentLine_concealcursor = ''
 let g:indentLine_fileTypeExclude = ['help']
 
 " }}}2
-" {{{2 Goyo
-Plug 'junegunn/goyo.vim', { 'on' : 'Goyo' }
-let g:goyo_height = 100
-let g:goyo_width = 82
-
-map <F8> :Goyo<cr>
-
-augroup vimrc_goyo
-  autocmd!
-  autocmd! User GoyoEnter nested call <SID>goyo_enter()
-  autocmd! User GoyoLeave nested call <SID>goyo_leave()
-augroup END
-
-function! s:goyo_enter() " {{{3
-  let b:quitting = 0
-  let b:quitting_bang = 0
-  autocmd vimrc_goyo QuitPre <buffer> let b:quitting = 1
-  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
-
-  call fontsize#inc()
-  call fontsize#inc()
-  set columns+=8
-  vertical resize 82
-endfunction " }}}3
-function! s:goyo_leave() " {{{3
-  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-    if b:quitting_bang
-      qa!
-    else
-      qa
-    endif
-  endif
-
-  call fontsize#default()
-  set columns-=8
-endfunction " }}}3
-
-" }}}2
 " {{{2 Rainbow parantheses
 Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1
