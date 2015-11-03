@@ -19,10 +19,10 @@ function! statusline#init() " {{{1
     autocmd BufHidden,BufWinLeave,BufUnload * call statusline#refresh()
   augroup END
 
-  highlight StatusLine   ctermfg=12 ctermbg=8 guifg=#657b83 guibg=#eee8d5
-  highlight StatusLineNC ctermfg=11 ctermbg=8 guifg=#839496 guibg=#eee8d5
-  highlight SLHighlight  ctermbg=12 ctermfg=8 guibg=#657b83 guifg=#ffe055
-  highlight SLAlert      ctermbg=12 ctermfg=9 guibg=#657b83 guifg=#ff8888
+  highlight StatusLine   ctermfg=12 ctermbg=8  guifg=#657b83 guibg=#eee8d5
+  highlight StatusLineNC ctermfg=11 ctermbg=8  guifg=#839496 guibg=#eee8d5
+  highlight SLHighlight  ctermbg=12 ctermfg=15 guibg=#657b83 guifg=#ffe055
+  highlight SLAlert      ctermbg=12 ctermfg=9  guibg=#657b83 guifg=#ff8888
 endfunction
 
 " }}}1
@@ -67,6 +67,47 @@ function! statusline#main(winnr) " {{{1
   let stat .= ' '
 
   return stat
+endfunction
+
+" }}}1
+
+"
+" Tabline
+"
+function! statusline#init_tabline() " {{{1
+  set tabline=%!statusline#get_tabline()
+  highlight TabLine
+        \ cterm=none ctermbg=12 ctermfg=8
+        \ gui=none guibg=#657b83 guifg=#eee8d5 guisp=#657b83
+  highlight TabLineSel
+        \ cterm=none ctermbg=12 ctermfg=15
+        \ gui=none guibg=#657b83 guifg=#ffe055 guisp=#657b83
+  highlight TabLineFill
+        \ cterm=none ctermbg=12 ctermfg=8
+        \ gui=none guibg=#657b83 guifg=#eee8d5 guisp=#657b83
+endfunction
+
+" }}}1
+function! statusline#get_tabline() " {{{1
+  let s = 'Tabs: '
+  for i in range(1, tabpagenr('$'))
+    let s .= s:color('%{statusline#get_tablabel(' . i . ')} ',
+          \ 'TabLineSel', i == tabpagenr())
+  endfor
+
+  return s
+endfunction
+
+" }}}1
+function! statusline#get_tablabel(n) " {{{1
+  let buflist = tabpagebuflist(a:n)
+  let winnr = tabpagewinnr(a:n)
+  let name = bufname(buflist[winnr - 1])
+  if name ==# ''
+    return '[No Name]'
+  else
+    return name
+  endif
 endfunction
 
 " }}}1

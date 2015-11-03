@@ -977,9 +977,10 @@ hi SpellLocal cterm=bold           gui=bold           ctermfg=227 guifg=Green
 hi VertSplit  ctermbg=NONE guibg=NONE
 
 "
-" Initialize statusline
+" Initialize statusline and tabline
 "
 call statusline#init()
+call statusline#init_tabline()
 
 "{{{1 Autocommands
 
