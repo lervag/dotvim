@@ -53,10 +53,12 @@ function! statusline#main(winnr) " {{{1
 
   " Left part
   let stat  = s:color(' %<%f', 'SLHighlight', l:active)
-  let stat .= getbufvar(l:bufnr, '&modified')
-        \ ? s:color(' [+]', 'SLAlert', l:active) : ''
+  let stat .= getbufvar(l:bufnr, '&modifiable')
+        \ ? '' : s:color(' [Locked]', 'SLAlert', l:active)
   let stat .= getbufvar(l:bufnr, '&readonly')
         \ ? s:color(' [‼]', 'SLAlert', l:active) : ''
+  let stat .= getbufvar(l:bufnr, '&modified')
+        \ ? s:color(' [+]', 'SLAlert', l:active) : ''
 
   let stat .= '%='
 
