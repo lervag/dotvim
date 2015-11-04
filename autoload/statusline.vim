@@ -89,7 +89,7 @@ endfunction
 
 " }}}1
 function! statusline#get_tabline() " {{{1
-  let s = 'Tabs: '
+  let s = ' '
   for i in range(1, tabpagenr('$'))
     let s .= s:color('%{statusline#get_tablabel(' . i . ')} ',
           \ 'TabLineSel', i == tabpagenr())
@@ -102,12 +102,20 @@ endfunction
 function! statusline#get_tablabel(n) " {{{1
   let buflist = tabpagebuflist(a:n)
   let winnr = tabpagewinnr(a:n)
+
   let name = bufname(buflist[winnr - 1])
-  if name ==# ''
-    return '[No Name]'
+  if name !=# ''
+    let label = fnamemodify(name, ':t')
   else
-    return name
+    let type = getbufvar(buflist[winnr - 1], '&buftype')
+    if type !=# ''
+      let label = '[' . type . ']'
+    else
+      let label = '[No Name]'
+    endif
   endif
+
+  return printf('%1s %-15s', a:n, label)
 endfunction
 
 " }}}1
