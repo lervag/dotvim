@@ -2,9 +2,9 @@ setl nohlsearch
 setl foldmethod=expr
 setl foldexpr=DagbokFold(v:lnum)
 
-nnoremap <buffer><silent> ,t /\%17cx<cr>zz
-nnoremap <buffer><silent> ,n Go<esc>:call neosnippet#expand('new')<cr>
-nmap     <buffer><silent> ,a zRgg/^2010-<cr>?^200<cr>k2yy}Pj$<c-a>
+nnoremap <buffer><silent>       ,t /\%17cx<cr>zz
+nnoremap <buffer><silent><expr> ,n 'Goi' . neosnippet#expand('new')
+nmap     <buffer><silent>       ,a zRgg/^2010-<cr>?^200<cr>k2yy}Pj$<c-a>
 
 function! DagbokFold(lnum)
   return getline(a:lnum) =~# '^\d' ? '>1' : '1'
