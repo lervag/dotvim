@@ -852,6 +852,7 @@ set smarttab
 set expandtab
 set nowrap
 set linebreak
+set breakindent
 set formatoptions+=rnl1j
 set formatlistpat=^\\s*\\(\\(\\d\\+\\\|[a-z]\\)[.:)]\\\|[-*]\\)\\s\\+
 
