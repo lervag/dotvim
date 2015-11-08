@@ -844,6 +844,7 @@ nnoremap zj zcjzvzz
 nnoremap zk zckzvzz
 
 "{{{2 Tabs, spaces, wrapping
+set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set textwidth=79
