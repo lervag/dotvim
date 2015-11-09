@@ -139,6 +139,8 @@ endfunction
 " CtrlP statusline
 "
 function! statusline#ctrlp_main(focus, byfname, re, prv, cur, nxt, marked) " {{{1
+  call statusline#refresh()
+
   let stat  = ' ' . a:prv . ' → '
   let stat .= s:color(a:cur ==# 'mru files' ? 'mru' : a:cur, 'SLHighlight', 1)
   let stat .= ' → ' . a:nxt
