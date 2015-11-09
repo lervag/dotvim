@@ -23,6 +23,13 @@ function! statusline#init() " {{{1
   highlight StatusLineNC ctermfg=11 ctermbg=8  guifg=#839496 guibg=#eee8d5
   highlight SLHighlight  ctermbg=12 ctermfg=15 guibg=#657b83 guifg=#ffe055
   highlight SLAlert      ctermbg=12 ctermfg=9  guibg=#657b83 guifg=#ff8888
+
+  highlight link uniteStatusNormal StatusLine
+  highlight link uniteStatusHead SLAlert
+  highlight link uniteStatusSourceNames SLHighlight
+  highlight link uniteStatusSourceCandidates StatusLine
+  highlight link uniteStatusMessage SLAlert
+  highlight link uniteStatusLineNR StatusLine
 endfunction
 
 " }}}1
