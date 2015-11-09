@@ -44,36 +44,44 @@ endfunction
 "}}}1
 function! statusline#main(winnr) " {{{1
   let l:winnr = winbufnr(a:winnr) == -1 ? 1 : a:winnr
-
   let l:active = l:winnr == winnr()
   let l:bufnr = winbufnr(l:winnr)
   let l:buftype = getbufvar(l:bufnr, '&buftype')
-  let l:name = bufname(l:bufnr)
 
-  "
-  " Alternative statuslines
-  "
   if l:buftype ==# 'help'
-    return s:color(' ' . fnamemodify(l:name, ':t:r') . ' %= HELP ',
-          \ 'SLHighlight', l:active)
+    return s:help(l:bufnr, l:active)
+  else
+    return s:main(l:bufnr, l:active)
   endif
+endfunction
 
-  " Left part
-  let stat  = s:color(' %<%f', 'SLHighlight', l:active)
-  let stat .= getbufvar(l:bufnr, '&modifiable')
-        \ ? '' : s:color(' [Locked]', 'SLAlert', l:active)
-  let stat .= getbufvar(l:bufnr, '&readonly')
-        \ ? s:color(' [‼]', 'SLAlert', l:active) : ''
-  let stat .= getbufvar(l:bufnr, '&modified')
-        \ ? s:color(' [+]', 'SLAlert', l:active) : ''
+" }}}1
+
+"
+" Main statusline funcs
+"
+function! s:main(bufnr, active) " {{{1
+  let stat  = s:color(' %<%f', 'SLHighlight', a:active)
+  let stat .= getbufvar(a:bufnr, '&modifiable')
+        \ ? '' : s:color(' [Locked]', 'SLAlert', a:active)
+  let stat .= getbufvar(a:bufnr, '&readonly')
+        \ ? s:color(' [‼]', 'SLAlert', a:active) : ''
+  let stat .= getbufvar(a:bufnr, '&modified')
+        \ ? s:color(' [+]', 'SLAlert', a:active) : ''
 
   let stat .= '%='
 
-  " Right part
   let stat .= fugitive#head(12)
   let stat .= ' '
 
   return stat
+endfunction
+
+" }}}1
+function! s:help(bufnr, active) " {{{1
+  let l:name = bufname(a:bufnr)
+  return s:color(' ' . fnamemodify(l:name, ':t:r') . ' %= HELP ',
+        \ 'SLHighlight', a:active)
 endfunction
 
 " }}}1
