@@ -935,7 +935,7 @@ if has('gui_running')
 endif
 
 if &t_Co == 8 && $TERM !~# '^linux'
-  set t_Co=16
+  set t_Co=256
 endif
 
 silent! colorscheme solarized
