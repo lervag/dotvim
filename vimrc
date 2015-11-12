@@ -140,7 +140,7 @@ endfunction
 " General programming
 Plug 'tpope/vim-commentary'
 " {{{2 ConqueGDB
-Plug 'vim-scripts/Conque-GDB'
+Plug 'vim-scripts/Conque-GDB', { 'on' : 'ConqueGDB' }
 
 " ConqueGDB options
 let g:ConqueGdb_Leader = '<leader>d'
