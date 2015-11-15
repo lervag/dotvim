@@ -554,9 +554,10 @@ endfunction
 " Mappings
 "
 nnoremap <silent> <leader><leader> :<c-u>Unite file_mru <cr>
-nnoremap <silent> <leader>oo       :<c-u>Unite file buffer<cr>
+nnoremap <silent> <leader>oo       :<c-u>Unite file<cr>
+nnoremap <silent> <leader>ob       :<c-u>Unite buffer<cr>
 nnoremap <silent> <leader>oh       :<c-u>Unite help<cr>
-nnoremap <silent> <leader>ot       :<c-u>Unite outline tag<cr>
+nnoremap <silent> <leader>ot       :<c-u>Unite outline tag tag/include<cr>
 nnoremap <silent> <leader>om       :<c-u>Unite mapping<cr>
 nnoremap <silent> <leader>oc       :<c-u>Unite command<cr>
 nnoremap <silent> <leader>ow       :<c-u>Unite vimwiki<cr>
