@@ -503,76 +503,64 @@ function! s:hooks.ctrlsf()
 endfunction
 
 " }}}2
-"{{{2 CtrlP
-Plug 'ctrlpvim/ctrlp.vim'
-let g:ctrlp_custom_ignore = {
-      \ 'dir'  : '\vCVS|\.(git|hg|vim\/undofiles|vim\/backup)$',
-      \ 'file' : '\v\.(aux|pdf|gz|wiki|mod)$',
-      \}
-let g:ctrlp_extensions = ['tag']
-let g:ctrlp_follow_symlinks = 1
-let g:ctrlp_map = ''
-let g:ctrlp_match_window = 'top,order:ttb,max:25'
-let g:ctrlp_mruf_exclude = '\v' . join([
-      \ '\/\.(git|hg)\/',
-      \ '\.wiki$',
-      \ '\.vim\/vimrc$',
-      \ '_(LOCAL|REMOTE)_',
-      \ '\~record$',
-      \ '^\/tmp\/',
-      \ ], '|')
-let g:ctrlp_mruf_exclude_nomod = 1
-let g:ctrlp_tilde_homedir = 1
-let g:ctrlp_working_path_mode = 'a'
-let g:ctrlp_max_files = 0
-let g:ctrlp_status_func = {
-  \ 'main': 'statusline#ctrlp_main',
-  \ 'prog': 'statusline#ctrlp_progress'
-  \}
-
-nnoremap <silent> <leader><leader> :CtrlPMRUFiles<cr>
-nnoremap <silent> <leader>oo :CtrlP<cr>
-nnoremap <silent> <leader>oh :CtrlP /home/lervag<cr>
-nnoremap <silent> <leader>ov :CtrlP /home/lervag/.vim<cr>
-nnoremap <silent> <leader>ot :CtrlPTag<cr>
-nnoremap <silent> <leader>ob :CtrlPBuffer<cr>
-nnoremap          <leader>om :ManWrapper 
-
-" Add some extensions
-Plug '~/.vim/bundle_local/ctrlp'
-nnoremap <leader>ow :CtrlPVimwiki<cr>
-nnoremap <leader>oh :CtrlPHelp<cr>
-
-" }}}2
 " {{{2 Unite
 Plug 'Shougo/unite.vim'
+Plug 'Shougo/unite-help'
+Plug 'Shougo/unite-outline'
+Plug 'Shougo/neomru.vim'
+Plug 'tsukkee/unite-tag'
+Plug 'Shougo/neoinclude.vim'
 
 "
-" General unite settings
+" Settings
 "
 let g:unite_source_rec_max_cache_files=5000
 if executable('ag')
-  let g:unite_source_grep_command='ag'
-  let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4'
-  let g:unite_source_grep_recursive_opt=''
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts
+        \ = '--nocolor --line-numbers --nogroup -S -C4'
+  let g:unite_source_grep_recursive_opt = ''
 elseif executable('ack')
-  let g:unite_source_grep_command='ack'
-  let g:unite_source_grep_default_opts='--no-heading --no-color -C4'
-  let g:unite_source_grep_recursive_opt=''
+  let g:unite_source_grep_command = 'ack'
+  let g:unite_source_grep_default_opts = '--no-heading --no-color -C4'
+  let g:unite_source_grep_recursive_opt = ''
 endif
 
 "
 " More settings defined through function calls
 "
 function! s:hooks.unite()
-  call unite#filters#matcher_default#use(['matcher_fuzzy'])
-  call unite#filters#sorter_default#use(['sorter_rank'])
   call unite#custom#profile('default', 'context', {
-        \ 'start_insert': 1,
-        \ 'no_split': 1,
-        \ 'prompt': '> ',
+        \ 'start_insert' : 1,
+        \ 'no_split' : 1,
+        \ 'prompt' : '> ',
         \ })
+
+  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+  call unite#custom#source('file_mru', 'sorters', 'sorter_rank')
+  call unite#custom#source('file_mru', 'ignore_pattern', '\v' . join([
+        \ '\/\.(git|hg)\/',
+        \ '\.wiki$',
+        \ '\.vim\/vimrc$',
+        \ '\/vim\/.*\/doc\/.*txt$',
+        \ '_(LOCAL|REMOTE)_',
+        \ '\~record$',
+        \ '^\/tmp\/',
+        \ ], '|'))
 endfunction
+
+"
+" Mappings
+"
+nnoremap <silent> <leader><leader> :<c-u>Unite file_mru <cr>
+nnoremap <silent> <leader>oo       :<c-u>Unite file buffer<cr>
+nnoremap <silent> <leader>oh       :<c-u>Unite help<cr>
+nnoremap <silent> <leader>ot       :<c-u>Unite outline tag<cr>
+nnoremap <silent> <leader>om       :<c-u>Unite mapping<cr>
+nnoremap <silent> <leader>oc       :<c-u>Unite command<cr>
+nnoremap <silent> <leader>ow       :<c-u>Unite vimwiki<cr>
+nnoremap <silent> <leader>ov       :<c-u>Unite file_rec/async:~/.vim<cr>
 
 "
 " Mappings and similar inside Unite buffers
@@ -583,31 +571,14 @@ function! s:unite_settings()
   nmap <buffer> Q     <plug>(unite_exit)
   nmap <buffer> <esc> <plug>(unite_exit)
   imap <buffer> <esc> <plug>(unite_exit)
+  imap <buffer> <c-j> <plug>(unite_select_next_line)
+  imap <buffer> <c-k> <plug>(unite_select_previous_line)
+  imap <buffer> <f5>  <plug>(unite_redraw)
 endfunction
 augroup unite
   autocmd!
   autocmd FileType unite call s:unite_settings()
 augroup END
-
-"
-" Unite mappings
-"
-nnoremap <leader>ub :<c-u>Unite -buffer-name=buffer buffer<cr>
-nnoremap <leader>uf :<c-u>Unite -buffer-name=files file_rec/async:!<cr>
-nnoremap <leader>um :<c-u>Unite -buffer-name=mappings mapping<cr>
-
-"
-" Unite addons
-"
-Plug 'Shougo/neomru.vim'
-Plug 'tsukkee/unite-tag'
-Plug 'Shougo/unite-help'
-
-let g:neomru#time_format = '%F %R > '
-
-nnoremap <leader>uu :<c-u>Unite -buffer-name=mru file_mru buffer file<cr>
-nnoremap <leader>ut :<c-u>Unite -buffer-name=tag tag tag/file<cr>
-nnoremap <leader>uh :<c-u>Unite -buffer-name=help help<cr>
 
 " }}}2
 "{{{2 Screen
