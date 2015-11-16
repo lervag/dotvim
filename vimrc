@@ -538,7 +538,7 @@ function! s:hooks.unite()
 
   call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
-  call unite#custom#source('file_mru', 'sorters', 'sorter_selecta')
+  call unite#custom#source('file_mru', 'sorters', 'sorter_rank')
   call unite#custom#source('file_mru', 'ignore_pattern', '\v' . join([
         \ '\/\.(git|hg)\/',
         \ '\.wiki$',
@@ -548,6 +548,8 @@ function! s:hooks.unite()
         \ '\~record$',
         \ '^\/tmp\/',
         \ ], '|'))
+
+  call unite#custom#source('file,file_mru', 'converters', 'converter_mypath')
 endfunction
 
 "
