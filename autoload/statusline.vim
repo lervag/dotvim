@@ -23,13 +23,6 @@ function! statusline#init() " {{{1
   highlight StatusLineNC ctermfg=11 ctermbg=8  guifg=#839496 guibg=#eee8d5
   highlight SLHighlight  ctermbg=12 ctermfg=15 guibg=#657b83 guifg=#ffe055
   highlight SLAlert      ctermbg=12 ctermfg=9  guibg=#657b83 guifg=#ff8888
-
-  highlight link uniteStatusNormal StatusLine
-  highlight link uniteStatusHead SLAlert
-  highlight link uniteStatusSourceNames SLHighlight
-  highlight link uniteStatusSourceCandidates StatusLine
-  highlight link uniteStatusMessage SLAlert
-  highlight link uniteStatusLineNR StatusLine
 endfunction
 
 " }}}1
@@ -47,9 +40,12 @@ function! statusline#main(winnr) " {{{1
   let l:active = l:winnr == winnr()
   let l:bufnr = winbufnr(l:winnr)
   let l:buftype = getbufvar(l:bufnr, '&buftype')
+  let l:filetype = getbufvar(l:bufnr, '&filetype')
 
   if l:buftype ==# 'help'
     return s:help(l:bufnr, l:active)
+  elseif l:filetype ==# 'unite'
+    return s:unite(l:bufnr, l:active)
   else
     return s:main(l:bufnr, l:active)
   endif
@@ -82,6 +78,41 @@ function! s:help(bufnr, active) " {{{1
   let l:name = bufname(a:bufnr)
   return s:color(' ' . fnamemodify(l:name, ':t:r') . ' %= HELP ',
         \ 'SLHighlight', a:active)
+endfunction
+
+" }}}1
+function! s:unite(bufnr, active) " {{{1
+  let stat  = s:color(' Unite', 'SLAlert', a:active)
+  let stat .= ' -- '
+
+  " Source info
+  for l:source in unite#loaded_sources_list()
+    " Source name
+    let stat .= s:color(unite#helper#convert_source_name(l:source.name),
+          \ 'SLHighlight', a:active)
+
+    " Number of (visible) candidates
+    let stat .= ' (' . l:source.unite__len_candidates
+    if l:source.unite__orig_len_candidates != l:source.unite__len_candidates
+      let stat .= '/' . l:source.unite__orig_len_candidates
+    endif
+    let stat .= ') '
+  endfor
+
+  if !exists('b:unite') | return stat | endif
+  let stat .= '%='
+
+  let l:msgs = get(b:unite.msgs, 0, '')
+  if l:msgs !=# ''
+    let l:msgs = substitute(l:msgs, '^\[.\{-}\]\s*', '', '')
+    let l:msgs = substitute(l:msgs, 'directory', 'path', '')
+  endif
+
+  let stat .= b:unite.context.path !=# ''
+        \ ? '[' . b:unite.context.path . ']'
+        \ : (b:unite.is_async || msgs ==# '') ? '' : msgs
+
+  return stat . ' '
 endfunction
 
 " }}}1
