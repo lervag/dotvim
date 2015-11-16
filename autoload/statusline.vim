@@ -136,37 +136,6 @@ endfunction
 " }}}1
 
 "
-" CtrlP statusline
-"
-function! statusline#ctrlp_main(focus, byfname, re, prv, cur, nxt, marked) " {{{1
-  call statusline#refresh()
-
-  let stat  = ' ' . a:prv . ' → '
-  let stat .= s:color(a:cur ==# 'mru files' ? 'mru' : a:cur, 'SLHighlight', 1)
-  let stat .= ' → ' . a:nxt
-
-  if a:cur =~# '^\%(files\|dir\|mixed\)'
-    let stat .= ' ← '
-    let stat .= s:color(fnamemodify(getcwd(), ':~'), 'SLAlert', 1)
-  endif
-
-  let stat .= '%='
-  let stat .= s:color(' CtrlP ', 'SLHighlight', 1)
-
-  return stat
-endfunction
-
-" }}}1
-function! statusline#ctrlp_progress(length) " {{{1
-  let stat  = s:color(' Loading ... (' . a:length . ')', 'SLHighlight', 1)
-  let stat .= '%='
-  let stat .= s:color(' CtrlP ', 'SLHighlight', 1)
-  return stat
-endfunction
-
-" }}}1
-
-"
 " Utilities
 "
 function! s:color(content, group, active) " {{{1
