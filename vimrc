@@ -525,6 +525,15 @@ elseif executable('ack')
   let g:unite_source_grep_default_opts = '--no-heading --no-color -C4'
   let g:unite_source_grep_recursive_opt = ''
 endif
+let g:neomru#file_mru_ignore_pattern = '\v' . join([
+      \ '\/\.(git|hg)\/',
+      \ '\.wiki$',
+      \ '\.vim\/vimrc$',
+      \ '\/vim\/.*\/doc\/.*txt$',
+      \ '_(LOCAL|REMOTE)_',
+      \ '\~record$',
+      \ '^\/tmp\/',
+      \ ], '|')
 
 "
 " More settings defined through function calls
@@ -539,15 +548,8 @@ function! s:hooks.unite()
   call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
   call unite#custom#source('file_mru', 'sorters', 'sorter_rank')
-  call unite#custom#source('file_mru', 'ignore_pattern', '\v' . join([
-        \ '\/\.(git|hg)\/',
-        \ '\.wiki$',
-        \ '\.vim\/vimrc$',
-        \ '\/vim\/.*\/doc\/.*txt$',
-        \ '_(LOCAL|REMOTE)_',
-        \ '\~record$',
-        \ '^\/tmp\/',
-        \ ], '|'))
+  call unite#custom#source('file_mru', 'ignore_pattern',
+        \ g:neomru#file_mru_ignore_pattern)
 
   call unite#custom#source('file,file_mru', 'converters', 'converter_mypath')
 endfunction
