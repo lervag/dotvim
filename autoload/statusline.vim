@@ -19,10 +19,10 @@ function! statusline#init() " {{{1
     autocmd BufHidden,BufWinLeave,BufUnload * call statusline#refresh()
   augroup END
 
-  highlight StatusLine   ctermfg=12 ctermbg=8  guifg=#657b83 guibg=#eee8d5
-  highlight StatusLineNC ctermfg=11 ctermbg=8  guifg=#839496 guibg=#eee8d5
-  highlight SLHighlight  ctermbg=12 ctermfg=15 guibg=#657b83 guifg=#ffe055
-  highlight SLAlert      ctermbg=12 ctermfg=9  guibg=#657b83 guifg=#ff8888
+  highlight StatusLine   ctermfg=12 ctermbg=15  guifg=#657b83 guibg=#eee8d5
+  highlight StatusLineNC ctermfg=11 ctermbg=8   guifg=#839496 guibg=#eee8d5
+  highlight SLHighlight  ctermbg=12 ctermfg=220 guibg=#657b83 guifg=#ffe055
+  highlight SLAlert      ctermbg=12 ctermfg=202 guibg=#657b83 guifg=#ff8888
 endfunction
 
 " }}}1
