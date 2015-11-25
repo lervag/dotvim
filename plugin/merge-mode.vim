@@ -29,8 +29,6 @@ function! s:setup_merge_mode() " {{{1
   " Move to local window and to first conflict
   2wincmd w
   normal gg]]
-
-  setglobal fdm=diff
 endfunction
 
 " }}}1
