@@ -19,10 +19,10 @@ function! statusline#init() " {{{1
     autocmd BufHidden,BufWinLeave,BufUnload * call statusline#refresh()
   augroup END
 
-  highlight StatusLine   ctermfg=12 ctermbg=15  guifg=#657b83 guibg=#eee8d5
-  highlight StatusLineNC ctermfg=11 ctermbg=8   guifg=#839496 guibg=#eee8d5
-  highlight SLHighlight  ctermbg=12 ctermfg=220 guibg=#657b83 guifg=#ffe055
-  highlight SLAlert      ctermbg=12 ctermfg=202 guibg=#657b83 guifg=#ff8888
+  highlight StatusLine   ctermfg=10 ctermbg=15  guifg=#657b83 guibg=#eee8d5
+  highlight StatusLineNC ctermfg=10 ctermbg=8   guifg=#839496 guibg=#eee8d5
+  highlight SLHighlight  ctermbg=10 ctermfg=220 guibg=#657b83 guifg=#ffe055
+  highlight SLAlert      ctermbg=10 ctermfg=202 guibg=#657b83 guifg=#ff8888
 endfunction
 
 " }}}1
@@ -46,6 +46,8 @@ function! statusline#main(winnr) " {{{1
     return s:help(l:bufnr, l:active)
   elseif l:filetype ==# 'unite'
     return s:unite(l:bufnr, l:active)
+  elseif l:filetype ==# 'vimwiki'
+    return s:wiki(l:bufnr, l:active)
   else
     return s:main(l:bufnr, l:active)
   endif
@@ -113,6 +115,20 @@ function! s:unite(bufnr, active) " {{{1
         \ : (b:unite.is_async || msgs ==# '') ? '' : msgs
 
   return stat . ' '
+endfunction
+
+" }}}1
+function! s:wiki(bufnr, active) " {{{1
+  let stat  = s:color(' Vimwiki: ', 'SLAlert', a:active)
+  let stat .= s:color(fnamemodify(bufname(a:bufnr), ':t:r'),
+        \ 'SLHighlight', a:active)
+  let stat .= getbufvar(a:bufnr, '&modifiable')
+        \ ? '' : s:color(' [Locked]', 'SLAlert', a:active)
+  let stat .= getbufvar(a:bufnr, '&readonly')
+        \ ? s:color(' [‼]', 'SLAlert', a:active) : ''
+  let stat .= getbufvar(a:bufnr, '&modified')
+        \ ? s:color(' [+]', 'SLAlert', a:active) : ''
+  return stat
 endfunction
 
 " }}}1
