@@ -762,7 +762,7 @@ set backspace=indent,eol,start
 set autoindent
 set fileformat=unix
 set list
-set listchars=tab:▸\ ,nbsp:%,extends:,precedes:
+set listchars=tab:▸\ ,nbsp:%,trail:\ ,extends:,precedes:
 set cursorline
 set autochdir
 set cpoptions+=J
