@@ -738,6 +738,7 @@ endfunction
 " Local filetype plugins
 Plug '~/.vim/bundle_local/dagbok'
 Plug '~/.vim/bundle_local/lisp'
+Plug '~/.vim/personal'
 
 " Local plugins
 Plug '~/.vim/bundle_local/speeddating'
