@@ -13,6 +13,12 @@ nnoremap <buffer> <leader>wl :call vimwiki#backlinks()<cr>
 vnoremap <leader>m :Sum<cr>
 nnoremap <leader>m V}:Sum<cr>
 
+" Some extra settings for journal entries
+if expand('%:p') =~# 'wiki\/journal'
+  nnoremap <silent><buffer> <c-k> :VimwikiDiaryNextDay<cr>
+  nnoremap <silent><buffer> <c-j> :VimwikiDiaryPrevDay<cr>
+endif
+
 function! VimwikiLinkHandler(link) " {{{1
   let link_info = vimwiki#base#resolve_link(a:link)
 
