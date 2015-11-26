@@ -588,6 +588,7 @@ augroup END
 "{{{2 Screen
 Plug 'ervandew/screen'
 let g:ScreenImpl = 'Tmux'
+let g:ScreenShellTmuxInitArgs = '-2'
 let g:ScreenShellTerminal = 'urxvt'
 let g:ScreenShellActive = 0
 
