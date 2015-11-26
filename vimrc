@@ -354,6 +354,7 @@ Plug 'gregsexton/MatchTag'
 Plug 'git@github.com:lervag/vimtex.git'
 let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_index_split_pos = 'below'
+let g:vimtex_fold_enabled = 1
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_imaps_leader = ';'
 let g:vimtex_imaps_snippet_engine = 'neosnippet'
@@ -501,6 +502,14 @@ vmap     <silent><leader>f  <Plug>CtrlSFVwordExec
 function! s:hooks.ctrlsf()
   hi ctrlsfSelectedLine term=bold cterm=bold gui=bold ctermfg=39 guifg=#00afff
 endfunction
+
+" }}}2
+" {{{2 FastFold
+Plug 'Konfekt/FastFold'
+
+nmap <sid>(DisableFastFoldUpdate) <plug>(FastFoldUpdate)
+let g:fastfold_fold_command_suffixes =  ['x','X']
+let g:fastfold_fold_movement_commands = []
 
 " }}}2
 " {{{2 Unite
