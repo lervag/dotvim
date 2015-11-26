@@ -399,7 +399,6 @@ let g:ruby_fold=1
 " }}}2
 " {{{2 Vimwiki
 Plug 'vimwiki/vimwiki', { 'branch' : 'dev' }
-Plug '~/.vim/bundle_local/vimwiki-journal'
 
 " Set up main wiki
 let s:wiki = {}
@@ -735,14 +734,7 @@ endfunction
 
 " }}}2
 
-" Local filetype plugins
-Plug '~/.vim/bundle_local/dagbok'
-Plug '~/.vim/bundle_local/lisp'
 Plug '~/.vim/personal'
-
-" Local plugins
-Plug '~/.vim/bundle_local/speeddating'
-Plug '~/.vim/bundle_local/syntaxcomplete'
 
 call plug#end()
 endif
