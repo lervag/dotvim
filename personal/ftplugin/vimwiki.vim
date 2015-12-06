@@ -19,13 +19,24 @@ if expand('%:p') =~# 'wiki\/journal'
   nnoremap <silent><buffer> <c-j> :VimwikiDiaryPrevDay<cr>
 endif
 
-function! VimwikiLinkHandler(link) " {{{1
+function! VimwikiLinkHandler(link) " {{1
   let link_info = vimwiki#base#resolve_link(a:link)
 
   let lnk = expand(link_info.filename)
   if filereadable(lnk) && fnamemodify(lnk, ':e') ==? 'pdf'
-    silent execute '!mupdf ' lnk '&'
+    silent execute '!zathura ' lnk '&'
     return 1
+  endif
+
+  if link_info.scheme ==# 'file'
+    let fname = link_info.filename
+    if isdirectory(fname)
+      execute 'Unite file:' . fname
+      return 1
+    elseif filereadable(fname)
+      execute 'edit' fname
+      return 1
+    endif
   endif
 
   if link_info.scheme ==# 'doi'
@@ -37,7 +48,7 @@ function! VimwikiLinkHandler(link) " {{{1
   return 0
 endfunction
 
-" }}}1
+"}}1
 
 function! s:sum() range " {{{1
   let l:sum = 0.0
