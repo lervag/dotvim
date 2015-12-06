@@ -293,7 +293,7 @@ let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#enable_auto_close_preview = 1
 
-inoremap <expr> <c-l>   neocomplete#start_manual_complete()
+inoremap <expr> <c-l>   neocomplete#complete_common_string()
 inoremap <expr> <c-y>   neocomplete#close_popup()
 inoremap <expr> <c-e>   neocomplete#cancel_popup()
 inoremap <expr> <c-h>   neocomplete#smart_close_popup() . "\<c-h>"
@@ -323,10 +323,6 @@ let g:neocomplete#sources#omni#input_patterns.tex =
 
 " Define omni force patterns
 let g:neocomplete#force_omni_input_patterns.vimwiki = '\[\[[^]|]*#\S*'
-
-function! s:hooks.neocomplete()
-  call neocomplete#custom#source('ultisnips', 'rank', 1000)
-endfunction
 
 "{{{2 Neosnippet
 Plug 'Shougo/neosnippet.vim'
@@ -578,7 +574,6 @@ nnoremap <silent> <leader>ov       :<c-u>Unite file_rec/async:~/.vim<cr>
 " Mappings and similar inside Unite buffers
 "
 function! s:unite_settings()
-  let b:SuperTabDisabled=1
   nmap <buffer> q     <plug>(unite_exit)
   nmap <buffer> Q     <plug>(unite_exit)
   nmap <buffer> <esc> <plug>(unite_exit)
