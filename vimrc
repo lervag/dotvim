@@ -554,6 +554,11 @@ function! s:hooks.unite()
   call unite#custom#source('file_mru', 'ignore_pattern',
         \ g:neomru#file_mru_ignore_pattern)
 
+  call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern',
+        \ '\v' . join([
+        \   '\/undofiles\/',
+        \ ], '|'))
+
   call unite#custom#source('file,file_mru', 'converters', 'converter_mypath')
 endfunction
 
