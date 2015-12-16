@@ -355,6 +355,10 @@ let g:vimtex_view_method = 'zathura'
 let g:vimtex_imaps_leader = ';'
 let g:vimtex_imaps_snippet_engine = 'neosnippet'
 
+function! s:hooks.vimtex()
+  call vimtex#imaps#add_map({ 'lhs_rhs' : [ 'é', '\item'], 'leader'  : '' })
+endfunction
+
 let g:tex_stylish = 1
 let g:tex_conceal = ''
 let g:tex_flavor = 'latex'
