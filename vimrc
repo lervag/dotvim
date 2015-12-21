@@ -353,10 +353,14 @@ let g:vimtex_index_split_pos = 'below'
 let g:vimtex_fold_enabled = 1
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_imaps_leader = ';'
-let g:vimtex_imaps_snippet_engine = 'neosnippet'
 
 function! s:hooks.vimtex()
-  call vimtex#imaps#add_map({ 'lhs_rhs' : [ 'é', '\item'], 'leader'  : '' })
+  call vimtex#imaps#add_map({
+        \ 'lhs' : 'é',
+        \ 'rhs' : '\item ',
+        \ 'leader'  : '',
+        \ 'wrapper' : 'vimtex#imaps#wrap_trivial'
+        \})
 endfunction
 
 let g:tex_stylish = 1
