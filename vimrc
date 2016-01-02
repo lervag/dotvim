@@ -302,11 +302,12 @@ inoremap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 " Define dictionaries if they don't exist
-if !exists('s:hooks.neocomplete')
+if !exists('s:vimrc_neocomplete_init')
   let g:neocomplete#same_filetypes = {}
   let g:neocomplete#keyword_patterns = {}
   let g:neocomplete#sources#omni#input_patterns = {}
   let g:neocomplete#force_omni_input_patterns = {}
+  let s:vimrc_neocomplete_init = 1
 endif
 
 " Always use completions from all buffers
