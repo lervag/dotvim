@@ -320,7 +320,11 @@ let g:neocomplete#keyword_patterns.vimwiki = '[a-zA-ZæÆøØåÅ][0-9a-zA-ZæÆ
 " Define omni input patterns
 let g:neocomplete#sources#omni#input_patterns.vimwiki = '\[\[\S*'
 let g:neocomplete#sources#omni#input_patterns.tex =
-      \ '\v\\\a*(ref|cite)\a*([^]]*\])?\{([^}]*,)*[^}]*'
+      \ '\v\\%('
+      \ . '\a*%(ref|cite)\a*%(\s*\[[^]]*\])?\s*\{[^{}]*'
+      \ . '|includegraphics%(\s*\[[^]]*\])?\s*\{[^{}]*'
+      \ . '|%(include|input)\s*\{[^{}]*'
+      \ . ')'
 
 " Define omni force patterns
 let g:neocomplete#force_omni_input_patterns.vimwiki = '\[\[[^]|]*#\S*'
@@ -522,7 +526,6 @@ Plug 'Shougo/unite-help'
 Plug 'Shougo/unite-outline'
 Plug 'Shougo/neomru.vim'
 Plug 'tsukkee/unite-tag'
-Plug 'Shougo/neoinclude.vim'
 
 "
 " Settings
