@@ -323,7 +323,7 @@ let g:neocomplete#sources#omni#input_patterns.tex =
       \ '\v\\%('
       \ . '\a*%(ref|cite)\a*%(\s*\[[^]]*\])?\s*\{[^{}]*'
       \ . '|includegraphics%(\s*\[[^]]*\])?\s*\{[^{}]*'
-      \ . '|%(include|input)\s*\{[^{}]*'
+      \ . '|%(include|input|glc)\s*\{[^{}]*'
       \ . ')'
 
 " Define omni force patterns
@@ -358,20 +358,16 @@ let g:vimtex_index_split_pos = 'below'
 let g:vimtex_fold_enabled = 1
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_imaps_leader = ';'
-
-function! s:hooks.vimtex()
-  call vimtex#imaps#add_map({
-        \ 'lhs' : 'é',
-        \ 'rhs' : '\item ',
-        \ 'leader'  : '',
-        \ 'wrapper' : 'vimtex#imaps#wrap_trivial'
-        \})
-endfunction
+let g:vimtex_complete_img_use_tail = 1
 
 let g:tex_stylish = 1
 let g:tex_conceal = ''
 let g:tex_flavor = 'latex'
 let g:tex_isk='48-57,a-z,A-Z,192-255,:'
+
+"
+" NOTE: See also ~/.vim/personal/ftplugin/tex.vim
+"
 
 " }}}2
 " {{{2 Markdown/Pandoc
