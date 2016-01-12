@@ -1,0 +1,19 @@
+snippet templ-tikz
+abbr    Template: standalone Tikz figure
+options head
+  \documentclass{standalone}
+  \usepackage{tikz}
+  \usetikzlibrary{arrows}
+  \usetikzlibrary{positioning}
+  \usetikzlibrary{calc}
+  \begin{document}
+
+  \begin{tikzpicture}
+    [
+      thick
+    ]
+    ${0}
+  \end{tikzpicture}
+
+  \end{document}
+
