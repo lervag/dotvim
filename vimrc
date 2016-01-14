@@ -385,7 +385,7 @@ nnoremap <silent><leader>rp :Pandoc! #sintefpres<cr>
 " }}}2
 " {{{2 Python
 Plug 'mitsuhiko/vim-python-combined'
-Plug 'jmcantrell/vim-virtualenv', { 'on' : 
+Plug 'jmcantrell/vim-virtualenv', { 'on' :
       \ [ 'VirtualEnvActivate',
       \   'VirtualEnvDeactivate',
       \   'VirtualEnvList' ] }
@@ -466,7 +466,7 @@ nnoremap <silent> <leader>c :Calendar -position=below<cr>
 " Connect to diary
 augroup vimrc_calendar
   autocmd!
-  autocmd FileType calendar 
+  autocmd FileType calendar
         \ nnoremap <silent><buffer> <cr> :<c-u>call OpenDiary()<cr>
 augroup END
 function! OpenDiary()
@@ -688,7 +688,7 @@ function! s:hooks.sandwhich()
         \   'nesting' : 1,
         \   'match_syntax' : 1,
         \   'skip_break' : 1,
-        \   'indentkeys-' : '{,},0{,0}' 
+        \   'indentkeys-' : '{,},0{,0}'
         \ },
         \ {
         \   'buns' : ['\[\s*', '\s*\]'],
@@ -697,7 +697,7 @@ function! s:hooks.sandwhich()
         \   'regex' : 1,
         \   'nesting' : 1,
         \   'match_syntax' : 1,
-        \   'indentkeys-' : '[,]' 
+        \   'indentkeys-' : '[,]'
         \ },
         \ {
         \   'buns' : ['(\s*', '\s*)'],
@@ -706,7 +706,7 @@ function! s:hooks.sandwhich()
         \   'regex' : 1,
         \   'nesting' : 1,
         \   'match_syntax' : 1,
-        \   'indentkeys-' : '(,)' 
+        \   'indentkeys-' : '(,)'
         \ },
         \]
 
