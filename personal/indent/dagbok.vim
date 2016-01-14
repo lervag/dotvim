@@ -1,4 +1,4 @@
-if exists("b:did_indent")
+if exists('b:did_indent')
   finish
 endif
 let b:did_indent = 1
@@ -14,7 +14,7 @@ setlocal indentexpr=GetDagbokIndent()
 let &cpo = s:cpo_save
 unlet s:cpo_save
 
-if exists("*GetDagbokIndent")
+if exists('*GetDagbokIndent')
   finish
 endif
 
@@ -30,14 +30,14 @@ function GetDagbokIndent()
   let cline = getline(v:lnum)
 
   " Zero indent for first line of each entry
-  if cline =~ '^\d\+'
+  if cline =~# '^\d\+'
     return 0
   endif
 
   " Indent 18 for continuation of notes
-  if pline =~ '^\s\+Notat'
-    return 17
-  elseif pline =~ '^\d\+'
+  if pline =~# '^\s\+Notat'
+    return 18
+  elseif pline =~# '^\d\+'
     return 2
   endif
 
