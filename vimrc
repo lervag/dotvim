@@ -496,8 +496,7 @@ let g:ctrlsf_mapping = {
       \ }
 let g:ctrlsf_position = 'bottom'
 
-nnoremap         <leader>fp :CtrlSF 
-nnoremap         <leader>ff :CtrlSF <c-r>=expand('<cWORD>')<cr>
+nnoremap         <leader>ff :CtrlSF 
 nnoremap <silent><leader>ft :CtrlSFToggle<cr>
 nnoremap <silent><leader>fu :CtrlSFUpdate<cr>
 vmap     <silent><leader>f  <Plug>CtrlSFVwordExec
