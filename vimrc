@@ -770,6 +770,8 @@ set matchpairs+=<:>
 set showcmd
 set backspace=indent,eol,start
 set autoindent
+set copyindent
+set preserveindent
 set fileformat=unix
 set list
 set listchars=tab:▸\ ,nbsp:%,trail:\ ,extends:,precedes:
