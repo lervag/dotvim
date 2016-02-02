@@ -56,6 +56,7 @@ function! s:sum() range " {{{1
     let l:sum += str2float(substitute(matchstr(line,
           \ '-\?\<\d\+\([ .]\d\+\)*\>'), '\s*', '', 'g'))
   endfor
+  let @" = string(l:sum)
   echom string(l:sum)
 endfunction
 
