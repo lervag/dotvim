@@ -365,6 +365,8 @@ let g:tex_conceal = ''
 let g:tex_flavor = 'latex'
 let g:tex_isk='48-57,a-z,A-Z,192-255,:'
 
+nnoremap \lt :Unite vimtex_toc<cr>
+
 "
 " NOTE: See also ~/.vim/personal/ftplugin/tex.vim
 "
