@@ -413,13 +413,9 @@ let s:wiki.path = '~/documents/wiki'
 let s:wiki.diary_rel_path = 'journal'
 let s:wiki.list_margin = 0
 let s:wiki.nested_syntaxes = {
-      \ 'python' : 'python',
       \ 'bash'   : 'sh',
-      \ 'sh'     : 'sh',
       \ 'tex'    : 'latex',
       \ 'f90'    : 'fortran',
-      \ 'make'   : 'make',
-      \ 'vim'    : 'vim',
       \ }
 
 " Set up global options
