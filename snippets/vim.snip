@@ -1,0 +1,9 @@
+snippet     function
+abbr        func endfunc
+alias       func
+options     head
+    function! ${1:#:func_name}(${2}) " {{{1
+      ${0:TARGET}
+    endfunction
+
+    " }}}1
