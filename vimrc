@@ -288,6 +288,7 @@ let g:vebugger_leader = '<leader>v'
 " Completion and snippets
 "{{{2 Neocomplete
 Plug 'Shougo/neocomplete'
+Plug 'Shougo/neco-vim'
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
@@ -314,8 +315,10 @@ endif
 let g:neocomplete#same_filetypes._ = '_'
 
 " Define keyword patterns
-let g:neocomplete#keyword_patterns.tex     = '[a-zA-ZæÆøØåÅ][0-9a-zA-ZæÆøØåÅ]\+'
-let g:neocomplete#keyword_patterns.vimwiki = '[a-zA-ZæÆøØåÅ][0-9a-zA-ZæÆøØåÅ]\+'
+let s:neocomplete_keyword = '[a-zA-ZæÆøØåÅ][0-9a-zA-ZæÆøØåÅ]\+'
+let g:neocomplete#keyword_patterns.tex     = '\%(^\|\s\zs\)'
+let g:neocomplete#keyword_patterns.tex    .= s:neocomplete_keyword
+let g:neocomplete#keyword_patterns.vimwiki = s:neocomplete_keyword
 
 " Define omni input patterns
 let g:neocomplete#sources#omni#input_patterns.vimwiki = '\[\[\S*'
