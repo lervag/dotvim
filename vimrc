@@ -293,6 +293,7 @@ let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#enable_auto_close_preview = 1
+let g:neocomplete#enable_multibyte_completion = 1
 
 inoremap <expr> <c-l>   neocomplete#complete_common_string()
 inoremap <expr> <c-y>   neocomplete#close_popup()
@@ -316,9 +317,8 @@ let g:neocomplete#same_filetypes._ = '_'
 
 " Define keyword patterns
 let s:neocomplete_keyword = '[a-zA-ZæÆøØåÅ][0-9a-zA-ZæÆøØåÅ]\+'
-let g:neocomplete#keyword_patterns.tex     = '\%(^\|\s\zs\)'
-let g:neocomplete#keyword_patterns.tex    .= s:neocomplete_keyword
-let g:neocomplete#keyword_patterns.vimwiki = s:neocomplete_keyword
+let g:neocomplete#keyword_patterns._   = s:neocomplete_keyword
+let g:neocomplete#keyword_patterns.tex = '\%(^\|\s\zs\)' . s:neocomplete_keyword
 
 " Define omni input patterns
 let g:neocomplete#sources#omni#input_patterns.vimwiki = '\[\[\S*'
