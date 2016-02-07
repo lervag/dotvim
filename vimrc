@@ -139,6 +139,12 @@ endfunction
 
 " General programming
 Plug 'tpope/vim-commentary'
+" {{{2 vim-diff-enhanced
+Plug 'chrisbra/vim-diff-enhanced'
+
+let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
+
+" }}}2
 " {{{2 ConqueGDB
 Plug 'vim-scripts/Conque-GDB', { 'on' : 'ConqueGDB' }
 
