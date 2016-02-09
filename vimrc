@@ -78,6 +78,7 @@ Plug 'wellle/targets.vim'
 
 let g:targets_argOpening = '[({[]'
 let g:targets_argClosing = '[]})]'
+let g:targets_separators = ', . ; : + - = ~ _ * # / | \ &'
 
 " }}}2
 " {{{2 Incsearch
