@@ -157,15 +157,13 @@ let g:ConqueTerm_ReadUnfocused = 1
 " }}}
 " {{{2 Fugitive, gitv, Lawrencium, etc...
 Plug 'tpope/vim-fugitive'
-Plug 'gregsexton/gitv'
-
-let g:Gitv_OpenHorizontal = 1
+Plug 'junegunn/gv.vim'
 
 nnoremap <leader>gs :Gtogglestatus<cr>
-nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gd :Gdiff<cr>
-nnoremap <leader>gl :Gitv<cr>
-nnoremap <leader>gL :Gitv!<cr>
+nnoremap <leader>gl :GV<cr>
+nnoremap <leader>gL :GV!<cr>
+vnoremap <leader>gl :GV<cr>
 
 command! Gtogglestatus :call Gtogglestatus()
 function! Gtogglestatus()
