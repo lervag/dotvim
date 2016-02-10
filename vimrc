@@ -97,11 +97,6 @@ nmap #  <plug>(incsearch-nohl-#)zvzz
 nmap g* <plug>(incsearch-nohl-g*)zvzz
 nmap g# <plug>(incsearch-nohl-g#)zvzz
 
-" Use <c-l> to clear the highlighting of :set hlsearch.
-if maparg('<c-l>', 'n') ==# ''
-  nnoremap <silent> <c-l> :nohlsearch<cr><c-l>
-endif
-
 " Define highlightings
 function! s:hooks.incsearch()
   highlight IncSearchMatch
@@ -1027,6 +1022,14 @@ nnoremap do     do]c
 nnoremap <silent> <c-u> :Bdelete<cr>
 nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
+
+" Use <c-l> to clear/update all the things
+if maparg('<c-l>', 'n') ==# ''
+  nnoremap <silent> <c-l>
+        \ :nohlsearch<cr>
+        \ :diffupdate<cr>
+        \ :syntax sync fromstart<cr><c-l>
+endif
 
 " Backspace and return for improved navigation
 nnoremap        <bs> <c-o>zvzz
