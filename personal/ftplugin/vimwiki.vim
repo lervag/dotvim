@@ -5,21 +5,19 @@ setlocal autoindent
 setlocal nowrap
 setlocal fdl=1
 
-" Define commands
-command! -range Sum call s:sum()
-
 " Define mappings
 nnoremap <buffer> <leader>wl :call vimwiki#backlinks()<cr>
-vnoremap <leader>m :Sum<cr>
-nnoremap <leader>m V}:Sum<cr>
 
-" Some extra settings for journal entries
+" {{{1 Journal settings
 if expand('%:p') =~# 'wiki\/journal'
   nnoremap <silent><buffer> <c-k> :VimwikiDiaryNextDay<cr>
   nnoremap <silent><buffer> <c-j> :VimwikiDiaryPrevDay<cr>
 endif
 
-function! VimwikiLinkHandler(link) " {{1
+" }}}1
+" {{{1 Link handler
+
+function! VimwikiLinkHandler(link)
   let link_info = vimwiki#base#resolve_link(a:link)
 
   let lnk = expand(link_info.filename)
@@ -48,9 +46,14 @@ function! VimwikiLinkHandler(link) " {{1
   return 0
 endfunction
 
-"}}1
+"}}}1
+" {{{1 Sum command and mapping
 
-function! s:sum() range " {{{1
+command! -range Sum call s:sum()
+vnoremap <leader>m :Sum<cr>
+nnoremap <leader>m V}:Sum<cr>
+
+function! s:sum() range
   let l:sum = 0.0
   for line in getline("'<", "'>")
     let l:sum += str2float(substitute(matchstr(line,
