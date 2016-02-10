@@ -1022,6 +1022,8 @@ nnoremap do     do]c
 nnoremap <silent> <c-u> :Bdelete<cr>
 nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
+cnoremap <c-n> <down>
+cnoremap <c-p> <up>
 
 " Use <c-l> to clear/update all the things
 if maparg('<c-l>', 'n') ==# ''
@@ -1030,6 +1032,11 @@ if maparg('<c-l>', 'n') ==# ''
         \ :diffupdate<cr>
         \ :syntax sync fromstart<cr><c-l>
 endif
+
+" Quickly edit macros
+nnoremap <leader>m
+      \ :<c-u><c-r><c-r>='let @' . v:register .' = '
+      \ . string(getreg(v:register))<cr><c-f>0f'
 
 " Backspace and return for improved navigation
 nnoremap        <bs> <c-o>zvzz
