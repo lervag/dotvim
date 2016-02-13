@@ -1026,9 +1026,7 @@ cnoremap <c-p> <up>
 " Use <c-l> to clear/update all the things
 if maparg('<c-l>', 'n') ==# ''
   nnoremap <silent> <c-l>
-        \ :nohlsearch<cr>
-        \ :diffupdate<cr>
-        \ :syntax sync fromstart<cr><c-l>
+        \ :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 endif
 
 " Quickly edit macros
