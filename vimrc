@@ -176,7 +176,7 @@ endfunction
 
 augroup my_fugitive
   autocmd!
-  autocmd BufReadPost fugitive://* set bufhidden=delete
+  autocmd BufReadPost fugitive:// setlocal bufhidden=delete
 augroup END
 
 Plug 'ludovicchabant/vim-lawrencium'
