@@ -434,6 +434,7 @@ let g:vimwiki_table_mappings = 0
 " Utility plugins
 Plug 'git@github.com:lervag/file-line'
 Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
+Plug 'nhooyr/neoman.vim'
 Plug 'thinca/vim-prettyprint'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
