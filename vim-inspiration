@@ -146,4 +146,9 @@ let g:dispatch_compilers = {
 
 " }}}1
 
+augroup VimReload
+  autocmd!
+  autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END
+
 " vim: ft=vim
