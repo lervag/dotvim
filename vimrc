@@ -49,7 +49,11 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'ludovicchabant/vim-lawrencium'
 Plug 'machakann/vim-sandwich'
 Plug 'mileszs/ack.vim'
-Plug 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic', { 'on': [
+      \ 'SyntasticCheck',
+      \ 'SyntasticInfo',
+      \ 'SyntasticToggleMode',
+      \]}
 Plug 'thinca/vim-quickrun'
 Plug 'tpope/vim-commentary', { 'on': '<Plug>Commentary' }
 Plug 'tpope/vim-fugitive'
@@ -671,11 +675,7 @@ endfunction
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_mode_map = {
-      \ 'mode':              'active',
-      \ 'passive_filetypes': ['tex'],
-      \ }
-
+let g:syntastic_mode_map = { 'mode' : 'passive' }
 let g:syntastic_vim_checkers = ['vint']
 let g:syntastic_python_checkers = ['pylint2']
 
