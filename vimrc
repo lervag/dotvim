@@ -397,10 +397,6 @@ nnoremap <silent> gB    :bprevious<cr>
 cnoremap <c-n> <down>
 cnoremap <c-p> <up>
 
-" Auto indent pasted text
-nnoremap p p=`]<c-o>
-nnoremap P P=`]<c-o>
-
 " Navigate folds
 nnoremap zf zMzvzz
 nnoremap zj zcjzvzz
