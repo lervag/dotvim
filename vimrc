@@ -55,7 +55,7 @@ Plug 'scrooloose/syntastic', { 'on': [
       \ 'SyntasticToggleMode',
       \]}
 Plug 'thinca/vim-quickrun'
-Plug 'tpope/vim-commentary', { 'on': '<Plug>Commentary' }
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
