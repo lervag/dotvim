@@ -112,8 +112,9 @@ call plug#end() | endif
 " }}}1
 " {{{1 Options
 
-" {{{2 Basic
-
+" -------------------------------------------------------------------------------
+" Basic
+" -------------------------------------------------------------------------------
 set history=10000
 set cpoptions+=J
 set tags=tags;~,.tags;~
@@ -141,9 +142,9 @@ else
   set cryptmethod=blowfish
 endif
 
-" }}}2
-" {{{2 Backup, swap and undofile
-
+" -------------------------------------------------------------------------------
+" Backup, swap and undofile
+" -------------------------------------------------------------------------------
 set noswapfile
 set nobackup
 set undofile
@@ -155,9 +156,9 @@ if !isdirectory(&undodir)
   call mkdir(&undodir)
 endif
 
-" }}}2
-" {{{2 Behaviour
-
+" -------------------------------------------------------------------------------
+" Behaviour
+" -------------------------------------------------------------------------------
 set autochdir
 set autoread
 set lazyredraw
@@ -174,18 +175,17 @@ set formatlistpat=^\\s*\\(\\(\\d\\+\\\|[a-z]\\)[.:)]\\\|[-*]\\)\\s\\+
 set winaltkeys=no
 set mouse=
 
-" }}}2
-" {{{2 Completion
-
+" -------------------------------------------------------------------------------
+" Completion
+" -------------------------------------------------------------------------------
 set wildmenu
 set wildmode=longest:full,full
-
 set complete+=U,s,k,kspell,d,]
 set completeopt=longest,menu,preview
 
-" }}}2
-" {{{2 Presentation
-
+" -------------------------------------------------------------------------------
+" Presentation
+" -------------------------------------------------------------------------------
 set list
 set listchars=tab:▸\ ,nbsp:%,trail:\ ,extends:,precedes:
 set fillchars=vert:│,fold:\ ,diff:⣿
@@ -204,9 +204,9 @@ if !has('gui_running')
   set t_vb=
 endif
 
-" }}}2
-" {{{2 Folding
-
+" -------------------------------------------------------------------------------
+" Folding
+" -------------------------------------------------------------------------------
 if &foldmethod ==# ''
   set foldmethod=syntax
 endif
@@ -221,9 +221,9 @@ function! TxtFoldText()
   return printf('%-4s %-s', level, title)
 endfunction
 
-" }}}2
-" {{{2 Indentation
-
+" -------------------------------------------------------------------------------
+" Indentation
+" -------------------------------------------------------------------------------
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
@@ -236,9 +236,9 @@ set copyindent
 set preserveindent
 silent! set breakindent
 
-" }}}2
-" {{{2 Searching and movement
-
+" -------------------------------------------------------------------------------
+" Searching and movement
+" -------------------------------------------------------------------------------
 set nostartofline
 set ignorecase
 set smartcase
@@ -253,8 +253,9 @@ if executable('ack-grep')
   set grepprg=ack-grep\ --nocolor
 endif
 
-" }}}2
-" {{{2 Spell checking
+" -------------------------------------------------------------------------------
+" Spell checking
+" -------------------------------------------------------------------------------
 
 set spelllang=en_gb
 set spellfile+=~/.vim/spell/mywords.latin1.add
@@ -276,8 +277,6 @@ function! LoopSpellLanguage()
   endif
 endfunction
 nnoremap <silent> <F6> :<c-u>call LoopSpellLanguage()<cr>
-
-" }}}2
 
 " }}}1
 " {{{1 Appearance and UI
