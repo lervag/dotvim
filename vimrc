@@ -429,7 +429,7 @@ cnoremap w!! w !sudo tee % >/dev/null
 
 " {{{2 vim-internal
 
-" runtime macros/matchit.vim
+runtime macros/matchit.vim
 
 let g:loaded_2html_plugin     = 1
 let g:loaded_getscriptPlugin  = 1
