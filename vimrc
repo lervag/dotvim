@@ -727,9 +727,10 @@ let g:neocomplete#keyword_patterns.tex = '\%(^\|\s\zs\)' . s:neocomplete_keyword
 let g:neocomplete#sources#omni#input_patterns.vimwiki = '\[\[\S*'
 let g:neocomplete#sources#omni#input_patterns.tex =
       \ '\v\\%('
-      \ . '\a*%(ref|cite)\a*%(\s*\[[^]]*\])?\s*\{[^{}]*'
-      \ . '|includegraphics%(\s*\[[^]]*\])?\s*\{[^{}]*'
-      \ . '|%(include|input|glc)\s*\{[^{}]*'
+      \ . '\a*cite\a*%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+      \ . '|\a*ref%(\s*\{[^}]*|range\s*\{[^,}]*%(\{\})?)'
+      \ . '|includegraphics\*?%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+      \ . '|%(include%(only)?|input)\s*\{[^}]*'
       \ . ')'
 
 " Define omni force patterns
