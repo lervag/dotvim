@@ -602,21 +602,17 @@ nnoremap <leader>hr :call MyHgrecord()<cr>
 nnoremap <leader>ha :call MyHgabort()<cr>
 
 function! MyHgdiff()
-  let l:vimtex_fold_enabled = get(g:, 'vimtex_fold_enabled', 0)
-  let g:vimtex_fold_enabled = 0
+  let s:lastfdm = get(w:, 'lastfdm', '')
   Hgvdiff
   windo setlocal foldmethod=diff
   normal! gg]c
-  let g:vimtex_fold_enabled = l:vimtex_fold_enabled
 endfunction
 
 function! MyHgrecord()
-  let l:vimtex_fold_enabled = get(g:, 'vimtex_fold_enabled', 0)
-  let g:vimtex_fold_enabled = 0
+  let s:lastfdm = get(w:, 'lastfdm', '')
   Hgvrecord
   windo setlocal foldmethod=diff
   normal! gg]c
-  let g:vimtex_fold_enabled = l:vimtex_fold_enabled
   let s:record = 1
 endfunction
 
@@ -627,7 +623,8 @@ function! MyHgabort()
     bdelete lawrencium
   endif
   ResizeSplits
-  normal! zx
+  let w:lastfdm = get(s:, 'lastfdm', '')
+  normal zx
 endfunction
 
 " }}}
