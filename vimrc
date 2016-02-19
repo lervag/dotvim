@@ -862,12 +862,7 @@ let g:clam_winpos = 'topleft'
 " {{{2 plugin: CtrlFS
 
 let g:ctrlsf_indent = 2
-let g:ctrlsf_mapping = {
-      \ 'tab' : '',
-      \ 'tabb': '',
-      \ 'next': 'n',
-      \ 'prev': 'N',
-      \ }
+let g:ctrlsf_regex_pattern = 2
 let g:ctrlsf_position = 'bottom'
 
 nnoremap         <leader>ff :CtrlSF 
