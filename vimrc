@@ -441,10 +441,6 @@ let g:loaded_tarPlugin        = 1
 let g:loaded_vimballPlugin    = 1
 let g:loaded_zipPlugin        = 1
 
-let g:is_bash = 1
-
-let g:sh_fold_enabled = 7
-
 " }}}2
 
 " {{{2 plugin: vim-plug
