@@ -10,7 +10,7 @@ setlocal foldexpr=BashFoldLevel()
 " {{{1 BashFoldLevel
 
 let s:re_start = '\v^\s*%(' . join([
-      \ 'if.*%(;\s*then)?$',
+      \ 'if>.*%(;\s*then)?$',
       \ '%(while|for).*%(;\s*do)?$',
       \ 'case.*%(\s*in)$',
       \ '%(function\s+)?\S+%(\(\))? \{',
