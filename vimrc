@@ -663,17 +663,16 @@ endfunction
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_mode_map = { 'mode' : 'passive' }
-let g:syntastic_vim_checkers = ['vint']
-let g:syntastic_python_checkers = ['pylint2']
+let g:syntastic_mode_map = {
+      \ 'mode' : 'passive',
+      \ 'active_filetypes' : [
+      \   'sh',
+      \   'vim',
+      \ ],
+      \}
 
-" Fortran settings
-let g:syntastic_fortran_compiler_options = ' -fdefault-real-8'
-let g:syntastic_fortran_include_dirs = [
-      \ '../obj/gfortran_debug',
-      \ '../objects/debug_gfortran',
-      \ '../thermopack/objects/debug_gfortran_Linux',
-      \ ]
+let g:syntastic_sh_checkers = ['shellcheck']
+let g:syntastic_vim_checkers = ['vint']
 
 " Some mappings
 nnoremap <leader>sc :SyntasticCheck<cr>
