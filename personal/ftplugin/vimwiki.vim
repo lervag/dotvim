@@ -3,7 +3,7 @@ setlocal nosmartindent
 setlocal nomodeline
 setlocal autoindent
 setlocal nowrap
-setlocal fdl=1
+setlocal foldlevel=1
 
 " Define mappings
 nnoremap <buffer> <leader>wl :call vimwiki#backlinks()<cr>
@@ -64,3 +64,5 @@ function! s:sum() range
 endfunction
 
 " }}}1
+
+" vim: fdm=marker
