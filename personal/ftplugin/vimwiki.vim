@@ -5,11 +5,6 @@ setlocal autoindent
 setlocal nowrap
 setlocal foldlevel=1
 
-augroup MyVimwiki
-  autocmd!
-  autocmd BufWinEnter *.wiki FastFoldUpdate
-augroup END
-
 " Define mappings
 nnoremap <buffer> <leader>wl :call vimwiki#backlinks()<cr>
 
