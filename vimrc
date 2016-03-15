@@ -349,8 +349,8 @@ augroup vimrc_autocommands
   autocmd!
 
   " Only use cursorline for current window
-  autocmd WinEnter * setlocal cursorline
-  autocmd WinLeave * setlocal nocursorline
+  autocmd WinEnter,FocusGained * setlocal cursorline
+  autocmd WinLeave,FocusLost   * setlocal nocursorline
 
   " When editing a file, always jump to the last known cursor position.  Don't
   " do it when the position is invalid or when inside an event handler (happens
