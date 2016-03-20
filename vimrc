@@ -27,6 +27,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'Yggdroot/indentLine'
 Plug 'luochen1990/rainbow'
 Plug 'drmikehenry/vim-fontsize'
+Plug 'mhinz/vim-startify'
 
 " -------------------------------------------------------------------------------
 " Motions and text objects
@@ -1072,6 +1073,30 @@ xnoremap s <nop>
 
 " Allow repeats while keeping cursor fixed
 nmap . <plug>(operator-sandwich-predot)<plug>(RepeatDot)
+
+" }}}2
+" {{{2 plugin: vim-startify
+
+let g:startify_skiplist = [
+      \ 'COMMIT_EDITMSG',
+      \ 'documents\/wiki',
+      \ ]
+
+let g:startify_list_order = ['files']
+let g:startify_change_to_dir  = 0
+let g:startify_enable_special = 0
+let g:startify_files_number   = 16
+
+function! s:foo(filename)
+  let l:fname = a:filename
+  let l:fname = substitute(l:fname, '^\/home\/lervag-dropbox\/Dropbox', '~', '')
+  let l:fname = substitute(l:fname, '^\/home\/lervag', '~', '')
+  return l:fname
+endfunction
+
+let g:startify_transformations = [
+      \ ['.*', function('s:foo')],
+      \ ]
 
 " }}}2
 
