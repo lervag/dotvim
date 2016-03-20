@@ -1090,7 +1090,8 @@ let g:startify_files_number   = 16
 function! s:foo(filename)
   let l:fname = a:filename
   let l:fname = substitute(l:fname, '^\/home\/lervag-dropbox\/Dropbox', '~', '')
-  let l:fname = substitute(l:fname, '^\/home\/lervag', '~', '')
+  let l:fname = substitute(l:fname, '^\/home\/.*\/lervag', '~', '')
+  let l:fname = substitute(l:fname, '\/\.db\/Dropbox', '', '')
   return l:fname
 endfunction
 
