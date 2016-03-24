@@ -1072,7 +1072,7 @@ nnoremap s <nop>
 xnoremap s <nop>
 
 " Allow repeats while keeping cursor fixed
-nmap . <plug>(operator-sandwich-predot)<plug>(RepeatDot)
+" nmap . <plug>(operator-sandwich-predot)<plug>(RepeatDot)
 
 " }}}2
 
