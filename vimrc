@@ -60,6 +60,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
 Plug 'vim-scripts/Conque-GDB', { 'on' : 'ConqueGDB' }
+Plug 'junegunn/vader.vim'
 
 " -------------------------------------------------------------------------------
 " Completion and snippets
