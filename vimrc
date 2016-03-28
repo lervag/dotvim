@@ -1016,9 +1016,41 @@ vmap .  <plug>(EasyAlignRepeat)
 " }}}2
 " {{{2 plugin: vim-sandwich
 
+let g:sandwich_no_default_key_mappings = 1
+let g:operator_sandwich_no_default_key_mappings = 1
+let g:textobj_sandwich_no_default_key_mappings = 1
+
+" Surround mappings (similar to surround.vim)
+nmap ys  <plug>(operator-sandwich-add)
+nmap yss <plug>(operator-sandwich-add)iW
+nmap ds  <plug>(operator-sandwich-delete)<plug>(textobj-sandwich-query-a)
+nmap dss <plug>(operator-sandwich-delete)<plug>(textobj-sandwich-auto-a)
+nmap cs  <plug>(operator-sandwich-replace)<plug>(textobj-sandwich-query-a)
+nmap css <plug>(operator-sandwich-replace)<plug>(textobj-sandwich-auto-a)
+xmap sa  <plug>(operator-sandwich-add)
+xmap sd  <plug>(operator-sandwich-delete)
+xmap sr  <plug>(operator-sandwich-replace)
+
+" Text objects
+xmap is  <plug>(textobj-sandwich-query-i)
+xmap as  <plug>(textobj-sandwich-query-a)
+omap is  <plug>(textobj-sandwich-query-i)
+omap as  <plug>(textobj-sandwich-query-a)
+xmap iss <plug>(textobj-sandwich-auto-i)
+xmap ass <plug>(textobj-sandwich-auto-a)
+omap iss <plug>(textobj-sandwich-auto-i)
+omap ass <plug>(textobj-sandwich-auto-a)
+
 " Change some default options
 silent! call operator#sandwich#set('delete', 'all', 'highlight', 0)
 silent! call operator#sandwich#set('all', 'all', 'cursor', 'keep')
+
+" Set custom highlighting
+highlight OperatorSandwichBuns cterm=bold gui=bold ctermfg=5 guifg=Magenta
+
+" Allow repeats while keeping cursor fixed
+silent! runtime autoload/repeat.vim
+nmap . <plug>(operator-sandwich-predot)<plug>(RepeatDot)
 
 " Default recipes
 let g:sandwich#recipes  = deepcopy(g:sandwich#default_recipes)
@@ -1064,19 +1096,6 @@ let g:sandwich#recipes += [
       \   'match_syntax': 2,
       \ }
       \]
-
-" Set custom highlighting
-highlight OperatorSandwichBuns cterm=bold gui=bold ctermfg=5 guifg=Magenta
-
-" Free 's', since it is used for sandwich mappings
-nnoremap s <nop>
-xnoremap s <nop>
-
-" Allow repeats while keeping cursor fixed
-nmap . <plug>(operator-sandwich-predot)<plug>(RepeatDot)
-
-" Ensure repeat.vim is loaded
-silent! runtime autoload/repeat.vim
 
 " }}}2
 
