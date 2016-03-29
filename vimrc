@@ -1021,8 +1021,8 @@ let g:operator_sandwich_no_default_key_mappings = 1
 let g:textobj_sandwich_no_default_key_mappings = 1
 
 " Surround mappings (similar to surround.vim)
-nmap ys  <plug>(operator-sandwich-add)
-nmap yss <plug>(operator-sandwich-add)iW
+nmap gs  <plug>(operator-sandwich-add)
+nmap gss <plug>(operator-sandwich-add)iW
 nmap ds  <plug>(operator-sandwich-delete)<plug>(textobj-sandwich-query-a)
 nmap dss <plug>(operator-sandwich-delete)<plug>(textobj-sandwich-auto-a)
 nmap cs  <plug>(operator-sandwich-replace)<plug>(textobj-sandwich-query-a)
