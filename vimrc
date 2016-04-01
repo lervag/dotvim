@@ -528,8 +528,9 @@ highlight IncSearchCursor
 let g:columnmove_no_default_key_mappings = 1
 
 for s:x in split('ftFT;,wbeWBE', '\zs')
-  silent! call columnmove#utility#map('nxo', l:x, '<m-' . l:x . '>', 'block')
+  silent! call columnmove#utility#map('nxo', s:x, '<m-' . s:x . '>', 'block')
 endfor
+unlet s:x
 silent! call columnmove#utility#map('nxo', 'ge', '<m-g>e', 'block')
 silent! call columnmove#utility#map('nxo', 'gE', '<m-g>E', 'block')
 
