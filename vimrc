@@ -33,7 +33,6 @@ Plug 'drmikehenry/vim-fontsize'
 " -------------------------------------------------------------------------------
 Plug 'wellle/targets.vim'
 Plug 'haya14busa/incsearch.vim'
-Plug 't9md/vim-smalls'
 Plug 'machakann/vim-columnmove'
 
 " -------------------------------------------------------------------------------
@@ -374,9 +373,9 @@ augroup END
 "
 "   Q
 "   U
-"   gs
-"   CTRL-H
-"   CTRL-J
+"   ctrl-h
+"   ctrl-j
+"   ctrl-s
 "
 
 noremap  <f1>   <nop>
