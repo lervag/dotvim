@@ -31,7 +31,6 @@ Plug 'drmikehenry/vim-fontsize'
 " -------------------------------------------------------------------------------
 " Motions and text objects
 " -------------------------------------------------------------------------------
-Plug 'guns/vim-sexp'
 Plug 'wellle/targets.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 't9md/vim-smalls'
@@ -523,13 +522,6 @@ highlight IncSearchOnCursor
       \ cterm=bold,underline gui=bold,underline ctermfg=39  guifg=#00afff
 highlight IncSearchCursor
       \ cterm=bold,underline gui=bold,underline ctermfg=39  guifg=#00afff
-
-" }}}2
-" {{{2 plugin: vim-smalls
-
-nmap <c-s> <plug>(smalls)
-xmap <c-s> <plug>(smalls)
-omap <c-s> <plug>(smalls)
 
 " }}}2
 " {{{2 plugin: vim-columnmove
