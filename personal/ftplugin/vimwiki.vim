@@ -10,8 +10,9 @@ nnoremap <buffer> <leader>wl :call vimwiki#backlinks()<cr>
 
 " {{{1 Journal settings
 if expand('%:p') =~# 'wiki\/journal'
-  nnoremap <silent><buffer> <c-k> :VimwikiDiaryNextDay<cr>
-  nnoremap <silent><buffer> <c-j> :VimwikiDiaryPrevDay<cr>
+  nnoremap <silent><buffer> <leader>wk :call vimwiki#new_entry()<cr>
+  nnoremap <silent><buffer> <c-k>      :VimwikiDiaryNextDay<cr>
+  nnoremap <silent><buffer> <c-j>      :VimwikiDiaryPrevDay<cr>
 endif
 
 " }}}1
