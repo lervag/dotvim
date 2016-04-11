@@ -626,6 +626,7 @@ let g:gutentags_tagfile = '.tags'
 
 let g:quickrun_config = {}
 let g:quickrun_config.python = { 'command' : 'python2' }
+let g:quickrun_config.vader = { 'command' : './run' }
 let g:quickrun_config._ = {
       \ 'outputter/buffer/close_on_empty' : 1
       \ }
