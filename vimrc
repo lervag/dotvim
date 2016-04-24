@@ -586,33 +586,23 @@ vnoremap <leader>gl :GV<cr>
 nnoremap <leader>hs :Hgstatus<cr>
 nnoremap <leader>hl :Hglog<cr>
 nnoremap <leader>hL :Hglogthis<cr>
-nnoremap <leader>hd :call MyHgdiff()<cr>
-nnoremap <leader>hr :call MyHgrecord()<cr>
+nnoremap <leader>hd :call MyHgWrapper('Hgvdiff')<cr>
+nnoremap <leader>hr :call MyHgWrapper('Hgvrecord')<cr>
 nnoremap <leader>ha :call MyHgabort()<cr>
 
-function! MyHgdiff()
-  let s:lastfdm = get(w:, 'lastfdm', '')
-  Hgvdiff
+function! MyHgWrapper(com)
+  execute a:com
   windo setlocal foldmethod=diff
   normal! gg]c
-endfunction
-
-function! MyHgrecord()
-  let s:lastfdm = get(w:, 'lastfdm', '')
-  Hgvrecord
-  windo setlocal foldmethod=diff
-  normal! gg]c
-  let s:record = 1
 endfunction
 
 function! MyHgabort()
-  if get(s:, 'record', 0)
+  if exists(':Hgrecordabort')
     Hgrecordabort
   else
     bdelete lawrencium
   endif
   ResizeSplits
-  let w:lastfdm = get(s:, 'lastfdm', '')
   normal zx
 endfunction
 
