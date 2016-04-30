@@ -898,7 +898,6 @@ call unite#custom#profile('default', 'context', {
       \ 'prompt' : '> ',
       \ })
 
-call unite#custom#source('file_mru', 'sorters', 'sorter_rank')
 call unite#custom#source('file_mru', 'ignore_pattern',
       \ g:neomru#file_mru_ignore_pattern)
 
