@@ -105,6 +105,7 @@ Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-unimpaired'
 Plug 'tsukkee/unite-tag'
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
+Plug 'kana/vim-submode'
 
 call plug#end() | endif
 
@@ -392,8 +393,6 @@ nnoremap k      gk
 nnoremap dp     dp]c
 nnoremap do     do]c
 nnoremap <silent> <c-u> :Bdelete<cr>
-nnoremap <silent> gb    :bnext<cr>
-nnoremap <silent> gB    :bprevious<cr>
 cnoremap <c-n> <down>
 cnoremap <c-p> <up>
 
@@ -1085,6 +1084,19 @@ let g:sandwich#recipes += [
       \   'match_syntax': 2,
       \ }
       \]
+
+" }}}2
+" {{{2 plugin: vim-submode
+
+let g:submode_always_show_submode = 1
+
+"
+" Mode for quickly navigating buffers
+"
+call submode#enter_with('buffer', 'n', 's', 'gb')
+call submode#map('buffer', 'n', 's', 'k', ':bnext<cr>')
+call submode#map('buffer', 'n', 's', 'j', ':bprev<cr>')
+call submode#map('buffer', 'n', 's', 'x', ':Bdelete<cr>')
 
 " }}}2
 
