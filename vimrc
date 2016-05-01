@@ -396,6 +396,14 @@ nnoremap <silent> <c-u> :Bdelete<cr>
 cnoremap <c-n> <down>
 cnoremap <c-p> <up>
 
+" Utility maps for repeatable quickly change current word
+nnoremap ,,   *``cgn
+nnoremap ,;   #``cgN
+nnoremap c*   *``cgn
+nnoremap c#   #``cgN
+nnoremap cg* g*``cgn
+nnoremap cg# g#``cgN
+
 " Navigate folds
 nnoremap zf zMzvzz
 nnoremap zj zcjzvzz
@@ -407,11 +415,6 @@ if maparg('<c-l>', 'n') ==# ''
         \ :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 endif
 
-" Quickly edit macros
-nnoremap <leader>m
-      \ :<c-u><c-r><c-r>='let @' . v:register .' = '
-      \ . string(getreg(v:register))<cr><c-f>0f'
-
 " Backspace and return for improved navigation
 nnoremap        <bs> <c-o>zvzz
 nnoremap <expr> <cr> empty(&buftype) ? '<c-]>zvzz' : '<cr>'
@@ -419,9 +422,6 @@ nnoremap <expr> <cr> empty(&buftype) ? '<c-]>zvzz' : '<cr>'
 " Shortcuts for some files
 nnoremap <leader>ev :e ~/.vim/vimrc<cr>
 nnoremap <leader>ez :e ~/.dotfiles/zshrc<cr>
-
-" Make it possible to save as sudo
-cnoremap w!! w !sudo tee % >/dev/null
 
 " Jump with tab during searches
 cnoremap <expr><tab>
