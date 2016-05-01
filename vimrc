@@ -179,6 +179,7 @@ set mouse=
 " -------------------------------------------------------------------------------
 set wildmenu
 set wildmode=longest:full,full
+set wildcharm=<c-z>
 set complete+=U,s,k,kspell,d,]
 set completeopt=longest,menu,preview
 
@@ -422,6 +423,12 @@ nnoremap <leader>ez :e ~/.dotfiles/zshrc<cr>
 
 " Make it possible to save as sudo
 cnoremap w!! w !sudo tee % >/dev/null
+
+" Jump with tab during searches
+cnoremap <expr><tab>
+      \ index(['/', '?'], getcmdtype()) >= 0 ? '<cr>/<c-r>/' : '<c-z>'
+cnoremap <expr><s-tab>
+      \ index(['/', '?'], getcmdtype()) >= 0 ? '<cr>?<c-r>/' : '<s-tab>'
 
 " }}}1
 " {{{1 Plugin options
