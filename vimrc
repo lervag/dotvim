@@ -1090,13 +1090,16 @@ let g:sandwich#recipes += [
 
 let g:submode_always_show_submode = 1
 
-"
-" Mode for quickly navigating buffers
-"
-call submode#enter_with('buffer', 'n', 's', 'gb')
-call submode#map('buffer', 'n', 's', 'k', ':bnext<cr>')
-call submode#map('buffer', 'n', 's', 'j', ':bprev<cr>')
-call submode#map('buffer', 'n', 's', 'x', ':Bdelete<cr>')
+try
+  "
+  " Mode for quickly navigating buffers
+  "
+  call submode#enter_with('buffer', 'n', 's', 'gb')
+  call submode#map('buffer', 'n', 's', 'k', ':bnext<cr>')
+  call submode#map('buffer', 'n', 's', 'j', ':bprev<cr>')
+  call submode#map('buffer', 'n', 's', 'x', ':Bdelete<cr>')
+catch
+endtry
 
 " }}}2
 
