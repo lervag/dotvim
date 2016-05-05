@@ -105,7 +105,6 @@ Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-unimpaired'
 Plug 'tsukkee/unite-tag'
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
-Plug 'kana/vim-submode'
 
 call plug#end() | endif
 
@@ -1084,22 +1083,6 @@ let g:sandwich#recipes += [
       \   'match_syntax': 2,
       \ }
       \]
-
-" }}}2
-" {{{2 plugin: vim-submode
-
-let g:submode_always_show_submode = 1
-
-try
-  "
-  " Mode for quickly navigating buffers
-  "
-  call submode#enter_with('buffer', 'n', 's', 'gb')
-  call submode#map('buffer', 'n', 's', 'k', ':bnext<cr>')
-  call submode#map('buffer', 'n', 's', 'j', ':bprev<cr>')
-  call submode#map('buffer', 'n', 's', 'x', ':Bdelete<cr>')
-catch
-endtry
 
 " }}}2
 
