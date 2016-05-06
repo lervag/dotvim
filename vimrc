@@ -392,6 +392,8 @@ nnoremap k      gk
 nnoremap dp     dp]c
 nnoremap do     do]c
 nnoremap <silent> <c-u> :Bdelete<cr>
+nnoremap <silent> gb    :bnext<cr>
+nnoremap <silent> gB    :bprevious<cr>
 cnoremap <c-n> <down>
 cnoremap <c-p> <up>
 
