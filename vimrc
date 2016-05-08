@@ -34,6 +34,7 @@ Plug 'drmikehenry/vim-fontsize'
 Plug 'wellle/targets.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'machakann/vim-columnmove'
+Plug 'machakann/vim-swap'
 
 " -------------------------------------------------------------------------------
 " Programming and editing
@@ -1085,6 +1086,15 @@ let g:sandwich#recipes += [
       \   'match_syntax': 2,
       \ }
       \]
+
+" }}}2
+" {{{2 plugin: vim-swap
+
+let g:swap_no_default_key_mappings = 1
+nmap gj         <plug>(swap-prev)
+nmap gk         <plug>(swap-next)
+nmap <leader>gg <plug>(swap-interactive)
+silent! call swap#map('g', "\<plug>(swap-mode-Esc)")
 
 " }}}2
 
