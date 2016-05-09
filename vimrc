@@ -85,6 +85,7 @@ Plug 'jmcantrell/vim-virtualenv', { 'on' :
 Plug 'davidhalter/jedi-vim'
 Plug 'vim-ruby/vim-ruby'
 Plug 'vimwiki/vimwiki', { 'branch' : 'dev' }
+Plug 'elzr/vim-json'
 
 " -------------------------------------------------------------------------------
 " Utility plugins
@@ -1095,6 +1096,11 @@ nmap gj         <plug>(swap-prev)
 nmap gk         <plug>(swap-next)
 nmap <leader>gg <plug>(swap-interactive)
 silent! call swap#map('g', "\<plug>(swap-mode-Esc)")
+
+" }}}2
+" {{{2 plugin: vim-json
+
+let g:vim_json_syntax_conceal = 0
 
 " }}}2
 
