@@ -367,6 +367,9 @@ augroup vimrc_autocommands
         \ if &omnifunc == "" |
         \   setlocal omnifunc=syntaxcomplete#Complete |
         \ endif
+
+  " Set keymapping for command window
+  autocmd CmdwinEnter * nnoremap <buffer> q <c-c><c-c>
 augroup END
 
 " {{{1 Mappings
