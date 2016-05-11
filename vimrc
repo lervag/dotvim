@@ -403,8 +403,6 @@ cnoremap <c-n> <down>
 cnoremap <c-p> <up>
 
 " Utility maps for repeatable quickly change current word
-nnoremap ,,   *``cgn
-nnoremap ,;   #``cgN
 nnoremap c*   *``cgn
 nnoremap c#   #``cgN
 nnoremap cg* g*``cgn
