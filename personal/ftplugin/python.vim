@@ -4,9 +4,6 @@ let b:did_ft_python = 1
 
 setlocal sts=4
 setlocal sw=4
-setlocal expandtab
-setlocal smarttab
-setlocal smartindent
 setlocal makeprg=python\ %
 setlocal fdm=indent
 setlocal omnifunc=pythoncomplete#Complete
