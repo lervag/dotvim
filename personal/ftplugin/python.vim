@@ -2,12 +2,6 @@
 if exists('b:did_ft_python') | finish | endif
 let b:did_ft_python = 1
 
-setlocal sts=4
-setlocal sw=4
-setlocal makeprg=python\ %
-setlocal fdm=indent
-setlocal omnifunc=pythoncomplete#Complete
+setlocal foldmethod=indent
 setlocal define=^\s*\\(def\\\\|class\\)
-
-syn keyword pythonDecorator True None False self
 
