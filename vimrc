@@ -17,8 +17,11 @@ Plug 'junegunn/vim-plug', { 'on' : [] }
 " My plugins
 " -------------------------------------------------------------------------------
 Plug '~/.vim/personal'
-Plug 'git@github.com:lervag/vimtex.git'
-Plug 'git@github.com:lervag/file-line'
+let s:lervag = index(['yoga', 'vsl136'], hostname()) >= 0
+      \ ? 'git@github.com:lervag/'
+      \ : 'lervag/'
+call plug#(s:lervag . 'vimtex')
+call plug#(s:lervag . 'file-line')
 
 " -------------------------------------------------------------------------------
 " User interface
