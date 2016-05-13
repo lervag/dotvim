@@ -17,7 +17,7 @@ Plug 'junegunn/vim-plug', { 'on' : [] }
 " My plugins
 " -------------------------------------------------------------------------------
 Plug '~/.vim/personal'
-let s:lervag = index(['yoga', 'vsl136'], hostname()) >= 0
+let s:lervag = index(['yoga', 'vsl136', 'vsl142'], hostname()) >= 0
       \ ? 'git@github.com:lervag/'
       \ : 'lervag/'
 call plug#(s:lervag . 'vimtex')
