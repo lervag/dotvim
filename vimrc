@@ -77,7 +77,6 @@ Plug 'whatyouhide/vim-tmux-syntax'
 Plug 'gregsexton/MatchTag'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'mitsuhiko/vim-python-combined'
 Plug 'jmcantrell/vim-virtualenv', { 'on' :
       \ [ 'VirtualEnvActivate',
       \   'VirtualEnvDeactivate',
@@ -449,6 +448,8 @@ let g:loaded_spellfile_plugin = 1
 let g:loaded_tarPlugin        = 1
 let g:loaded_vimballPlugin    = 1
 let g:loaded_zipPlugin        = 1
+
+let g:python_highlight_all = 1
 
 " }}}2
 
