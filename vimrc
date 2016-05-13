@@ -879,7 +879,7 @@ let g:fastfold_fold_movement_commands = []
 " {{{2 plugin: unite.vim
 
 "
-" Settings
+" General settings
 "
 let g:unite_source_rec_max_cache_files=5000
 let g:unite_force_overwrite_statusline=0
@@ -893,18 +893,9 @@ elseif executable('ack')
   let g:unite_source_grep_default_opts = '--no-heading --no-color -C4'
   let g:unite_source_grep_recursive_opt = ''
 endif
-let g:neomru#file_mru_ignore_pattern = '\v' . join([
-      \ '\/\.(git|hg)\/',
-      \ '\.wiki$',
-      \ '\.vim\/vimrc$',
-      \ '\/vim\/.*\/doc\/.*txt$',
-      \ '_(LOCAL|REMOTE)_',
-      \ '\~record$',
-      \ '^\/tmp\/',
-      \ ], '|')
 
 "
-" More settings defined through function calls
+" Set default context options
 "
 call unite#custom#profile('default', 'context', {
       \ 'start_insert' : 1,
@@ -912,15 +903,28 @@ call unite#custom#profile('default', 'context', {
       \ 'prompt' : '> ',
       \ })
 
+"
+" Neomru settings
+"
 call unite#custom#source('file_mru', 'ignore_pattern',
-      \ g:neomru#file_mru_ignore_pattern)
+      \ '\v' . join([
+      \   '\/\.%(git|hg)\/',
+      \   '\.wiki$',
+      \   '\.vim\/vimrc$',
+      \   '\/vim\/.*\/doc\/.*txt$',
+      \   '_%(LOCAL|REMOTE)_',
+      \   '\~record$',
+      \   '^\/tmp\/',
+      \   ], '|'))
 
+"
+" Other settings
+"
+call unite#custom#source('file,file_mru', 'converters', 'converter_mypath')
 call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern',
       \ '\v' . join([
       \   '\/undofiles\/',
       \ ], '|'))
-
-call unite#custom#source('file,file_mru', 'converters', 'converter_mypath')
 
 "
 " Mappings
@@ -946,6 +950,7 @@ function! s:unite_settings()
   imap <buffer> <c-j> <plug>(unite_select_next_line)
   imap <buffer> <c-k> <plug>(unite_select_previous_line)
   imap <buffer> <f5>  <plug>(unite_redraw)
+  nmap <buffer> <f5>  <plug>(unite_redraw)
 endfunction
 augroup unite
   autocmd!
