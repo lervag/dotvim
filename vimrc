@@ -412,8 +412,8 @@ nnoremap cg# g#``cgN
 
 " Navigate folds
 nnoremap zf zMzvzz
-nnoremap zj zcjzvzz
-nnoremap zk zckzvzz
+nnoremap zj :silent! normal! zc<cr>zjzvzz
+nnoremap zk :silent! normal! zc<cr>zkzvzz[z
 
 " Use <c-l> to clear/update all the things
 if maparg('<c-l>', 'n') ==# ''
