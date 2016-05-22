@@ -915,6 +915,7 @@ call unite#custom#source('file_mru', 'ignore_pattern',
       \   '_%(LOCAL|REMOTE)_',
       \   '\~record$',
       \   '^\/tmp\/',
+      \   '^man:\/\/',
       \   ], '|'))
 
 "
