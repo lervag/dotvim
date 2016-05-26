@@ -404,6 +404,9 @@ nnoremap <silent> gB    :bprevious<cr>
 cnoremap <c-n> <down>
 cnoremap <c-p> <up>
 
+" Window switching with tab and | and _ to create splits
+nnoremap <tab> <c-w>w
+
 " Utility maps for repeatable quickly change current word
 nnoremap c*   *``cgn
 nnoremap c#   #``cgN
@@ -411,9 +414,9 @@ nnoremap cg* g*``cgn
 nnoremap cg# g#``cgN
 
 " Navigate folds
-nnoremap zf zMzvzz
-nnoremap zj :silent! normal! zc<cr>zjzvzz
-nnoremap zk :silent! normal! zc<cr>zkzvzz[z
+nnoremap          zf zMzvzz
+nnoremap <silent> zj :silent! normal! zc<cr>zjzvzz
+nnoremap <silent> zk :silent! normal! zc<cr>zkzvzz[z
 
 " Use <c-l> to clear/update all the things
 if maparg('<c-l>', 'n') ==# ''
