@@ -796,6 +796,7 @@ let s:wiki = {}
 let s:wiki.path = '~/documents/wiki'
 let s:wiki.diary_rel_path = 'journal'
 let s:wiki.list_margin = 0
+let s:wiki.syntax = 'markdown'
 let s:wiki.nested_syntaxes = {
       \ 'bash'   : 'sh',
       \ 'tex'    : 'latex',
@@ -804,7 +805,7 @@ let s:wiki.nested_syntaxes = {
 
 " Set up global options
 let g:vimwiki_list = [s:wiki]
-let g:vimwiki_folding = 'expr'
+let g:vimwiki_folding = ''
 let g:vimwiki_toc_header = 'Innhald'
 let g:vimwiki_hl_headers = 1
 let g:vimwiki_hl_cb_checked = 1
