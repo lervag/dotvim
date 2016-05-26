@@ -1,17 +1,33 @@
-"
-" Search for links to current page
-"
-function! vimwiki#backlinks()
+" {{{1 Reload personal script
+let s:file = expand('<sfile>')
+if !exists('s:reloading_script')
+  function! vimwiki#reload_personal_script()
+    let s:reloading_script = 1
+    execute 'source' s:file
+    unlet s:reloading_script
+  endfunction
+endif
+
+" }}}1
+
+function! vimwiki#fix_syntax() " {{{1
+  %s/^\(=\+\)\( .*\) \1$/\=repeat('#', len(submatch(1))) . submatch(2)/e
+  %s/^#\ze\[\[journal//e
+  %s/\[\[\([^]|]*\)|\([^]]*\)\]\]/[\2](\1)/e
+  %s/^{{{/```/e
+  %s/^}}}/```/e
+endfunction
+
+" }}}1
+function! vimwiki#backlinks() " {{{1
   let path = VimwikiGet('path')
   let l:file = fnamemodify(expand('%'),':r')
   let l:search = '"\[\[(.*\/)?' . l:file . '(\||\]\])" '
   execute 'Ack ' . l:search . path
 endfunction
 
-"
-" Create new journal entry
-"
-function! vimwiki#new_entry()
+" }}}1
+function! vimwiki#new_entry() " {{{
   let l:current = expand('%:t:r')
 
   " Get next weekday
@@ -27,3 +43,18 @@ function! vimwiki#new_entry()
 
   VimwikiDiaryNextDay
 endfunction
+
+" }}}1
+function! vimwiki#foldlevel(lnum) " {{{1
+  let l:line = getline(a:lnum)
+  let l:synstack = map(synstack(a:lnum, 1), "synIDattr(v:val, 'name')")
+
+  if l:line =~# '^#\{1,6} [^#]' && match(l:synstack, '^shComment') == -1
+    return '>' . vimwiki#u#count_first_sym(l:line)
+  else
+    return '='
+  endif
+endfunction
+
+" }}}1
+

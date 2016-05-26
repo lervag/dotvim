@@ -1,21 +1,34 @@
+if exists("b:did_personal_ftplugin") | finish | endif
+let b:did_personal_ftplugin = 1
+
+" Set some options
 setlocal nolisp
 setlocal nosmartindent
 setlocal nomodeline
 setlocal autoindent
 setlocal nowrap
 setlocal foldlevel=1
+setlocal foldexpr=vimwiki#foldlevel(v:lnum)
+setlocal foldtext=VimwikiFoldText()
+
+" Need to set foldmethod through autocmd because vimwiki is poorly written
+augroup vimwiki
+  autocmd BufWinEnter *.wiki setlocal foldmethod=expr
+augroup END
 
 " Define mappings
-nnoremap <buffer> <leader>wl :call vimwiki#backlinks()<cr>
+nnoremap <silent><buffer> <leader>wl :call vimwiki#backlinks()<cr>
+nnoremap <silent><buffer> <leader>wf :call vimwiki#fix_syntax()<cr>
+nnoremap <silent><buffer> <leader>wx :call vimwiki#reload_personal_script()<cr>
 
-" {{{1 Journal settings
+" Journal settings
 if expand('%:p') =~# 'wiki\/journal'
+  setlocal foldlevel=0
   nnoremap <silent><buffer> <leader>wk :call vimwiki#new_entry()<cr>
   nnoremap <silent><buffer> <c-k>      :VimwikiDiaryNextDay<cr>
   nnoremap <silent><buffer> <c-j>      :VimwikiDiaryPrevDay<cr>
 endif
 
-" }}}1
 " {{{1 Link handler
 
 function! VimwikiLinkHandler(link)
