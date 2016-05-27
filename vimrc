@@ -22,6 +22,7 @@ let s:lervag = index(['yoga', 'vsl136', 'vsl142'], hostname()) >= 0
       \ : 'lervag/'
 call plug#(s:lervag . 'vimtex')
 call plug#(s:lervag . 'file-line')
+call plug#(s:lervag . 'vimwiki')
 
 " -------------------------------------------------------------------------------
 " User interface
@@ -86,7 +87,6 @@ Plug 'jmcantrell/vim-virtualenv', { 'on' :
       \   'VirtualEnvList' ] }
 Plug 'davidhalter/jedi-vim'
 Plug 'vim-ruby/vim-ruby'
-Plug 'vimwiki/vimwiki', { 'branch' : 'dev' }
 Plug 'elzr/vim-json'
 
 " -------------------------------------------------------------------------------
