@@ -720,7 +720,7 @@ let g:neocomplete#keyword_patterns._   = s:neocomplete_keyword
 let g:neocomplete#keyword_patterns.tex = '\%(^\|\s\zs\)' . s:neocomplete_keyword
 
 " Define omni input patterns
-let g:neocomplete#sources#omni#input_patterns.vimwiki = '\[\[\S*'
+let g:neocomplete#sources#omni#input_patterns.vimwiki = '\[\[[^]|]*\|\]([^)]*'
 let g:neocomplete#sources#omni#input_patterns.tex =
       \ '\v\\%('
       \ . '\a*cite\a*%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
@@ -798,9 +798,11 @@ let s:wiki.diary_rel_path = 'journal'
 let s:wiki.list_margin = 0
 let s:wiki.syntax = 'markdown'
 let s:wiki.nested_syntaxes = {
+      \ 'sh'     : 'sh',
       \ 'bash'   : 'sh',
       \ 'tex'    : 'latex',
       \ 'f90'    : 'fortran',
+      \ 'python' : 'python',
       \ }
 
 " Set up global options

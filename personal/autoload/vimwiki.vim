@@ -11,19 +11,26 @@ endif
 " }}}1
 
 function! vimwiki#fix_syntax() " {{{1
+  " Fix titles
   %s/^\(=\+\)\( .*\) \1$/\=repeat('#', len(submatch(1))) . submatch(2)/e
+
+  " Remove leading '#' from journal references
   %s/^#\ze\[\[journal//e
-  %s/\[\[\([^]|]*\)|\([^]]*\)\]\]/[\2](\1)/e
+
+  " Fix links [[...|...]] -> [...](...)
+  %s/\[\[\%(\.\.\)\?\([^]|]*\)|\([^]]*\)\]\]/[\2](\1)/e
+
+  " Fix code snippets
   %s/^{{{/```/e
   %s/^}}}/```/e
 endfunction
 
 " }}}1
 function! vimwiki#backlinks() " {{{1
-  let path = VimwikiGet('path')
+  let l:path = VimwikiGet('path')
   let l:file = fnamemodify(expand('%'),':r')
-  let l:search = '"\[\[(.*\/)?' . l:file . '(\||\]\])" '
-  execute 'Ack ' . l:search . path
+  let l:search = '"(\[[^]]*\]\(|\[\[)(.*\/)?' . l:file . '"'
+  execute 'Ack ' . l:search l:path
 endfunction
 
 " }}}1

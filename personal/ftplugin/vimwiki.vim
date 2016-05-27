@@ -8,13 +8,9 @@ setlocal nomodeline
 setlocal autoindent
 setlocal nowrap
 setlocal foldlevel=1
+setlocal foldmethod=expr
 setlocal foldexpr=vimwiki#foldlevel(v:lnum)
 setlocal foldtext=VimwikiFoldText()
-
-" Need to set foldmethod through autocmd because vimwiki is poorly written
-augroup vimwiki
-  autocmd BufWinEnter *.wiki setlocal foldmethod=expr
-augroup END
 
 " Define mappings
 nnoremap <silent><buffer> <leader>wl :call vimwiki#backlinks()<cr>
