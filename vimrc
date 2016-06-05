@@ -799,21 +799,10 @@ let s:wiki.path = '~/documents/wiki'
 let s:wiki.diary_rel_path = 'journal'
 let s:wiki.list_margin = 0
 let s:wiki.syntax = 'markdown'
-let s:wiki.nested_syntaxes = {
-      \ 'sh'     : 'sh',
-      \ 'bash'   : 'sh',
-      \ 'tex'    : 'latex',
-      \ 'f90'    : 'fortran',
-      \ 'python' : 'python',
-      \ }
 
 " Set up global options
 let g:vimwiki_list = [s:wiki]
-let g:vimwiki_folding = ''
 let g:vimwiki_toc_header = 'Innhald'
-let g:vimwiki_hl_headers = 1
-let g:vimwiki_hl_cb_checked = 1
-let g:vimwiki_table_mappings = 0
 
 " }}}2
 " {{{2 plugin: ack.vim
