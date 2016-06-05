@@ -173,8 +173,10 @@ silent! set shortmess+=cI
 set textwidth=79
 set nowrap
 set linebreak
-set formatoptions+=rnl1j
-set formatlistpat=^\\s*\\(\\(\\d\\+\\\|[a-z]\\)[.:)]\\\|[-*]\\)\\s\\+
+set formatoptions=tcroqnl1j
+set formatlistpat=^\\s*[-*]\\s\\+
+set formatlistpat+=\\\|^\\s*(\\(\\d\\+\\\|[a-z]\\))\\s\\+
+set formatlistpat+=\\\|^\\s*\\(\\d\\+\\\|[a-z]\\)[:).]\\s\\+
 set winaltkeys=no
 set mouse=
 
