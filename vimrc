@@ -173,6 +173,7 @@ silent! set shortmess+=cI
 set textwidth=79
 set nowrap
 set linebreak
+set comments=n:>
 set formatoptions+=ronl1j
 set formatlistpat=^\\s*[-*]\\s\\+
 set formatlistpat+=\\\|^\\s*(\\(\\d\\+\\\|[a-z]\\))\\s\\+
@@ -700,6 +701,7 @@ inoremap <expr> <c-l>   neocomplete#complete_common_string()
 inoremap <expr> <c-y>   neocomplete#close_popup()
 inoremap <expr> <c-e>   neocomplete#cancel_popup()
 inoremap <expr> <c-h>   neocomplete#smart_close_popup() . "\<c-h>"
+inoremap <expr> <cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
 
 inoremap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
