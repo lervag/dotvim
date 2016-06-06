@@ -697,14 +697,14 @@ let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#enable_auto_close_preview = 1
 let g:neocomplete#enable_multibyte_completion = 1
 
-inoremap <expr> <c-l>   neocomplete#complete_common_string()
-inoremap <expr> <c-y>   neocomplete#close_popup()
-inoremap <expr> <c-e>   neocomplete#cancel_popup()
-inoremap <expr> <c-h>   neocomplete#smart_close_popup() . "\<c-h>"
-inoremap <expr> <cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+inoremap <expr> <c-l>  neocomplete#complete_common_string()
+inoremap <expr> <bs>   neocomplete#smart_close_popup() . "\<bs>"
+inoremap <expr> <cr>   pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
 
-inoremap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+inoremap <expr><tab>   neocomplete#complete_common_string() != ''
+      \                  ? neocomplete#complete_common_string()
+      \                  : pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 " Define dictionaries if they don't exist
 if !exists('s:vimrc_neocomplete_init')
