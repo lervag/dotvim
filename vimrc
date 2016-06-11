@@ -696,6 +696,7 @@ let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#enable_auto_close_preview = 1
 let g:neocomplete#enable_multibyte_completion = 1
+let g:neocomplete#enable_refresh_always = 1
 
 inoremap <expr> <c-l>  neocomplete#complete_common_string()
 inoremap <expr> <bs>   neocomplete#smart_close_popup() . "\<bs>"
@@ -796,14 +797,12 @@ let g:ruby_fold=1
 " {{{2 plugin: vimwiki
 
 " Set up main wiki
-let s:wiki = {}
-let s:wiki.path = '~/documents/wiki'
-let s:wiki.diary_rel_path = 'journal'
-let s:wiki.list_margin = 0
-let s:wiki.syntax = 'markdown'
+let g:vimwiki = {}
+let g:vimwiki.path = '~/documents/wiki'
+let g:vimwiki.diary_rel_path = 'journal'
+let g:vimwiki.list_margin = 0
 
 " Set up global options
-let g:vimwiki_list = [s:wiki]
 let g:vimwiki_toc_header = 'Innhald'
 
 " }}}2
