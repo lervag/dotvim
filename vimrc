@@ -48,6 +48,7 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'idanarye/vim-vebugger'
 Plug 'junegunn/gv.vim', { 'on' : 'GV' }
 Plug 'junegunn/vim-easy-align'
+Plug 'dhruvasagar/vim-table-mode'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'ludovicchabant/vim-lawrencium'
 Plug 'machakann/vim-sandwich'
@@ -1012,6 +1013,10 @@ vmap ga <plug>(EasyAlign)
 nmap gA <plug>(LiveEasyAlign)
 vmap gA <plug>(LiveEasyAlign)
 vmap .  <plug>(EasyAlignRepeat)
+
+" }}}2
+" {{{2 plugin: vim-table-mode
+
 
 " }}}2
 " {{{2 plugin: vim-sandwich
