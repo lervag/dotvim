@@ -797,14 +797,7 @@ let g:ruby_fold=1
 " }}}2
 " {{{2 plugin: vimwiki
 
-" Set up main wiki
-let g:vimwiki = {}
-let g:vimwiki.path = '~/documents/wiki'
-let g:vimwiki.diary_rel_path = 'journal'
-let g:vimwiki.list_margin = 0
-
-" Set up global options
-let g:vimwiki_toc_header = 'Innhald'
+let g:vimwiki_path = '~/documents/wiki'
 
 " }}}2
 " {{{2 plugin: ack.vim
@@ -829,7 +822,7 @@ let g:calendar_date_endian = 'big'
 let g:calendar_frame = 'space'
 let g:calendar_week_number = 1
 
-nnoremap <silent> <leader>c :Calendar -position=below<cr>
+nnoremap <silent> <leader>c :Calendar -position=here<cr>
 
 " Connect to diary
 augroup vimrc_calendar
@@ -838,12 +831,15 @@ augroup vimrc_calendar
         \ nnoremap <silent><buffer> <cr> :<c-u>call OpenDiary()<cr>
 augroup END
 function! OpenDiary()
-  let d = b:calendar.day().get_day()
-  let m = b:calendar.day().get_month()
-  let y = b:calendar.day().get_year()
-  let w = b:calendar.day().week()
-  wincmd p
-  call vimwiki#diary#calendar_action(d, m, y, w, 'V')
+  let l:date = printf('%d-%0.2d-%0.2d',
+      \ b:calendar.day().get_year(),
+      \ b:calendar.day().get_month(),
+      \ b:calendar.day().get_day())
+  let l:bufnr = bufnr('')
+
+  enew
+  execute 'bwipeout!' l:bufnr
+  call vimwiki#diary#make_note(l:date)
 endfunction
 
 " }}}2
