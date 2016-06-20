@@ -577,6 +577,7 @@ let g:ConqueTerm_ReadUnfocused = 1
 " {{{2 plugin: vim-fugitive
 
 nnoremap <leader>gs :Gtogglestatus<cr>
+nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gd :Gdiff<cr>
 
 command! Gtogglestatus :call Gtogglestatus()
