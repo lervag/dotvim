@@ -38,7 +38,6 @@ Plug 'drmikehenry/vim-fontsize'
 Plug 'wellle/targets.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'machakann/vim-columnmove'
-Plug 'machakann/vim-swap'
 
 " -------------------------------------------------------------------------------
 " Programming and editing
@@ -104,7 +103,6 @@ Plug 'ervandew/screen'
 Plug 'itchyny/calendar.vim'
 Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
 Plug 'nhooyr/neoman.vim'
-Plug 'sjl/clam.vim'
 Plug 'thinca/vim-prettyprint'
 Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-unimpaired'
@@ -476,15 +474,20 @@ nnoremap <silent> <leader>pc :PlugClean<cr>
 " }}}2
 " {{{2 plugin: indentLine
 
+let g:indentLine_fileType = [
+      \ 'sh',
+      \ 'vim',
+      \ 'fortran',
+      \ 'python',
+      \]
+let g:indentLine_color_term = 239
+let g:indentLine_color_gui = '#d6d0bf'
+let g:indentLine_concealcursor = ''
 if has('gui_running')
   let g:indentLine_char = '┊'
 else
   let g:indentLine_char = '|'
 endif
-let g:indentLine_color_term = 239
-let g:indentLine_color_gui = '#d6d0bf'
-let g:indentLine_concealcursor = ''
-let g:indentLine_fileTypeExclude = ['help']
 
 " }}}2
 " {{{2 plugin: rainbow
@@ -753,10 +756,6 @@ nnoremap <leader>es :NeoSnippetEdit<cr>
 " }}}2
 " {{{2 plugin: vimtex (LaTeX)
 
-"
-" NOTE: See also ~/.vim/personal/ftplugin/tex.vim
-"
-
 let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_index_split_pos = 'below'
 let g:vimtex_fold_enabled = 1
@@ -764,15 +763,14 @@ let g:vimtex_view_method = 'zathura'
 let g:vimtex_imaps_leader = ';'
 let g:vimtex_complete_img_use_tail = 1
 
-let g:tex_stylish = 1
-let g:tex_conceal = ''
-let g:tex_flavor = 'latex'
-let g:tex_isk='48-57,a-z,A-Z,192-255,:'
-
 nnoremap \lt :Unite vimtex_toc<cr>
 
+"
+" NOTE: See also ~/.vim/personal/ftplugin/tex.vim
+"
+
 " }}}2
-" {{{2 plugin: vim-pandoc, vim-pandoc-syntax
+" {{{2 plugin: vim-pandoc
 
 let g:pandoc#folding#level = 9
 let g:pandoc#folding#fdc = 0
@@ -813,7 +811,7 @@ let g:ack_mappings = {
       \ 'p'  : '<cr>zMzvzz<c-w><c-w>',
       \ }
 
-nnoremap <leader>fa :Ack 
+" nnoremap <leader>fa :Ack 
 
 " }}}2
 " {{{2 plugin: calendar.vim
@@ -844,17 +842,13 @@ function! OpenDiary()
 endfunction
 
 " }}}2
-" {{{2 plugin: Clam
-
-let g:clam_winpos = 'topleft'
-
-" }}}2
 " {{{2 plugin: CtrlFS
 
 let g:ctrlsf_indent = 2
 let g:ctrlsf_regex_pattern = 2
 let g:ctrlsf_position = 'bottom'
 
+nnoremap         <leader>fa :CtrlSF 
 nnoremap         <leader>ff :CtrlSF 
 nnoremap <silent><leader>ft :CtrlSFToggle<cr>
 nnoremap <silent><leader>fu :CtrlSFUpdate<cr>
@@ -1005,10 +999,10 @@ nnoremap <f5> :UndotreeToggle<cr>
 
 let g:easy_align_bypass_fold = 1
 
-nmap ga <plug>(EasyAlign)
-vmap ga <plug>(EasyAlign)
-nmap gA <plug>(LiveEasyAlign)
-vmap gA <plug>(LiveEasyAlign)
+nmap ga <plug>(LiveEasyAlign)
+vmap ga <plug>(LiveEasyAlign)
+nmap gA <plug>(EasyAlign)
+vmap gA <plug>(EasyAlign)
 vmap .  <plug>(EasyAlignRepeat)
 
 " }}}2
@@ -1098,15 +1092,6 @@ let g:sandwich#recipes += [
       \   'match_syntax': 2,
       \ }
       \]
-
-" }}}2
-" {{{2 plugin: vim-swap
-
-let g:swap_no_default_key_mappings = 1
-nmap gj         <plug>(swap-prev)
-nmap gk         <plug>(swap-next)
-nmap <leader>gg <plug>(swap-interactive)
-silent! call swap#map('g', "\<plug>(swap-mode-Esc)")
 
 " }}}2
 " {{{2 plugin: vim-json
