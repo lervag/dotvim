@@ -51,7 +51,6 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'ludovicchabant/vim-lawrencium'
 Plug 'machakann/vim-sandwich'
-Plug 'mileszs/ack.vim'
 Plug 'scrooloose/syntastic', { 'on': [
       \ 'SyntasticCheck',
       \ 'SyntasticInfo',
@@ -255,7 +254,9 @@ set showmatch
 set display=lastline
 set virtualedit=block
 
-if executable('ack-grep')
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+elseif executable('ack-grep')
   set grepprg=ack-grep\ --nocolor
 endif
 
@@ -799,21 +800,6 @@ let g:ruby_fold=1
 let g:vimwiki_path = '~/documents/wiki'
 
 " }}}2
-" {{{2 plugin: ack.vim
-
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
-let g:ackhighlight = 1
-let g:ack_mappings = {
-      \ 'o'  : '<cr>zMzvzz',
-      \ 'O'  : '<cr><c-w><c-w>:ccl<cr>zMzvzz',
-      \ 'p'  : '<cr>zMzvzz<c-w><c-w>',
-      \ }
-
-" nnoremap <leader>fa :Ack 
-
-" }}}2
 " {{{2 plugin: calendar.vim
 
 let g:calendar_first_day = 'monday'
@@ -845,10 +831,12 @@ endfunction
 " {{{2 plugin: CtrlFS
 
 let g:ctrlsf_indent = 2
-let g:ctrlsf_regex_pattern = 2
+let g:ctrlsf_regex_pattern = 1
 let g:ctrlsf_position = 'bottom'
+let g:ctrlsf_context = '-B 2'
+let g:ctrlsf_default_root = 'project'
+let g:ctrlsf_populate_qflist = 1
 
-nnoremap         <leader>fa :CtrlSF 
 nnoremap         <leader>ff :CtrlSF 
 nnoremap <silent><leader>ft :CtrlSFToggle<cr>
 nnoremap <silent><leader>fu :CtrlSFUpdate<cr>
@@ -878,7 +866,7 @@ if executable('ag')
   let g:unite_source_grep_default_opts
         \ = '--nocolor --line-numbers --nogroup -S -C4'
   let g:unite_source_grep_recursive_opt = ''
-elseif executable('ack')
+elseif executable('ack-grep')
   let g:unite_source_grep_command = 'ack'
   let g:unite_source_grep_default_opts = '--no-heading --no-color -C4'
   let g:unite_source_grep_recursive_opt = ''
