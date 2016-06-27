@@ -122,6 +122,10 @@ function! s:wiki(bufnr, active) " {{{1
   let stat  = s:color(' Vimwiki: ', 'SLAlert', a:active)
   let stat .= s:color(fnamemodify(bufname(a:bufnr), ':t:r'),
         \ 'SLHighlight', a:active)
+  if get(get(b:, 'vimwiki', {}), 'in_diary', 0)
+    let stat .= s:color(' (diary)', 'SLAlert', a:active)
+  endif
+
   let stat .= getbufvar(a:bufnr, '&modifiable')
         \ ? '' : s:color(' [Locked]', 'SLAlert', a:active)
   let stat .= getbufvar(a:bufnr, '&readonly')
