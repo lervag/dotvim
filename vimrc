@@ -888,6 +888,7 @@ call unite#custom#source('file_mru', 'ignore_pattern',
       \ '\v' . join([
       \   '\/\.%(git|hg)\/',
       \   '\.wiki$',
+      \   '\.snip$',
       \   '\.vim\/vimrc$',
       \   '\/vim\/.*\/doc\/.*txt$',
       \   '_%(LOCAL|REMOTE)_',
