@@ -363,8 +363,8 @@ augroup vimrc_autocommands
   " do it when the position is invalid or when inside an event handler (happens
   " when dropping a file on gvim).
   autocmd BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \   exe "normal! g`\"zMzvzz" |
+        \ if line("'\"") > 0 && line("'\"") <= line('$') |
+        \   execute 'normal! g`"' |
         \ endif
 
   " Set omnifunction if it is not already specified
