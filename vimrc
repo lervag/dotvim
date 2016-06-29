@@ -364,7 +364,7 @@ augroup vimrc_autocommands
   " when dropping a file on gvim).
   autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \   exe "normal! g`\"" |
+        \   exe "normal! g`\"zMzvzz" |
         \ endif
 
   " Set omnifunction if it is not already specified
@@ -859,7 +859,6 @@ let g:fastfold_fold_movement_commands = []
 "
 " General settings
 "
-let g:unite_source_rec_max_cache_files=5000
 let g:unite_force_overwrite_statusline=0
 if executable('ag')
   let g:unite_source_grep_command = 'ag'
