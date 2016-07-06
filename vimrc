@@ -834,7 +834,7 @@ let g:ctrlsf_indent = 2
 let g:ctrlsf_regex_pattern = 1
 let g:ctrlsf_position = 'bottom'
 let g:ctrlsf_context = '-B 2'
-let g:ctrlsf_default_root = 'project'
+let g:ctrlsf_default_root = 'project+cwd'
 let g:ctrlsf_populate_qflist = 1
 
 nnoremap         <leader>ff :CtrlSF 
