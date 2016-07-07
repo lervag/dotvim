@@ -797,7 +797,7 @@ let g:ruby_fold=1
 " }}}2
 " {{{2 plugin: vimwiki
 
-let g:vimwiki_path = '~/documents/wiki'
+let g:vimwiki = { 'root' : '~/documents/wiki' }
 
 " }}}2
 " {{{2 plugin: calendar.vim
