@@ -401,6 +401,7 @@ nnoremap j      gj
 nnoremap k      gk
 nnoremap dp     dp]c
 nnoremap do     do]c
+nnoremap '      `
 nnoremap <silent> <c-u> :Bdelete<cr>
 nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
