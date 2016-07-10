@@ -436,12 +436,6 @@ nnoremap <expr> <cr> empty(&buftype) ? '<c-]>zvzz' : '<cr>'
 nnoremap <leader>ev :e ~/.vim/vimrc<cr>
 nnoremap <leader>ez :e ~/.dotfiles/zshrc<cr>
 
-" Jump with tab during searches
-cnoremap <expr><tab>
-      \ index(['/', '?'], getcmdtype()) >= 0 ? '<cr>/<c-r>/' : '<c-z>'
-cnoremap <expr><s-tab>
-      \ index(['/', '?'], getcmdtype()) >= 0 ? '<cr>?<c-r>/' : '<s-tab>'
-
 " }}}1
 " {{{1 Plugin options
 
@@ -766,6 +760,11 @@ let g:vimtex_imaps_leader = ';'
 let g:vimtex_complete_img_use_tail = 1
 
 nnoremap \lt :Unite vimtex_toc<cr>
+
+let g:tex_stylish = 1
+let g:tex_conceal = ''
+let g:tex_flavor = 'latex'
+let g:tex_isk='48-57,a-z,A-Z,192-255,:'
 
 "
 " NOTE: See also ~/.vim/personal/ftplugin/tex.vim
