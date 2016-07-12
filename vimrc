@@ -30,7 +30,6 @@ call plug#(s:lervag . 'vimwiki')
 Plug 'altercation/vim-colors-solarized'
 Plug 'Yggdroot/indentLine'
 Plug 'luochen1990/rainbow'
-Plug 'drmikehenry/vim-fontsize'
 
 " -------------------------------------------------------------------------------
 " Motions and text objects
@@ -436,6 +435,9 @@ nnoremap <expr> <cr> empty(&buftype) ? '<c-]>zvzz' : '<cr>'
 nnoremap <leader>ev :e ~/.vim/vimrc<cr>
 nnoremap <leader>ez :e ~/.dotfiles/zshrc<cr>
 
+" Toggle fontsize
+nnoremap <silent> <leader>+ :call personal#toggle_fontsize()<cr>
+
 " }}}1
 " {{{1 Plugin options
 
@@ -499,14 +501,6 @@ let g:rainbow_conf = {
       \   'fortran' : {},
       \ }
       \}
-
-" }}}2
-" {{{2 plugin: vim-fontsize
-
-nmap <silent> <leader>+                   <plug>FontsizeBegin
-nmap <silent> <sid>DisableFontsizeInc     <plug>FontsizeInc
-nmap <silent> <sid>DisableFontsizeDec     <plug>FontsizeDec
-nmap <silent> <sid>DisableFontsizeDefault <plug>FontsizeDefault
 
 " }}}2
 " {{{2 plugin: targets.vim
