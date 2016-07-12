@@ -405,6 +405,10 @@ nnoremap dp     dp]c
 nnoremap do     do]c
 nnoremap '      `
 nnoremap <c-e>  <c-^>
+nnoremap ZW     :update<cr>
+nnoremap ZZ     :update<cr>:Bdelete<cr>
+
+" Buffer navigation
 nnoremap <silent> <c-u> :Bdelete<cr>
 nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
