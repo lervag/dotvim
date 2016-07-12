@@ -42,7 +42,7 @@ Plug 'machakann/vim-columnmove'
 " Programming and editing
 " -------------------------------------------------------------------------------
 Plug 'chrisbra/vim-diff-enhanced'
-Plug 'dyng/ctrlsf.vim'
+Plug 'dyng/ctrlsf.vim', { 'branch' : 'feature/new-option-for-default-root' }
 Plug 'idanarye/vim-vebugger'
 Plug 'junegunn/gv.vim', { 'on' : 'GV' }
 Plug 'junegunn/vim-easy-align'
