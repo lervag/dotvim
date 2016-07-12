@@ -388,11 +388,14 @@ augroup END
 "   ctrl-s
 "
 
+" Disable some mappings
 noremap  <f1>   <nop>
 inoremap <f1>   <nop>
 inoremap <esc>  <nop>
-inoremap jk     <esc>
 nnoremap Q      <nop>
+
+" Some general/standard remappings
+inoremap jk     <esc>
 nnoremap -      <C-^>
 nnoremap Y      y$
 nnoremap J      mzJ`z
@@ -401,14 +404,10 @@ nnoremap k      gk
 nnoremap dp     dp]c
 nnoremap do     do]c
 nnoremap '      `
+nnoremap <c-e>  <c-^>
 nnoremap <silent> <c-u> :Bdelete<cr>
 nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
-cnoremap <c-n> <down>
-cnoremap <c-p> <up>
-
-" Window switching with tab and | and _ to create splits
-nnoremap <tab> <c-w>w
 
 " Utility maps for repeatable quickly change current word
 nnoremap c*   *``cgn
@@ -434,9 +433,11 @@ nnoremap <expr> <cr> empty(&buftype) ? '<c-]>zvzz' : '<cr>'
 " Shortcuts for some files
 nnoremap <leader>ev :e ~/.vim/vimrc<cr>
 nnoremap <leader>ez :e ~/.dotfiles/zshrc<cr>
+nnoremap <leader>xv :so ~/.vim/vimrc<cr>
 
 " Toggle fontsize
-nnoremap <silent> <leader>+ :call personal#toggle_fontsize()<cr>
+nnoremap <silent> <leader>+ :call personal#toggle_fontsize('+')<cr>
+nnoremap <silent> <leader>0 :call personal#toggle_fontsize('0')<cr>
 
 " }}}1
 " {{{1 Plugin options
@@ -749,6 +750,8 @@ nnoremap <leader>es :NeoSnippetEdit<cr>
 let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_index_split_pos = 'below'
 let g:vimtex_fold_enabled = 1
+let g:vimtex_fold_documentclass = 1
+" let g:vimtex_fold_preamble = 1
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_imaps_leader = ';'
 let g:vimtex_complete_img_use_tail = 1
