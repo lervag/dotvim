@@ -22,7 +22,7 @@ let s:lervag = index(['yoga', 'vsl136', 'vsl142'], hostname()) >= 0
       \ : 'lervag/'
 call plug#(s:lervag . 'vimtex')
 call plug#(s:lervag . 'file-line')
-call plug#(s:lervag . 'vimwiki')
+call plug#(s:lervag . 'wiki')
 
 " -------------------------------------------------------------------------------
 " User interface
@@ -513,6 +513,7 @@ let g:rainbow_conf = {
 let g:targets_argOpening = '[({[]'
 let g:targets_argClosing = '[]})]'
 let g:targets_separators = ', . ; : + - = ~ _ * # / | \ &'
+let g:targets_nlNL = 'nN  '
 
 " }}}2
 " {{{2 plugin: incsearch.vim
@@ -725,7 +726,7 @@ let g:neocomplete#keyword_patterns._   = s:neocomplete_keyword
 let g:neocomplete#keyword_patterns.tex = '\%(^\|\s\zs\)' . s:neocomplete_keyword
 
 " Define omni input patterns
-let g:neocomplete#sources#omni#input_patterns.vimwiki = '\[\[[^]|]*\|\]([^)]*'
+let g:neocomplete#sources#omni#input_patterns.wiki = '\[\[[^]|]*\|\]([^)]*'
 let g:neocomplete#sources#omni#input_patterns.tex =
       \ '\v\\%('
       \ . '\a*cite\a*%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
@@ -736,7 +737,7 @@ let g:neocomplete#sources#omni#input_patterns.tex =
       \ . ')'
 
 " Define omni force patterns
-let g:neocomplete#force_omni_input_patterns.vimwiki = '\[\[[^]|]*#\S*'
+let g:neocomplete#force_omni_input_patterns.wiki = '\[\[[^]|]*#\S*'
 
 " {{{2 plugin: neosnippet.vim
 
@@ -794,9 +795,9 @@ let g:jedi#rename_command = ''
 let g:ruby_fold=1
 
 " }}}2
-" {{{2 plugin: vimwiki
+" {{{2 plugin: wiki
 
-let g:vimwiki = { 'root' : '~/documents/wiki' }
+let g:wiki = { 'root' : '~/documents/wiki' }
 
 " }}}2
 " {{{2 plugin: calendar.vim
@@ -823,7 +824,7 @@ function! OpenDiary()
 
   enew
   execute 'bwipeout!' l:bufnr
-  call vimwiki#diary#make_note(l:date)
+  call wiki#diary#make_note(l:date)
 endfunction
 
 " }}}2
@@ -914,7 +915,7 @@ nnoremap <silent> <leader>oh       :<c-u>Unite help<cr>
 nnoremap <silent> <leader>ot       :<c-u>Unite outline tag tag/include<cr>
 nnoremap <silent> <leader>om       :<c-u>Unite mapping<cr>
 nnoremap <silent> <leader>oc       :<c-u>Unite command<cr>
-nnoremap <silent> <leader>ow       :<c-u>Unite vimwiki<cr>
+nnoremap <silent> <leader>ow       :<c-u>Unite wiki<cr>
 nnoremap <silent> <leader>ov       :<c-u>Unite file_rec/async:~/.vim<cr>
 
 "
