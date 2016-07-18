@@ -46,7 +46,7 @@ function! statusline#main(winnr) " {{{1
     return s:help(l:bufnr, l:active)
   elseif l:filetype ==# 'unite'
     return s:unite(l:bufnr, l:active)
-  elseif l:filetype ==# 'vimwiki'
+  elseif l:filetype ==# 'wiki'
     return s:wiki(l:bufnr, l:active)
   else
     return s:main(l:bufnr, l:active)
@@ -119,10 +119,10 @@ endfunction
 
 " }}}1
 function! s:wiki(bufnr, active) " {{{1
-  let stat  = s:color(' Vimwiki: ', 'SLAlert', a:active)
+  let stat  = s:color(' wiki: ', 'SLAlert', a:active)
   let stat .= s:color(fnamemodify(bufname(a:bufnr), ':t:r'),
         \ 'SLHighlight', a:active)
-  if get(get(b:, 'vimwiki', {}), 'in_diary', 0)
+  if get(get(b:, 'wiki', {}), 'in_diary', 0)
     let stat .= s:color(' (diary)', 'SLAlert', a:active)
   endif
 
