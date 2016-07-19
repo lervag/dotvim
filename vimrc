@@ -697,7 +697,6 @@ let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#enable_auto_close_preview = 1
 let g:neocomplete#enable_multibyte_completion = 1
-let g:neocomplete#enable_refresh_always = 1
 
 inoremap <expr> <c-l>  neocomplete#complete_common_string()
 inoremap <expr> <bs>   neocomplete#smart_close_popup() . "\<bs>"
