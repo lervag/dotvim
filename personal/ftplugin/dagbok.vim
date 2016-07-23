@@ -1,6 +1,7 @@
 setl nohlsearch
 setl foldmethod=expr
 setl foldexpr=DagbokFold(v:lnum)
+setl fo-=n
 
 nnoremap <buffer><silent> ,t /\C\%18c \?x<cr>zz
 nnoremap <buffer><silent> ,n Goi<c-r>=neosnippet#expand('new')<cr>
