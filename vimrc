@@ -699,14 +699,39 @@ let g:neocomplete#enable_auto_delimiter = 1
 let g:neocomplete#enable_auto_close_preview = 1
 let g:neocomplete#enable_multibyte_completion = 1
 
-inoremap <expr> <c-l>  neocomplete#complete_common_string()
-inoremap <expr> <bs>   neocomplete#smart_close_popup() . "\<bs>"
-inoremap <expr> <cr>   pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+inoremap <expr> <c-l>   neocomplete#complete_common_string()
+inoremap <expr> <bs>    neocomplete#smart_close_popup() . "\<bs>"
+inoremap <expr> <cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+inoremap <expr> <tab>   <sid>smart_tab()
+inoremap <expr> <s-tab> <sid>smart_tab_reverse()
 
-inoremap <expr><tab>   neocomplete#complete_common_string() != ''
-      \                  ? neocomplete#complete_common_string()
-      \                  : pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+function! s:smart_tab()
+  if neocomplete#complete_common_string() != ''
+    return neocomplete#complete_common_string()
+  elseif pumvisible()
+    return "\<c-n>"
+  else
+    let l:col = col('.') - 1
+    if !l:col || getline('.')[l:col - 1]  =~# '\s'
+      return "\<tab>"
+    else
+      return neocomplete#start_manual_complete()
+    endif
+  endif
+endfunction
+
+function! s:smart_tab_reverse()
+  if pumvisible()
+    return "\<c-p>"
+  else
+    let l:col = col('.') - 1
+    if l:col > 0 && getline('.')[l:col - 1]  =~# '\S'
+      return neocomplete#start_manual_complete()
+    else
+      return ''
+    endif
+  endif
+endfunction
 
 " Define dictionaries if they don't exist
 if !exists('s:vimrc_neocomplete_init')
