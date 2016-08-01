@@ -5,7 +5,7 @@ if [ -d bundle/vim-plug ]; then
   echo "already fetched."
 else
   echo "done!"
-  git clone https://github.com/junegunn/vim-plug bundle/vim-plug
+  git clone https://github.com/junegunn/vim-plug.git bundle/vim-plug
 fi
 
 echo -n "Installing vim-plug ... "
