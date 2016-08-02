@@ -850,7 +850,7 @@ function! OpenDiary()
 
   enew
   execute 'bwipeout!' l:bufnr
-  call wiki#diary#make_note(l:date)
+  call wiki#journal#make_note(l:date)
 endfunction
 
 " }}}2
