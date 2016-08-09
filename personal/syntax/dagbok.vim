@@ -39,9 +39,10 @@ syn region fold
 
 " Set colors
 hi def date       guifg=blue 
-hi def entries    guifg=green 
-hi def areentries guifg=black 
-hi link are     entries
+hi link entries Statement
 hi link time    number
 hi link numbers number
 hi link unit    number
+
+hi link are     entries
+hi def areentries guifg=black 
