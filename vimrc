@@ -844,9 +844,9 @@ augroup vimrc_calendar
 augroup END
 function! OpenDiary()
   let l:date = printf('%d-%0.2d-%0.2d',
-      \ b:calendar.day().get_year(),
-      \ b:calendar.day().get_month(),
-      \ b:calendar.day().get_day())
+        \ b:calendar.day().get_year(),
+        \ b:calendar.day().get_month(),
+        \ b:calendar.day().get_day())
   let l:bufnr = bufnr('')
 
   enew
