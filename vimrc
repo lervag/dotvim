@@ -62,6 +62,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
 Plug 'vim-scripts/Conque-GDB', { 'on' : 'ConqueGDB' }
 Plug 'junegunn/vader.vim'
+Plug 'metakirby5/codi.vim'
 
 " -------------------------------------------------------------------------------
 " Completion and snippets
@@ -1112,6 +1113,13 @@ let g:sandwich#recipes += [
 " {{{2 plugin: vim-json
 
 let g:vim_json_syntax_conceal = 0
+
+" }}}2
+" {{{2 plugin: codi
+
+let g:codi#rightalign = 0
+nnoremap <leader>cc :Codi!!<cr>jk
+nnoremap <leader>cp :Codi python<cr>
 
 " }}}2
 
