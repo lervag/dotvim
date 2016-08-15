@@ -343,7 +343,7 @@ highlight SpellBad   cterm=bold           gui=bold           ctermfg=124 guifg=R
 highlight SpellCap   cterm=bold           gui=bold           ctermfg=33  guifg=Blue
 highlight SpellRare  cterm=bold           gui=bold           ctermfg=104 guifg=Purple
 highlight SpellLocal cterm=bold           gui=bold           ctermfg=227 guifg=Green
-highlight VertSplit  ctermbg=NONE guibg=NONE
+" highlight VertSplit  ctermbg=NONE guibg=NONE
 
 "
 " Initialize statusline and tabline
@@ -1117,9 +1117,18 @@ let g:vim_json_syntax_conceal = 0
 " }}}2
 " {{{2 plugin: codi
 
-let g:codi#rightalign = 0
 nnoremap <leader>cc :Codi!!<cr>jk
 nnoremap <leader>cp :Codi python<cr>
+
+augroup MyCodi
+  autocmd!
+  autocmd User CodiEnterPost
+        \ hi VertSplit guifg=bg guibg=NONE
+        \|hi NonText guifg=bg guibg=NONE
+        \|set columns-=50
+  autocmd User CodiLeavePost
+        \ hi clear VertSplit NonText
+augroup END
 
 " }}}2
 
