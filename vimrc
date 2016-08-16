@@ -1123,11 +1123,12 @@ nnoremap <leader>cp :Codi python<cr>
 augroup MyCodi
   autocmd!
   autocmd User CodiEnterPost
-        \ hi VertSplit guifg=bg guibg=NONE
+        \ set columns-=50
+        \|hi VertSplit guifg=bg guibg=NONE
         \|hi NonText guifg=bg guibg=NONE
-        \|set columns-=50
   autocmd User CodiLeavePost
-        \ hi clear VertSplit NonText
+        \ hi clear VertSplit
+        \|hi clear NonText
 augroup END
 
 " }}}2
