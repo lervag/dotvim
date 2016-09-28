@@ -289,7 +289,7 @@ nnoremap <silent> <F6> :<c-u>call LoopSpellLanguage()<cr>
 " }}}1
 " {{{1 Appearance and UI
 
-set background=dark
+set background=light
 set winwidth=70
 
 if has('gui_running')
@@ -298,7 +298,6 @@ if has('gui_running')
   set guifont=Inconsolata-g\ for\ Powerline\ Medium\ 10
   set guioptions=ac
   set guiheadroom=0
-  set background=light
 endif
 
 if &t_Co == 8 && $TERM !~# '^linux'
