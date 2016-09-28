@@ -295,7 +295,7 @@ set winwidth=70
 if has('gui_running')
   set lines=50
   set columns=82
-  set guifont=Inconsolata-g\ for\ Powerline\ Medium\ 10
+  set guifont=Inconsolata-g\ for\ Powerline\ Medium\ 9
   set guioptions=ac
   set guiheadroom=0
 endif
