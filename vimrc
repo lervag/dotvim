@@ -408,6 +408,7 @@ nnoremap '      `
 nnoremap <c-e>  <c-^>
 nnoremap ZW     :update<cr>
 nnoremap ZZ     :update<cr>:Bdelete<cr>
+nnoremap <c-p>  <c-i>
 
 " Buffer navigation
 nnoremap <silent> <c-u> :Bdelete<cr>
