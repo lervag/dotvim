@@ -44,6 +44,8 @@ function! statusline#main(winnr) " {{{1
 
   if l:buftype ==# 'help'
     return s:help(l:bufnr, l:active)
+  elseif l:buftype ==# 'quickfix'
+    return s:quickfix(l:bufnr, l:active)
   elseif l:filetype ==# 'unite'
     return s:unite(l:bufnr, l:active)
   elseif l:filetype ==# 'wiki'
@@ -58,28 +60,19 @@ endfunction
 "
 " Main statusline funcs
 "
-function! s:main(bufnr, active) " {{{1
-  let stat  = s:color(' %<%f', 'SLHighlight', a:active)
-  let stat .= getbufvar(a:bufnr, '&modifiable')
-        \ ? '' : s:color(' [Locked]', 'SLAlert', a:active)
-  let stat .= getbufvar(a:bufnr, '&readonly')
-        \ ? s:color(' [‼]', 'SLAlert', a:active) : ''
-  let stat .= getbufvar(a:bufnr, '&modified')
-        \ ? s:color(' [+]', 'SLAlert', a:active) : ''
-
-  let stat .= '%='
-
-  let stat .= fugitive#head(12)
-  let stat .= ' '
-
-  return stat
-endfunction
-
-" }}}1
 function! s:help(bufnr, active) " {{{1
   let l:name = bufname(a:bufnr)
   return s:color(' ' . fnamemodify(l:name, ':t:r') . ' %= HELP ',
         \ 'SLHighlight', a:active)
+endfunction
+
+" }}}1
+function! s:quickfix(bufnr, active) " {{{1
+  let text = ' [Quickfix] '
+  let text .= exists('w:quickfix_title') ? w:quickfix_title : ''
+  let stat  = s:color(text, 'SLHighlight', a:active)
+
+  return stat
 endfunction
 
 " }}}1
@@ -132,6 +125,24 @@ function! s:wiki(bufnr, active) " {{{1
         \ ? s:color(' [‼]', 'SLAlert', a:active) : ''
   let stat .= getbufvar(a:bufnr, '&modified')
         \ ? s:color(' [+]', 'SLAlert', a:active) : ''
+  return stat
+endfunction
+
+" }}}1
+function! s:main(bufnr, active) " {{{1
+  let stat  = s:color(' %<%f', 'SLHighlight', a:active)
+  let stat .= getbufvar(a:bufnr, '&modifiable')
+        \ ? '' : s:color(' [Locked]', 'SLAlert', a:active)
+  let stat .= getbufvar(a:bufnr, '&readonly')
+        \ ? s:color(' [‼]', 'SLAlert', a:active) : ''
+  let stat .= getbufvar(a:bufnr, '&modified')
+        \ ? s:color(' [+]', 'SLAlert', a:active) : ''
+
+  let stat .= '%='
+
+  let stat .= fugitive#head(12)
+  let stat .= ' '
+
   return stat
 endfunction
 
