@@ -785,6 +785,7 @@ let g:vimtex_format_enabled = 1
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_imaps_leader = ';'
 let g:vimtex_complete_img_use_tail = 1
+let g:vimtex_view_automatic = 0
 
 nnoremap \lt :Unite vimtex_toc<cr>
 
