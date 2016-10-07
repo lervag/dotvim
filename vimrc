@@ -298,10 +298,21 @@ if has('gui_running')
   set guifont=Inconsolata-g\ for\ Powerline\ Medium\ 9
   set guioptions=ac
   set guiheadroom=0
-endif
+else
+  if &t_Co == 8 && $TERM !~# '^linux'
+    set t_Co=256
+  endif
 
-if &t_Co == 8 && $TERM !~# '^linux'
-  set t_Co=256
+  " Set terminal cursor
+  if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\e[6 q\<Esc>\e]12;3\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\e]12;14\x7\<Esc>\\"
+  else
+    let &t_SI = "\e[6 q\e]12;3\x7"
+    let &t_EI = "\e[2 q\e]12;14\x7"
+    silent                    !echo -ne "\e[2 q\e]12;14\x7"
+    autocmd VimLeave * silent !echo -ne "\e[2 q\e]112\x7"
+  endif
 endif
 
 silent! colorscheme solarized
@@ -317,15 +328,6 @@ set guicursor+=v:vCursor
 set guicursor+=i-ci-sm:ver30-iCursor
 set guicursor+=r-cr:hor20-rCursor
 set guicursor+=a:blinkon0
-
-" Set terminal cursor
-if exists('$TMUX')
-  let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
-else
-  let &t_SI = "\e[5 q"
-  let &t_EI = "\e[2 q"
-endif
 
 " Updated highlighting
 highlight clear
