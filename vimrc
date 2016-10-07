@@ -1120,7 +1120,7 @@ let g:vim_json_syntax_conceal = 0
 " }}}2
 " {{{2 plugin: codi
 
-nnoremap <leader>ic :Codi!!<cr>
+nnoremap <leader>ii :Codi!!<cr>
 nnoremap <leader>ip :Codi python<cr>
 
 augroup MyCodi
