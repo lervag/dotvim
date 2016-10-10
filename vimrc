@@ -69,8 +69,7 @@ Plug 'metakirby5/codi.vim'
 " -------------------------------------------------------------------------------
 Plug 'Shougo/neocomplete'
 Plug 'Shougo/neco-vim'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
+Plug 'SirVer/ultisnips'
 
 " -------------------------------------------------------------------------------
 " Filetype specific
@@ -767,15 +766,16 @@ let g:neocomplete#sources#omni#input_patterns.tex =
 " Define omni force patterns
 let g:neocomplete#force_omni_input_patterns.wiki = '\[\[[^]|]*#\S*'
 
-" {{{2 plugin: neosnippet.vim
+" {{{2 plugin: UltiSnips
 
 let g:neosnippet#snippets_directory = '~/.vim/snippets'
 
-imap <c-k> <plug>(neosnippet_expand_or_jump)
-smap <c-k> <plug>(neosnippet_expand_or_jump)
-imap <c-s> <plug>(neosnippet_start_unite_snippet)
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsSnippetDirectories=[$HOME . '/.vim/UltiSnips']
 
-nnoremap <leader>es :NeoSnippetEdit<cr>
+nnoremap <leader>es :UltiSnipsEdit!<cr>
 
 " }}}2
 " {{{2 plugin: vimtex (LaTeX)
