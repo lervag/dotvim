@@ -1,33 +1,31 @@
-snippet templ-tikz
-abbr    Template: standalone Tikz figure
-options head
-  \documentclass{standalone}
-  \usepackage{tikz}
-  \usetikzlibrary{arrows}
-  \usetikzlibrary{positioning}
-  \usetikzlibrary{calc}
-  \begin{document}
+snippet templ-tikz "Template: standalone Tikz figure" b
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\begin{document}
 
-  \begin{tikzpicture}
-    [
-      thick
-    ]
-    ${0}
-  \end{tikzpicture}
-
-  \end{document}
-
-snippet templ-article
-abbr    Template: standard article
-options head
-  \documentclass{article}
-  \usepackage[utf8]{inputenc}
-  \usepackage{graphicx}
-  ${1}
-
-  \begin{document}
-
+\begin{tikzpicture}
+  [
+    thick
+  ]
   ${0}
+\end{tikzpicture}
 
-  \end{document}
+\end{document}
+endsnippet
+
+snippet templ-article "Template: standard article" b
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+${1}
+
+\begin{document}
+
+${0}
+
+\end{document}
+endsnippet
 
