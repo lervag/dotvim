@@ -12,23 +12,23 @@ snippet {{ "double curly" iA
 {$1}$0
 endsnippet
 
-# snippet begin
-# alias   beg
-#   \begin{${1:something}}
-#           ${0}
-#   \end{$1}
+snippet begin
+\begin{${1:name}}
+	${0}
+\end{$1}
+endsnippet
+
+snippet itemize
+\begin{itemize}
+	\item ${0}
+\end{itemize}
+endsnippet
 
 # snippet figure
 # alias   fig
 #   \begin{figure}[${1:htpb}]
 #     ${2}
 #   \end{figure}
-
-# snippet itemize
-# alias   item
-#   \begin{itemize}
-#     \item ${0}
-#   \end{itemize}
 
 # snippet enumerate
 # alias   enum
