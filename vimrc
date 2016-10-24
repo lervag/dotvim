@@ -25,7 +25,9 @@ let s:lervag = index([
       \], hostname()) >= 0 ? 'git@github.com:lervag/' : 'lervag/'
 call plug#(s:lervag . 'vimtex')
 call plug#(s:lervag . 'file-line')
-call plug#(s:lervag . 'wiki')
+if index(['yoga', 'vsl136'], hostname()) >= 0
+  Plug 'git@github.com:lervag/wiki'
+endif
 
 " -------------------------------------------------------------------------------
 " User interface
