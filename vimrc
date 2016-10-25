@@ -319,12 +319,14 @@ else
   endif
 endif
 
+" Set colorscheme and custom colors
+augroup custom_colors
+  autocmd!
+  autocmd ColorScheme * call personal#custom_colors()
+augroup END
 silent! colorscheme solarized
 
 " Set gui cursor
-highlight iCursor guibg=#b58900
-highlight rCursor guibg=#dc322f
-highlight vCursor guibg=#d33682
 set guicursor=a:block
 set guicursor+=n:Cursor
 set guicursor+=o-c:iCursor
@@ -332,23 +334,6 @@ set guicursor+=v:vCursor
 set guicursor+=i-ci-sm:ver30-iCursor
 set guicursor+=r-cr:hor20-rCursor
 set guicursor+=a:blinkon0
-
-" Updated highlighting
-highlight clear
-      \ MatchParen
-      \ Search
-      \ SpellBad
-      \ SpellCap
-      \ SpellRare
-      \ SpellLocal
-
-highlight MatchParen cterm=bold           gui=bold           ctermfg=33  guifg=Blue
-highlight Search     cterm=bold,underline gui=bold,underline ctermfg=201 guifg=Magenta
-highlight SpellBad   cterm=bold           gui=bold           ctermfg=124 guifg=Red
-highlight SpellCap   cterm=bold           gui=bold           ctermfg=33  guifg=Blue
-highlight SpellRare  cterm=bold           gui=bold           ctermfg=104 guifg=Purple
-highlight SpellLocal cterm=bold           gui=bold           ctermfg=227 guifg=Green
-" highlight VertSplit  ctermbg=NONE guibg=NONE
 
 "
 " Initialize statusline and tabline
@@ -539,16 +524,6 @@ nmap *  <plug>(incsearch-nohl-*)zvzz
 nmap #  <plug>(incsearch-nohl-#)zvzz
 nmap g* <plug>(incsearch-nohl-g*)zvzz
 nmap g# <plug>(incsearch-nohl-g#)zvzz
-
-" Define highlightings
-highlight IncSearchMatch
-      \ cterm=bold,underline gui=bold,underline ctermfg=201 guifg=Magenta
-highlight IncSearchMatchReverse
-      \ cterm=bold,underline gui=bold,underline ctermfg=127 guifg=LightMagenta
-highlight IncSearchOnCursor
-      \ cterm=bold,underline gui=bold,underline ctermfg=39  guifg=#00afff
-highlight IncSearchCursor
-      \ cterm=bold,underline gui=bold,underline ctermfg=39  guifg=#00afff
 
 " }}}2
 " {{{2 plugin: vim-columnmove
@@ -880,10 +855,6 @@ nnoremap <silent><leader>ft :CtrlSFToggle<cr>
 nnoremap <silent><leader>fu :CtrlSFUpdate<cr>
 vmap     <silent><leader>f  <Plug>CtrlSFVwordExec
 
-" Highlighting for CtrlSF selected line
-highlight ctrlsfSelectedLine
-      \ term=bold cterm=bold gui=bold ctermfg=39 guifg=#00afff
-
 " }}}2
 " {{{2 plugin: FastFold
 
@@ -1066,9 +1037,6 @@ omap ass <plug>(textobj-sandwich-auto-a)
 " Change some default options
 silent! call operator#sandwich#set('delete', 'all', 'highlight', 0)
 silent! call operator#sandwich#set('all', 'all', 'cursor', 'keep')
-
-" Set custom highlighting
-highlight OperatorSandwichBuns cterm=bold gui=bold ctermfg=5 guifg=Magenta
 
 " Allow repeats while keeping cursor fixed
 silent! runtime autoload/repeat.vim
