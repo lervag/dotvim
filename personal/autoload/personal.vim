@@ -7,7 +7,7 @@ function! personal#toggle_fontsize(mode) " {{{1
   " Simple function to toggle the fontsize in gui vim
   "
 
-  if a:mode ==# '+' && &guifont =~# '10$'
+  if a:mode ==# '+' && &guifont =~# '9$'
     let s:font_lines = &lines
     set guifont=Inconsolata-g\ for\ Powerline\ Medium\ 14
     return
@@ -21,7 +21,7 @@ function! personal#toggle_fontsize(mode) " {{{1
     return
   endif
 
-  set guifont=Inconsolata-g\ for\ Powerline\ Medium\ 10
+  set guifont=Inconsolata-g\ for\ Powerline\ Medium\ 9
   let &lines = get(s:, 'font_lines', 50)
 endfunction
 
