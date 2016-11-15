@@ -55,7 +55,7 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'ludovicchabant/vim-lawrencium'
 Plug 'machakann/vim-sandwich'
-Plug 'scrooloose/syntastic', { 'on': [
+Plug 'vim-syntastic/syntastic', { 'on': [
       \ 'SyntasticCheck',
       \ 'SyntasticInfo',
       \ 'SyntasticToggleMode',
