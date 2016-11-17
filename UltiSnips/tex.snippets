@@ -24,6 +24,46 @@ snippet itemize
 \end{itemize}
 endsnippet
 
+snippet table
+\begin{table}
+	\centering
+	\caption{$1}
+	\begin{tabular}{$2}
+		\toprule
+		$3
+		\midrule
+		$0
+		\bottomrule
+	\end{tabular}
+\end{table}
+endsnippet
+
+snippet sec
+\section{$1}$0
+endsnippet
+
+snippet sub
+\subsection{$1}$0
+endsnippet
+
+snippet subsub
+\subsubsection{$1}$0
+endsnippet
+
+snippet pgfplot
+\begin{figure}[htpb]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+				xlabel=labelx,
+				ylabel=labely,
+			]
+			\addplot[color=red,mark=x] $0;
+		\end{axis}
+	\end{tikzpicture}
+\end{figure}
+endsnippet
+
 # snippet figure
 # alias   fig
 #   \begin{figure}[${1:htpb}]
