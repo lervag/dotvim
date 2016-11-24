@@ -63,6 +63,7 @@ Plug 'tpope/vim-speeddating'
 Plug 'vim-scripts/Conque-GDB', { 'on' : 'ConqueGDB' }
 Plug 'junegunn/vader.vim'
 Plug 'metakirby5/codi.vim'
+Plug 'w0rp/ale'
 
 " -------------------------------------------------------------------------------
 " Completion and snippets
@@ -1081,6 +1082,18 @@ augroup MyCodi
         \ hi clear VertSplit
         \|hi clear NonText
 augroup END
+
+" }}}2
+" {{{2 plugin: ale
+
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
+
+let g:ale_statusline_format = ['Errors: %d', 'Warnings: %d', '']
+
+nmap <silent> <leader>j <Plug>(ale_next_wrap)
+nmap <silent> <leader>k <Plug>(ale_previous_wrap)
 
 " }}}2
 

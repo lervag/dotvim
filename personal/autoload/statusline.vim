@@ -138,8 +138,12 @@ function! s:main(bufnr, active) " {{{1
   let stat .= getbufvar(a:bufnr, '&modified')
         \ ? s:color(' [+]', 'SLAlert', a:active) : ''
 
-  let stat .= '%='
+  let l:ale_status = ALEGetStatusLine()
+  if !empty(l:ale_status)
+    let stat .= s:color(' [' . l:ale_status . ']', 'SLAlert', a:active)
+  endif
 
+  let stat .= '%='
   let stat .= fugitive#head(12)
   let stat .= ' '
 
