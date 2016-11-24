@@ -138,9 +138,12 @@ function! s:main(bufnr, active) " {{{1
   let stat .= getbufvar(a:bufnr, '&modified')
         \ ? s:color(' [+]', 'SLAlert', a:active) : ''
 
-  let l:ale_status = ALEGetStatusLine()
-  if !empty(l:ale_status)
-    let stat .= s:color(' [' . l:ale_status . ']', 'SLAlert', a:active)
+  " Add linter message
+  if exists('*ALEGetStatusLine')
+    let l:ale_status = ALEGetStatusLine()
+    if !empty(l:ale_status)
+      let stat .= s:color(' [' . l:ale_status . ']', 'SLAlert', a:active)
+    endif
   endif
 
   let stat .= '%='
