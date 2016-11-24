@@ -63,7 +63,9 @@ Plug 'tpope/vim-speeddating'
 Plug 'vim-scripts/Conque-GDB', { 'on' : 'ConqueGDB' }
 Plug 'junegunn/vader.vim'
 Plug 'metakirby5/codi.vim'
-Plug 'w0rp/ale'
+if v:version >= 800
+  Plug 'w0rp/ale'
+endif
 
 " -------------------------------------------------------------------------------
 " Completion and snippets
