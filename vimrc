@@ -55,11 +55,6 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'ludovicchabant/vim-lawrencium'
 Plug 'machakann/vim-sandwich'
-Plug 'vim-syntastic/syntastic', { 'on': [
-      \ 'SyntasticCheck',
-      \ 'SyntasticInfo',
-      \ 'SyntasticToggleMode',
-      \]}
 Plug 'thinca/vim-quickrun'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -644,28 +639,6 @@ function! QuickRunSimfex()
   endif
   execute 'QuickRun -command nosetests2 -exec' l:exec
 endfunction
-
-" }}}2
-" {{{2 plugin: syntastic
-
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_mode_map = {
-      \ 'mode' : 'passive',
-      \ 'active_filetypes' : [
-      \   'sh',
-      \   'vim',
-      \ ],
-      \}
-
-let g:syntastic_sh_checkers = ['shellcheck']
-let g:syntastic_vim_checkers = ['vint']
-
-" Some mappings
-nnoremap <leader>sc :SyntasticCheck<cr>
-nnoremap <leader>si :SyntasticInfo<cr>
-nnoremap <leader>st :SyntasticToggleMode<cr>
 
 " }}}2
 " {{{2 plugin: vim-vebugger
