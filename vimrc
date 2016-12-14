@@ -612,6 +612,12 @@ endfunction
 " {{{2 plugin: vim-gutentags
 
 let g:gutentags_tagfile = '.tags'
+let g:gutentags_file_list_command = {
+      \ 'markers': {
+      \   '.git': 'git ls-files',
+      \   '.hg': 'hg files',
+      \ },
+      \}
 
 " }}}2
 " {{{2 plugin: vim-quickrun
