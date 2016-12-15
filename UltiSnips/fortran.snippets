@@ -1,39 +1,38 @@
-snippet prog
-options head
-        program ${1:name}
-                ${0}
-        end program $1
+snippet prog "Program" b
+program ${1:name}
+	$0
+end program $1
+endsnippet
 
-snippet mod
-options head
-        module ${1:name}
-                implicit none
-                ${0}
-        end module $1
+snippet mod "Module" b
+module ${1:name}
+	implicit none
+	${0}
+end module $1
+endsnippet
 
-snippet sub
-options head
-        subroutine ${1:name}(${2})
-                implicit none
-                ${0}
-        end subroutine $1
+snippet sub "Submodule" b
+subroutine ${1:name}(${2})
+	implicit none
+	${0}
+end subroutine $1
+endsnippet
 
-snippet func
-options head
-        function ${1:name}(${2})
-                implicit none
-                ${0}
-        end function $1
+snippet func "Function" b
+function ${1:name}(${2})
+	implicit none
+	${0}
+end function $1
+endsnippet
 
-snippet if
-options head
-        if (${1:conditional}) then
-                ${0}
-        endif
+snippet if "Conditional"
+if (${1:conditional}) then
+	${0}
+endif
+endsnippet
 
-snippet do
-options head
-        do ${1}=${2},${3}
-                ${0}
-        enddo
-
+snippet do "Loop"
+do ${1}=${2},${3}
+	${0}
+enddo
+endsnippet
