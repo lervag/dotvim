@@ -1100,7 +1100,7 @@ let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
 let g:ale_statusline_format = ['Errors: %d', 'Warnings: %d', '']
 
 let g:ale_linters = {
-      \ 'tex': ['chktex'],
+      \ 'tex': [],
       \}
 
 nmap <silent> <leader>j <Plug>(ale_next_wrap)
