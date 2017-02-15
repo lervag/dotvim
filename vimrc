@@ -113,6 +113,33 @@ Plug 'tyru/capture.vim', { 'on' : 'Capture' }
 call plug#end() | endif
 
 " }}}1
+" {{{1 Autocommands
+
+augroup vimrc_autocommands
+  autocmd!
+
+  " Only use cursorline for current window
+  autocmd WinEnter,FocusGained * setlocal cursorline
+  autocmd WinLeave,FocusLost   * setlocal nocursorline
+
+  " When editing a file, always jump to the last known cursor position.  Don't
+  " do it when the position is invalid or when inside an event handler (happens
+  " when dropping a file on gvim).
+  autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line('$') |
+        \   execute 'normal! g`"' |
+        \ endif
+
+  " Set omnifunction if it is not already specified
+  autocmd Filetype *
+        \ if &omnifunc == "" |
+        \   setlocal omnifunc=syntaxcomplete#Complete |
+        \ endif
+
+  " Set keymapping for command window
+  autocmd CmdwinEnter * nnoremap <buffer> q <c-c><c-c>
+augroup END
+
 " {{{1 Options
 
 " -------------------------------------------------------------------------------
@@ -312,8 +339,9 @@ else
   else
     let &t_SI = "\e[6 q\e]12;3\x7"
     let &t_EI = "\e[2 q\e]12;14\x7"
-    silent                    !echo -ne "\e[2 q\e]12;14\x7"
-    autocmd VimLeave * silent !echo -ne "\e[2 q\e]112\x7"
+    silent !echo -ne "\e[2 q\e]12;14\x7"
+    autocmd vimrc_autocommands VimLeave *
+          \ silent !echo -ne "\e[2 q\e]112\x7"
   endif
 endif
 
@@ -338,33 +366,6 @@ set guicursor+=a:blinkon0
 "
 call statusline#init()
 call statusline#init_tabline()
-
-" {{{1 Autocommands
-
-augroup vimrc_autocommands
-  autocmd!
-
-  " Only use cursorline for current window
-  autocmd WinEnter,FocusGained * setlocal cursorline
-  autocmd WinLeave,FocusLost   * setlocal nocursorline
-
-  " When editing a file, always jump to the last known cursor position.  Don't
-  " do it when the position is invalid or when inside an event handler (happens
-  " when dropping a file on gvim).
-  autocmd BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line('$') |
-        \   execute 'normal! g`"' |
-        \ endif
-
-  " Set omnifunction if it is not already specified
-  autocmd Filetype *
-        \ if &omnifunc == "" |
-        \   setlocal omnifunc=syntaxcomplete#Complete |
-        \ endif
-
-  " Set keymapping for command window
-  autocmd CmdwinEnter * nnoremap <buffer> q <c-c><c-c>
-augroup END
 
 " {{{1 Mappings
 
@@ -605,7 +606,7 @@ function! MyHgabort()
     bdelete lawrencium
   endif
   ResizeSplits
-  normal zx
+  normal! zx
 endfunction
 
 " }}}
@@ -669,7 +670,7 @@ inoremap <expr> <tab>   <sid>smart_tab()
 inoremap <expr> <s-tab> <sid>smart_tab_reverse()
 
 function! s:smart_tab()
-  if neocomplete#complete_common_string() != ''
+  if neocomplete#complete_common_string() !=# ''
     return neocomplete#complete_common_string()
   elseif pumvisible()
     return "\<c-n>"
@@ -731,10 +732,10 @@ let g:neocomplete#force_omni_input_patterns.wiki = '\[\[[^]|]*#\S*'
 
 let g:neosnippet#snippets_directory = '~/.vim/snippets'
 
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-let g:UltiSnipsSnippetDirectories=[$HOME . '/.vim/UltiSnips']
+let g:UltiSnipsExpandTrigger = '<c-j>'
+let g:UltiSnipsJumpForwardTrigger = '<c-j>'
+let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+let g:UltiSnipsSnippetDirectories = [$HOME . '/.vim/UltiSnips']
 
 nnoremap <leader>es :UltiSnipsEdit!<cr>
 
