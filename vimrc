@@ -346,10 +346,7 @@ else
 endif
 
 " Set colorscheme and custom colors
-augroup custom_colors
-  autocmd!
-  autocmd ColorScheme * call personal#custom_colors()
-augroup END
+autocmd vimrc_autocommands ColorScheme * call personal#custom_colors()
 silent! colorscheme solarized
 
 " Set gui cursor
@@ -571,7 +568,7 @@ function! Gtogglestatus()
   endif
 endfunction
 
-augroup my_fugitive
+augroup vimrc_fugitive
   autocmd!
   autocmd BufReadPost fugitive:// setlocal bufhidden=delete
 augroup END
@@ -922,7 +919,7 @@ function! s:unite_settings()
   imap <buffer> <f5>  <plug>(unite_redraw)
   nmap <buffer> <f5>  <plug>(unite_redraw)
 endfunction
-augroup unite
+augroup vimrc_unite
   autocmd!
   autocmd FileType unite call s:unite_settings()
 augroup END
@@ -1080,7 +1077,7 @@ let g:vim_json_syntax_conceal = 0
 nnoremap <leader>ii :Codi!!<cr>
 nnoremap <leader>ip :Codi python<cr>
 
-augroup MyCodi
+augroup vimrc_codi
   autocmd!
   autocmd User CodiEnterPost
         \ set columns-=50
