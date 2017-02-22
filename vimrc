@@ -609,7 +609,7 @@ endfunction
 " }}}
 " {{{2 plugin: vim-gutentags
 
-let g:gutentags_tagfile = '.tags'
+let g:gutentags_ctags_tagfile = '.tags'
 let g:gutentags_file_list_command = {
       \ 'markers': {
       \   '.git': 'git ls-files',
