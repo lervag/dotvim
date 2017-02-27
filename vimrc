@@ -393,7 +393,6 @@ nnoremap dp     dp]c
 nnoremap do     do]c
 nnoremap '      `
 nnoremap <c-e>  <c-^>
-nnoremap ZW     :update<cr>
 nnoremap ZZ     :update<cr>:Bdelete<cr>
 nnoremap <c-p>  <c-i>
 
