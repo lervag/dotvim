@@ -431,6 +431,9 @@ nnoremap <leader>xv :so ~/.vim/vimrc<cr>
 nnoremap <silent> <leader>+ :call personal#toggle_fontsize('+')<cr>
 nnoremap <silent> <leader>0 :call personal#toggle_fontsize('0')<cr>
 
+vnoremap <silent><expr> ++ personal#visual_math#yank_and_analyse()
+nmap     <silent>       ++ vip++<esc>
+
 " }}}1
 " {{{1 Plugin options
 
