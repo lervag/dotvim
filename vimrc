@@ -722,6 +722,8 @@ let g:neocomplete#sources#omni#input_patterns.tex =
       \ . '|hyperref\s*\[[^]]*'
       \ . '|includegraphics\*?%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
       \ . '|%(include%(only)?|input)\s*\{[^}]*'
+      \ . '|usepackage\*?%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+      \ . '|documentclass\*?%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
       \ . ')'
 
 " Define omni force patterns
