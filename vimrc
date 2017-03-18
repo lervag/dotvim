@@ -453,6 +453,8 @@ let g:loaded_zipPlugin        = 1
 
 let g:python_highlight_all = 1
 
+let g:vimsyn_embed = 'P'
+
 " }}}2
 
 " {{{2 plugin: vim-plug
