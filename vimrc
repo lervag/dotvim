@@ -1060,18 +1060,6 @@ let g:sandwich#recipes += [
       \ },
       \]
 
-" Vim recipes
-let g:sandwich#recipes += [
-      \ {
-      \   'buns'        : ["'", "'"],
-      \   'skip_regex'  : ["[^']\\%(''\\)*\\%#\\zs''",
-      \                    "[^']\\%(''\\)*'\\%#\\zs'"],
-      \   'filetype'    : ['vim'],
-      \   'nesting'     : 0,
-      \   'match_syntax': 2,
-      \ }
-      \]
-
 " }}}2
 " {{{2 plugin: vim-json
 
