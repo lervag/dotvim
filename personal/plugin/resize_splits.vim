@@ -17,7 +17,7 @@ nnoremap <silent> <c-w>o <c-w>o:ResizeSplits<cr>
 
 " {{{1 Functions
 function! s:ResizeSplits()
-  if !empty($TMUX . $STY) | return | endif
+  if !has('gui') && !empty($TMUX . $STY) | return | endif
 
   let l:column_width  = 82 + &foldcolumn
         \ + (&number         ? &numberwidth : 0)
