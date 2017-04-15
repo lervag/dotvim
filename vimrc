@@ -580,6 +580,9 @@ augroup END
 " }}}
 " {{{2 plugin: gitv
 
+let g:Gitv_WipeAllOnClose = 1
+let g:Gitv_OpenPreviewOnLaunch = 0
+
 nnoremap <leader>gl :Gitv --all<cr>
 nnoremap <leader>gL :Gitv! --all<cr>
 xnoremap <leader>gl :Gitv! --all<cr>
