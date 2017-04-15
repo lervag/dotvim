@@ -49,7 +49,7 @@ Plug 'machakann/vim-columnmove'
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'dyng/ctrlsf.vim'
 Plug 'idanarye/vim-vebugger'
-Plug 'junegunn/gv.vim', { 'on' : 'GV' }
+Plug 'gregsexton/gitv', { 'on' : 'Gitv' }
 Plug 'junegunn/vim-easy-align'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'ludovicchabant/vim-gutentags'
@@ -578,11 +578,11 @@ augroup vimrc_fugitive
 augroup END
 
 " }}}
-" {{{2 plugin: gv.vim
+" {{{2 plugin: gitv
 
-nnoremap <leader>gl :GV<cr>
-nnoremap <leader>gL :GV!<cr>
-vnoremap <leader>gl :GV<cr>
+nnoremap <leader>gl :Gitv --all<cr>
+nnoremap <leader>gL :Gitv! --all<cr>
+xnoremap <leader>gl :Gitv! --all<cr>
 
 " }}}
 " {{{2 plugin: vim-lawrencium
