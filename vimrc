@@ -729,6 +729,7 @@ let g:neocomplete#sources#omni#input_patterns.tex =
       \ . '|%(include%(only)?|input)\s*\{[^}]*'
       \ . '|usepackage%(\s*\[[^]]*\])?\s*\{[^}]*'
       \ . '|documentclass%(\s*\[[^]]*\])?\s*\{[^}]*'
+      \ . '|\a*'
       \ . ')'
 
 " Define omni force patterns
@@ -1091,6 +1092,9 @@ augroup END
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
+
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_text_changed = 'never'
 
 let g:ale_statusline_format = ['Errors: %d', 'Warnings: %d', '']
 
