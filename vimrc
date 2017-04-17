@@ -109,6 +109,15 @@ Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-unimpaired'
 Plug 'tsukkee/unite-tag'
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
+Plug 'KabbAmine/zeavim.vim', {'on': [
+      \ 'Zeavim',
+      \ 'Docset',
+      \ '<Plug>Zeavim',
+      \ '<Plug>ZVVisSelection',
+      \ '<Plug>ZVKeyDocset',
+      \ '<Plug>ZVMotion'
+      \]}
+Plug 'sunaku/vim-dasht'
 
 call plug#end() | endif
 
@@ -1104,6 +1113,21 @@ let g:ale_linters = {
 
 nmap <silent> <leader>j <Plug>(ale_next_wrap)
 nmap <silent> <leader>k <Plug>(ale_previous_wrap)
+
+" }}}2
+" {{{2 plugin: zeavim
+
+let g:zv_disable_mapping = 1
+let g:zv_keep_focus = 0
+let g:zv_zeal_args = '--style=gtk+'
+let g:zv_file_types = {
+    \ 'help' : 'vim',
+    \ 'python' : 'python 3',
+    \ }
+
+nmap gzz <plug>Zeavim
+xmap gzz <plug>ZVVisSelection
+nmap gz <plug>ZVMotion
 
 " }}}2
 
