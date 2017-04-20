@@ -80,8 +80,6 @@ Plug 'SirVer/ultisnips'
 Plug 'darvelo/vim-systemd'
 Plug 'whatyouhide/vim-tmux-syntax'
 Plug 'gregsexton/MatchTag'
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'jmcantrell/vim-virtualenv', { 'on' :
       \ [ 'VirtualEnvActivate',
       \   'VirtualEnvDeactivate',
@@ -776,17 +774,6 @@ let g:tex_isk='48-57,a-z,A-Z,192-255,:'
 "
 " NOTE: See also ~/.vim/personal/ftplugin/tex.vim
 "
-
-" }}}2
-" {{{2 plugin: vim-pandoc
-
-let g:pandoc#folding#level = 9
-let g:pandoc#folding#fdc = 0
-let g:pandoc#formatting#mode = 'h'
-let g:pandoc#toc#position = 'top'
-let g:pandoc#modules#disabled = ['spell']
-
-nnoremap <silent><leader>rp :Pandoc! #sintefpres<cr>
 
 " }}}2
 " {{{2 plugin: jedi-vim
