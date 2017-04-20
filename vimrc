@@ -416,12 +416,14 @@ nnoremap <silent> <leader>0 :call personal#toggle_fontsize('0')<cr>
 vnoremap <silent><expr> ++ personal#visual_math#yank_and_analyse()
 nmap     <silent>       ++ vip++<esc>
 
-" {{{1 Plugin options
+" {{{1 Configure plugins
 
-" {{{2 vim-internal
+" {{{2 internal
 
+" Enable internal matchit plugin
 runtime macros/matchit.vim
 
+" Disable a lot of unnecessary internal plugins
 let g:loaded_2html_plugin = 1
 let g:loaded_getscriptPlugin = 1
 let g:loaded_gzip = 1
@@ -432,76 +434,15 @@ let g:loaded_tarPlugin = 1
 let g:loaded_vimballPlugin = 1
 let g:loaded_zipPlugin = 1
 
-let g:python_highlight_all = 1
-
-let g:vimsyn_embed = 'P'
-
 " }}}2
 
-" {{{2 plugin: vim-plug
+" {{{2 feature: git
 
-let g:plug_window = 'tab new'
+let g:Gitv_WipeAllOnClose = 1
 
-nnoremap <silent> <leader>pd :PlugDiff<cr>
-nnoremap <silent> <leader>pi :PlugInstall<cr>
-nnoremap <silent> <leader>pu :PlugUpdate<cr>
-nnoremap <silent> <leader>ps :PlugStatus<cr>
-nnoremap <silent> <leader>pc :PlugClean<cr>
-
-" }}}2
-" {{{2 plugin: rainbow
-
-let g:rainbow_active = 1
-let g:rainbow_conf = {
-      \ 'guifgs': ['#f92672', '#00afff', '#268bd2', '#93a1a1', '#dc322f',
-      \   '#6c71c4', '#b58900', '#657b83', '#d33682', '#719e07', '#2aa198'],
-      \ 'ctermfgs': ['9', '127', '4', '1', '3', '12', '5', '2', '6', '33',
-      \   '104', '124', '7', '39'],
-      \ 'separately' : {
-      \   'wiki' : 0,
-      \   'fortran' : {},
-      \ }
-      \}
-
-" }}}2
-" {{{2 plugin: targets.vim
-
-let g:targets_argOpening = '[({[]'
-let g:targets_argClosing = '[]})]'
-let g:targets_separators = ', . ; : + - = ~ _ * # / | \ &'
-let g:targets_nlNL = 'nN  '
-
-" }}}2
-" {{{2 plugin: incsearch.vim
-
-let g:incsearch#auto_nohlsearch = 1
-let g:incsearch#separate_highlight = 1
-
-set hlsearch
-nmap /  <plug>(incsearch-forward)
-nmap ?  <plug>(incsearch-backward)
-nmap g/ <plug>(incsearch-stay)
-nmap n  <plug>(incsearch-nohl-n)zvzz
-nmap N  <plug>(incsearch-nohl-N)zvzz
-nmap *  <plug>(incsearch-nohl-*)zvzz
-nmap #  <plug>(incsearch-nohl-#)zvzz
-nmap g* <plug>(incsearch-nohl-g*)zvzz
-nmap g# <plug>(incsearch-nohl-g#)zvzz
-
-" }}}2
-" {{{2 plugin: vim-columnmove
-
-let g:columnmove_no_default_key_mappings = 1
-
-for s:x in split('ftFT;,wbeWBE', '\zs')
-  silent! call columnmove#utility#map('nxo', s:x, '<m-' . s:x . '>', 'block')
-endfor
-unlet s:x
-silent! call columnmove#utility#map('nxo', 'ge', '<m-g>e', 'block')
-silent! call columnmove#utility#map('nxo', 'gE', '<m-g>E', 'block')
-
-" }}}2
-" {{{2 plugin: vim-fugitive
+nnoremap <leader>gl :Gitv --all<cr>
+nnoremap <leader>gL :Gitv! --all<cr>
+xnoremap <leader>gl :Gitv! --all<cr>
 
 nnoremap <leader>gs :Gtogglestatus<cr>
 nnoremap <leader>ge :Gedit<cr>
@@ -522,87 +463,98 @@ augroup vimrc_fugitive
   autocmd BufReadPost fugitive:// setlocal bufhidden=delete
 augroup END
 
-" }}}
-" {{{2 plugin: gitv
+" }}}2
 
-let g:Gitv_WipeAllOnClose = 1
+" {{{2 plugin: ale
 
-nnoremap <leader>gl :Gitv --all<cr>
-nnoremap <leader>gL :Gitv! --all<cr>
-xnoremap <leader>gl :Gitv! --all<cr>
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
 
-" }}}
-" {{{2 plugin: vim-lawrencium
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_filetype_changed = 0
+let g:ale_lint_on_text_changed = 'never'
 
-nnoremap <leader>hs :Hgstatus<cr>
-nnoremap <leader>hl :Hglog<cr>
-nnoremap <leader>hL :Hglogthis<cr>
-nnoremap <leader>hd :call MyHgWrapper('Hgvdiff')<cr>
-nnoremap <leader>hr :call MyHgWrapper('Hgvrecord')<cr>
-nnoremap <leader>ha :call MyHgabort()<cr>
+let g:ale_statusline_format = ['Errors: %d', 'Warnings: %d', '']
 
-function! MyHgWrapper(com)
-  execute a:com
-  windo setlocal foldmethod=diff
-  normal! gg]c
-endfunction
-
-function! MyHgabort()
-  if exists(':Hgrecordabort')
-    Hgrecordabort
-  else
-    bdelete lawrencium
-  endif
-  ResizeSplits
-  normal! zx
-endfunction
-
-" }}}
-" {{{2 plugin: vim-gutentags
-
-let g:gutentags_ctags_tagfile = '.tags'
-let g:gutentags_file_list_command = {
-      \ 'markers': {
-      \   '.git': 'git ls-files',
-      \   '.hg': 'hg files',
-      \ },
+let g:ale_linters = {
+      \ 'tex': [],
       \}
 
+nmap <silent> <leader>j <Plug>(ale_next_wrap)
+nmap <silent> <leader>k <Plug>(ale_previous_wrap)
+
 " }}}2
-" {{{2 plugin: vim-quickrun
+" {{{2 plugin: calendar.vim
 
-let g:quickrun_config = {}
-let g:quickrun_config.vader = { 'command' : './run' }
-let g:quickrun_config._ = {
-      \ 'outputter/buffer/close_on_empty' : 1
-      \ }
+let g:calendar_first_day = 'monday'
+let g:calendar_date_endian = 'big'
+let g:calendar_frame = 'space'
+let g:calendar_week_number = 1
 
-nmap <leader>rr <plug>(quickrun)
-nmap <leader>ro <plug>(quickrun-op)
+nnoremap <silent> <leader>c :Calendar -position=here<cr>
 
-nnoremap <leader>rs :call QuickRunSimfex()<cr>
+" Connect to diary
+augroup vimrc_calendar
+  autocmd!
+  autocmd FileType calendar
+        \ nnoremap <silent><buffer> <cr> :<c-u>call OpenDiary()<cr>
+augroup END
+function! OpenDiary()
+  let l:date = printf('%d-%0.2d-%0.2d',
+        \ b:calendar.day().get_year(),
+        \ b:calendar.day().get_month(),
+        \ b:calendar.day().get_day())
+  let l:bufnr = bufnr('')
 
-function! QuickRunSimfex()
-  let l:exec = '''%c -v '
-  if getcwd() =~# '\/tests'
-    let l:exec .= '%s'''
-  else
-    let l:file = fnamemodify('../tests/test_' . expand('%:t'), ':p')
-    if !filereadable(l:file)
-      echo 'Could not find corresponding test file.'
-      return
-    endif
-    let l:exec .= l:file . ''''
-  endif
-  execute 'QuickRun -command nosetests2 -exec' l:exec
+  enew
+  execute 'bwipeout!' l:bufnr
+  call wiki#journal#make_note(l:date)
 endfunction
 
 " }}}2
-" {{{2 plugin: vim-vebugger
+" {{{2 plugin: CtrlFS
 
-let g:vebugger_leader = '<leader>v'
+let g:ctrlsf_indent = 2
+let g:ctrlsf_regex_pattern = 1
+let g:ctrlsf_position = 'bottom'
+let g:ctrlsf_context = '-B 2'
+let g:ctrlsf_default_root = 'project+fw'
+let g:ctrlsf_populate_qflist = 1
+if executable('rg')
+  let g:ctrlsf_ackprg = 'rg'
+endif
 
-" }}}
+nnoremap         <leader>ff :CtrlSF 
+nnoremap <silent><leader>ft :CtrlSFToggle<cr>
+nnoremap <silent><leader>fu :CtrlSFUpdate<cr>
+vmap     <silent><leader>f  <Plug>CtrlSFVwordExec
+
+" }}}2
+" {{{2 plugin: FastFold
+
+nmap <sid>(DisableFastFoldUpdate) <plug>(FastFoldUpdate)
+let g:fastfold_fold_command_suffixes =  ['x','X']
+let g:fastfold_fold_movement_commands = []
+
+" }}}2
+" {{{2 plugin: incsearch.vim
+
+let g:incsearch#auto_nohlsearch = 1
+let g:incsearch#separate_highlight = 1
+
+set hlsearch
+nmap /  <plug>(incsearch-forward)
+nmap ?  <plug>(incsearch-backward)
+nmap g/ <plug>(incsearch-stay)
+nmap n  <plug>(incsearch-nohl-n)zvzz
+nmap N  <plug>(incsearch-nohl-N)zvzz
+nmap *  <plug>(incsearch-nohl-*)zvzz
+nmap #  <plug>(incsearch-nohl-#)zvzz
+nmap g* <plug>(incsearch-nohl-g*)zvzz
+nmap g# <plug>(incsearch-nohl-g#)zvzz
+
+" }}}2
 " {{{2 plugin: neocomplete
 
 let g:neocomplete#enable_at_startup = 1
@@ -679,6 +631,67 @@ let g:neocomplete#sources#omni#input_patterns.tex =
 " Define omni force patterns
 let g:neocomplete#force_omni_input_patterns.wiki = '\[\[[^]|]*#\S*'
 
+" {{{2 plugin: rainbow
+
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+      \ 'guifgs': ['#f92672', '#00afff', '#268bd2', '#93a1a1', '#dc322f',
+      \   '#6c71c4', '#b58900', '#657b83', '#d33682', '#719e07', '#2aa198'],
+      \ 'ctermfgs': ['9', '127', '4', '1', '3', '12', '5', '2', '6', '33',
+      \   '104', '124', '7', '39'],
+      \ 'separately' : {
+      \   'wiki' : 0,
+      \   'fortran' : {},
+      \ }
+      \}
+
+" }}}2
+" {{{2 plugin: screen
+
+let g:ScreenImpl = 'Tmux'
+let g:ScreenShellTmuxInitArgs = '-2'
+let g:ScreenShellTerminal = 'urxvt'
+let g:ScreenShellActive = 0
+
+" Dynamic keybindings
+function! s:ScreenShellListenerMain()
+  if g:ScreenShellActive
+    nnoremap <silent> <c-c><c-c> <s-v>:ScreenSend<cr>
+    vnoremap <silent> <c-c><c-c> :ScreenSend<cr>
+    nnoremap <silent> <c-c><c-a> :ScreenSend<cr>
+    nnoremap <silent> <c-c><c-q> :ScreenQuit<cr>
+    if exists(':C') != 2
+      command -nargs=? C :call ScreenShellSend('<args>')
+    endif
+  else
+    nnoremap <c-c><c-a> <nop>
+    vnoremap <c-c><c-c> <nop>
+    nnoremap <c-c><c-q> <nop>
+    nnoremap <silent> <c-c><c-c> :ScreenShell<cr>
+    if exists(':C') == 2
+      delcommand C
+    endif
+  endif
+endfunction
+
+" Initialize and define auto group stuff
+nnoremap <silent> <c-c><c-c> :ScreenShell<cr>
+augroup ScreenShellEnter
+  autocmd User * :call <sid>ScreenShellListenerMain()
+augroup END
+augroup ScreenShellExit
+  autocmd User * :call <sid>ScreenShellListenerMain()
+augroup END
+
+" }}}2
+" {{{2 plugin: targets.vim
+
+let g:targets_argOpening = '[({[]'
+let g:targets_argClosing = '[]})]'
+let g:targets_separators = ', . ; : + - = ~ _ * # / | \ &'
+let g:targets_nlNL = 'nN  '
+
+" }}}2
 " {{{2 plugin: UltiSnips
 
 let g:UltiSnipsExpandTrigger = '<c-j>'
@@ -689,101 +702,12 @@ let g:UltiSnipsSnippetDirectories = [s:main . '/UltiSnips']
 nnoremap <leader>es :UltiSnipsEdit!<cr>
 
 " }}}2
-" {{{2 plugin: vimtex (LaTeX)
+" {{{2 plugin: undotree
 
-let g:vimtex_quickfix_open_on_warning = 0
-let g:vimtex_index_split_pos = 'below'
-let g:vimtex_fold_enabled = 1
-let g:vimtex_format_enabled = 1
-let g:vimtex_view_method = 'zathura'
-let g:vimtex_imaps_leader = ';'
-let g:vimtex_complete_img_use_tail = 1
-let g:vimtex_view_automatic = 0
+let g:undotree_WindowLayout = 2
+let g:undotree_SetFocusWhenToggle = 1
 
-nnoremap \lt :Unite vimtex_toc<cr>
-
-let g:tex_stylish = 1
-let g:tex_conceal = ''
-let g:tex_flavor = 'latex'
-let g:tex_isk='48-57,a-z,A-Z,192-255,:'
-
-"
-" NOTE: See also ~/.vim/personal/ftplugin/tex.vim
-"             or ~/.config/nvim/personal/ftplugin/tex.vim
-"
-
-" }}}2
-" {{{2 plugin: jedi-vim
-
-let g:jedi#completions_enabled = 0
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#smart_auto_mappings = 0
-let g:jedi#rename_command = ''
-
-" }}}2
-" {{{2 plugin: vim-ruby
-
-let g:ruby_fold=1
-
-" }}}2
-" {{{2 plugin: wiki
-
-if isdirectory(glob('~/documents/wiki'))
-  let g:wiki = { 'root' : '~/documents/wiki' }
-endif
-
-" }}}2
-" {{{2 plugin: calendar.vim
-
-let g:calendar_first_day = 'monday'
-let g:calendar_date_endian = 'big'
-let g:calendar_frame = 'space'
-let g:calendar_week_number = 1
-
-nnoremap <silent> <leader>c :Calendar -position=here<cr>
-
-" Connect to diary
-augroup vimrc_calendar
-  autocmd!
-  autocmd FileType calendar
-        \ nnoremap <silent><buffer> <cr> :<c-u>call OpenDiary()<cr>
-augroup END
-function! OpenDiary()
-  let l:date = printf('%d-%0.2d-%0.2d',
-        \ b:calendar.day().get_year(),
-        \ b:calendar.day().get_month(),
-        \ b:calendar.day().get_day())
-  let l:bufnr = bufnr('')
-
-  enew
-  execute 'bwipeout!' l:bufnr
-  call wiki#journal#make_note(l:date)
-endfunction
-
-" }}}2
-" {{{2 plugin: CtrlFS
-
-let g:ctrlsf_indent = 2
-let g:ctrlsf_regex_pattern = 1
-let g:ctrlsf_position = 'bottom'
-let g:ctrlsf_context = '-B 2'
-let g:ctrlsf_default_root = 'project+fw'
-let g:ctrlsf_populate_qflist = 1
-if executable('rg')
-  let g:ctrlsf_ackprg = 'rg'
-endif
-
-nnoremap         <leader>ff :CtrlSF 
-nnoremap <silent><leader>ft :CtrlSFToggle<cr>
-nnoremap <silent><leader>fu :CtrlSFUpdate<cr>
-vmap     <silent><leader>f  <Plug>CtrlSFVwordExec
-
-" }}}2
-" {{{2 plugin: FastFold
-
-nmap <sid>(DisableFastFoldUpdate) <plug>(FastFoldUpdate)
-let g:fastfold_fold_command_suffixes =  ['x','X']
-let g:fastfold_fold_movement_commands = []
+nnoremap <f5> :UndotreeToggle<cr>
 
 " }}}2
 " {{{2 plugin: unite.vim
@@ -869,52 +793,6 @@ augroup vimrc_unite
 augroup END
 
 " }}}2
-" {{{2 plugin: screen
-
-let g:ScreenImpl = 'Tmux'
-let g:ScreenShellTmuxInitArgs = '-2'
-let g:ScreenShellTerminal = 'urxvt'
-let g:ScreenShellActive = 0
-
-" Dynamic keybindings
-function! s:ScreenShellListenerMain()
-  if g:ScreenShellActive
-    nnoremap <silent> <c-c><c-c> <s-v>:ScreenSend<cr>
-    vnoremap <silent> <c-c><c-c> :ScreenSend<cr>
-    nnoremap <silent> <c-c><c-a> :ScreenSend<cr>
-    nnoremap <silent> <c-c><c-q> :ScreenQuit<cr>
-    if exists(':C') != 2
-      command -nargs=? C :call ScreenShellSend('<args>')
-    endif
-  else
-    nnoremap <c-c><c-a> <nop>
-    vnoremap <c-c><c-c> <nop>
-    nnoremap <c-c><c-q> <nop>
-    nnoremap <silent> <c-c><c-c> :ScreenShell<cr>
-    if exists(':C') == 2
-      delcommand C
-    endif
-  endif
-endfunction
-
-" Initialize and define auto group stuff
-nnoremap <silent> <c-c><c-c> :ScreenShell<cr>
-augroup ScreenShellEnter
-  autocmd User * :call <sid>ScreenShellListenerMain()
-augroup END
-augroup ScreenShellExit
-  autocmd User * :call <sid>ScreenShellListenerMain()
-augroup END
-
-" }}}2
-" {{{2 plugin: undotree
-
-let g:undotree_WindowLayout = 2
-let g:undotree_SetFocusWhenToggle = 1
-
-nnoremap <f5> :UndotreeToggle<cr>
-
-" }}}2
 " {{{2 plugin: vim-easy-align
 
 let g:easy_align_bypass_fold = 1
@@ -926,9 +804,93 @@ vmap gA <plug>(EasyAlign)
 vmap .  <plug>(EasyAlignRepeat)
 
 " }}}2
-" {{{2 plugin: vim-table-mode
+" {{{2 plugin: vim-columnmove
 
-let g:table_mode_auto_align = 0
+let g:columnmove_no_default_key_mappings = 1
+
+for s:x in split('ftFT;,wbeWBE', '\zs')
+  silent! call columnmove#utility#map('nxo', s:x, '<m-' . s:x . '>', 'block')
+endfor
+unlet s:x
+silent! call columnmove#utility#map('nxo', 'ge', '<m-g>e', 'block')
+silent! call columnmove#utility#map('nxo', 'gE', '<m-g>E', 'block')
+
+" }}}2
+" {{{2 plugin: vim-gutentags
+
+let g:gutentags_ctags_tagfile = '.tags'
+let g:gutentags_file_list_command = {
+      \ 'markers': {
+      \   '.git': 'git ls-files',
+      \   '.hg': 'hg files',
+      \ },
+      \}
+
+" }}}2
+" {{{2 plugin: vim-lawrencium
+
+nnoremap <leader>hs :Hgstatus<cr>
+nnoremap <leader>hl :Hglog<cr>
+nnoremap <leader>hL :Hglogthis<cr>
+nnoremap <leader>hd :call MyHgWrapper('Hgvdiff')<cr>
+nnoremap <leader>hr :call MyHgWrapper('Hgvrecord')<cr>
+nnoremap <leader>ha :call MyHgabort()<cr>
+
+function! MyHgWrapper(com)
+  execute a:com
+  windo setlocal foldmethod=diff
+  normal! gg]c
+endfunction
+
+function! MyHgabort()
+  if exists(':Hgrecordabort')
+    Hgrecordabort
+  else
+    bdelete lawrencium
+  endif
+  ResizeSplits
+  normal! zx
+endfunction
+
+" }}}
+" {{{2 plugin: vim-plug
+
+let g:plug_window = 'tab new'
+
+nnoremap <silent> <leader>pd :PlugDiff<cr>
+nnoremap <silent> <leader>pi :PlugInstall<cr>
+nnoremap <silent> <leader>pu :PlugUpdate<cr>
+nnoremap <silent> <leader>ps :PlugStatus<cr>
+nnoremap <silent> <leader>pc :PlugClean<cr>
+
+" }}}2
+" {{{2 plugin: vim-quickrun
+
+let g:quickrun_config = {}
+let g:quickrun_config.vader = { 'command' : './run' }
+let g:quickrun_config._ = {
+      \ 'outputter/buffer/close_on_empty' : 1
+      \ }
+
+nmap <leader>rr <plug>(quickrun)
+nmap <leader>ro <plug>(quickrun-op)
+
+nnoremap <leader>rs :call QuickRunSimfex()<cr>
+
+function! QuickRunSimfex()
+  let l:exec = '''%c -v '
+  if getcwd() =~# '\/tests'
+    let l:exec .= '%s'''
+  else
+    let l:file = fnamemodify('../tests/test_' . expand('%:t'), ':p')
+    if !filereadable(l:file)
+      echo 'Could not find corresponding test file.'
+      return
+    endif
+    let l:exec .= l:file . ''''
+  endif
+  execute 'QuickRun -command nosetests2 -exec' l:exec
+endfunction
 
 " }}}2
 " {{{2 plugin: vim-sandwich
@@ -1000,31 +962,16 @@ let g:sandwich#recipes += [
       \]
 
 " }}}2
-" {{{2 plugin: vim-json
+" {{{2 plugin: vim-table-mode
 
-let g:vim_json_syntax_conceal = 0
-
-" }}}2
-" {{{2 plugin: ale
-
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
-
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_filetype_changed = 0
-let g:ale_lint_on_text_changed = 'never'
-
-let g:ale_statusline_format = ['Errors: %d', 'Warnings: %d', '']
-
-let g:ale_linters = {
-      \ 'tex': [],
-      \}
-
-nmap <silent> <leader>j <Plug>(ale_next_wrap)
-nmap <silent> <leader>k <Plug>(ale_previous_wrap)
+let g:table_mode_auto_align = 0
 
 " }}}2
+" {{{2 plugin: vim-vebugger
+
+let g:vebugger_leader = '<leader>v'
+
+" }}}
 " {{{2 plugin: zeavim
 
 let g:zv_disable_mapping = 1
@@ -1038,6 +985,66 @@ let g:zv_file_types = {
 nmap gzz <plug>Zeavim
 xmap gzz <plug>ZVVisSelection
 nmap gz <plug>ZVMotion
+
+" }}}2
+
+" {{{2 filetype: json
+
+let g:vim_json_syntax_conceal = 0
+
+" }}}2
+" {{{2 filetype: python
+
+" Internal vim plugin
+let g:python_highlight_all = 1
+
+" jedi.vim
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#smart_auto_mappings = 0
+let g:jedi#rename_command = ''
+
+" }}}2
+" {{{2 filetype: ruby
+
+let g:ruby_fold=1
+
+" }}}2
+" {{{2 filetype: tex
+
+let g:tex_stylish = 1
+let g:tex_conceal = ''
+let g:tex_flavor = 'latex'
+let g:tex_isk='48-57,a-z,A-Z,192-255,:'
+
+let g:vimtex_quickfix_open_on_warning = 0
+let g:vimtex_index_split_pos = 'below'
+let g:vimtex_fold_enabled = 1
+let g:vimtex_format_enabled = 1
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_imaps_leader = ';'
+let g:vimtex_complete_img_use_tail = 1
+let g:vimtex_view_automatic = 0
+
+nnoremap \lt :Unite vimtex_toc<cr>
+
+"
+" NOTE: See also ~/.vim/personal/ftplugin/tex.vim
+"             or ~/.config/nvim/personal/ftplugin/tex.vim
+"
+
+" }}}2
+" {{{2 filetype: vim
+
+" Internal vim plugin
+let g:vimsyn_embed = 'P'
+
+" }}}2
+" {{{2 filetype: wiki
+
+if isdirectory(glob('~/documents/wiki'))
+  let g:wiki = { 'root' : '~/documents/wiki' }
+endif
 
 " }}}2
 
