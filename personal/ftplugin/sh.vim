@@ -1,5 +1,3 @@
-nnoremap <buffer> K :Snman<cr>
-
 " Internal sh syntax plugin: Set bash as default variant
 let g:is_bash = 1
 

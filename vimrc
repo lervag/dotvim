@@ -96,14 +96,6 @@ Plug 'nhooyr/neoman.vim'
 Plug 'haya14busa/incsearch.vim'
 
 " Testing
-Plug 'KabbAmine/zeavim.vim', {'on': [
-      \ 'Zeavim',
-      \ 'Docset',
-      \ '<Plug>Zeavim',
-      \ '<Plug>ZVVisSelection',
-      \ '<Plug>ZVKeyDocset',
-      \ '<Plug>ZVMotion'
-      \]}
 Plug 'sunaku/vim-dasht'
 
 call plug#end() | endif
@@ -947,21 +939,6 @@ let g:table_mode_auto_align = 0
 let g:vebugger_leader = '<leader>v'
 
 " }}}
-" {{{2 plugin: zeavim
-
-let g:zv_disable_mapping = 1
-let g:zv_keep_focus = 0
-let g:zv_zeal_args = '--style=gtk+'
-let g:zv_file_types = {
-    \ 'help' : 'vim',
-    \ 'python' : 'python 3',
-    \ }
-
-nmap gzz <plug>Zeavim
-xmap gzz <plug>ZVVisSelection
-nmap gz <plug>ZVMotion
-
-" }}}2
 
 " {{{2 filetype: json
 
