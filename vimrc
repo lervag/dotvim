@@ -31,82 +31,75 @@ endif
 
 silent! if plug#begin(s:bundle)
 
-Plug 'junegunn/vim-plug', { 'on' : [] }
-
-" My plugins
+" My own plugins
 call plug#(s:personal)
 call plug#(s:lervag . 'vimtex')
 call plug#(s:lervag . 'file-line')
 call plug#(s:lervag . 'wiki')
 
-" User interface
-Plug 'altercation/vim-colors-solarized'
-Plug 'Yggdroot/indentLine'
-Plug 'luochen1990/rainbow'
-
-" Motions and text objects
-Plug 'wellle/targets.vim'
-Plug 'haya14busa/incsearch.vim'
-Plug 'machakann/vim-columnmove'
-
-" Programming and editing
-Plug 'chrisbra/vim-diff-enhanced'
-Plug 'dyng/ctrlsf.vim'
-Plug 'idanarye/vim-vebugger'
+" Essentials
+Plug 'junegunn/vim-plug', { 'on' : [] }
+Plug 'romainl/flattened'
 Plug 'gregsexton/gitv', { 'on' : 'Gitv' }
-Plug 'junegunn/vim-easy-align'
-Plug 'dhruvasagar/vim-table-mode'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'ludovicchabant/vim-lawrencium'
-Plug 'machakann/vim-sandwich'
-Plug 'thinca/vim-quickrun'
-Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'wellle/targets.vim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'junegunn/vim-easy-align'
+Plug 'dyng/ctrlsf.vim'
+Plug 'machakann/vim-sandwich'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
-Plug 'vim-scripts/Conque-GDB', { 'on' : 'ConqueGDB' }
-Plug 'junegunn/vader.vim'
-Plug 'metakirby5/codi.vim'
-if v:version >= 800
-  Plug 'w0rp/ale'
-endif
+Plug 'junegunn/vader.vim', { 'on' : 'Vader' }
+Plug 'SirVer/ultisnips'
+Plug 'Konfekt/FastFold'
+Plug 'itchyny/calendar.vim'
 
-" Completion and snippets
+" Important (but looking for alternatives)
+Plug 'ludovicchabant/vim-lawrencium'
 if !has('nvim')
   Plug 'Shougo/neocomplete'
 endif
-Plug 'Shougo/neco-vim'
-Plug 'SirVer/ultisnips'
+Plug 'Shougo/unite-help'
+Plug 'Shougo/unite-outline'
+Plug 'Shougo/unite.vim'
+Plug 'tsukkee/unite-tag'
+Plug 'ervandew/screen'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-scriptease'
 
 " Filetype specific
 Plug 'darvelo/vim-systemd'
 Plug 'whatyouhide/vim-tmux-syntax'
 Plug 'gregsexton/MatchTag'
-Plug 'jmcantrell/vim-virtualenv', { 'on' :
-      \ [ 'VirtualEnvActivate',
-      \   'VirtualEnvDeactivate',
-      \   'VirtualEnvList' ] }
 Plug 'davidhalter/jedi-vim'
 Plug 'vim-ruby/vim-ruby'
 Plug 'elzr/vim-json'
 
-" Utility plugins
+" Miscellaneous
+Plug 'luochen1990/rainbow'
+Plug 'machakann/vim-columnmove'
+Plug 'dhruvasagar/vim-table-mode'
+Plug 'idanarye/vim-vebugger'
+Plug 'thinca/vim-quickrun'
+if v:version >= 800
+  Plug 'w0rp/ale'
+endif
 Plug 'moll/vim-bbye', { 'on' : 'Bdelete' }
-Plug 'Konfekt/FastFold'
-Plug 'Shougo/neomru.vim'
-Plug 'Shougo/unite-help'
-Plug 'Shougo/unite-outline'
-Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
-Plug 'ervandew/screen'
-Plug 'itchyny/calendar.vim'
 Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
-Plug 'nhooyr/neoman.vim'
 Plug 'thinca/vim-prettyprint'
-Plug 'tpope/vim-scriptease'
-Plug 'tpope/vim-unimpaired'
-Plug 'tsukkee/unite-tag'
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
+Plug 'nhooyr/neoman.vim'
+
+" Replace or remove
+Plug 'haya14busa/incsearch.vim'
+
+" Check
+Plug 'Shougo/neco-vim'
+Plug 'Shougo/neomru.vim'
+
+" Testing
 Plug 'KabbAmine/zeavim.vim', {'on': [
       \ 'Zeavim',
       \ 'Docset',
@@ -338,7 +331,7 @@ endif
 
 " Set colorscheme and custom colors
 autocmd vimrc_autocommands ColorScheme * call personal#custom_colors()
-silent! colorscheme solarized
+silent! colorscheme flattened_light
 
 " Set gui cursor
 set guicursor=a:block
@@ -456,24 +449,6 @@ nnoremap <silent> <leader>ps :PlugStatus<cr>
 nnoremap <silent> <leader>pc :PlugClean<cr>
 
 " }}}2
-" {{{2 plugin: indentLine
-
-let g:indentLine_fileType = [
-      \ 'sh',
-      \ 'vim',
-      \ 'fortran',
-      \ 'python',
-      \]
-let g:indentLine_color_term = 239
-let g:indentLine_color_gui = '#d6d0bf'
-let g:indentLine_concealcursor = ''
-if has('gui_running')
-  let g:indentLine_char = '┊'
-else
-  let g:indentLine_char = '|'
-endif
-
-" }}}2
 " {{{2 plugin: rainbow
 
 let g:rainbow_active = 1
@@ -483,7 +458,7 @@ let g:rainbow_conf = {
       \ 'ctermfgs': ['9', '127', '4', '1', '3', '12', '5', '2', '6', '33',
       \   '104', '124', '7', '39'],
       \ 'separately' : {
-      \   '*' : 0,
+      \   'wiki' : 0,
       \   'fortran' : {},
       \ }
       \}
@@ -526,24 +501,6 @@ silent! call columnmove#utility#map('nxo', 'ge', '<m-g>e', 'block')
 silent! call columnmove#utility#map('nxo', 'gE', '<m-g>E', 'block')
 
 " }}}2
-" {{{2 plugin: vim-diff-enhanced
-
-let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
-
-" }}}2
-" {{{2 plugin: Conque-GDB
-
-" ConqueGDB options
-let g:ConqueGdb_Leader = '<leader>d'
-let g:ConqueGdb_SrcSplit = 'left'
-
-" ConqueTerm options
-let g:ConqueTerm_Color = 2
-let g:ConqueTerm_CloseOnEnd = 1
-let g:ConqueTerm_StartMessages = 0
-let g:ConqueTerm_ReadUnfocused = 1
-
-" }}}
 " {{{2 plugin: vim-fugitive
 
 nnoremap <leader>gs :Gtogglestatus<cr>
@@ -971,6 +928,7 @@ vmap .  <plug>(EasyAlignRepeat)
 " }}}2
 " {{{2 plugin: vim-table-mode
 
+let g:table_mode_auto_align = 0
 
 " }}}2
 " {{{2 plugin: vim-sandwich
@@ -1045,23 +1003,6 @@ let g:sandwich#recipes += [
 " {{{2 plugin: vim-json
 
 let g:vim_json_syntax_conceal = 0
-
-" }}}2
-" {{{2 plugin: codi
-
-nnoremap <leader>ii :Codi!!<cr>
-nnoremap <leader>ip :Codi python<cr>
-
-augroup vimrc_codi
-  autocmd!
-  autocmd User CodiEnterPost
-        \ set columns-=50
-        \|hi VertSplit guifg=bg guibg=NONE
-        \|hi NonText guifg=bg guibg=NONE
-  autocmd User CodiLeavePost
-        \ hi clear VertSplit
-        \|hi clear NonText
-augroup END
 
 " }}}2
 " {{{2 plugin: ale
