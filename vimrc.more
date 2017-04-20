@@ -1,5 +1,0 @@
-file PIPED
-setlocal buftype=nofile
-setlocal bufhidden=hide
-
-nnoremap q :q!<cr>

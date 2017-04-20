@@ -14,6 +14,5 @@ if [ -e autoload/plug.vim ]; then
 else
   echo "done!"
   mkdir -p ~/.vim/autoload
-  ln -s bundle/vim-plug/vim-plug.vim ~/.vim/autoload/vim-plug.vim
+  ln -s ../bundle/vim-plug/plug.vim ~/.vim/autoload/plug.vim
 fi
-

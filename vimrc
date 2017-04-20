@@ -1,51 +1,54 @@
-scriptencoding utf8
-
-" {{{1 Initialize
 
 " Use space as leader key
 nnoremap <space> <nop>
 let mapleader = "\<space>"
 
-" -------------------------------------------------------------------------------
-" Load plugins
-" -------------------------------------------------------------------------------
-silent! if plug#begin('~/.vim/bundle')
-
-Plug 'junegunn/vim-plug', { 'on' : [] }
-
-" -------------------------------------------------------------------------------
-" My plugins
-" -------------------------------------------------------------------------------
-Plug '~/.vim/personal'
-let s:lervag = index([
+" Define some paths/variables
+let s:main = '~/.vim'
+let s:init_script = s:main . '/init.sh'
+let s:plug = s:main . '/autoload/plug.vim'
+let s:bundle = s:main . '/bundle'
+let s:personal = s:main . '/personal'
+let s:hosts = [
       \ 'yoga',
       \ 'vsl136',
       \ 'vsl142',
       \ 'unity.sintef.no',
-      \], hostname()) >= 0 ? 'git@github.com:lervag/' : 'lervag/'
-call plug#(s:lervag . 'vimtex')
-call plug#(s:lervag . 'file-line')
-if index(['yoga', 'vsl136'], hostname()) >= 0
-  Plug 'git@github.com:lervag/wiki'
+      \]
+let s:lervag = index(s:hosts, hostname()) >= 0
+      \ ? 'git@github.com:lervag/' : 'lervag/'
+
+" {{{1 Load plugins
+
+if !filereadable(expand(s:plug))
+  let s:stop = 1
+  execute 'silent !' . s:init_script
+  " vint: -ProhibitAutocmdWithNoGroup
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  " vint: +ProhibitAutocmdWithNoGroup
 endif
 
-" -------------------------------------------------------------------------------
+silent! if plug#begin(s:bundle)
+
+Plug 'junegunn/vim-plug', { 'on' : [] }
+
+" My plugins
+call plug#(s:personal)
+call plug#(s:lervag . 'vimtex')
+call plug#(s:lervag . 'file-line')
+call plug#(s:lervag . 'wiki')
+
 " User interface
-" -------------------------------------------------------------------------------
 Plug 'altercation/vim-colors-solarized'
 Plug 'Yggdroot/indentLine'
 Plug 'luochen1990/rainbow'
 
-" -------------------------------------------------------------------------------
 " Motions and text objects
-" -------------------------------------------------------------------------------
 Plug 'wellle/targets.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'machakann/vim-columnmove'
 
-" -------------------------------------------------------------------------------
 " Programming and editing
-" -------------------------------------------------------------------------------
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'dyng/ctrlsf.vim'
 Plug 'idanarye/vim-vebugger'
@@ -67,16 +70,12 @@ if v:version >= 800
   Plug 'w0rp/ale'
 endif
 
-" -------------------------------------------------------------------------------
 " Completion and snippets
-" -------------------------------------------------------------------------------
 Plug 'Shougo/neocomplete'
 Plug 'Shougo/neco-vim'
 Plug 'SirVer/ultisnips'
 
-" -------------------------------------------------------------------------------
 " Filetype specific
-" -------------------------------------------------------------------------------
 Plug 'darvelo/vim-systemd'
 Plug 'whatyouhide/vim-tmux-syntax'
 Plug 'gregsexton/MatchTag'
@@ -88,9 +87,7 @@ Plug 'davidhalter/jedi-vim'
 Plug 'vim-ruby/vim-ruby'
 Plug 'elzr/vim-json'
 
-" -------------------------------------------------------------------------------
 " Utility plugins
-" -------------------------------------------------------------------------------
 Plug 'moll/vim-bbye', { 'on' : 'Bdelete' }
 Plug 'Konfekt/FastFold'
 Plug 'Shougo/neomru.vim'
@@ -119,7 +116,10 @@ Plug 'sunaku/vim-dasht'
 
 call plug#end() | endif
 
-" }}}1
+if exists('s:stop')
+  finish
+endif
+
 " {{{1 Autocommands
 
 augroup vimrc_autocommands
@@ -149,9 +149,7 @@ augroup END
 
 " {{{1 Options
 
-" -------------------------------------------------------------------------------
 " Basic
-" -------------------------------------------------------------------------------
 set history=10000
 set cpoptions+=J
 set tags=tags;~,.tags;~
@@ -179,9 +177,7 @@ else
   set cryptmethod=blowfish
 endif
 
-" -------------------------------------------------------------------------------
 " Backup, swap and undofile
-" -------------------------------------------------------------------------------
 set noswapfile
 set nobackup
 set undofile
@@ -193,9 +189,7 @@ if !isdirectory(&undodir)
   call mkdir(&undodir)
 endif
 
-" -------------------------------------------------------------------------------
 " Behaviour
-" -------------------------------------------------------------------------------
 set autochdir
 set autoread
 set lazyredraw
@@ -216,18 +210,14 @@ set formatlistpat+=\\\|^\\s*\\(\\d\\+\\\|[a-z]\\)[:).]\\s\\+
 set winaltkeys=no
 set mouse=
 
-" -------------------------------------------------------------------------------
 " Completion
-" -------------------------------------------------------------------------------
 set wildmenu
 set wildmode=longest:full,full
 set wildcharm=<c-z>
 set complete+=U,s,k,kspell,d,]
 set completeopt=longest,menu,preview
 
-" -------------------------------------------------------------------------------
 " Presentation
-" -------------------------------------------------------------------------------
 set list
 set listchars=tab:▸\ ,nbsp:%,trail:\ ,extends:,precedes:
 set fillchars=vert:│,fold:\ ,diff:⣿
@@ -246,9 +236,7 @@ if !has('gui_running')
   set t_vb=
 endif
 
-" -------------------------------------------------------------------------------
 " Folding
-" -------------------------------------------------------------------------------
 if &foldmethod ==# ''
   set foldmethod=syntax
 endif
@@ -263,9 +251,7 @@ function! TxtFoldText()
   return printf('%-4s %-s', level, title)
 endfunction
 
-" -------------------------------------------------------------------------------
 " Indentation
-" -------------------------------------------------------------------------------
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
@@ -278,9 +264,7 @@ set copyindent
 set preserveindent
 silent! set breakindent
 
-" -------------------------------------------------------------------------------
 " Searching and movement
-" -------------------------------------------------------------------------------
 set nostartofline
 set ignorecase
 set smartcase
@@ -297,10 +281,7 @@ elseif executable('ack-grep')
   set grepprg=ack-grep\ --nocolor
 endif
 
-" -------------------------------------------------------------------------------
 " Spell checking
-" -------------------------------------------------------------------------------
-
 set spelllang=en_gb
 set spellfile+=~/.vim/spell/mywords.latin1.add
 set spellfile+=~/.vim/spell/mywords.utf-8.add
@@ -322,7 +303,6 @@ function! LoopSpellLanguage()
 endfunction
 nnoremap <silent> <F6> :<c-u>call LoopSpellLanguage()<cr>
 
-" }}}1
 " {{{1 Appearance and UI
 
 set background=light
@@ -365,9 +345,7 @@ set guicursor+=i-ci-sm:ver30-iCursor
 set guicursor+=r-cr:hor20-rCursor
 set guicursor+=a:blinkon0
 
-"
 " Initialize statusline and tabline
-"
 call statusline#init()
 call statusline#init_tabline()
 
@@ -441,22 +419,21 @@ nnoremap <silent> <leader>0 :call personal#toggle_fontsize('0')<cr>
 vnoremap <silent><expr> ++ personal#visual_math#yank_and_analyse()
 nmap     <silent>       ++ vip++<esc>
 
-" }}}1
 " {{{1 Plugin options
 
 " {{{2 vim-internal
 
 runtime macros/matchit.vim
 
-let g:loaded_2html_plugin     = 1
-let g:loaded_getscriptPlugin  = 1
-let g:loaded_gzip             = 1
-let g:loaded_logipat          = 1
-let g:loaded_rrhelper         = 1
+let g:loaded_2html_plugin = 1
+let g:loaded_getscriptPlugin = 1
+let g:loaded_gzip = 1
+let g:loaded_logipat = 1
+let g:loaded_rrhelper = 1
 let g:loaded_spellfile_plugin = 1
-let g:loaded_tarPlugin        = 1
-let g:loaded_vimballPlugin    = 1
-let g:loaded_zipPlugin        = 1
+let g:loaded_tarPlugin = 1
+let g:loaded_vimballPlugin = 1
+let g:loaded_zipPlugin = 1
 
 let g:python_highlight_all = 1
 
@@ -1089,6 +1066,7 @@ let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
 
 let g:ale_lint_on_enter = 0
+let g:ale_lint_on_filetype_changed = 0
 let g:ale_lint_on_text_changed = 'never'
 
 let g:ale_statusline_format = ['Errors: %d', 'Warnings: %d', '']
