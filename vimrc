@@ -4,7 +4,7 @@ nnoremap <space> <nop>
 let mapleader = "\<space>"
 
 " Define some paths/variables
-let s:main = '~/.vim'
+let s:main = fnamemodify(expand('<sfile>'), ':h')
 let s:init_script = s:main . '/init.sh'
 let s:plug = s:main . '/autoload/plug.vim'
 let s:bundle = s:main . '/bundle'
@@ -17,6 +17,7 @@ let s:hosts = [
       \]
 let s:lervag = index(s:hosts, hostname()) >= 0
       \ ? 'git@github.com:lervag/' : 'lervag/'
+let s:vimrc = s:main . (has('nvim') ? '/init.vim' : '/vimrc')
 
 " {{{1 Load plugins
 
@@ -71,7 +72,9 @@ if v:version >= 800
 endif
 
 " Completion and snippets
-Plug 'Shougo/neocomplete'
+if !has('nvim')
+  Plug 'Shougo/neocomplete'
+endif
 Plug 'Shougo/neco-vim'
 Plug 'SirVer/ultisnips'
 
@@ -149,12 +152,28 @@ augroup END
 
 " {{{1 Options
 
+" Vim specific options
+if !has('nvim')
+  set history=10000
+  set nrformats-=octal
+  if has('patch-7.4.399')
+    set cryptmethod=blowfish2
+  else
+    set cryptmethod=blowfish
+  endif
+  set autoread
+  set backspace=indent,eol,start
+  set wildmenu
+  set laststatus=2
+  set smarttab
+  set autoindent
+  set incsearch
+endif
+
 " Basic
-set history=10000
 set cpoptions+=J
 set tags=tags;~,.tags;~
 set path=.,**
-set nrformats-=octal
 set fileformat=unix
 set wildignore=*.o
 set wildignore+=*~
@@ -171,11 +190,6 @@ if has('gui_running')
 else
   set diffopt+=horizontal
 endif
-if has('patch-7.4.399')
-  set cryptmethod=blowfish2
-else
-  set cryptmethod=blowfish
-endif
 
 " Backup, swap and undofile
 set noswapfile
@@ -191,11 +205,9 @@ endif
 
 " Behaviour
 set autochdir
-set autoread
 set lazyredraw
 set confirm
 set hidden
-set backspace=indent,eol,start
 set shortmess=aoOtT
 silent! set shortmess+=cI
 set textwidth=79
@@ -211,7 +223,6 @@ set winaltkeys=no
 set mouse=
 
 " Completion
-set wildmenu
 set wildmode=longest:full,full
 set wildcharm=<c-z>
 set complete+=U,s,k,kspell,d,]
@@ -229,7 +240,6 @@ set splitbelow
 set splitright
 set previewheight=20
 set noshowmode
-set laststatus=2
 
 if !has('gui_running')
   set visualbell
@@ -255,11 +265,7 @@ endfunction
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
-
-set smarttab
 set expandtab
-
-set autoindent
 set copyindent
 set preserveindent
 silent! set breakindent
@@ -269,7 +275,6 @@ set nostartofline
 set ignorecase
 set smartcase
 set infercase
-set incsearch
 set showmatch
 
 set display=lastline
@@ -283,8 +288,7 @@ endif
 
 " Spell checking
 set spelllang=en_gb
-set spellfile+=~/.vim/spell/mywords.latin1.add
-set spellfile+=~/.vim/spell/mywords.utf-8.add
+let &spellfile = s:main . '/spell/mywords.utf-8.add'
 
 " Add simple switch for spell languages
 let g:spell_list = ['nospell', 'en_gb', 'nn', 'nb']
@@ -408,9 +412,9 @@ nnoremap        <bs> <c-o>zvzz
 nnoremap <expr> <cr> empty(&buftype) ? '<c-]>zvzz' : '<cr>'
 
 " Shortcuts for some files
-nnoremap <leader>ev :e ~/.vim/vimrc<cr>
-nnoremap <leader>ez :e ~/.dotfiles/zshrc<cr>
-nnoremap <leader>xv :so ~/.vim/vimrc<cr>
+execute 'nnoremap <leader>ev :edit'   s:vimrc . '<cr>'
+execute 'nnoremap <leader>xv :source' s:vimrc . '<cr>'
+nnoremap <leader>ez :edit ~/.dotfiles/zshrc<cr>
 
 " Toggle fontsize
 nnoremap <silent> <leader>+ :call personal#toggle_fontsize('+')<cr>
@@ -720,12 +724,10 @@ let g:neocomplete#force_omni_input_patterns.wiki = '\[\[[^]|]*#\S*'
 
 " {{{2 plugin: UltiSnips
 
-let g:neosnippet#snippets_directory = '~/.vim/snippets'
-
 let g:UltiSnipsExpandTrigger = '<c-j>'
 let g:UltiSnipsJumpForwardTrigger = '<c-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
-let g:UltiSnipsSnippetDirectories = [$HOME . '/.vim/UltiSnips']
+let g:UltiSnipsSnippetDirectories = [s:main . '/UltiSnips']
 
 nnoremap <leader>es :UltiSnipsEdit!<cr>
 
@@ -750,6 +752,7 @@ let g:tex_isk='48-57,a-z,A-Z,192-255,:'
 
 "
 " NOTE: See also ~/.vim/personal/ftplugin/tex.vim
+"             or ~/.config/nvim/personal/ftplugin/tex.vim
 "
 
 " }}}2
