@@ -55,19 +55,6 @@ Plug 'SirVer/ultisnips'
 Plug 'Konfekt/FastFold'
 Plug 'itchyny/calendar.vim'
 
-" Important (but looking for alternatives)
-Plug 'ludovicchabant/vim-lawrencium'
-if !has('nvim')
-  Plug 'Shougo/neocomplete'
-endif
-Plug 'ervandew/screen'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-scriptease'
-
-Plug 'Shougo/denite.nvim'
-Plug 'Shougo/neco-vim'
-Plug 'Shougo/neomru.vim'
-
 " Filetype specific
 Plug 'darvelo/vim-systemd'
 Plug 'whatyouhide/vim-tmux-syntax'
@@ -92,7 +79,17 @@ Plug 'thinca/vim-prettyprint'
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
 Plug 'nhooyr/neoman.vim'
 
-" Replace or remove
+" Uncertain - might replace or remove
+Plug 'ludovicchabant/vim-lawrencium'
+if !has('nvim')
+  Plug 'Shougo/neocomplete'
+endif
+Plug 'ervandew/screen'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-scriptease'
+Plug 'Shougo/denite.nvim'
+Plug 'Shougo/neco-vim'
+Plug 'Shougo/neomru.vim'
 Plug 'haya14busa/incsearch.vim'
 
 " Testing
@@ -149,6 +146,11 @@ if !has('nvim')
   set smarttab
   set autoindent
   set incsearch
+endif
+
+" Neovim specific options
+if has('nvim')
+  set inccommand=split
 endif
 
 " Basic
@@ -786,6 +788,7 @@ silent! call columnmove#utility#map('nxo', 'gE', '<m-g>E', 'block')
 " {{{2 plugin: vim-gutentags
 
 let g:gutentags_ctags_tagfile = '.tags'
+let g:gutentags_generate_on_new = 0
 let g:gutentags_file_list_command = {
       \ 'markers': {
       \   '.git': 'git ls-files',
