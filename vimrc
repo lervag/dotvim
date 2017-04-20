@@ -697,6 +697,8 @@ let g:rainbow_conf = {
       \   '104', '124', '7', '39'],
       \ 'separately' : {
       \   'wiki' : 0,
+      \   'md' : 0,
+      \   'help' : 0,
       \   'fortran' : {},
       \ }
       \}
