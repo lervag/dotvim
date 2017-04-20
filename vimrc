@@ -484,6 +484,8 @@ call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 call denite#custom#var('file_rec/git', 'command',
       \ ['git', 'ls-files', '-co', '--exclude-standard'])
 
+call denite#custom#source('_', 'matchers', ['matcher_regexp'])
+
 " Neomru settings
 let g:neomru#file_mru_ignore_pattern = '\v' . join([
       \ '\/\.%(git|hg)\/',
