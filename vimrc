@@ -60,13 +60,13 @@ Plug 'ludovicchabant/vim-lawrencium'
 if !has('nvim')
   Plug 'Shougo/neocomplete'
 endif
-Plug 'Shougo/unite-help'
-Plug 'Shougo/unite-outline'
-Plug 'Shougo/unite.vim'
-Plug 'tsukkee/unite-tag'
 Plug 'ervandew/screen'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-scriptease'
+
+Plug 'Shougo/denite.nvim'
+Plug 'Shougo/neco-vim'
+Plug 'Shougo/neomru.vim'
 
 " Filetype specific
 Plug 'darvelo/vim-systemd'
@@ -94,10 +94,6 @@ Plug 'nhooyr/neoman.vim'
 
 " Replace or remove
 Plug 'haya14busa/incsearch.vim'
-
-" Check
-Plug 'Shougo/neco-vim'
-Plug 'Shougo/neomru.vim'
 
 " Testing
 Plug 'KabbAmine/zeavim.vim', {'on': [
@@ -464,6 +460,66 @@ augroup vimrc_fugitive
 augroup END
 
 " }}}2
+" {{{2 feature: denite
+
+call denite#custom#option('default', 'prompt', '>')
+call denite#custom#option('default', 'statusline', 0)
+call denite#custom#option('default', 'updatetime', 5)
+
+for [s:mode, s:lhs, s:rhs, s:params] in [
+      \ ['normal', '<esc>', '<denite:quit>', 'noremap'],
+      \ ['insert', '<esc>', '<denite:quit>', 'noremap'],
+      \ ['insert', '<c-j>', '<denite:move_to_next_line>', 'noremap'],
+      \ ['insert', '<c-k>', '<denite:move_to_previous_line>', 'noremap'],
+      \]
+  call denite#custom#map(s:mode, s:lhs, s:rhs, s:params)
+endfor
+
+if executable('ag')
+  call denite#custom#var('grep', 'command', ['ag'])
+  call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', [])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'final_opts', [])
+endif
+
+call denite#custom#source('_', 'matchers', [
+      \ 'matcher_ignore_globs',
+      \ 'matcher_fuzzy',
+      \])
+
+" Neomru settings
+call denite#custom#source('file_mru', 'converters', ['converter_mypath'])
+let g:neomru#file_mru_ignore_pattern =
+      \ '\v' . join([
+      \   '\/\.%(git|hg)\/',
+      \   '\.wiki$',
+      \   '\.snip$',
+      \   '\.vim\/vimrc$',
+      \   '\/vim\/.*\/doc\/.*txt$',
+      \   '_%(LOCAL|REMOTE)_',
+      \   '\~record$',
+      \   '^\/tmp\/',
+      \   '^man:\/\/',
+      \   ], '|')
+
+call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+call denite#custom#var('file_rec/git', 'command',
+      \ ['git', 'ls-files', '-co', '--exclude-standard'])
+
+" Mappings
+nnoremap <silent> <leader><leader> :<c-u>Denite file_mru <cr>
+nnoremap <silent> <leader>oo       :<c-u>Denite file<cr>
+nnoremap <silent> <leader>og       :<c-u>Denite file_rec/git<cr>
+nnoremap <silent> <leader>ov       :<c-u>Denite file_rec:~/.vim<cr>
+nnoremap <silent> <leader>oh       :<c-u>Denite help<cr>
+nnoremap <silent> <leader>ob       :<c-u>Denite buffer<cr>
+nnoremap <silent> <leader>ot       :<c-u>Denite outline tag<cr>
+nnoremap <silent> <leader>oc       :<c-u>Denite command<cr>
+" nnoremap <silent> <leader>ow       :<c-u>Denite unite:wiki<cr>
+
+" }}}2
 
 " {{{2 plugin: ale
 
@@ -710,89 +766,6 @@ let g:undotree_SetFocusWhenToggle = 1
 nnoremap <f5> :UndotreeToggle<cr>
 
 " }}}2
-" {{{2 plugin: unite.vim
-
-"
-" General settings
-"
-let g:unite_force_overwrite_statusline=0
-if executable('ag')
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts
-        \ = '--nocolor --line-numbers --nogroup -S -C4'
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('ack-grep')
-  let g:unite_source_grep_command = 'ack'
-  let g:unite_source_grep_default_opts = '--no-heading --no-color -C4'
-  let g:unite_source_grep_recursive_opt = ''
-endif
-
-"
-" Set default context options
-"
-call unite#custom#profile('default', 'context', {
-      \ 'start_insert' : 1,
-      \ 'no_split' : 1,
-      \ 'prompt' : '> ',
-      \ })
-
-"
-" Neomru settings
-"
-call unite#custom#source('file_mru', 'ignore_pattern',
-      \ '\v' . join([
-      \   '\/\.%(git|hg)\/',
-      \   '\.wiki$',
-      \   '\.snip$',
-      \   '\.vim\/vimrc$',
-      \   '\/vim\/.*\/doc\/.*txt$',
-      \   '_%(LOCAL|REMOTE)_',
-      \   '\~record$',
-      \   '^\/tmp\/',
-      \   '^man:\/\/',
-      \   ], '|'))
-
-"
-" Other settings
-"
-call unite#custom#source('file,file_mru', 'converters', 'converter_mypath')
-call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern',
-      \ '\v' . join([
-      \   '\/undofiles\/',
-      \ ], '|'))
-
-"
-" Mappings
-"
-nnoremap <silent> <leader><leader> :<c-u>Unite file_mru <cr>
-nnoremap <silent> <leader>oo       :<c-u>Unite file<cr>
-nnoremap <silent> <leader>ob       :<c-u>Unite buffer<cr>
-nnoremap <silent> <leader>oh       :<c-u>Unite help<cr>
-nnoremap <silent> <leader>ot       :<c-u>Unite outline tag tag/include<cr>
-nnoremap <silent> <leader>om       :<c-u>Unite mapping<cr>
-nnoremap <silent> <leader>oc       :<c-u>Unite command<cr>
-nnoremap <silent> <leader>ow       :<c-u>Unite wiki<cr>
-nnoremap <silent> <leader>ov       :<c-u>Unite file_rec/async:~/.vim<cr>
-
-"
-" Mappings and similar inside Unite buffers
-"
-function! s:unite_settings()
-  nmap <buffer> q     <plug>(unite_exit)
-  nmap <buffer> Q     <plug>(unite_exit)
-  nmap <buffer> <esc> <plug>(unite_exit)
-  imap <buffer> <esc> <plug>(unite_exit)
-  imap <buffer> <c-j> <plug>(unite_select_next_line)
-  imap <buffer> <c-k> <plug>(unite_select_previous_line)
-  imap <buffer> <f5>  <plug>(unite_redraw)
-  nmap <buffer> <f5>  <plug>(unite_redraw)
-endfunction
-augroup vimrc_unite
-  autocmd!
-  autocmd FileType unite call s:unite_settings()
-augroup END
-
-" }}}2
 " {{{2 plugin: vim-easy-align
 
 let g:easy_align_bypass_fold = 1
@@ -1025,8 +998,6 @@ let g:vimtex_view_method = 'zathura'
 let g:vimtex_imaps_leader = ';'
 let g:vimtex_complete_img_use_tail = 1
 let g:vimtex_view_automatic = 0
-
-nnoremap \lt :Unite vimtex_toc<cr>
 
 "
 " NOTE: See also ~/.vim/personal/ftplugin/tex.vim

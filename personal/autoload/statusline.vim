@@ -46,8 +46,8 @@ function! statusline#main(winnr) " {{{1
     return s:help(l:bufnr, l:active)
   elseif l:buftype ==# 'quickfix'
     return s:quickfix(l:bufnr, l:active)
-  elseif l:filetype ==# 'unite'
-    return s:unite(l:bufnr, l:active)
+  elseif l:filetype ==# 'denite'
+    return s:denite(l:bufnr, l:active)
   elseif l:filetype ==# 'wiki'
     return s:wiki(l:bufnr, l:active)
   else
@@ -76,38 +76,13 @@ function! s:quickfix(bufnr, active) " {{{1
 endfunction
 
 " }}}1
-function! s:unite(bufnr, active) " {{{1
-  let stat  = s:color(' Unite', 'SLAlert', a:active)
-  let stat .= ' -- '
-
-  " Source info
-  for l:source in unite#loaded_sources_list()
-    " Source name
-    let stat .= s:color(unite#helper#convert_source_name(l:source.name),
-          \ 'SLHighlight', a:active)
-
-    " Number of (visible) candidates
-    let stat .= ' (' . l:source.unite__len_candidates
-    if l:source.unite__orig_len_candidates != l:source.unite__len_candidates
-      let stat .= '/' . l:source.unite__orig_len_candidates
-    endif
-    let stat .= ') '
-  endfor
-
-  if !exists('b:unite') | return stat | endif
-  let stat .= '%='
-
-  let l:msgs = get(b:unite.msgs, 0, '')
-  if l:msgs !=# ''
-    let l:msgs = substitute(l:msgs, '^\[.\{-}\]\s*', '', '')
-    let l:msgs = substitute(l:msgs, 'directory', 'path', '')
-  endif
-
-  let stat .= b:unite.context.path !=# ''
-        \ ? '[' . b:unite.context.path . ']'
-        \ : (b:unite.is_async || msgs ==# '') ? '' : msgs
-
-  return stat . ' '
+function! s:denite(bufnr, active) " {{{1
+  return s:color(' Denite', 'SLAlert', a:active)
+        \ . ' -- '
+        \ . s:color(denite#get_status_sources(), 'SLHighlight', a:active)
+        \ . '%='
+        \ . s:color(denite#get_status_path(), 'SLHighlight', a:active)
+        \ . ' '
 endfunction
 
 " }}}1
