@@ -454,9 +454,13 @@ augroup END
 " }}}2
 " {{{2 feature: denite
 
-call denite#custom#option('default', 'prompt', '>')
-call denite#custom#option('default', 'statusline', 0)
-call denite#custom#option('default', 'updatetime', 5)
+call denite#custom#option('default', {
+      \ 'prompt': '>',
+      \ 'statusline': 0,
+      \ 'winheight': 999,
+      \ 'highlight_matched_char': 'Directory',
+      \ 'highlight_matched_range': 'String',
+      \})
 
 for [s:mode, s:lhs, s:rhs, s:params] in [
       \ ['normal', '<esc>', '<denite:quit>', 'noremap'],
@@ -476,29 +480,23 @@ if executable('ag')
   call denite#custom#var('grep', 'final_opts', [])
 endif
 
-call denite#custom#source('_', 'matchers', [
-      \ 'matcher_ignore_globs',
-      \ 'matcher_fuzzy',
-      \])
-
-" Neomru settings
-call denite#custom#source('file_mru', 'converters', ['converter_mypath'])
-let g:neomru#file_mru_ignore_pattern =
-      \ '\v' . join([
-      \   '\/\.%(git|hg)\/',
-      \   '\.wiki$',
-      \   '\.snip$',
-      \   '\.vim\/vimrc$',
-      \   '\/vim\/.*\/doc\/.*txt$',
-      \   '_%(LOCAL|REMOTE)_',
-      \   '\~record$',
-      \   '^\/tmp\/',
-      \   '^man:\/\/',
-      \   ], '|')
-
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 call denite#custom#var('file_rec/git', 'command',
       \ ['git', 'ls-files', '-co', '--exclude-standard'])
+
+" Neomru settings
+let g:neomru#file_mru_ignore_pattern = '\v' . join([
+      \ '\/\.%(git|hg)\/',
+      \ '\.wiki$',
+      \ '\.snip$',
+      \ '\.vim\/vimrc$',
+      \ '\/vim\/.*\/doc\/.*txt$',
+      \ '_%(LOCAL|REMOTE)_',
+      \ '\~record$',
+      \ '^\/tmp\/',
+      \ '^man:\/\/',
+      \], '|')
+call denite#custom#source('file_mru', 'converters', ['converter_mypath'])
 
 " Mappings
 nnoremap <silent> <leader><leader> :<c-u>Denite file_mru <cr>
@@ -509,7 +507,7 @@ nnoremap <silent> <leader>oh       :<c-u>Denite help<cr>
 nnoremap <silent> <leader>ob       :<c-u>Denite buffer<cr>
 nnoremap <silent> <leader>ot       :<c-u>Denite outline tag<cr>
 nnoremap <silent> <leader>oc       :<c-u>Denite command<cr>
-" nnoremap <silent> <leader>ow       :<c-u>Denite unite:wiki<cr>
+nnoremap <silent> <leader>ow       :<c-u>Denite wiki<cr>
 
 " }}}2
 
