@@ -771,7 +771,9 @@ let g:ruby_fold=1
 " }}}2
 " {{{2 plugin: wiki
 
-let g:wiki = { 'root' : '~/documents/wiki' }
+if isdirectory(glob('~/documents/wiki'))
+  let g:wiki = { 'root' : '~/documents/wiki' }
+endif
 
 " }}}2
 " {{{2 plugin: calendar.vim
