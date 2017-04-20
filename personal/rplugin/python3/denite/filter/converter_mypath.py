@@ -1,5 +1,5 @@
 from .base import Base
-from os.path import expanduser
+from os.path import expanduser, isabs, relpath
 import re
 
 
@@ -16,5 +16,10 @@ class Filter(Base):
             split = re.split('\/Dropbox\/documents', candidate['word'])
             if len(split) > 1:
                 candidate['word'] = expanduser('~/documents') + split[1]
+
+        for candidate in context['candidates']:
+            new_word = relpath(candidate['word'], start=context['path'])
+            if new_word[:2] != '..':
+                candidate['word'] = new_word
 
         return context['candidates']
