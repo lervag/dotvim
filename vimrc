@@ -459,7 +459,6 @@ augroup END
 call denite#custom#option('default', {
       \ 'prompt': '>',
       \ 'statusline': 0,
-      \ 'winheight': 999,
       \ 'highlight_matched_char': 'Directory',
       \ 'highlight_matched_range': 'String',
       \})
