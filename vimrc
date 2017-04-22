@@ -80,9 +80,6 @@ Plug 'nhooyr/neoman.vim'
 
 " Uncertain - might replace or remove
 Plug 'ludovicchabant/vim-lawrencium'
-if !has('nvim')
-  Plug 'Shougo/neocomplete'
-endif
 Plug 'ervandew/screen'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-scriptease'
@@ -93,6 +90,12 @@ Plug 'haya14busa/incsearch.vim'
 
 " Testing
 Plug 'sunaku/vim-dasht'
+Plug 'roxma/nvim-completion-manager'
+if !has('nvim')
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/echodoc.vim'
 
 call plug#end() | endif
 
@@ -115,12 +118,6 @@ augroup vimrc_autocommands
   autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line('$') |
         \   execute 'normal! g`"' |
-        \ endif
-
-  " Set omnifunction if it is not already specified
-  autocmd Filetype *
-        \ if &omnifunc == "" |
-        \   setlocal omnifunc=syntaxcomplete#Complete |
         \ endif
 
   " Set keymapping for command window
@@ -505,11 +502,65 @@ nnoremap <silent> <leader><leader> :<c-u>Denite file_mru <cr>
 nnoremap <silent> <leader>oo       :<c-u>Denite file<cr>
 nnoremap <silent> <leader>og       :<c-u>Denite file_rec/git<cr>
 nnoremap <silent> <leader>ov       :<c-u>Denite file_rec:~/.vim<cr>
+nnoremap <silent> <leader>op       :<c-u>Denite file_rec:~/.vim/personal<cr>
 nnoremap <silent> <leader>oh       :<c-u>Denite help<cr>
 nnoremap <silent> <leader>ob       :<c-u>Denite buffer<cr>
 nnoremap <silent> <leader>ot       :<c-u>Denite outline tag<cr>
 nnoremap <silent> <leader>oc       :<c-u>Denite command<cr>
 nnoremap <silent> <leader>ow       :<c-u>Denite wiki<cr>
+
+" }}}2
+" {{{2 feature: completion
+
+let g:echodoc#enable_at_startup = 1
+let g:LanguageClient_autoStart = 1
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'javascript': ['/opt/javascript-typescript-langserver/lib/language-server-stdio.js'],
+    \ }
+
+nnoremap <silent> <leader>lh :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> <leader>ld :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <leader>lr :call LanguageClient_textDocument_rename()<CR>
+
+inoremap <expr> <cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+inoremap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+augroup my_cm_setup
+  autocmd!
+  autocmd User CmSetup call cm#register_source({
+        \ 'name' : 'wiki',
+        \ 'priority': 9,
+        \ 'scoping': 1,
+        \ 'scopes': ['wiki'],
+        \ 'abbreviation': 'wiki',
+        \ 'cm_refresh_patterns': ['\[\[[^]|]*#?$'],
+        \ 'cm_refresh': {'omnifunc': 'wiki#complete#omnicomplete'},
+        \ })
+  autocmd User CmSetup call cm#register_source({
+        \ 'name' : 'vimtex',
+        \ 'priority': 8,
+        \ 'scoping': 1,
+        \ 'scopes': ['tex'],
+        \ 'abbreviation': 'tex',
+        \ 'cm_refresh_patterns': [
+        \   '\\[A-Za-z]*',
+        \   '\\[A-Za-z]*cite[A-Za-z]*(\[[^]]*\]){0,2}{[^}]*$',
+        \   '\\[A-Za-z]*ref({[^}]*|range{([^,{}]*(}{)?))',
+        \   '\\hyperref\[[^]]*',
+        \   '\\includegraphics\*?(\[[^]]*\]){0,2}{[^}]*',
+        \   '\\(include(only)?|input){[^}]*',
+        \   '\\\a*(gls|Gls|GLS)(pl)?\a*(\s*\[[^]]*\]){0,2}\s*\{[^}]*',
+        \   '\\includepdf(\s*\[[^]]*\])?\s*\{[^}]*',
+        \   '\\includestandalone(\s*\[[^]]*\])?\s*\{[^}]*',
+        \   '\\usepackage(\s*\[[^]]*\])?\s*\{[^}]*',
+        \   '\\documentclass(\s*\[[^]]*\])?\s*\{[^}]*',
+        \ ],
+        \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
+        \ })
+augroup END
 
 " }}}2
 
@@ -603,82 +654,6 @@ nmap g* <plug>(incsearch-nohl-g*)zvzz
 nmap g# <plug>(incsearch-nohl-g#)zvzz
 
 " }}}2
-" {{{2 plugin: neocomplete
-
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_camel_case = 1
-let g:neocomplete#enable_auto_delimiter = 1
-let g:neocomplete#enable_auto_close_preview = 1
-let g:neocomplete#enable_multibyte_completion = 1
-
-inoremap <expr> <c-l>   neocomplete#complete_common_string()
-inoremap <expr> <bs>    neocomplete#smart_close_popup() . "\<bs>"
-inoremap <expr> <cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
-inoremap <expr> <tab>   <sid>smart_tab()
-inoremap <expr> <s-tab> <sid>smart_tab_reverse()
-
-function! s:smart_tab()
-  if neocomplete#complete_common_string() !=# ''
-    return neocomplete#complete_common_string()
-  elseif pumvisible()
-    return "\<c-n>"
-  else
-    let l:col = col('.') - 1
-    if !l:col || getline('.')[l:col - 1]  =~# '\s'
-      return "\<tab>"
-    else
-      return neocomplete#start_manual_complete()
-    endif
-  endif
-endfunction
-
-function! s:smart_tab_reverse()
-  if pumvisible()
-    return "\<c-p>"
-  else
-    let l:col = col('.') - 1
-    if l:col > 0 && getline('.')[l:col - 1]  =~# '\S'
-      return neocomplete#start_manual_complete()
-    else
-      return ''
-    endif
-  endif
-endfunction
-
-" Define dictionaries if they don't exist
-if !exists('s:vimrc_neocomplete_init')
-  let g:neocomplete#same_filetypes = {}
-  let g:neocomplete#keyword_patterns = {}
-  let g:neocomplete#sources#omni#input_patterns = {}
-  let g:neocomplete#force_omni_input_patterns = {}
-  let s:vimrc_neocomplete_init = 1
-endif
-
-" Always use completions from all buffers
-let g:neocomplete#same_filetypes._ = '_'
-
-" Define keyword patterns
-let s:neocomplete_keyword = '[a-zA-ZæÆøØåÅ][0-9a-zA-ZæÆøØåÅ]\+'
-let g:neocomplete#keyword_patterns._   = s:neocomplete_keyword
-let g:neocomplete#keyword_patterns.tex = '\%(^\|\s\zs\)' . s:neocomplete_keyword
-
-" Define omni input patterns
-let g:neocomplete#sources#omni#input_patterns.wiki = '\[\[[^]|]*\|\]([^)]*'
-let g:neocomplete#sources#omni#input_patterns.tex =
-      \ '\v\\%('
-      \ . '\a*cite\a*%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-      \ . '|\a*ref%(\s*\{[^}]*|range\s*\{[^,}]*%(}\{)?)'
-      \ . '|hyperref\s*\[[^]]*'
-      \ . '|includegraphics\*?%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-      \ . '|%(include%(only)?|input)\s*\{[^}]*'
-      \ . '|usepackage%(\s*\[[^]]*\])?\s*\{[^}]*'
-      \ . '|documentclass%(\s*\[[^]]*\])?\s*\{[^}]*'
-      \ . '|\a*'
-      \ . ')'
-
-" Define omni force patterns
-let g:neocomplete#force_omni_input_patterns.wiki = '\[\[[^]|]*#\S*'
-
 " {{{2 plugin: rainbow
 
 let g:rainbow_active = 1
@@ -744,12 +719,16 @@ let g:targets_nlNL = 'nN  '
 " }}}2
 " {{{2 plugin: UltiSnips
 
-let g:UltiSnipsExpandTrigger = '<c-j>'
+" let g:UltiSnipsExpandTrigger = '<c-j>'
+let g:UltiSnipsExpandTrigger = "<plug>(ultisnips_expand)"
 let g:UltiSnipsJumpForwardTrigger = '<c-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+let g:UltiSnipsRemoveSelectModeMappings = 0
 let g:UltiSnipsSnippetDirectories = [s:main . '/UltiSnips']
 
 nnoremap <leader>es :UltiSnipsEdit!<cr>
+inoremap <silent> <c-u> <c-r>=
+      \ cm#sources#ultisnips#trigger_or_popup("\<plug>(ultisnips_expand)")<cr>
 
 " }}}2
 " {{{2 plugin: undotree
