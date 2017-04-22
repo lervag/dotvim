@@ -1,22 +1,16 @@
 if exists('g:loaded_resizesplits')
-    finish
+  finish
 endif
 let g:loaded_resizesplits = 1
 
 let s:save_cpo = &cpo
 set cpo&vim
 
-command! ResizeSplits call s:ResizeSplits()
+command! ResizeSplits call s:resize_splits()
+nnoremap <silent> <plug>(resize-splits) :ResizeSplits<cr>
+nmap <silent> <leader>q <plug>(resize-splits)
 
-augroup resize_splits
-  autocmd!
-  autocmd WinEnter,WinLeave * ResizeSplits
-augroup END
-
-nnoremap <silent> <c-w>o <c-w>o:ResizeSplits<cr>
-
-" {{{1 Functions
-function! s:ResizeSplits()
+function! s:resize_splits() " {{{1
   if !has('gui') && !empty($TMUX . $STY) | return | endif
 
   let l:column_width  = 82 + &foldcolumn
@@ -38,9 +32,12 @@ function! s:ResizeSplits()
     silent execute 'set co=' . l:total_width
     silent execute 'wincmd ='
   endif
+
+  redraw!
 endfunction
 
-function! s:HasSignCols()
+" }}}1
+function! s:HasSignCols() " {{{1
   let save_more = &more
   set nomore
   redir => lines
@@ -53,3 +50,5 @@ endfunction
 " }}}1
 
 let &cpo = s:save_cpo
+
+" vim: fdm=marker sw=2
