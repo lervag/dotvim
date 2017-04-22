@@ -39,7 +39,6 @@ call plug#(s:lervag . 'wiki')
 
 " Essentials
 Plug 'junegunn/vim-plug', { 'on' : [] }
-Plug 'romainl/flattened'
 Plug 'gregsexton/gitv', { 'on' : 'Gitv' }
 Plug 'tpope/vim-fugitive'
 Plug 'wellle/targets.vim'
@@ -321,7 +320,7 @@ endif
 
 " Set colorscheme and custom colors
 autocmd vimrc_autocommands ColorScheme * call personal#custom_colors()
-silent! colorscheme flattened_light
+silent! colorscheme my_solarized
 
 " Set gui cursor
 set guicursor=a:block
