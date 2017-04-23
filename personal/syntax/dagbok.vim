@@ -38,11 +38,11 @@ syn region fold
       \ transparent fold
 
 " Set colors
-hi def date       guifg=blue 
+hi link date    MoreMsg
 hi link entries Statement
 hi link time    number
 hi link numbers number
 hi link unit    number
 
 hi link are     entries
-hi def areentries guifg=black 
+hi def areentries guifg=black
