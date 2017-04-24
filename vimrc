@@ -83,7 +83,9 @@ Plug 'ludovicchabant/vim-lawrencium'
 Plug 'ervandew/screen'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-scriptease'
-Plug 'Shougo/denite.nvim'
+if has('nvim') || v:version >= 800
+  Plug 'Shougo/denite.nvim'
+endif
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/neomru.vim'
 Plug 'haya14busa/incsearch.vim'
@@ -94,7 +96,8 @@ Plug 'roxma/nvim-completion-manager'
 if !has('nvim')
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+Plug 'autozimu/LanguageClient-neovim',
+      \ has('nvim') ? { 'do': ':UpdateRemotePlugins' } : {}
 Plug 'Shougo/echodoc.vim'
 
 call plug#end() | endif
@@ -452,62 +455,64 @@ augroup END
 " }}}2
 " {{{2 feature: denite
 
-call denite#custom#option('default', {
-      \ 'prompt': '>',
-      \ 'statusline': 0,
-      \ 'highlight_matched_char': 'Directory',
-      \ 'highlight_matched_range': 'String',
-      \})
+if has('nvim') || v:version >= 800
+  call denite#custom#option('default', {
+        \ 'prompt': '>',
+        \ 'statusline': 0,
+        \ 'highlight_matched_char': 'Directory',
+        \ 'highlight_matched_range': 'String',
+        \})
 
-for [s:mode, s:lhs, s:rhs, s:params] in [
-      \ ['normal', '<esc>', '<denite:quit>', 'noremap'],
-      \ ['insert', '<esc>', '<denite:quit>', 'noremap'],
-      \ ['insert', '<c-j>', '<denite:move_to_next_line>', 'noremap'],
-      \ ['insert', '<c-k>', '<denite:move_to_previous_line>', 'noremap'],
-      \]
-  call denite#custom#map(s:mode, s:lhs, s:rhs, s:params)
-endfor
+  for [s:mode, s:lhs, s:rhs, s:params] in [
+        \ ['normal', '<esc>', '<denite:quit>', 'noremap'],
+        \ ['insert', '<esc>', '<denite:quit>', 'noremap'],
+        \ ['insert', '<c-j>', '<denite:move_to_next_line>', 'noremap'],
+        \ ['insert', '<c-k>', '<denite:move_to_previous_line>', 'noremap'],
+        \]
+    call denite#custom#map(s:mode, s:lhs, s:rhs, s:params)
+  endfor
 
-if executable('ag')
-  call denite#custom#var('grep', 'command', ['ag'])
-  call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep'])
-  call denite#custom#var('grep', 'recursive_opts', [])
-  call denite#custom#var('grep', 'pattern_opt', [])
-  call denite#custom#var('grep', 'separator', ['--'])
-  call denite#custom#var('grep', 'final_opts', [])
+  if executable('ag')
+    call denite#custom#var('grep', 'command', ['ag'])
+    call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', [])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
+  endif
+
+  call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+  call denite#custom#var('file_rec/git', 'command',
+        \ ['git', 'ls-files', '-co', '--exclude-standard'])
+
+  call denite#custom#source('_', 'matchers', ['matcher_regexp'])
+
+  " Neomru settings
+  let g:neomru#file_mru_ignore_pattern = '\v' . join([
+        \ '\/\.%(git|hg)\/',
+        \ '\.wiki$',
+        \ '\.snip$',
+        \ '\.vim\/vimrc$',
+        \ '\/vim\/.*\/doc\/.*txt$',
+        \ '_%(LOCAL|REMOTE)_',
+        \ '\~record$',
+        \ '^\/tmp\/',
+        \ '^man:\/\/',
+        \], '|')
+  call denite#custom#source('file_mru', 'converters', ['converter_mypath'])
+
+  " Mappings
+  nnoremap <silent> <leader><leader> :<c-u>Denite file_mru <cr>
+  nnoremap <silent> <leader>oo       :<c-u>Denite file<cr>
+  nnoremap <silent> <leader>og       :<c-u>Denite file_rec/git<cr>
+  nnoremap <silent> <leader>ov       :<c-u>Denite file_rec:~/.vim<cr>
+  nnoremap <silent> <leader>op       :<c-u>Denite file_rec:~/.vim/personal<cr>
+  nnoremap <silent> <leader>oh       :<c-u>Denite help<cr>
+  nnoremap <silent> <leader>ob       :<c-u>Denite buffer<cr>
+  nnoremap <silent> <leader>ot       :<c-u>Denite outline tag<cr>
+  nnoremap <silent> <leader>oc       :<c-u>Denite command<cr>
+  nnoremap <silent> <leader>ow       :<c-u>Denite wiki<cr>
 endif
-
-call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#var('file_rec/git', 'command',
-      \ ['git', 'ls-files', '-co', '--exclude-standard'])
-
-call denite#custom#source('_', 'matchers', ['matcher_regexp'])
-
-" Neomru settings
-let g:neomru#file_mru_ignore_pattern = '\v' . join([
-      \ '\/\.%(git|hg)\/',
-      \ '\.wiki$',
-      \ '\.snip$',
-      \ '\.vim\/vimrc$',
-      \ '\/vim\/.*\/doc\/.*txt$',
-      \ '_%(LOCAL|REMOTE)_',
-      \ '\~record$',
-      \ '^\/tmp\/',
-      \ '^man:\/\/',
-      \], '|')
-call denite#custom#source('file_mru', 'converters', ['converter_mypath'])
-
-" Mappings
-nnoremap <silent> <leader><leader> :<c-u>Denite file_mru <cr>
-nnoremap <silent> <leader>oo       :<c-u>Denite file<cr>
-nnoremap <silent> <leader>og       :<c-u>Denite file_rec/git<cr>
-nnoremap <silent> <leader>ov       :<c-u>Denite file_rec:~/.vim<cr>
-nnoremap <silent> <leader>op       :<c-u>Denite file_rec:~/.vim/personal<cr>
-nnoremap <silent> <leader>oh       :<c-u>Denite help<cr>
-nnoremap <silent> <leader>ob       :<c-u>Denite buffer<cr>
-nnoremap <silent> <leader>ot       :<c-u>Denite outline tag<cr>
-nnoremap <silent> <leader>oc       :<c-u>Denite command<cr>
-nnoremap <silent> <leader>ow       :<c-u>Denite wiki<cr>
 
 " }}}2
 " {{{2 feature: completion
