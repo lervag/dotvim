@@ -46,8 +46,6 @@ function! statusline#main(winnr) " {{{1
     return s:help(l:bufnr, l:active)
   elseif l:buftype ==# 'quickfix'
     return s:quickfix(l:bufnr, l:active)
-  elseif l:filetype ==# 'denite'
-    return s:denite(l:bufnr, l:active)
   elseif l:filetype ==# 'wiki'
     return s:wiki(l:bufnr, l:active)
   else
@@ -73,16 +71,6 @@ function! s:quickfix(bufnr, active) " {{{1
   let stat  = s:color(text, 'SLHighlight', a:active)
 
   return stat
-endfunction
-
-" }}}1
-function! s:denite(bufnr, active) " {{{1
-  return s:color(' Denite', 'SLAlert', a:active)
-        \ . ' -- '
-        \ . s:color(denite#get_status_sources(), 'SLHighlight', a:active)
-        \ . '%='
-        \ . s:color(denite#get_status_path(), 'SLHighlight', a:active)
-        \ . ' '
 endfunction
 
 " }}}1
@@ -126,6 +114,21 @@ function! s:main(bufnr, active) " {{{1
   let stat .= ' '
 
   return stat
+endfunction
+
+" }}}1
+
+"
+" CtrlP statusline
+"
+function! statusline#ctrlp(...) " {{{1
+  let l:info = a:0 > 1
+        \ ? a:4 . ' < %#SLHighlight#' . a:5 . '%* > ' . a:6
+        \ : a:1
+
+  return ' %#SLAlert#CtrlP%* -- '
+        \ . l:info
+        \ . '%=' . fnamemodify(getcwd(), ':~') . ' '
 endfunction
 
 " }}}1

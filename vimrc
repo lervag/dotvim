@@ -83,11 +83,7 @@ Plug 'ludovicchabant/vim-lawrencium'
 Plug 'ervandew/screen'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-scriptease'
-if has('nvim') || v:version >= 800
-  Plug 'Shougo/denite.nvim'
-endif
 Plug 'Shougo/neco-vim'
-Plug 'Shougo/neomru.vim'
 Plug 'haya14busa/incsearch.vim'
 
 " Testing
@@ -99,6 +95,7 @@ endif
 Plug 'autozimu/LanguageClient-neovim',
       \ has('nvim') ? { 'do': ':UpdateRemotePlugins' } : {}
 Plug 'Shougo/echodoc.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 
 call plug#end() | endif
 
@@ -453,68 +450,6 @@ augroup vimrc_fugitive
 augroup END
 
 " }}}2
-" {{{2 feature: denite
-
-if has('nvim') || v:version >= 800
-  call denite#custom#option('default', {
-        \ 'prompt': '>',
-        \ 'statusline': 0,
-        \ 'highlight_matched_char': 'Directory',
-        \ 'highlight_matched_range': 'String',
-        \})
-
-  for [s:mode, s:lhs, s:rhs, s:params] in [
-        \ ['normal', '<esc>', '<denite:quit>', 'noremap'],
-        \ ['insert', '<esc>', '<denite:quit>', 'noremap'],
-        \ ['insert', '<c-j>', '<denite:move_to_next_line>', 'noremap'],
-        \ ['insert', '<c-k>', '<denite:move_to_previous_line>', 'noremap'],
-        \]
-    call denite#custom#map(s:mode, s:lhs, s:rhs, s:params)
-  endfor
-
-  if executable('ag')
-    call denite#custom#var('grep', 'command', ['ag'])
-    call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep'])
-    call denite#custom#var('grep', 'recursive_opts', [])
-    call denite#custom#var('grep', 'pattern_opt', [])
-    call denite#custom#var('grep', 'separator', ['--'])
-    call denite#custom#var('grep', 'final_opts', [])
-  endif
-
-  call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-  call denite#custom#var('file_rec/git', 'command',
-        \ ['git', 'ls-files', '-co', '--exclude-standard'])
-
-  call denite#custom#source('_', 'matchers', ['matcher_regexp'])
-
-  " Neomru settings
-  let g:neomru#file_mru_ignore_pattern = '\v' . join([
-        \ '\/\.%(git|hg)\/',
-        \ '\.wiki$',
-        \ '\.snip$',
-        \ '\.vim\/vimrc$',
-        \ '\/vim\/.*\/doc\/.*txt$',
-        \ '_%(LOCAL|REMOTE)_',
-        \ '\~record$',
-        \ '^\/tmp\/',
-        \ '^man:\/\/',
-        \], '|')
-  call denite#custom#source('file_mru', 'converters', ['converter_mypath'])
-
-  " Mappings
-  nnoremap <silent> <leader><leader> :<c-u>Denite file_mru <cr>
-  nnoremap <silent> <leader>oo       :<c-u>Denite file<cr>
-  nnoremap <silent> <leader>og       :<c-u>Denite file_rec/git<cr>
-  nnoremap <silent> <leader>ov       :<c-u>Denite file_rec:~/.vim<cr>
-  nnoremap <silent> <leader>op       :<c-u>Denite file_rec:~/.vim/personal<cr>
-  nnoremap <silent> <leader>oh       :<c-u>Denite help<cr>
-  nnoremap <silent> <leader>ob       :<c-u>Denite buffer<cr>
-  nnoremap <silent> <leader>ot       :<c-u>Denite outline tag<cr>
-  nnoremap <silent> <leader>oc       :<c-u>Denite command<cr>
-  nnoremap <silent> <leader>ow       :<c-u>Denite wiki<cr>
-endif
-
-" }}}2
 " {{{2 feature: completion
 
 let g:echodoc#enable_at_startup = 1
@@ -633,6 +568,46 @@ nnoremap         <leader>ff :CtrlSF
 nnoremap <silent><leader>ft :CtrlSFToggle<cr>
 nnoremap <silent><leader>fu :CtrlSFUpdate<cr>
 vmap     <silent><leader>f  <Plug>CtrlSFVwordExec
+
+" }}}2
+" {{{2 plugin: CtrlP
+
+let g:ctrlp_map = '<leader><leader>'
+let g:ctrlp_cmd = 'CtrlPMRU'
+let g:ctrlp_switch_buffer = 'e'
+let g:ctrlp_working_path_mode = 'rc'
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
+let g:ctrlp_tilde_homedir = 1
+let g:ctrlp_match_window = 'order:ttb,min:30,max:30'
+let g:ctrlp_status_func = {
+      \ 'main' : 'statusline#ctrlp',
+      \ 'prog' : 'statusline#ctrlp',
+      \}
+let g:ctrlp_follow_symlinks = 1
+" let g:ctrlp_regexp = 1
+" let g:ctrlp_custom_ignore = ''
+" let g:ctrlp_mruf_exclude = ''
+" let g:neomru#file_mru_ignore_pattern = '\v' . join([
+"       \ '\/\.%(git|hg)\/',
+"       \ '\.wiki$',
+"       \ '\.snip$',
+"       \ '\.vim\/vimrc$',
+"       \ '\/vim\/.*\/doc\/.*txt$',
+"       \ '_%(LOCAL|REMOTE)_',
+"       \ '\~record$',
+"       \ '^\/tmp\/',
+"       \ '^man:\/\/',
+"       \], '|')
+
+
+" Mappings
+nnoremap <silent> <leader>oo       :CtrlP<cr>
+nnoremap <silent> <leader>og       :CtrlPRoot<cr>
+nnoremap <silent> <leader>ov       :CtrlP ~/.vim<cr>
+nnoremap <silent> <leader>op       :CtrlP ~/.vim/personal<cr>
+nnoremap <silent> <leader>ob       :CtrlPBuffer<cr>
+nnoremap <silent> <leader>ow       :CtrlP ~/documents/wiki<cr>
+nnoremap <silent> <leader>ot       :CtrlPTag<cr>
 
 " }}}2
 " {{{2 plugin: FastFold
