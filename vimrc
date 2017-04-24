@@ -584,21 +584,18 @@ let g:ctrlp_status_func = {
       \ 'prog' : 'statusline#ctrlp',
       \}
 let g:ctrlp_follow_symlinks = 1
-" let g:ctrlp_regexp = 1
+let g:ctrlp_mruf_exclude = '\v' . join([
+      \ '\/\.%(git|hg)\/',
+      \ '\.wiki$',
+      \ '\.snip$',
+      \ '\.vim\/vimrc$',
+      \ '\/vim\/.*\/doc\/.*txt$',
+      \ '_%(LOCAL|REMOTE)_',
+      \ '\~record$',
+      \ '^\/tmp\/',
+      \ '^man:\/\/',
+      \], '|')
 " let g:ctrlp_custom_ignore = ''
-" let g:ctrlp_mruf_exclude = ''
-" let g:neomru#file_mru_ignore_pattern = '\v' . join([
-"       \ '\/\.%(git|hg)\/',
-"       \ '\.wiki$',
-"       \ '\.snip$',
-"       \ '\.vim\/vimrc$',
-"       \ '\/vim\/.*\/doc\/.*txt$',
-"       \ '_%(LOCAL|REMOTE)_',
-"       \ '\~record$',
-"       \ '^\/tmp\/',
-"       \ '^man:\/\/',
-"       \], '|')
-
 
 " Mappings
 nnoremap <silent> <leader>oo       :CtrlP<cr>
