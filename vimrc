@@ -515,10 +515,10 @@ nnoremap <silent> <leader>ow       :<c-u>Denite wiki<cr>
 let g:echodoc#enable_at_startup = 1
 let g:LanguageClient_autoStart = 1
 
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ 'javascript': ['/opt/javascript-typescript-langserver/lib/language-server-stdio.js'],
-    \ }
+let g:cm_sources_override = {
+      \ 'cm-bufkeyword' : {'abbreviation' : 'key'},
+      \ 'cm-ultisnips' : {'abbreviation' : 'snip'},
+      \}
 
 nnoremap <silent> <leader>lh :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> <leader>ld :call LanguageClient_textDocument_definition()<CR>
@@ -719,7 +719,6 @@ let g:targets_nlNL = 'nN  '
 " }}}2
 " {{{2 plugin: UltiSnips
 
-" let g:UltiSnipsExpandTrigger = '<c-j>'
 let g:UltiSnipsExpandTrigger = "<plug>(ultisnips_expand)"
 let g:UltiSnipsJumpForwardTrigger = '<c-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
