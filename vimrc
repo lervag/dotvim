@@ -68,7 +68,7 @@ Plug 'machakann/vim-columnmove'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'idanarye/vim-vebugger'
 Plug 'thinca/vim-quickrun'
-if v:version >= 800
+if has('nvim') || v:version >= 800
   Plug 'w0rp/ale'
 endif
 Plug 'moll/vim-bbye', { 'on' : 'Bdelete' }
@@ -699,7 +699,7 @@ let g:targets_nlNL = 'nN  '
 " }}}2
 " {{{2 plugin: UltiSnips
 
-let g:UltiSnipsExpandTrigger = "<plug>(ultisnips_expand)"
+let g:UltiSnipsExpandTrigger = '<plug>(ultisnips_expand)'
 let g:UltiSnipsJumpForwardTrigger = '<c-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 let g:UltiSnipsRemoveSelectModeMappings = 0
