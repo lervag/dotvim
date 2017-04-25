@@ -80,7 +80,6 @@ Plug 'nhooyr/neoman.vim'
 
 " Uncertain - might replace or remove
 Plug 'ludovicchabant/vim-lawrencium'
-Plug 'ervandew/screen'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-scriptease'
 Plug 'Shougo/neco-vim'
@@ -96,6 +95,8 @@ Plug 'autozimu/LanguageClient-neovim',
       \ has('nvim') ? { 'do': ':UpdateRemotePlugins' } : {}
 Plug 'Shougo/echodoc.vim'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'benmills/vimux'
+Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end() | endif
 
@@ -648,44 +649,6 @@ let g:rainbow_conf = {
       \}
 
 " }}}2
-" {{{2 plugin: screen
-
-let g:ScreenImpl = 'Tmux'
-let g:ScreenShellTmuxInitArgs = '-2'
-let g:ScreenShellTerminal = 'urxvt'
-let g:ScreenShellActive = 0
-
-" Dynamic keybindings
-function! s:ScreenShellListenerMain()
-  if g:ScreenShellActive
-    nnoremap <silent> <c-c><c-c> <s-v>:ScreenSend<cr>
-    vnoremap <silent> <c-c><c-c> :ScreenSend<cr>
-    nnoremap <silent> <c-c><c-a> :ScreenSend<cr>
-    nnoremap <silent> <c-c><c-q> :ScreenQuit<cr>
-    if exists(':C') != 2
-      command -nargs=? C :call ScreenShellSend('<args>')
-    endif
-  else
-    nnoremap <c-c><c-a> <nop>
-    vnoremap <c-c><c-c> <nop>
-    nnoremap <c-c><c-q> <nop>
-    nnoremap <silent> <c-c><c-c> :ScreenShell<cr>
-    if exists(':C') == 2
-      delcommand C
-    endif
-  endif
-endfunction
-
-" Initialize and define auto group stuff
-nnoremap <silent> <c-c><c-c> :ScreenShell<cr>
-augroup ScreenShellEnter
-  autocmd User * :call <sid>ScreenShellListenerMain()
-augroup END
-augroup ScreenShellExit
-  autocmd User * :call <sid>ScreenShellListenerMain()
-augroup END
-
-" }}}2
 " {{{2 plugin: targets.vim
 
 let g:targets_argOpening = '[({[]'
@@ -713,6 +676,23 @@ let g:undotree_WindowLayout = 2
 let g:undotree_SetFocusWhenToggle = 1
 
 nnoremap <f5> :UndotreeToggle<cr>
+
+" }}}2
+" {{{2 plugin: vimux
+
+let g:VimuxOrientation = 'h'
+let g:VimuxHeight = '50'
+
+nnoremap <c-c>p :VimuxPromptCommand<cr>
+nnoremap <c-c>c :VimuxRunLastCommand<cr>
+nnoremap <c-c><c-c> :call VimuxSendText("jkk\n")<cr>
+nnoremap <c-c>n :VimuxInspectRunner<cr>
+nnoremap <c-c>q :VimuxCloseRunner<cr>
+nnoremap <c-c>z :VimuxZoomRunner<cr>
+xnoremap <c-c>s "vy :call VimuxSendText(@v)<cr>
+nmap     <c-c>s V<leader>vs
+
+nnoremap <silent> <bs> :TmuxNavigateLeft<cr>
 
 " }}}2
 " {{{2 plugin: vim-easy-align
