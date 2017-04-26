@@ -3,8 +3,8 @@ if exists('g:loaded_resizesplits')
 endif
 let g:loaded_resizesplits = 1
 
-let s:save_cpo = &cpo
-set cpo&vim
+let s:save_cpoptions = &cpoptions
+set cpoptions&vim
 
 command! ResizeSplits call s:resize_splits()
 nnoremap <silent> <plug>(resize-splits) :ResizeSplits<cr>
@@ -34,6 +34,7 @@ function! s:resize_splits() " {{{1
   endif
 
   redraw!
+  redraw!
 endfunction
 
 " }}}1
@@ -49,6 +50,6 @@ endfunction
 
 " }}}1
 
-let &cpo = s:save_cpo
+let &cpoptions = s:save_cpoptions
 
 " vim: fdm=marker sw=2
