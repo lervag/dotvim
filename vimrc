@@ -88,11 +88,10 @@ Plug 'haya14busa/incsearch.vim'
 " Testing
 Plug 'sunaku/vim-dasht'
 Plug 'roxma/nvim-completion-manager'
-if !has('nvim')
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+Plug 'roxma/vim-hug-neovim-rpc',
+      \ !has('nvim') ? {} : { 'on' : [] }
 Plug 'autozimu/LanguageClient-neovim',
-      \ has('nvim') ? { 'do': ':UpdateRemotePlugins' } : {}
+      \ !has('nvim') ? {} : { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/echodoc.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'benmills/vimux'
