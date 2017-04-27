@@ -598,13 +598,31 @@ let g:ctrlp_mruf_exclude = '\v' . join([
 " let g:ctrlp_custom_ignore = ''
 
 " Mappings
-nnoremap <silent> <leader>oo       :CtrlP<cr>
-nnoremap <silent> <leader>og       :CtrlPRoot<cr>
-nnoremap <silent> <leader>ov       :CtrlP ~/.vim<cr>
-nnoremap <silent> <leader>op       :CtrlP ~/.vim/personal<cr>
-nnoremap <silent> <leader>ob       :CtrlPBuffer<cr>
-nnoremap <silent> <leader>ow       :CtrlP ~/documents/wiki<cr>
-nnoremap <silent> <leader>ot       :CtrlPTag<cr>
+nnoremap <silent> <leader>oo :CtrlP<cr>
+nnoremap <silent> <leader>og :CtrlPRoot<cr>
+nnoremap <silent> <leader>ov :CtrlP ~/.vim<cr>
+nnoremap <silent> <leader>op :call CtrlPVimPlugs()<cr>
+nnoremap <silent> <leader>ob :CtrlPBuffer<cr>
+nnoremap <silent> <leader>ow :CtrlP ~/documents/wiki<cr>
+nnoremap <silent> <leader>ot :CtrlPTag<cr>
+
+" Wrapper to search through plugin source files
+function! CtrlPVimPlugs() " {{{1
+  let l:ctrlp_working_path_mode = g:ctrlp_working_path_mode
+  let l:ctrlp_user_command = g:ctrlp_user_command
+  let l:ctrlp_custom_ignore = get(g:, 'ctrlp_custom_ignore', '')
+  let g:ctrlp_working_path_mode = 'c'
+  let g:ctrlp_user_command = []
+  let g:ctrlp_custom_ignore = '\v(LICENSE|tags|\.png$|\.jpg$)'
+
+  CtrlP ~/.vim/bundle
+
+  let g:ctrlp_working_path_mode = l:ctrlp_working_path_mode
+  let g:ctrlp_user_command = l:ctrlp_user_command
+  let g:ctrlp_custom_ignore = l:ctrlp_custom_ignore
+endfunction
+
+" }}}1
 
 " }}}2
 " {{{2 plugin: FastFold
