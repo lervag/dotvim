@@ -48,6 +48,8 @@ function! statusline#main(winnr) " {{{1
     return s:quickfix(l:bufnr, l:active)
   elseif l:filetype ==# 'wiki'
     return s:wiki(l:bufnr, l:active)
+  elseif l:filetype ==# 'man'
+    return s:manpage(l:bufnr, l:active)
   else
     return s:main(l:bufnr, l:active)
   endif
@@ -114,6 +116,11 @@ function! s:main(bufnr, active) " {{{1
   let stat .= ' '
 
   return stat
+endfunction
+
+" }}}1
+function! s:manpage(bufnr, active) " {{{1
+  return s:color(' %<%f', 'SLHighlight', a:active)
 endfunction
 
 " }}}1
