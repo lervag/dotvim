@@ -9,15 +9,15 @@ let s:init_script = s:main . '/init.sh'
 let s:plug = s:main . '/autoload/plug.vim'
 let s:bundle = s:main . '/bundle'
 let s:personal = s:main . '/personal'
-let s:hosts = [
+let s:vimrc = s:main . '/vimrc'
+let s:devhosts = [
       \ 'yoga',
       \ 'vsl136',
       \ 'vsl142',
       \ 'unity.sintef.no',
       \]
-let s:lervag = index(s:hosts, hostname()) >= 0
-      \ ? 'git@github.com:lervag/' : 'lervag/'
-let s:vimrc = s:main . '/vimrc'
+let s:is_devhost = index(s:devhosts, hostname()) >= 0
+let s:lervag = s:is_devhost ? 'git@github.com:lervag/' : 'lervag/'
 
 " {{{1 Load plugins
 
@@ -35,7 +35,9 @@ silent! if plug#begin(s:bundle)
 call plug#(s:personal)
 call plug#(s:lervag . 'vimtex')
 call plug#(s:lervag . 'file-line')
-call plug#(s:lervag . 'wiki')
+if s:is_devhost
+  call plug#(s:lervag . 'wiki')
+endif
 
 " Essentials
 Plug 'junegunn/vim-plug', { 'on' : [] }
