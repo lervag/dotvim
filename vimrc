@@ -705,7 +705,6 @@ nnoremap <c-c>c :VimuxRunLastCommand<cr>
 nnoremap <c-c><c-c> :call VimuxSendText("jkk\n")<cr>
 nnoremap <c-c>n :VimuxInspectRunner<cr>
 nnoremap <c-c>q :VimuxCloseRunner<cr>
-nnoremap <c-c>z :VimuxZoomRunner<cr>
 xnoremap <c-c>s "vy :call VimuxSendText(@v)<cr>
 nmap     <c-c>s V<leader>vs
 
