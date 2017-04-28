@@ -17,7 +17,7 @@ let s:hosts = [
       \]
 let s:lervag = index(s:hosts, hostname()) >= 0
       \ ? 'git@github.com:lervag/' : 'lervag/'
-let s:vimrc = s:main . (has('nvim') ? '/init.vim' : '/vimrc')
+let s:vimrc = s:main . '/vimrc'
 
 " {{{1 Load plugins
 
@@ -707,8 +707,6 @@ nnoremap <c-c>n :VimuxInspectRunner<cr>
 nnoremap <c-c>q :VimuxCloseRunner<cr>
 xnoremap <c-c>s "vy :call VimuxSendText(@v)<cr>
 nmap     <c-c>s V<leader>vs
-
-nnoremap <silent> <bs> :TmuxNavigateLeft<cr>
 
 " }}}2
 " {{{2 plugin: vim-easy-align
