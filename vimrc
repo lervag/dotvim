@@ -580,7 +580,7 @@ let g:ctrlp_switch_buffer = 'e'
 let g:ctrlp_working_path_mode = 'rc'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 let g:ctrlp_tilde_homedir = 1
-let g:ctrlp_match_window = 'order:ttb,min:30,max:30'
+let g:ctrlp_match_window = 'top,order:ttb,min:30,max:30'
 let g:ctrlp_status_func = {
       \ 'main' : 'statusline#ctrlp',
       \ 'prog' : 'statusline#ctrlp',

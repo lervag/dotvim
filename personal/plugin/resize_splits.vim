@@ -14,8 +14,8 @@ function! s:resize_splits() " {{{1
   if !has('gui') && !empty($TMUX . $STY) | return | endif
 
   let l:column_width  = 82 + &foldcolumn
-        \ + (&number         ? &numberwidth : 0)
-        \ + (s:HasSignCols() ? 2            : 0)
+        \ + (&number           ? &numberwidth : 0)
+        \ + (s:has_sign_cols() ? 2            : 0)
 
   let l:total_height = 0
   let l:heights = map(filter(split(winrestcmd(),'|')[0:-1],
@@ -38,14 +38,8 @@ function! s:resize_splits() " {{{1
 endfunction
 
 " }}}1
-function! s:HasSignCols() " {{{1
-  let save_more = &more
-  set nomore
-  redir => lines
-  silent execute 'sign place'
-  redir END
-  let &more = save_more
-  return len(split(lines,"\n")) > 1
+function! s:has_sign_cols() " {{{1
+  return len(split(execute('sign place'), "\n")) > 1
 endfunction
 
 " }}}1
