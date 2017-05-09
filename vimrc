@@ -191,6 +191,7 @@ set confirm
 set hidden
 set shortmess=aoOtT
 silent! set shortmess+=cI
+silent! set shortmess+=F
 set textwidth=79
 set nowrap
 set linebreak
@@ -929,6 +930,11 @@ let g:vimtex_view_method = 'zathura'
 let g:vimtex_imaps_leader = ';'
 let g:vimtex_complete_img_use_tail = 1
 let g:vimtex_view_automatic = 0
+let g:vimtex_quickfix_method = 'pplatex'
+
+if has('nvim')
+  let g:vimtex_compiler_progname = 'nvr'
+endif
 
 "
 " NOTE: See also ~/.vim/personal/ftplugin/tex.vim
