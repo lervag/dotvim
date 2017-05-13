@@ -609,7 +609,7 @@ nnoremap <silent> <leader>ow :CtrlP ~/documents/wiki<cr>
 nnoremap <silent> <leader>ot :CtrlPTag<cr>
 
 " Wrapper to search through plugin source files
-function! CtrlPVimPlugs() " {{{1
+function! CtrlPVimPlugs() " {{{3
   let l:ctrlp_working_path_mode = g:ctrlp_working_path_mode
   let l:ctrlp_user_command = g:ctrlp_user_command
   let l:ctrlp_custom_ignore = get(g:, 'ctrlp_custom_ignore', '')
@@ -624,7 +624,7 @@ function! CtrlPVimPlugs() " {{{1
   let g:ctrlp_custom_ignore = l:ctrlp_custom_ignore
 endfunction
 
-" }}}1
+" }}}3
 
 " }}}2
 " {{{2 plugin: FastFold
@@ -929,6 +929,7 @@ let g:vimtex_view_method = 'zathura'
 let g:vimtex_imaps_leader = ';'
 let g:vimtex_complete_img_use_tail = 1
 let g:vimtex_view_automatic = 0
+let g:vimtex_view_forward_search_on_start = 0
 let g:vimtex_quickfix_method = 'pplatex'
 
 if has('nvim')
