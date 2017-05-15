@@ -393,8 +393,8 @@ nnoremap        <bs> <c-o>zvzz
 nnoremap <expr> <cr> empty(&buftype) ? '<c-]>zvzz' : '<cr>'
 
 " Shortcuts for some files
-execute 'nnoremap <leader>ev :edit'   s:vimrc . '<cr>'
-execute 'nnoremap <leader>xv :source' s:vimrc . '<cr>'
+execute 'nnoremap <silent> <leader>ev :edit'   s:vimrc . '<cr>'
+execute 'nnoremap <silent> <leader>xv :source' s:vimrc . '<cr>'
 nnoremap <leader>ez :edit ~/.dotfiles/zshrc<cr>
 
 " Toggle fontsize
