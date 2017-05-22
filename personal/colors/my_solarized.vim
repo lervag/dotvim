@@ -22,7 +22,7 @@ highlight   Constant                                 cterm=NONE                g
 highlight   Cursor                                   cterm=NONE                gui=NONE                ctermfg=15     ctermbg=11      guifg=#fdf6e3   guibg=#657b83
 highlight   CursorColumn                             cterm=NONE                gui=NONE                ctermbg=7      guibg=#eee8d5
 highlight   CursorLine                               cterm=NONE                gui=NONE                ctermbg=7      guibg=#eee8d5   guisp=#586e75
-highlight   CursorLineNr                             cterm=NONE                gui=NONE                ctermfg=130    guifg=Brown
+highlight   CursorLineNr                             cterm=NONE                gui=NONE                ctermfg=14     guifg=#93a1a1
 highlight   DiffAdd                                  cterm=NONE                gui=NONE                ctermfg=2      ctermbg=7       guifg=#719e07   guibg=#eee8d5   guisp=#719e07
 highlight   DiffChange                               cterm=NONE                gui=NONE                ctermfg=3      ctermbg=7       guifg=#b58900   guibg=#eee8d5   guisp=#b58900
 highlight   DiffDelete                               cterm=NONE                gui=NONE                ctermfg=1      ctermbg=7       guifg=#dc322f   guibg=#eee8d5
@@ -47,7 +47,7 @@ highlight   PmenuThumb                               cterm=reverse             g
 highlight   PreProc                                  cterm=NONE                gui=NONE                ctermfg=9      guifg=#cb4b16
 highlight   Question                                 cterm=NONE                gui=NONE                ctermfg=6      guifg=#2aa198
 highlight   Search                                   cterm=reverse             gui=reverse             ctermfg=3      ctermbg=NONE    guifg=#b58900   guibg=NONE
-highlight   SignColumn                               cterm=NONE                gui=NONE                ctermfg=11     ctermbg=NONE    guifg=#657b83   guibg=NONE
+highlight   SignColumn                               cterm=NONE                gui=NONE                ctermfg=11     ctermbg=7       guifg=#657b83   guibg=#eee8d5
 highlight   Special                                  cterm=NONE                gui=NONE                ctermfg=1      guifg=#dc322f
 highlight   SpecialKey                               cterm=NONE                gui=NONE                ctermfg=12     ctermbg=7       guifg=#839496   guibg=#eee8d5
 highlight   SpellBad                                 cterm=undercurl           gui=undercurl           ctermfg=NONE   ctermbg=NONE    guisp=#dc322f
@@ -55,8 +55,8 @@ highlight   SpellCap                                 cterm=undercurl           g
 highlight   SpellLocal                               cterm=undercurl           gui=undercurl           ctermfg=NONE   ctermbg=NONE    guisp=#b58900
 highlight   SpellRare                                cterm=undercurl           gui=undercurl           ctermfg=NONE   ctermbg=NONE    guisp=#2aa198
 highlight   Statement                                cterm=NONE                gui=NONE                ctermfg=2      guifg=#719e07
-highlight   StatusLine                               cterm=reverse             gui=reverse             ctermfg=10     ctermbg=7       guifg=#586e75   guibg=NONE
-highlight   StatusLineNC                             cterm=reverse             gui=reverse             ctermfg=12     ctermbg=7       guifg=#839496   guibg=NONE
+highlight   StatusLine                               cterm=reverse             gui=reverse             ctermfg=10     ctermbg=15      guifg=#586e75   guibg=#fdf6e3
+highlight   StatusLineNC                             cterm=reverse             gui=reverse             ctermfg=12     ctermbg=7       guifg=#839496   guibg=#eee8d5
 highlight   TabLine                                  cterm=underline           gui=underline           ctermfg=11     ctermbg=7       guifg=#657b83   guibg=#eee8d5   guisp=#657b83
 highlight   TabLineFill                              cterm=underline           gui=underline           ctermfg=11     ctermbg=7       guifg=#657b83   guibg=#eee8d5   guisp=#657b83
 highlight   TabLineSel                               cterm=underline,reverse   gui=underline,reverse   ctermfg=14     ctermbg=0       guifg=#93a1a1   guibg=#073642   guisp=#657b83
@@ -219,7 +219,6 @@ highlight link Delimiter                  Special
 highlight link Exception                  Statement
 highlight link Float                      Number
 highlight link Function                   Identifier
-highlight link HelpCommand                Statement
 highlight link Include                    PreProc
 highlight link Keyword                    Statement
 highlight link Label                      Statement
@@ -278,8 +277,8 @@ highlight link pandocCodeBlockDelim       pandocVerbatimBlock
 highlight link pandocEscapedCharacter     pandocEscapePair
 highlight link pandocLineBreak            pandocEscapePair
 highlight link pandocMetadataTitle        pandocMetadata
-highlight link pandocTableStructureEnd    pandocTableStructre
-highlight link pandocTableStructureTop    pandocTableStructre
+highlight link pandocTableStructureEnd    pandocTableStructure
+highlight link pandocTableStructureTop    pandocTableStructure
 highlight link pandocVerbatimBlockDeep    pandocVerbatimBlock
 
 highlight link vimFunc                    Function
@@ -292,7 +291,7 @@ highlight clear SyntasticErrorLine
 highlight clear SyntasticWarningLine
 highlight clear helpLeadBlank
 highlight clear helpNormal
-highlight clear pandocTableStructre
+highlight clear pandocTableStructure
 
 if has('nvim')
   let g:terminal_color_0  = '#eee8d5'
