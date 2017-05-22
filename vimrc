@@ -63,6 +63,8 @@ Plug 'gregsexton/MatchTag'
 Plug 'davidhalter/jedi-vim'
 Plug 'vim-ruby/vim-ruby'
 Plug 'elzr/vim-json'
+Plug 'vim-python/python-syntax'
+Plug 'tmhedberg/SimpylFold'
 
 " Miscellaneous
 Plug 'luochen1990/rainbow'
@@ -899,8 +901,9 @@ let g:vim_json_syntax_conceal = 0
 " }}}2
 " {{{2 filetype: python
 
-" Internal vim plugin
 let g:python_highlight_all = 1
+
+let g:SimpylFold_docstring_preview = 1
 
 " jedi.vim
 let g:jedi#completions_enabled = 0
