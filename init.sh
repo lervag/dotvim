@@ -1,15 +1,15 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 echo -n "Fetching vim-plug ... "
-if [ -d bundle/vim-plug ]; then
+if [ -d ~/.vim/bundle/vim-plug ]; then
   echo "already fetched."
 else
   echo "done!"
-  git clone https://github.com/junegunn/vim-plug.git bundle/vim-plug
+  git clone https://github.com/junegunn/vim-plug.git ~/.vim/bundle/vim-plug
 fi
 
 echo -n "Installing vim-plug ... "
-if [ -e autoload/plug.vim ]; then
+if [ -e ~/.vim/autoload/plug.vim ]; then
   echo "already installed."
 else
   echo "done!"
