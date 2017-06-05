@@ -51,7 +51,10 @@ Plug 'machakann/vim-sandwich'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
-Plug 'junegunn/vader.vim', { 'on' : 'Vader' }
+Plug 'junegunn/vader.vim', {
+      \ 'on' : ['Vader'],
+      \ 'for' : ['vader'],
+      \}
 Plug 'SirVer/ultisnips'
 Plug 'Konfekt/FastFold'
 Plug 'itchyny/calendar.vim'
