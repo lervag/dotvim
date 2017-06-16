@@ -90,6 +90,7 @@ Plug 'ludovicchabant/vim-lawrencium'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-scriptease'
 Plug 'Shougo/neco-vim'
+Plug 'Shougo/neco-syntax'
 Plug 'haya14busa/incsearch.vim'
 
 " Testing
@@ -208,6 +209,7 @@ set formatlistpat+=\\\|^\\s*(\\(\\d\\+\\\|[a-z]\\))\\s\\+
 set formatlistpat+=\\\|^\\s*\\(\\d\\+\\\|[a-z]\\)[:).]\\s\\+
 set winaltkeys=no
 set mouse=
+set gdefault
 
 " Completion
 set wildmode=longest:full,full
@@ -362,14 +364,14 @@ inoremap jk     <esc>
 nnoremap -      <C-^>
 nnoremap Y      y$
 nnoremap J      mzJ`z
-nnoremap j      gj
-nnoremap k      gk
 nnoremap dp     dp]c
 nnoremap do     do]c
 nnoremap '      `
 nnoremap <c-e>  <c-^>
 nnoremap ZZ     :update<cr>:Bdelete<cr>
 nnoremap <c-p>  <c-i>
+nnoremap <expr> j v:count ? 'j' : 'gj'
+nnoremap <expr> k v:count ? 'k' : 'gk'
 
 " Buffer navigation
 nnoremap <silent> <c-u> :Bdelete<cr>
@@ -432,6 +434,7 @@ let g:loaded_zipPlugin = 1
 " {{{2 feature: git
 
 let g:Gitv_WipeAllOnClose = 1
+let g:Gitv_DoNotMapCtrlKey = 1
 
 nnoremap <leader>gl :Gitv --all<cr>
 nnoremap <leader>gL :Gitv! --all<cr>
@@ -454,6 +457,7 @@ endfunction
 augroup vimrc_fugitive
   autocmd!
   autocmd BufReadPost fugitive:// setlocal bufhidden=delete
+  autocmd FileType git setlocal foldlevel=1
 augroup END
 
 " }}}2
