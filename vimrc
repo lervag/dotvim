@@ -588,6 +588,12 @@ let g:ctrlp_cmd = 'CtrlPMRU'
 let g:ctrlp_switch_buffer = 'e'
 let g:ctrlp_working_path_mode = 'rc'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
+
+if executable('rg')
+  let g:ctrlp_user_command += ['rg %s --files --color=never --glob ""']
+  let g:ctrlp_use_caching = 0
+endif
+
 let g:ctrlp_tilde_homedir = 1
 let g:ctrlp_match_window = 'top,order:ttb,min:30,max:30'
 let g:ctrlp_status_func = {
