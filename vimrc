@@ -534,6 +534,10 @@ let g:ale_linters = {
 nmap <silent> <leader>j <Plug>(ale_next_wrap)
 nmap <silent> <leader>k <Plug>(ale_previous_wrap)
 
+highlight link ALEErrorLine ErrorMsg
+highlight link ALEWarningLine WarningMsg
+highlight link ALEInfoLine ModeMsg
+
 " }}}2
 " {{{2 plugin: calendar.vim
 
