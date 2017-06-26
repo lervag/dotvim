@@ -717,13 +717,16 @@ nnoremap <f5> :UndotreeToggle<cr>
 let g:VimuxOrientation = 'h'
 let g:VimuxHeight = '50'
 
-nnoremap <c-c>p :VimuxPromptCommand<cr>
-nnoremap <c-c>c :VimuxRunLastCommand<cr>
-nnoremap <c-c><c-c> :call VimuxSendText("jkk\n")<cr>
-nnoremap <c-c>n :VimuxInspectRunner<cr>
-nnoremap <c-c>q :VimuxCloseRunner<cr>
-xnoremap <c-c>s "vy :call VimuxSendText(@v)<cr>
-nmap     <c-c>s V<leader>vs
+" Open and manage panes/runners
+nnoremap <leader>io :call VimuxOpenRunner()<cr>
+nnoremap <leader>iq :VimuxCloseRunner<cr>
+nnoremap <leader>ip :VimuxPromptCommand<cr>
+nnoremap <leader>in :VimuxInspectRunner<cr>
+
+" Send commands
+nnoremap <leader>ii :call VimuxSendText("jkk\n")<cr>
+nnoremap <leader>is :call VimuxRunCommand(getline('.'))<cr>
+xnoremap <leader>is "vy :call VimuxSendText(@v)<cr>
 
 " }}}2
 " {{{2 plugin: vim-easy-align
