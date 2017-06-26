@@ -724,9 +724,15 @@ nnoremap <leader>ip :VimuxPromptCommand<cr>
 nnoremap <leader>in :VimuxInspectRunner<cr>
 
 " Send commands
-nnoremap <leader>ii :call VimuxSendText("jkk\n")<cr>
-nnoremap <leader>is :call VimuxRunCommand(getline('.'))<cr>
-xnoremap <leader>is "vy :call VimuxSendText(@v)<cr>
+nnoremap <leader>ii  :call VimuxSendText("jkk\n")<cr>
+nnoremap <leader>is  :set opfunc=VimuxOperator<cr>g@
+nnoremap <leader>iss :call VimuxRunCommand(getline('.'))<cr>
+xnoremap <leader>is  "vy :call VimuxSendText(@v)<cr>
+
+function! VimuxOperator(type)
+  let l:text = join(getline(line("'["), line("']")), "\n")
+  call VimuxSendText(l:text)
+endfunction
 
 " }}}2
 " {{{2 plugin: vim-easy-align
