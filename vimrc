@@ -440,7 +440,7 @@ nnoremap <leader>gl :Gitv --all<cr>
 nnoremap <leader>gL :Gitv! --all<cr>
 xnoremap <leader>gl :Gitv! --all<cr>
 
-nnoremap <leader>gs :Gtogglestatus<cr>
+nmap     <leader>gs :Gstatus<cr>gg<c-n>
 nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gd :Gdiff<cr>
 
