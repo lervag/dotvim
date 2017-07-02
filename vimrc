@@ -496,19 +496,7 @@ augroup my_cm_setup
         \ 'scoping': 1,
         \ 'scopes': ['tex'],
         \ 'abbreviation': 'tex',
-        \ 'cm_refresh_patterns': [
-        \   '\\[A-Za-z]*',
-        \   '\\[A-Za-z]*cite[A-Za-z]*(\[[^]]*\]){0,2}{[^}]*$',
-        \   '\\[A-Za-z]*ref({[^}]*|range{([^,{}]*(}{)?))',
-        \   '\\hyperref\[[^]]*',
-        \   '\\includegraphics\*?(\[[^]]*\]){0,2}{[^}]*',
-        \   '\\(include(only)?|input){[^}]*',
-        \   '\\\a*(gls|Gls|GLS)(pl)?\a*(\s*\[[^]]*\]){0,2}\s*\{[^}]*',
-        \   '\\includepdf(\s*\[[^]]*\])?\s*\{[^}]*',
-        \   '\\includestandalone(\s*\[[^]]*\])?\s*\{[^}]*',
-        \   '\\usepackage(\s*\[[^]]*\])?\s*\{[^}]*',
-        \   '\\documentclass(\s*\[[^]]*\])?\s*\{[^}]*',
-        \ ],
+        \ 'cm_refresh_patterns': g:vimtex#re#ncm,
         \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
         \ })
 augroup END
