@@ -6,11 +6,6 @@
 " - http://www.blaenkdenum.com/posts/a-simpler-vim-statusline/
 "
 
-" For developing
-let s:file = expand('<sfile>')
-execute 'nnoremap <leader>as :so ' . s:file . '<cr>:call statusline#init()<cr>'
-execute 'nnoremap <leader>ae :ed ' . s:file . '<cr>'
-
 function! statusline#init() " {{{1
   augroup statusline
     autocmd!

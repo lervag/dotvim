@@ -519,8 +519,9 @@ let g:ale_linters = {
       \ 'tex': [],
       \}
 
-nmap <silent> <leader>j <Plug>(ale_next_wrap)
-nmap <silent> <leader>k <Plug>(ale_previous_wrap)
+nmap <silent> <leader>aa <Plug>(ale_lint)
+nmap <silent> <leader>aj <Plug>(ale_next_wrap)
+nmap <silent> <leader>ak <Plug>(ale_previous_wrap)
 
 highlight link ALEErrorLine ErrorMsg
 highlight link ALEWarningLine WarningMsg
