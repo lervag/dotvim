@@ -709,6 +709,7 @@ nnoremap <f5> :UndotreeToggle<cr>
 
 let g:VimuxOrientation = 'h'
 let g:VimuxHeight = '50'
+let g:VimuxResetSequence = ''
 
 " Open and manage panes/runners
 nnoremap <leader>io :call VimuxOpenRunner()<cr>
