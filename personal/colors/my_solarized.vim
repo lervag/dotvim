@@ -32,7 +32,7 @@ highlight   Error                                    cterm=NONE                g
 highlight   ErrorMsg                                 cterm=reverse             gui=reverse             ctermfg=1      ctermbg=NONE    guifg=#dc322f   guibg=NONE
 highlight   FoldColumn                               cterm=NONE                gui=NONE                ctermfg=11     ctermbg=7       guifg=#657b83   guibg=#eee8d5
 highlight   Folded                                   cterm=NONE,underline      gui=NONE,underline      ctermfg=11     ctermbg=7       guifg=#657b83   guibg=#eee8d5   guisp=#fdf6e3
-highlight   HelpExample                              cterm=NONE                gui=NONE                ctermfg=10     guifg=#586e75
+highlight   HelpExample                              cterm=NONE                gui=NONE                ctermfg=8      guifg=#839496
 highlight   Identifier                               cterm=NONE                gui=NONE                ctermfg=4      guifg=#268bd2
 highlight   IncSearch                                cterm=standout            gui=standout            ctermfg=9      guifg=#cb4b16
 highlight   LineNr                                   cterm=NONE                gui=NONE                ctermfg=14     ctermbg=7       guifg=#93a1a1   guibg=#eee8d5
