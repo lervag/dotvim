@@ -130,6 +130,9 @@ augroup vimrc_autocommands
 
   " Set keymapping for command window
   autocmd CmdwinEnter * nnoremap <buffer> q <c-c><c-c>
+
+  " Close preview after complete
+  autocmd CompleteDone * pclose
 augroup END
 
 " {{{1 Options
@@ -470,6 +473,7 @@ let g:cm_sources_override = {
       \ 'cm-bufkeyword' : {'abbreviation' : 'key'},
       \ 'cm-ultisnips' : {'abbreviation' : 'snip'},
       \}
+let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
 
 nnoremap <silent> <leader>lh :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> <leader>ld :call LanguageClient_textDocument_definition()<CR>
