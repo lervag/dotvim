@@ -926,10 +926,13 @@ let g:python_highlight_all = 1
 
 let g:SimpylFold_docstring_preview = 1
 
-" jedi.vim
+" Use some of jedi.vim features (goto and docs)
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#smart_auto_mappings = 0
+let g:jedi#goto_assignments_command = ''
+let g:jedi#goto_definitions_command = ''
+let g:jedi#completions_command = ''
 let g:jedi#rename_command = ''
 
 " }}}2
