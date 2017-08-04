@@ -923,17 +923,13 @@ let g:vim_json_syntax_conceal = 0
 " {{{2 filetype: python
 
 let g:python_highlight_all = 1
-
 let g:SimpylFold_docstring_preview = 1
 
-" Use some of jedi.vim features (goto and docs)
-let g:jedi#completions_enabled = 0
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#smart_auto_mappings = 0
-let g:jedi#goto_assignments_command = ''
-let g:jedi#goto_definitions_command = ''
-let g:jedi#completions_command = ''
-let g:jedi#rename_command = ''
+" I prefer to map jedi.vim features manually
+let g:jedi#auto_initialization = 0
+
+" Note: I should remember to install python-jedi and python2-jedi!
+" Note: See ~/.vim/personal/ftplugin/python.vim for more settings
 
 " }}}2
 " {{{2 filetype: ruby
