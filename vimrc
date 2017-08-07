@@ -9,7 +9,6 @@ let s:init_script = s:main . '/init.sh'
 let s:plug = s:main . '/autoload/plug.vim'
 let s:bundle = s:main . '/bundle'
 let s:personal = s:main . '/personal'
-let s:vimrc = s:main . '/vimrc'
 let s:devhosts = [
       \ 'yoga',
       \ 'vsl136',
@@ -403,8 +402,8 @@ nnoremap        <bs> <c-o>zvzz
 nnoremap <expr> <cr> empty(&buftype) ? '<c-]>zvzz' : '<cr>'
 
 " Shortcuts for some files
-execute 'nnoremap <silent> <leader>ev :edit'   s:vimrc . '<cr>'
-execute 'nnoremap <silent> <leader>xv :source' s:vimrc . '<cr>'
+nnoremap <silent> <leader>ev :edit $MYVIMRC<cr>
+nnoremap <silent> <leader>xv :source $MYVIMRC<cr>
 nnoremap <leader>ez :edit ~/.dotfiles/zshrc<cr>
 
 " Toggle fontsize
