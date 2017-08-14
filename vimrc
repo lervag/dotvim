@@ -947,6 +947,7 @@ let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_index_split_pos = 'below'
 let g:vimtex_fold_enabled = 1
 let g:vimtex_toc_fold = 1
+let g:vimtex_toc_hotkeys = {'enabled' : 1}
 let g:vimtex_format_enabled = 1
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_imaps_leader = ';'
