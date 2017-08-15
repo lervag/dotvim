@@ -374,6 +374,7 @@ nnoremap ZZ     :update<cr>:Bdelete<cr>
 nnoremap <c-p>  <c-i>
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
+nnoremap L  :nohlsearch<cr>:redraw!<cr>
 
 " Buffer navigation
 nnoremap <silent> <c-u> :Bdelete<cr>
@@ -402,7 +403,7 @@ nnoremap        <bs> <c-o>zvzz
 nnoremap <expr> <cr> empty(&buftype) ? '<c-]>zvzz' : '<cr>'
 
 " Shortcuts for some files
-nnoremap <silent> <leader>ev :edit $MYVIMRC<cr>
+nnoremap <silent> <leader>ev :execute 'edit' resolve($MYVIMRC)<cr>
 nnoremap <silent> <leader>xv :source $MYVIMRC<cr>
 nnoremap <leader>ez :edit ~/.dotfiles/zshrc<cr>
 
@@ -412,6 +413,12 @@ nnoremap <silent> <leader>0 :call personal#toggle_fontsize('0')<cr>
 
 vnoremap <silent><expr> ++ personal#visual_math#yank_and_analyse()
 nmap     <silent>       ++ vip++<esc>
+
+" Terminal mappings
+if has('nvim')
+  nnoremap <c-c><c-c> :split term://zsh<cr>i
+  tnoremap <esc>      <c-\><c-n>
+endif
 
 " {{{1 Configure plugins
 
