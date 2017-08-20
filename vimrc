@@ -67,6 +67,7 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'elzr/vim-json'
 Plug 'vim-python/python-syntax'
 Plug 'tmhedberg/SimpylFold'
+Plug 'gisraptor/vim-lilypond-integrator'
 
 " Miscellaneous
 Plug 'luochen1990/rainbow'
