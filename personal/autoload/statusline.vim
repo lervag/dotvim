@@ -106,7 +106,16 @@ function! s:main(bufnr, active) " {{{1
     endif
   endif
 
+  " Change to right-hand side
   let stat .= '%='
+
+  " Add column number if above textwidth
+  let cn = col('$') - 1
+  if cn > &textwidth
+    let stat .= s:color(
+          \ printf('[%s > %s &tw] ', cn, &textwidth), 'SLAlert', a:active)
+  endif
+
   let stat .= fugitive#head(12)
   let stat .= ' '
 
