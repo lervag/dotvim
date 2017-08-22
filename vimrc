@@ -91,7 +91,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-scriptease'
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/neco-syntax'
-Plug 'haya14busa/incsearch.vim'
+Plug 'junegunn/vim-slash'
 
 " Testing
 Plug 'sunaku/vim-dasht'
@@ -375,7 +375,6 @@ nnoremap ZZ     :update<cr>:Bdelete<cr>
 nnoremap <c-p>  <c-i>
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
-nnoremap L  :nohlsearch<cr>:redraw!<cr>
 
 " Buffer navigation
 nnoremap <silent> <c-u> :Bdelete<cr>
@@ -392,12 +391,6 @@ nnoremap cg# g#``cgN
 nnoremap          zf zMzvzz
 nnoremap <silent> zj :silent! normal! zc<cr>zjzvzz
 nnoremap <silent> zk :silent! normal! zc<cr>zkzvzz[z
-
-" Use <c-l> to clear/update all the things
-if maparg('<c-l>', 'n') ==# ''
-  nnoremap <silent> <c-l>
-        \ :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
-endif
 
 " Backspace and return for improved navigation
 nnoremap        <bs> <c-o>zvzz
@@ -653,23 +646,6 @@ let g:fastfold_fold_command_suffixes =  ['x','X']
 let g:fastfold_fold_movement_commands = []
 
 " }}}2
-" {{{2 plugin: incsearch.vim
-
-let g:incsearch#auto_nohlsearch = 1
-let g:incsearch#separate_highlight = 1
-
-set hlsearch
-nmap /  <plug>(incsearch-forward)
-nmap ?  <plug>(incsearch-backward)
-nmap g/ <plug>(incsearch-stay)
-nmap n  <plug>(incsearch-nohl-n)zvzz
-nmap N  <plug>(incsearch-nohl-N)zvzz
-nmap *  <plug>(incsearch-nohl-*)zvzz
-nmap #  <plug>(incsearch-nohl-#)zvzz
-nmap g* <plug>(incsearch-nohl-g*)zvzz
-nmap g# <plug>(incsearch-nohl-g#)zvzz
-
-" }}}2
 " {{{2 plugin: rainbow
 
 let g:rainbow_active = 1
@@ -909,6 +885,11 @@ let g:sandwich#recipes += [
       \   'indentkeys-' : '(,)'
       \ },
       \]
+
+" }}}2
+" {{{2 plugin: vim-slash
+
+noremap <plug>(slash-after) zz
 
 " }}}2
 " {{{2 plugin: vim-table-mode

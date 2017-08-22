@@ -59,10 +59,6 @@ function! personal#custom_colors() " {{{1
   " Plugins
   "
 
-  highlight IncSearchMatch        cterm=bold,underline gui=bold,underline ctermfg=201 guifg=Magenta
-  highlight IncSearchMatchReverse cterm=bold,underline gui=bold,underline ctermfg=127 guifg=LightMagenta
-  highlight IncSearchOnCursor     cterm=bold,underline gui=bold,underline ctermfg=39  guifg=#00afff
-  highlight IncSearchCursor       cterm=bold,underline gui=bold,underline ctermfg=39  guifg=#00afff
   highlight ctrlsfSelectedLine    cterm=bold           gui=bold           ctermfg=39  guifg=#00afff
   highlight OperatorSandwichBuns  cterm=bold           gui=bold           ctermfg=5   guifg=Magenta
 endfunction
