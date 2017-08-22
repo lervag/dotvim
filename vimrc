@@ -254,8 +254,7 @@ function! TxtFoldText()
 endfunction
 
 " Indentation
-set tabstop=2
-set softtabstop=2
+set softtabstop=-1
 set shiftwidth=2
 set expandtab
 set copyindent
