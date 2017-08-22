@@ -110,7 +110,7 @@ function! s:main(bufnr, active) " {{{1
   let stat .= '%='
 
   " Add column number if above textwidth
-  let cn = col('$') - 1
+  let cn = virtcol('$') - 1
   if cn > &textwidth
     let stat .= s:color(
           \ printf('[%s > %s &tw] ', cn, &textwidth), 'SLAlert', a:active)
