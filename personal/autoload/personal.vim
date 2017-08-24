@@ -3,6 +3,8 @@
 "
 
 function! personal#toggle_fontsize(mode) " {{{1
+  if !has('gui_running') | return | endif
+
   "
   " Simple function to toggle the fontsize in gui vim
   "
