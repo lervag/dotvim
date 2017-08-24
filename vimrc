@@ -92,6 +92,7 @@ Plug 'tpope/vim-scriptease'
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/neco-syntax'
 Plug 'junegunn/vim-slash'
+Plug 'wellle/tmux-complete.vim'
 
 " Testing
 Plug 'sunaku/vim-dasht'
@@ -467,10 +468,12 @@ augroup END
 
 let g:echodoc#enable_at_startup = 1
 let g:LanguageClient_autoStart = 1
+let g:tmuxcomplete#trigger = ''
 
 let g:cm_sources_override = {
       \ 'cm-bufkeyword' : {'abbreviation' : 'key'},
       \ 'cm-ultisnips' : {'abbreviation' : 'snip'},
+      \ 'cm-tmux' : {'enable' : 0},
       \}
 let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
 
@@ -501,6 +504,12 @@ augroup my_cm_setup
         \ 'abbreviation': 'tex',
         \ 'cm_refresh_patterns': g:vimtex#re#ncm,
         \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
+        \ })
+  autocmd User CmSetup call cm#register_source({
+        \ 'name' : 'tmuxcomplete',
+        \ 'priority': 2,
+        \ 'abbreviation': 'tmux',
+        \ 'cm_refresh': {'omnifunc': 'tmuxcomplete#complete'},
         \ })
 augroup END
 
