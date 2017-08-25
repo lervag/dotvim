@@ -354,6 +354,7 @@ call statusline#init_tabline()
 "   ctrl-h
 "   ctrl-j
 "   ctrl-s
+"   ctrl-space
 "
 
 " Disable some mappings
@@ -383,9 +384,10 @@ nnoremap <silent> gB    :bprevious<cr>
 
 " Utility maps for repeatable quickly change current word
 nnoremap c*   *``cgn
-nnoremap c#   #``cgN
+nnoremap c#   *``cgN
 nnoremap cg* g*``cgn
-nnoremap cg# g#``cgN
+nnoremap cg# g*``cgN
+xnoremap <silent> c y/<c-r>"<cr>:set nohlsearch<cr>``cgn
 
 " Navigate folds
 nnoremap          zf zMzvzz
