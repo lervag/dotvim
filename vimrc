@@ -387,7 +387,6 @@ nnoremap c*   *``cgn
 nnoremap c#   *``cgN
 nnoremap cg* g*``cgn
 nnoremap cg# g*``cgN
-xnoremap <silent> c y/<c-r>"<cr>:set nohlsearch<cr>``cgn
 
 " Navigate folds
 nnoremap          zf zMzvzz
