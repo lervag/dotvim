@@ -74,13 +74,10 @@ Plug 'luochen1990/rainbow'
 Plug 'machakann/vim-columnmove'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'idanarye/vim-vebugger'
-Plug 'thinca/vim-quickrun'
 Plug 'moll/vim-bbye', { 'on' : 'Bdelete' }
 Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
 Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
-Plug 'thinca/vim-prettyprint'
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
-Plug 'nhooyr/neoman.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'benmills/vimux'
@@ -802,35 +799,6 @@ nnoremap <silent> <leader>pi :PlugInstall<cr>
 nnoremap <silent> <leader>pu :PlugUpdate<cr>
 nnoremap <silent> <leader>ps :PlugStatus<cr>
 nnoremap <silent> <leader>pc :PlugClean<cr>
-
-" }}}2
-" {{{2 plugin: vim-quickrun
-
-let g:quickrun_config = {}
-let g:quickrun_config.vader = { 'command' : './run' }
-let g:quickrun_config._ = {
-      \ 'outputter/buffer/close_on_empty' : 1
-      \ }
-
-nmap <leader>rr <plug>(quickrun)
-nmap <leader>ro <plug>(quickrun-op)
-
-nnoremap <leader>rs :call QuickRunSimfex()<cr>
-
-function! QuickRunSimfex()
-  let l:exec = '''%c -v '
-  if getcwd() =~# '\/tests'
-    let l:exec .= '%s'''
-  else
-    let l:file = fnamemodify('../tests/test_' . expand('%:t'), ':p')
-    if !filereadable(l:file)
-      echo 'Could not find corresponding test file.'
-      return
-    endif
-    let l:exec .= l:file . ''''
-  endif
-  execute 'QuickRun -command nosetests2 -exec' l:exec
-endfunction
 
 " }}}2
 " {{{2 plugin: vim-sandwich
