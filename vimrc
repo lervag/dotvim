@@ -94,6 +94,7 @@ Plug 'roxma/vim-hug-neovim-rpc',
 Plug 'autozimu/LanguageClient-neovim',
       \ !has('nvim') ? {} : { 'do': ':UpdateRemotePlugins' }
 Plug 'roxma/nvim-completion-manager'
+Plug 'roxma/ncm-github'
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/neco-syntax'
 Plug 'wellle/tmux-complete.vim'
@@ -480,6 +481,14 @@ let g:cm_sources_override = {
       \ 'cm-tmux' : {'enable' : 0},
       \}
 let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
+
+" Test fuzzy matching
+let g:cm_matcher = {
+    \ 'module': 'cm_matchers.fuzzy_matcher',
+    \ 'case': 'smartcase',
+    \}
+" Other choices:
+" \ 'module': 'cm_matchers.substr_matcher',
 
 nnoremap <silent> <leader>lh :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> <leader>ld :call LanguageClient_textDocument_definition()<CR>
