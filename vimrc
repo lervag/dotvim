@@ -62,12 +62,12 @@ Plug 'itchyny/calendar.vim'
 Plug 'darvelo/vim-systemd'
 Plug 'whatyouhide/vim-tmux-syntax'
 Plug 'gregsexton/MatchTag'
-Plug 'davidhalter/jedi-vim'
 Plug 'vim-ruby/vim-ruby'
 Plug 'elzr/vim-json'
+Plug 'gisraptor/vim-lilypond-integrator'
+Plug 'davidhalter/jedi-vim'
 Plug 'vim-python/python-syntax'
 Plug 'tmhedberg/SimpylFold'
-Plug 'gisraptor/vim-lilypond-integrator'
 
 " Miscellaneous
 Plug 'luochen1990/rainbow'
@@ -75,36 +75,42 @@ Plug 'machakann/vim-columnmove'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'idanarye/vim-vebugger'
 Plug 'thinca/vim-quickrun'
-if has('nvim') || v:version >= 800
-  Plug 'w0rp/ale'
-endif
 Plug 'moll/vim-bbye', { 'on' : 'Bdelete' }
 Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
 Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
 Plug 'thinca/vim-prettyprint'
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
 Plug 'nhooyr/neoman.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'benmills/vimux'
+if has('nvim') || v:version >= 800
+  Plug 'w0rp/ale'
+endif
+if !has('nvim')
+  Plug 'nhooyr/neoman.vim'
+endif
+
+" Completion
+Plug 'roxma/vim-hug-neovim-rpc',
+      \ !has('nvim') ? {} : { 'on' : [] }
+Plug 'autozimu/LanguageClient-neovim',
+      \ !has('nvim') ? {} : { 'do': ':UpdateRemotePlugins' }
+Plug 'roxma/nvim-completion-manager'
+Plug 'Shougo/neco-vim'
+Plug 'Shougo/neco-syntax'
+Plug 'wellle/tmux-complete.vim'
 
 " Uncertain - might replace or remove
 Plug 'ludovicchabant/vim-lawrencium'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-scriptease'
-Plug 'Shougo/neco-vim'
-Plug 'Shougo/neco-syntax'
+" For improved search highlighting and similar
 Plug 'junegunn/vim-slash'
-Plug 'wellle/tmux-complete.vim'
 
 " Testing
 Plug 'sunaku/vim-dasht'
-Plug 'roxma/nvim-completion-manager'
-Plug 'roxma/vim-hug-neovim-rpc',
-      \ !has('nvim') ? {} : { 'on' : [] }
-Plug 'autozimu/LanguageClient-neovim',
-      \ !has('nvim') ? {} : { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/echodoc.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'benmills/vimux'
-Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end() | endif
 
@@ -919,14 +925,17 @@ let g:vim_json_syntax_conceal = 0
 " }}}2
 " {{{2 filetype: python
 
-let g:python_highlight_all = 1
-let g:SimpylFold_docstring_preview = 1
+" Note: I should remember to install python-jedi and python2-jedi!
+" Note: See ~/.vim/personal/ftplugin/python.vim for more settings
 
 " I prefer to map jedi.vim features manually
 let g:jedi#auto_initialization = 0
 
-" Note: I should remember to install python-jedi and python2-jedi!
-" Note: See ~/.vim/personal/ftplugin/python.vim for more settings
+" Syntax
+let g:python_highlight_all = 1
+
+" Folding
+let g:SimpylFold_docstring_preview = 1
 
 " }}}2
 " {{{2 filetype: ruby
