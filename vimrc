@@ -109,6 +109,7 @@ Plug 'junegunn/vim-slash'
 " Testing
 Plug 'sunaku/vim-dasht'
 Plug 'Shougo/echodoc.vim'
+Plug 'tweekmonster/braceless.vim'
 
 call plug#end() | endif
 
@@ -913,6 +914,15 @@ let g:python_highlight_all = 1
 
 " Folding
 let g:SimpylFold_docstring_preview = 1
+
+" Indent, text object and a couple of nice maps
+let g:braceless_block_key = 'i'
+augroup MyBraceless
+  autocmd!
+  autocmd User BracelessInit nunmap J
+  autocmd User BracelessInit iunmap <cr>
+  autocmd FileType python BracelessEnable +indent +highlight-cc
+augroup END
 
 " }}}2
 " {{{2 filetype: ruby
