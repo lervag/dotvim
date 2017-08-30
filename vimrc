@@ -543,6 +543,7 @@ let g:ale_statusline_format = ['Errors: %d', 'Warnings: %d', '']
 
 let g:ale_linters = {
       \ 'tex': [],
+      \ 'python': ['pylint'],
       \}
 
 nmap <silent> <leader>aa <Plug>(ale_lint)
