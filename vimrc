@@ -478,8 +478,12 @@ let g:tmuxcomplete#trigger = ''
 
 let g:cm_sources_override = {
       \ 'cm-bufkeyword' : {'abbreviation' : 'key'},
-      \ 'cm-ultisnips' : {'abbreviation' : 'snip'},
+      \ 'cm-ultisnips' : {
+      \   'abbreviation' : 'snip',
+      \   'priority' : 8,
+      \ },
       \ 'cm-tmux' : {'enable' : 0},
+      \ 'neco-syntax' : {'priority' : 7},
       \}
 let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
 
@@ -704,8 +708,7 @@ let g:UltiSnipsRemoveSelectModeMappings = 0
 let g:UltiSnipsSnippetDirectories = [s:main . '/UltiSnips']
 
 nnoremap <leader>es :UltiSnipsEdit!<cr>
-inoremap <silent> <c-u> <c-r>=
-      \ cm#sources#ultisnips#trigger_or_popup("\<plug>(ultisnips_expand)")<cr>
+inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<plug>(ultisnips_expand)")<cr>
 
 " }}}2
 " {{{2 plugin: undotree
