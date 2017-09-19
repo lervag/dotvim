@@ -29,10 +29,7 @@ endfunction
 
 " }}}1
 function! s:get_target_width() " {{{1
-  let l:column_width  = 80 + &foldcolumn
-        \ + (&number           ? &numberwidth : 0)
-        \ + (s:has_sign_cols() ? 2            : 0)
-
+  let l:column_width = 82
   let l:total_height = 0
   let l:heights = map(filter(split(winrestcmd(),'|')[0:-1],
         \                  'v:val =~# ''^\d'''),
@@ -42,7 +39,7 @@ function! s:get_target_width() " {{{1
   endfor
 
   let l:count = float2nr(ceil(l:total_height / (1.0*&lines)))
-  return l:count*l:column_width
+  return l:count*l:column_width + l:count - 1
 endfunction
 
 " }}}1
