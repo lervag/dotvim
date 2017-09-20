@@ -925,7 +925,7 @@ augroup MyBraceless
   autocmd!
   autocmd User BracelessInit nunmap J
   autocmd User BracelessInit iunmap <cr>
-  autocmd FileType python BracelessEnable +indent +highlight-cc
+  autocmd FileType python BracelessEnable +indent
 augroup END
 
 " }}}2
