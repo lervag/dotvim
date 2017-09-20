@@ -91,8 +91,6 @@ endif
 " Completion
 Plug 'roxma/vim-hug-neovim-rpc',
       \ !has('nvim') ? {} : { 'on' : [] }
-Plug 'autozimu/LanguageClient-neovim',
-      \ !has('nvim') ? {} : { 'do': ':UpdateRemotePlugins' }
 Plug 'roxma/nvim-completion-manager'
 Plug 'roxma/ncm-github'
 Plug 'Shougo/neco-vim'
@@ -103,12 +101,11 @@ Plug 'wellle/tmux-complete.vim'
 Plug 'ludovicchabant/vim-lawrencium'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-scriptease'
+
 " For improved search highlighting and similar
 Plug 'junegunn/vim-slash'
 
 " Testing
-Plug 'sunaku/vim-dasht'
-Plug 'Shougo/echodoc.vim'
 Plug 'tweekmonster/braceless.vim'
 
 call plug#end() | endif
@@ -283,27 +280,6 @@ elseif executable('ack-grep')
   set grepprg=ack-grep\ --nocolor
 endif
 
-" Spell checking
-set spelllang=en_gb
-let &spellfile = s:main . '/spell/mywords.utf-8.add'
-
-" Add simple switch for spell languages
-let g:spell_list = ['nospell', 'en_gb', 'nn', 'nb']
-function! LoopSpellLanguage()
-  if !exists('b:spell_nr') | let b:spell_nr = 0 | endif
-  let b:spell_nr += 1
-  if b:spell_nr >= len(g:spell_list) | let b:spell_nr = 0 | endif
-  if b:spell_nr == 0
-    setlocal nospell
-    echo 'Spell off'
-  else
-    let &l:spelllang = g:spell_list[b:spell_nr]
-    setlocal spell
-    echo 'Spell language:' g:spell_list[b:spell_nr]
-  endif
-endfunction
-nnoremap <silent> <F6> :<c-u>call LoopSpellLanguage()<cr>
-
 " {{{1 Appearance and UI
 
 set background=light
@@ -370,7 +346,6 @@ nnoremap Q      <nop>
 
 " Some general/standard remappings
 inoremap jk     <esc>
-nnoremap -      <C-^>
 nnoremap Y      y$
 nnoremap J      mzJ`z
 nnoremap dp     dp]c
@@ -406,10 +381,6 @@ nnoremap <expr> <cr> empty(&buftype) ? '<c-]>zvzz' : '<cr>'
 nnoremap <silent> <leader>ev :execute 'edit' resolve($MYVIMRC)<cr>
 nnoremap <silent> <leader>xv :source $MYVIMRC<cr>
 nnoremap <leader>ez :edit ~/.dotfiles/zshrc<cr>
-
-" Toggle fontsize
-nnoremap <silent> <leader>+ :call personal#toggle_fontsize('+')<cr>
-nnoremap <silent> <leader>0 :call personal#toggle_fontsize('0')<cr>
 
 vnoremap <silent><expr> ++ personal#visual_math#yank_and_analyse()
 nmap     <silent>       ++ vip++<esc>
@@ -472,8 +443,6 @@ augroup END
 " }}}2
 " {{{2 feature: completion
 
-let g:echodoc#enable_at_startup = 1
-let g:LanguageClient_autoStart = 1
 let g:tmuxcomplete#trigger = ''
 
 let g:cm_sources_override = {
@@ -483,21 +452,9 @@ let g:cm_sources_override = {
       \   'priority' : 8,
       \ },
       \ 'cm-tmux' : {'enable' : 0},
-      \ 'neco-syntax' : {'priority' : 7},
+      \ 'neco-syntax' : {'priority' : 4},
       \}
 let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
-
-" Test fuzzy matching
-let g:cm_matcher = {
-    \ 'module': 'cm_matchers.fuzzy_matcher',
-    \ 'case': 'smartcase',
-    \}
-" Other choices:
-" \ 'module': 'cm_matchers.substr_matcher',
-
-nnoremap <silent> <leader>lh :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> <leader>ld :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <leader>lr :call LanguageClient_textDocument_rename()<CR>
 
 inoremap <expr> <cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
 inoremap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
