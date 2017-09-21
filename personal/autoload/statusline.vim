@@ -99,7 +99,7 @@ function! s:main(bufnr, active) " {{{1
         \ ? s:color(' [+]', 'SLAlert', a:active) : ''
 
   " Add linter message
-  if exists('*ALEGetStatusLine')
+  if a:active && exists('*ALEGetStatusLine')
     let l:ale_status = ALEGetStatusLine()
     if !empty(l:ale_status)
       let stat .= s:color(' [' . l:ale_status . ']', 'SLAlert', a:active)
