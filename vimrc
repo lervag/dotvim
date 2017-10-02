@@ -74,7 +74,6 @@ Plug 'luochen1990/rainbow'
 Plug 'machakann/vim-columnmove'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'idanarye/vim-vebugger'
-Plug 'moll/vim-bbye', { 'on' : 'Bdelete' }
 Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
 Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
