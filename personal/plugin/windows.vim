@@ -1,18 +1,56 @@
-if exists('g:loaded_bdelete') || &compatible | finish | endif
-let g:loaded_bdelete = 1
+if exists('g:windows')
+  finish
+endif
+let g:windows = 1
 
-function! s:MyBdelete()
-  try
-    Bdelete
-  catch /E516/
-  catch
-  endtry
+let s:save_cpoptions = &cpoptions
+set cpoptions&vim
+
+" Commands
+command! WinOnly
+      \ call s:remove_all_but_current()
+command! WinResize
+      \ call s:resize_windows()
+command! -bang -complete=buffer -nargs=? WinBufDelete
+      \ call s:buf_delete(<q-bang>, <q-args>)
+
+" Mappings
+nnoremap <silent> <c-w><c-o> :WinOnly<cr>
+nnoremap <silent> <c-u>      :WinBufDelete<cr>
+nnoremap <silent> <leader>q  :WinResize<cr>
+
+" Main functions
+function! s:remove_all_but_current() " {{{1
+  wincmd o
+  WinResize
+
+  for bfr in getbufinfo()
+    if bfr.hidden && !bfr.changed
+      execute 'bwipeout' bfr.bufnr
+    endif
+  endfor
 endfunction
 
-command! -bang -complete=buffer -nargs=? Bdelete
-      \ :call s:bdelete(<q-bang>, <q-args>)
+" }}}1
+function! s:resize_windows() " {{{1
+  let l:width = s:get_target_width()
+  if l:width == &columns | return | endif
 
-function! s:bdelete(bang, buffer_name)
+  if has('gui') || empty($TMUX . $STY)
+    let &columns = l:width
+  else
+    let l:winid = systemlist('xdotool getactivewindow')[0]
+    call system(printf('xdotool windowsize --usehints %s %d %d',
+          \ l:winid, l:width, &lines+1))
+    sleep 50m
+  endif
+
+  wincmd =
+  redraw!
+endfunction
+
+" }}}1
+function! s:buf_delete(bang, buffer_name) " {{{1
   let buffer = s:str2bufnr(a:buffer_name)
   let w:bdelete_back = 1
 
@@ -69,7 +107,25 @@ function! s:bdelete(bang, buffer_name)
   endif
 endfunction
 
-function! s:str2bufnr(buffer)
+" }}}1
+
+" Utility functions
+function! s:get_target_width() " {{{1
+  let l:column_width = 82
+  let l:total_height = 0
+  let l:heights = map(filter(split(winrestcmd(),'|')[0:-1],
+        \                  'v:val =~# ''^\d'''),
+        \           'matchstr(v:val, ''\d\+$'')')
+  for l:h in l:heights
+    let l:total_height += l:h
+  endfor
+
+  let l:count = float2nr(ceil(l:total_height / (1.0*&lines)))
+  return l:count*l:column_width + l:count - 1
+endfunction
+
+" }}}1
+function! s:str2bufnr(buffer) " {{{1
   if empty(a:buffer)
     return bufnr('%')
   elseif a:buffer =~# '^\d\+$'
@@ -79,7 +135,8 @@ function! s:str2bufnr(buffer)
   endif
 endfunction
 
-function! s:new(bang)
+" }}}1
+function! s:new(bang) " {{{1
   execute 'enew' . a:bang
 
   setlocal noswapfile
@@ -94,3 +151,14 @@ function! s:new(bang)
   " Hide the buffer from buffer explorers and tabbars:
   setlocal nobuflisted
 endfunction
+
+" }}}1
+function! s:has_sign_cols() " {{{1
+  return len(split(execute('sign place'), "\n")) > 1
+endfunction
+
+" }}}1
+
+let &cpoptions = s:save_cpoptions
+
+" vim: fdm=marker sw=2

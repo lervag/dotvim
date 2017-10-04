@@ -351,13 +351,11 @@ nnoremap dp     dp]c
 nnoremap do     do]c
 nnoremap '      `
 nnoremap <c-e>  <c-^>
-nnoremap ZZ     :update<cr>:Bdelete<cr>
 nnoremap <c-p>  <c-i>
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
 " Buffer navigation
-nnoremap <silent> <c-u> :Bdelete<cr>
 nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
 
@@ -756,7 +754,7 @@ function! MyHgabort()
   else
     bdelete lawrencium
   endif
-  ResizeSplits
+  WinResize
   normal! zx
 endfunction
 
