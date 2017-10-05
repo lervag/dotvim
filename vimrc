@@ -648,7 +648,7 @@ let g:rainbow_conf = {
 let g:targets_argOpening = '[({[]'
 let g:targets_argClosing = '[]})]'
 let g:targets_separators = ', . ; : + - = ~ _ * # / | \ &'
-let g:targets_nlNL = 'nN  '
+let g:targets_nl = 'nN'
 
 " }}}2
 " {{{2 plugin: UltiSnips
