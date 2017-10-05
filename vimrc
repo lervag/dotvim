@@ -534,10 +534,7 @@ function! OpenDiary()
         \ b:calendar.day().get_year(),
         \ b:calendar.day().get_month(),
         \ b:calendar.day().get_day())
-  let l:bufnr = bufnr('')
 
-  enew
-  execute 'bwipeout!' l:bufnr
   call wiki#journal#make_note(l:date)
 endfunction
 
