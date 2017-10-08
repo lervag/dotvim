@@ -1,6 +1,8 @@
 "
 " Simple plugin that maps gK to open documentation with zeal
 "
+" Note: Could also use http://devdocs.io/
+"
 
 if !executable('zeal') || exists('g:loaded_zeal') | finish | endif
 let g:loaded_zeal = 1
