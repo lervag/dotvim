@@ -196,10 +196,6 @@ highlight   perlHereDoc                              cterm=NONE                g
 highlight   perlStatementFileDesc                    cterm=NONE                gui=NONE                ctermfg=6      ctermbg=15      guifg=#2aa198   guibg=#fdf6e3
 highlight   perlVarPlain                             cterm=NONE                gui=NONE                ctermfg=3      ctermbg=15      guifg=#b58900   guibg=#fdf6e3
 highlight   rubyDefine                               cterm=NONE                gui=NONE                ctermfg=10     ctermbg=15      guifg=#586e75   guibg=#fdf6e3
-highlight   texMathMatcher                           cterm=NONE                gui=NONE                ctermfg=3      ctermbg=15      guifg=#b58900   guibg=#fdf6e3
-highlight   texMathZoneX                             cterm=NONE                gui=NONE                ctermfg=3      ctermbg=15      guifg=#b58900   guibg=#fdf6e3
-highlight   texRefLabel                              cterm=NONE                gui=NONE                ctermfg=3      ctermbg=15      guifg=#b58900   guibg=#fdf6e3
-highlight   texStatement                             cterm=NONE                gui=NONE                ctermfg=6      ctermbg=15      guifg=#2aa198   guibg=#fdf6e3
 highlight   vimCmdSep                                cterm=NONE                gui=NONE                ctermfg=4      guifg=#268bd2
 highlight   vimCommand                               cterm=NONE                gui=NONE                ctermfg=3      guifg=#b58900
 highlight   vimCommentString                         cterm=NONE                gui=NONE                ctermfg=13     guifg=#6c71c4
@@ -242,6 +238,10 @@ highlight link SyntasticWarning           SpellCap
 highlight link SyntasticWarningSign       Todo
 highlight link Tag                        Special
 highlight link Typedef                    Type
+
+highlight link texMathMatcher ConId
+highlight link texStatement   Number
+highlight link texCmdArgs     Identifier
 
 highlight link diffAdded                  Statement
 highlight link diffBDiffer                WarningMsg
