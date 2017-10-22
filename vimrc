@@ -107,6 +107,7 @@ Plug 'junegunn/vim-slash'
 
 " Testing
 Plug 'tweekmonster/braceless.vim'
+Plug 'frioux/vim-regedit'
 
 call plug#end() | endif
 
