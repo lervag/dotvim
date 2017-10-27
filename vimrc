@@ -78,6 +78,7 @@ Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
 Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'benmills/vimux'
 if has('nvim') || v:version >= 800
@@ -570,8 +571,12 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 if executable('rg')
   let g:ctrlp_user_command += ['rg %s --files --color=never --glob ""']
   let g:ctrlp_use_caching = 0
+elseif executable('ag')
+  let g:ctrlp_user_command += ['ag %s -l --nocolor -g ""']
+  let g:ctrlp_use_caching = 0
 endif
 
+let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
 let g:ctrlp_tilde_homedir = 1
 let g:ctrlp_match_window = 'top,order:ttb,min:30,max:30'
 let g:ctrlp_status_func = {
