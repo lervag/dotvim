@@ -99,17 +99,20 @@ function! s:main(bufnr, active) " {{{1
         \ ? s:color(' [+]', 'SLAlert', a:active) : ''
 
   " Add linter message
-  let ale_counts = ale#statusline#Count(a:bufnr)
-  let ale_status = map(filter([
-        \ ['Errors: ', 'error'],
-        \ ['Warnings: ', 'warning'],
-        \ ['Infos: ', 'info'],
-        \], 'ale_counts[v:val[1]] > 0'),
-        \ 'v:val[0] . ale_counts[v:val[1]]')
-  if !empty(ale_status)
-    let stat .= s:color(' [' . join(ale_status, ', ') . ']',
-          \ 'SLAlert', a:active)
-  endif
+  try
+    let ale_counts = ale#statusline#Count(a:bufnr)
+    let ale_status = map(filter([
+          \ ['Errors: ', 'error'],
+          \ ['Warnings: ', 'warning'],
+          \ ['Infos: ', 'info'],
+          \], 'ale_counts[v:val[1]] > 0'),
+          \ 'v:val[0] . ale_counts[v:val[1]]')
+    if !empty(ale_status)
+      let stat .= s:color(' [' . join(ale_status, ', ') . ']',
+            \ 'SLAlert', a:active)
+    endif
+  catch
+  endtry
 
   " Change to right-hand side
   let stat .= '%='
