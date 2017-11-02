@@ -34,6 +34,7 @@ silent! if plug#begin(s:bundle)
 call plug#(s:personal)
 call plug#(s:lervag . 'vimtex')
 call plug#(s:lervag . 'file-line')
+call plug#(s:lervag . 'vim-foam')
 if s:is_devhost
   call plug#(s:lervag . 'wiki')
 endif
