@@ -482,6 +482,15 @@ augroup my_cm_setup
         \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
         \ })
   autocmd User CmSetup call cm#register_source({
+        \ 'name' : 'foam',
+        \ 'priority': 8,
+        \ 'scoping': 1,
+        \ 'scopes': ['foam'],
+        \ 'abbreviation': 'foam',
+        \ 'cm_refresh_patterns': g:foam#complete#re_refresh_ncm,
+        \ 'cm_refresh': {'omnifunc': 'foam#complete#omnifunc'},
+        \ })
+  autocmd User CmSetup call cm#register_source({
         \ 'name' : 'tmuxcomplete',
         \ 'priority': 2,
         \ 'abbreviation': 'tmux',
