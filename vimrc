@@ -139,12 +139,6 @@ augroup vimrc_autocommands
 
   " Close preview after complete
   autocmd CompleteDone * pclose
-
-  autocmd BufLeave * let b:winview = winsaveview()
-  autocmd BufEnter *
-        \ if(exists('b:winview')) |
-        \   call winrestview(b:winview) |
-        \ endif
 augroup END
 
 " {{{1 Options
