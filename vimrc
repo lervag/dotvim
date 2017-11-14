@@ -110,6 +110,7 @@ Plug 'junegunn/vim-slash'
 " Testing
 Plug 'tweekmonster/braceless.vim'
 Plug 'frioux/vim-regedit'
+Plug 'andymass/vim-matchup'
 
 call plug#end() | endif
 
@@ -397,7 +398,10 @@ endif
 " {{{2 internal
 
 " Enable internal matchit plugin
-runtime macros/matchit.vim
+" runtime macros/matchit.vim
+
+" No, use vim-matchup instead
+let g:matchup_matchparen_status_offscreen = 0
 
 " Disable a lot of unnecessary internal plugins
 let g:loaded_2html_plugin = 1
