@@ -37,6 +37,7 @@ call plug#(s:lervag . 'file-line')
 call plug#(s:lervag . 'vim-foam')
 if s:is_devhost
   call plug#(s:lervag . 'wiki')
+  call plug#(s:lervag . 'vim-sintef')
 endif
 
 " Essentials
@@ -946,6 +947,36 @@ let g:vimsyn_embed = 'P'
 
 if isdirectory(glob('~/documents/wiki'))
   let g:wiki = { 'root' : '~/documents/wiki' }
+
+  " Used for order of projects in weekly/monthly summaries
+  let g:wiki.projects = [
+        \ 'Diverse',
+        \ 'Leiested - Linux',
+        \ 'Leiested - FerroCool',
+        \ 'Tekna',
+        \ 'Sommerjobb-administrasjon',
+        \ 'FerroCool',
+        \ 'FerroCool 2',
+        \ 'RPT',
+        \ 'Trafo',
+        \ 'ELEGANCY',
+        \]
+
+  " Used for order of maconomy prints
+  let g:sintef_projects = [
+        \ 'Diverse',
+        \ 'Borte',
+        \ 'Intern',
+        \ 'Leiested',
+        \ 'Tekna',
+        \ 'Sommerjobb',
+        \ 'FerroCool',
+        \ 'RPT',
+        \ 'Trafo',
+        \ 'HYVA',
+        \ 'ELEGANCY',
+        \ 'NCCS',
+        \]
 endif
 
 " }}}2
