@@ -20,6 +20,18 @@ snippet itemize
 \end{itemize}
 endsnippet
 
+snippet enumerate
+\begin{enumerate}
+	\item ${0}
+\end{enumerate}
+endsnippet
+
+snippet description
+\begin{description}
+	\item[${1}] ${0}
+\end{description}
+endsnippet
+
 snippet table
 \begin{table}
 	\centering
@@ -46,6 +58,15 @@ snippet subsub
 \subsubsection{$1}$0
 endsnippet
 
+snippet figure
+\begin{figure}
+	\centering
+	\includegraphics[]{}
+	\caption{${0}}
+	\label{fig:${1}}
+\end{figure}
+endsnippet
+
 snippet pgfplot
 \begin{figure}[htpb]
 	\centering
@@ -54,9 +75,22 @@ snippet pgfplot
 				xlabel=labelx,
 				ylabel=labely,
 			]
-			\addplot[color=red,mark=x] $0;
+			\addplot[color=red,mark=x] ${0};
 		\end{axis}
 	\end{tikzpicture}
+	\caption{${2}}
+	\label{fig:${1}}
+\end{figure}
+endsnippet
+
+snippet tikzpicture
+\begin{figure}[htpb]
+	\centering
+	\begin{tikzpicture}
+		${0}
+	\end{tikzpicture}
+	\caption{${2}}
+	\label{fig:${1}}
 \end{figure}
 endsnippet
 
@@ -69,31 +103,3 @@ snippet align "Environment: Align" b
 	${0}
 \end{align}
 endsnippet
-
-# snippet figure
-# alias   fig
-#   \begin{figure}[${1:htpb}]
-#     ${2}
-#   \end{figure}
-
-# snippet enumerate
-# alias   enum
-#   \begin{enumerate}
-#           \item ${0}
-#   \end{enumerate}
-
-# snippet description
-# alias   desc
-#   \begin{description}
-#           \item[${1}] ${0}
-#   \end{description}
-
-# snippet it
-# abbr    \item
-#   \item ${0}
-
-# snippet tikz
-#   \begin{tikzpicture}
-#           ${0}
-#   \end{tikzpicture}
-
