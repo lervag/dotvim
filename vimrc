@@ -90,6 +90,7 @@ if !has('nvim')
   Plug 'nhooyr/neoman.vim'
 endif
 Plug 'tweekmonster/helpful.vim'
+Plug 'andymass/vim-matchup'
 
 " Completion
 Plug 'roxma/vim-hug-neovim-rpc',
@@ -111,7 +112,6 @@ Plug 'junegunn/vim-slash'
 " Testing
 Plug 'tweekmonster/braceless.vim'
 Plug 'frioux/vim-regedit'
-Plug 'andymass/vim-matchup'
 
 call plug#end() | endif
 
@@ -397,12 +397,6 @@ endif
 " {{{1 Configure plugins
 
 " {{{2 internal
-
-" Enable internal matchit plugin
-" runtime macros/matchit.vim
-
-" No, use vim-matchup instead
-let g:matchup_matchparen_status_offscreen = 0
 
 " Disable a lot of unnecessary internal plugins
 let g:loaded_2html_plugin = 1
@@ -777,6 +771,11 @@ function! MyHgabort()
 endfunction
 
 " }}}
+" {{{2 plugin: vim-matchup
+
+let g:matchup_matchparen_status_offscreen = 0
+
+" }}}2
 " {{{2 plugin: vim-plug
 
 let g:plug_window = 'tab new'
