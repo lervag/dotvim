@@ -570,8 +570,7 @@ vmap     <silent><leader>f  <Plug>CtrlSFVwordExec
 " }}}2
 " {{{2 plugin: CtrlP
 
-let g:ctrlp_map = '<leader><leader>'
-let g:ctrlp_cmd = 'CtrlPMRU'
+let g:ctrlp_map = ''
 let g:ctrlp_switch_buffer = 'e'
 let g:ctrlp_working_path_mode = 'rc'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
@@ -606,13 +605,14 @@ let g:ctrlp_mruf_exclude = '\v' . join([
 " let g:ctrlp_custom_ignore = ''
 
 " Mappings
-nnoremap <silent> <leader>oo :CtrlP<cr>
-nnoremap <silent> <leader>og :CtrlPRoot<cr>
-nnoremap <silent> <leader>ov :CtrlP ~/.vim<cr>
-nnoremap <silent> <leader>op :call CtrlPVimPlugs()<cr>
-nnoremap <silent> <leader>ob :CtrlPBuffer<cr>
-nnoremap <silent> <leader>ow :CtrlP ~/documents/wiki<cr>
-nnoremap <silent> <leader>ot :CtrlPTag<cr>
+nnoremap <silent> <leader>oo       :CtrlP<cr>
+nnoremap <silent> <leader>og       :CtrlPRoot<cr>
+nnoremap <silent> <leader>ov       :CtrlP ~/.vim<cr>
+nnoremap <silent> <leader>op       :call CtrlPVimPlugs()<cr>
+nnoremap <silent> <leader>ob       :CtrlPBuffer<cr>
+nnoremap <silent> <leader>ow       :CtrlP ~/documents/wiki<cr>
+nnoremap <silent> <leader>ot       :CtrlPTag<cr>
+nnoremap <silent> <leader><leader> :call CtrlPDisableMatchFunc('CtrlPMRU')<cr>
 
 " Wrapper to search through plugin source files
 function! CtrlPVimPlugs() " {{{3
@@ -628,6 +628,15 @@ function! CtrlPVimPlugs() " {{{3
   let g:ctrlp_working_path_mode = l:ctrlp_working_path_mode
   let g:ctrlp_user_command = l:ctrlp_user_command
   let g:ctrlp_custom_ignore = l:ctrlp_custom_ignore
+endfunction
+
+" }}}3
+
+" Disable pymatcher for e.g. CtrlPMRU
+function! CtrlPDisableMatchFunc(cmd) " {{{3
+  let g:ctrlp_match_func = {}
+  execute a:cmd
+  let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 endfunction
 
 " }}}3
