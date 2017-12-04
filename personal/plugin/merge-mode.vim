@@ -4,8 +4,6 @@ function! s:setup_merge_mode() " {{{1
   if !&diff | return | endif
 
   " Create straightforward mappings
-  nmap     ]] ]n
-  nmap     [[ [n
   nnoremap do <nop>
   nnoremap <silent> dp        :diffput 2<cr>
   nnoremap <silent> dol       :diffget 1<cr>
@@ -18,17 +16,28 @@ function! s:setup_merge_mode() " {{{1
   let l:sid = matchstr(expand('<sfile>'), '\zs<SNR>\d\+_\ze.*$')
   execute 'nnoremap <silent> u :call ' . l:sid . 'undo()<cr>'
 
-  " Set buffer options
+  " Set buffer options (local file)
   1wincmd w
   setlocal noswapfile
   setlocal nomodifiable
+  nnoremap <buffer> ]] ]c
+  nnoremap <buffer> [[ [c
+  wincmd H
+
+  " Set buffer options (remote file)
   3wincmd w
   setlocal noswapfile
   setlocal nomodifiable
+  nnoremap <buffer> ]] ]c
+  nnoremap <buffer> [[ [c
+  wincmd L
 
-  " Move to local window and to first conflict
+  " Set buffer options (current)
   2wincmd w
-  normal gg]]
+  wincmd J
+  nnoremap <buffer> ]] ]c
+  nnoremap <buffer> [[ [c
+  normal! 100[c
 endfunction
 
 " }}}1
