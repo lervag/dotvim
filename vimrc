@@ -984,6 +984,25 @@ if isdirectory(glob('~/documents/wiki'))
         \ 'ELEGANCY',
         \ 'NCCS',
         \]
+
+  let g:wiki_file_open = 'WikiFileOpen'
+
+  function! WikiFileOpen(...) abort dict
+    if self.path =~# 'pdf$'
+      silent execute '!zathura' fnameescape(self.path) '&'
+      return 1
+    endif
+
+    if self.path =~# 'png$'
+      silent execute '!feh -.' fnameescape(self.path) '&'
+      return 1
+    endif
+
+    if self.path =~# '\v(docx|xls)$'
+      silent execute '!libreoffice' fnameescape(self.path) '&'
+      return 1
+    endif
+  endfunction
 endif
 
 " }}}2
