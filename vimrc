@@ -952,58 +952,56 @@ let g:vimsyn_embed = 'P'
 " }}}2
 " {{{2 filetype: wiki
 
-if isdirectory(glob('~/documents/wiki'))
-  let g:wiki = { 'root' : '~/documents/wiki' }
+let g:wiki_root = '~/documents/wiki'
 
-  " Used for order of projects in weekly/monthly summaries
-  let g:wiki.projects = [
-        \ 'Diverse',
-        \ 'Leiested - Linux',
-        \ 'Leiested - FerroCool',
-        \ 'Tekna',
-        \ 'Sommerjobb-administrasjon',
-        \ 'FerroCool',
-        \ 'FerroCool 2',
-        \ 'RPT',
-        \ 'Trafo',
-        \ 'ELEGANCY',
-        \]
+" Used for order of projects in weekly/monthly summaries
+let g:wiki_projects = [
+      \ 'Diverse',
+      \ 'Leiested - Linux',
+      \ 'Leiested - FerroCool',
+      \ 'Tekna',
+      \ 'Sommerjobb-administrasjon',
+      \ 'FerroCool',
+      \ 'FerroCool 2',
+      \ 'RPT',
+      \ 'Trafo',
+      \ 'ELEGANCY',
+      \]
 
-  " Used for order of maconomy prints
-  let g:sintef_projects = [
-        \ 'Diverse',
-        \ 'Borte',
-        \ 'Intern',
-        \ 'Leiested',
-        \ 'Tekna',
-        \ 'Sommerjobb',
-        \ 'FerroCool',
-        \ 'RPT',
-        \ 'Trafo',
-        \ 'HYVA',
-        \ 'ELEGANCY',
-        \ 'NCCS',
-        \]
+" Used for order of maconomy prints
+let g:sintef_projects = [
+      \ 'Diverse',
+      \ 'Borte',
+      \ 'Intern',
+      \ 'Leiested',
+      \ 'Tekna',
+      \ 'Sommerjobb',
+      \ 'FerroCool',
+      \ 'RPT',
+      \ 'Trafo',
+      \ 'HYVA',
+      \ 'ELEGANCY',
+      \ 'NCCS',
+      \]
 
-  let g:wiki_file_open = 'WikiFileOpen'
+let g:wiki_file_open = 'WikiFileOpen'
 
-  function! WikiFileOpen(...) abort dict
-    if self.path =~# 'pdf$'
-      silent execute '!zathura' fnameescape(self.path) '&'
-      return 1
-    endif
+function! WikiFileOpen(...) abort dict
+  if self.path =~# 'pdf$'
+    silent execute '!zathura' fnameescape(self.path) '&'
+    return 1
+  endif
 
-    if self.path =~# 'png$'
-      silent execute '!feh -.' fnameescape(self.path) '&'
-      return 1
-    endif
+  if self.path =~# 'png$'
+    silent execute '!feh -.' fnameescape(self.path) '&'
+    return 1
+  endif
 
-    if self.path =~# '\v(docx|xls)$'
-      silent execute '!libreoffice' fnameescape(self.path) '&'
-      return 1
-    endif
-  endfunction
-endif
+  if self.path =~# '\v(docx|xls)$'
+    silent execute '!libreoffice' fnameescape(self.path) '&'
+    return 1
+  endif
+endfunction
 
 " }}}2
 
