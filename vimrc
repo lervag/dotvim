@@ -165,7 +165,7 @@ endif
 
 " Neovim specific options
 if has('nvim')
-  set inccommand=split
+  set inccommand=nosplit
 endif
 
 " Basic
