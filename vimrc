@@ -112,6 +112,16 @@ Plug 'junegunn/vim-slash'
 " Testing
 Plug 'tweekmonster/braceless.vim'
 Plug 'frioux/vim-regedit'
+Plug 'idanarye/vim-omnipytent'
+
+let g:omnipytent_filePrefix = '.kyl'
+let g:omnipytent_defaultPythonVersion = 3
+
+nnoremap         <leader>re :OPedit 
+nnoremap <silent><leader>rr :OP run<cr>
+nnoremap <silent><leader>rt :OP test<cr>
+nnoremap <silent><leader>rv :OP vader<cr>
+
 
 call plug#end() | endif
 
