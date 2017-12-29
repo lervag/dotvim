@@ -978,22 +978,6 @@ let g:wiki_projects = [
       \ 'ELEGANCY',
       \]
 
-" Used for order of maconomy prints
-let g:sintef_projects = [
-      \ 'Diverse',
-      \ 'Borte',
-      \ 'Intern',
-      \ 'Leiested',
-      \ 'Tekna',
-      \ 'Sommerjobb',
-      \ 'FerroCool',
-      \ 'RPT',
-      \ 'Trafo',
-      \ 'HYVA',
-      \ 'ELEGANCY',
-      \ 'NCCS',
-      \]
-
 let g:wiki_file_open = 'WikiFileOpen'
 
 function! WikiFileOpen(...) abort dict
