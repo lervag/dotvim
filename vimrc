@@ -116,6 +116,10 @@ Plug 'idanarye/vim-omnipytent', { 'branch' : 'develop' }
 
 let g:omnipytent_filePrefix = '.kyl'
 let g:omnipytent_defaultPythonVersion = 3
+let g:omnipytent_projectRootMarkers = [
+      \ '.git',
+      \ '.hg',
+      \]
 
 nnoremap         <leader>re :OPedit 
 nnoremap <silent><leader>rr :OP run<cr>
