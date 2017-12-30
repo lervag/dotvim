@@ -1,43 +1,20 @@
+" Vim configuration
+"
+" Author: Karl Yngve Lervåg
 
-" Use space as leader key
-nnoremap <space> <nop>
-let mapleader = "\<space>"
-
-" Define some paths/variables
-let s:main = fnamemodify(expand('<sfile>'), ':h')
-let s:init_script = s:main . '/init.sh'
-let s:plug = s:main . '/autoload/plug.vim'
-let s:bundle = s:main . '/bundle'
-let s:personal = s:main . '/personal'
-let s:devhosts = [
-      \ 'yoga',
-      \ 'vsl136',
-      \ 'vsl142',
-      \ 'unity.sintef.no',
-      \]
-let s:is_devhost = index(s:devhosts, hostname()) >= 0
-let s:lervag = s:is_devhost ? 'git@github.com:lervag/' : 'lervag/'
+call vimrc#init()
 
 " {{{1 Load plugins
 
-if !filereadable(expand(s:plug))
-  let s:stop = 1
-  execute 'silent !' . s:init_script
-  " vint: -ProhibitAutocmdWithNoGroup
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  " vint: +ProhibitAutocmdWithNoGroup
-endif
-
-silent! if plug#begin(s:bundle)
+call plug#begin(g:vimrc#path_bundles)
 
 " My own plugins
-call plug#(s:personal)
-call plug#(s:lervag . 'vimtex')
-call plug#(s:lervag . 'file-line')
-call plug#(s:lervag . 'vim-foam')
-if s:is_devhost
-  call plug#(s:lervag . 'wiki')
-  call plug#(s:lervag . 'vim-sintef')
+call plug#(g:vimrc#path_lervag . 'vimtex')
+call plug#(g:vimrc#path_lervag . 'file-line')
+call plug#(g:vimrc#path_lervag . 'vim-foam')
+if g:vimrc#is_devhost
+  call plug#(g:vimrc#path_lervag . 'wiki')
+  call plug#(g:vimrc#path_lervag . 'vim-sintef')
 endif
 
 " Essentials
@@ -114,24 +91,11 @@ Plug 'tweekmonster/braceless.vim'
 Plug 'frioux/vim-regedit'
 Plug 'idanarye/vim-omnipytent', { 'branch' : 'develop' }
 
-let g:omnipytent_filePrefix = '.kyl'
-let g:omnipytent_defaultPythonVersion = 3
-let g:omnipytent_projectRootMarkers = [
-      \ '.git',
-      \ '.hg',
-      \]
+call plug#end()
 
-nnoremap         <leader>re :OPedit 
-nnoremap <silent><leader>rr :OP run<cr>
-nnoremap <silent><leader>rt :OP test<cr>
-nnoremap <silent><leader>rv :OP vader<cr>
+" }}}1
 
-
-call plug#end() | endif
-
-if exists('s:stop')
-  finish
-endif
+if g:vimrc#bootstrap | finish | endif
 
 " {{{1 Autocommands
 
@@ -265,14 +229,7 @@ if &foldmethod ==# ''
 endif
 set foldlevel=0
 set foldcolumn=0
-set foldtext=TxtFoldText()
-
-function! TxtFoldText()
-  let level = repeat('-', min([v:foldlevel-1,3])) . '+'
-  let title = substitute(getline(v:foldstart), '{\{3}\d\?\s*', '', '')
-  let title = substitute(title, '^["#! ]\+', '', '')
-  return printf('%-4s %-s', level, title)
-endfunction
+set foldtext=personal#fold#foldtext()
 
 " Indentation
 set softtabstop=-1
@@ -429,23 +386,13 @@ let g:loaded_zipPlugin = 1
 let g:Gitv_WipeAllOnClose = 1
 let g:Gitv_DoNotMapCtrlKey = 1
 
-nnoremap <leader>gl :Gitv --all<cr>
-nnoremap <leader>gL :Gitv! --all<cr>
-xnoremap <leader>gl :Gitv! --all<cr>
+nnoremap <silent><leader>gl :Gitv --all<cr>
+nnoremap <silent><leader>gL :Gitv! --all<cr>
+xnoremap <silent><leader>gl :Gitv! --all<cr>
 
-nmap     <leader>gs :Gstatus<cr>gg<c-n>
-nnoremap <leader>ge :Gedit<cr>
-nnoremap <leader>gd :Gdiff<cr>
-
-command! Gtogglestatus :call Gtogglestatus()
-
-function! Gtogglestatus()
-  if buflisted(bufname('.git/index'))
-    bd .git/index
-  else
-    Gstatus
-  endif
-endfunction
+nnoremap <silent><leader>gs :call personal#git#fugitive_toggle()<cr>
+nnoremap <silent><leader>ge :Gedit<cr>
+nnoremap <silent><leader>gd :Gdiff<cr>
 
 augroup vimrc_fugitive
   autocmd!
@@ -547,16 +494,9 @@ nnoremap <silent> <leader>c :Calendar -position=here<cr>
 augroup vimrc_calendar
   autocmd!
   autocmd FileType calendar
-        \ nnoremap <silent><buffer> <cr> :<c-u>call OpenDiary()<cr>
+        \ nnoremap <silent><buffer> <cr>
+        \ :<c-u>call personal#wiki#open_diary()<cr>
 augroup END
-function! OpenDiary()
-  let l:date = printf('%d-%0.2d-%0.2d',
-        \ b:calendar.day().get_year(),
-        \ b:calendar.day().get_month(),
-        \ b:calendar.day().get_day())
-
-  call wiki#journal#make_note(l:date)
-endfunction
 
 " }}}2
 " {{{2 plugin: CtrlFS
@@ -617,38 +557,12 @@ let g:ctrlp_mruf_exclude = '\v' . join([
 nnoremap <silent> <leader>oo       :CtrlP<cr>
 nnoremap <silent> <leader>og       :CtrlPRoot<cr>
 nnoremap <silent> <leader>ov       :CtrlP ~/.vim<cr>
-nnoremap <silent> <leader>op       :call CtrlPVimPlugs()<cr>
+nnoremap <silent> <leader>op       :call personal#ctrlp#vim_plugs()<cr>
 nnoremap <silent> <leader>ob       :CtrlPBuffer<cr>
 nnoremap <silent> <leader>ow       :CtrlP ~/documents/wiki<cr>
 nnoremap <silent> <leader>ot       :CtrlPTag<cr>
-nnoremap <silent> <leader><leader> :call CtrlPDisableMatchFunc('CtrlPMRU')<cr>
-
-" Wrapper to search through plugin source files
-function! CtrlPVimPlugs() " {{{3
-  let l:ctrlp_working_path_mode = g:ctrlp_working_path_mode
-  let l:ctrlp_user_command = g:ctrlp_user_command
-  let l:ctrlp_custom_ignore = get(g:, 'ctrlp_custom_ignore', '')
-  let g:ctrlp_working_path_mode = 'c'
-  let g:ctrlp_user_command = []
-  let g:ctrlp_custom_ignore = '\v(LICENSE|tags|\.png$|\.jpg$)'
-
-  CtrlP ~/.vim/bundle
-
-  let g:ctrlp_working_path_mode = l:ctrlp_working_path_mode
-  let g:ctrlp_user_command = l:ctrlp_user_command
-  let g:ctrlp_custom_ignore = l:ctrlp_custom_ignore
-endfunction
-
-" }}}3
-
-" Disable pymatcher for e.g. CtrlPMRU
-function! CtrlPDisableMatchFunc(cmd) " {{{3
-  let g:ctrlp_match_func = {}
-  execute a:cmd
-  let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-endfunction
-
-" }}}3
+nnoremap <silent> <leader><leader>
+      \ :call personal#ctrlp#disable_matchfunc('CtrlPMRU')<cr>
 
 " }}}2
 " {{{2 plugin: FastFold
@@ -690,7 +604,7 @@ let g:UltiSnipsExpandTrigger = '<plug>(ultisnips_expand)'
 let g:UltiSnipsJumpForwardTrigger = '<c-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 let g:UltiSnipsRemoveSelectModeMappings = 0
-let g:UltiSnipsSnippetDirectories = [s:main . '/UltiSnips']
+let g:UltiSnipsSnippetDirectories = [vimrc#path('UltiSnips')]
 
 nnoremap <leader>es :UltiSnipsEdit!<cr>
 inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<plug>(ultisnips_expand)")<cr>
@@ -718,14 +632,9 @@ nnoremap <leader>in :VimuxInspectRunner<cr>
 
 " Send commands
 nnoremap <leader>ii  :call VimuxSendText("jkk\n")<cr>
-nnoremap <leader>is  :set opfunc=VimuxOperator<cr>g@
+nnoremap <leader>is  :set opfunc=personal#vimux#operator<cr>g@
 nnoremap <leader>iss :call VimuxRunCommand(getline('.'))<cr>
 xnoremap <leader>is  "vy :call VimuxSendText(@v)<cr>
-
-function! VimuxOperator(type)
-  let l:text = join(getline(line("'["), line("']")), "\n")
-  call VimuxSendText(l:text)
-endfunction
 
 " }}}2
 " {{{2 plugin: vim-easy-align
@@ -768,30 +677,26 @@ let g:gutentags_file_list_command = {
 nnoremap <leader>hs :Hgstatus<cr>
 nnoremap <leader>hl :Hglog<cr>
 nnoremap <leader>hL :Hglogthis<cr>
-nnoremap <leader>hd :call MyHgWrapper('Hgvdiff')<cr>
-nnoremap <leader>hr :call MyHgWrapper('Hgvrecord')<cr>
-nnoremap <leader>ha :call MyHgabort()<cr>
-
-function! MyHgWrapper(com)
-  execute a:com
-  windo setlocal foldmethod=diff
-  normal! gg]c
-endfunction
-
-function! MyHgabort()
-  if exists(':Hgrecordabort')
-    Hgrecordabort
-  else
-    bdelete lawrencium
-  endif
-  WinResize
-  normal! zx
-endfunction
+nnoremap <leader>hd :call personal#hg#wrapper('Hgvdiff')<cr>
+nnoremap <leader>hr :call personal#hg#wrapper('Hgvrecord')<cr>
+nnoremap <leader>ha :call personal#hg#abort()<cr>
 
 " }}}
 " {{{2 plugin: vim-matchup
 
 let g:matchup_matchparen_status_offscreen = 0
+
+" }}}2
+" {{{2 plugin: vim-omnipytent
+
+let g:omnipytent_filePrefix = '.kyl'
+let g:omnipytent_defaultPythonVersion = 3
+let g:omnipytent_projectRootMarkers = ['.git', '.hg']
+
+nnoremap         <leader>re :OPedit 
+nnoremap <silent><leader>rr :OP run<cr>
+nnoremap <silent><leader>rt :OP test<cr>
+nnoremap <silent><leader>rv :OP vader<cr>
 
 " }}}2
 " {{{2 plugin: vim-plug
@@ -977,24 +882,7 @@ let g:wiki_projects = [
       \ 'ELEGANCY',
       \]
 
-let g:wiki_file_open = 'WikiFileOpen'
-
-function! WikiFileOpen(...) abort dict
-  if self.path =~# 'pdf$'
-    silent execute '!zathura' fnameescape(self.path) '&'
-    return 1
-  endif
-
-  if self.path =~# 'png$'
-    silent execute '!feh -.' fnameescape(self.path) '&'
-    return 1
-  endif
-
-  if self.path =~# '\v(docx|xls)$'
-    silent execute '!libreoffice' fnameescape(self.path) '&'
-    return 1
-  endif
-endfunction
+let g:wiki_file_open = 'personal#wiki#file_open'
 
 " }}}2
 
