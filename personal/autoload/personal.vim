@@ -3,13 +3,11 @@
 "
 
 function! personal#custom_colors() " {{{1
-  "
-  " Purpose: Define custom colors for various things
-  "
+  " Purpose: Define custom colors for various things that are loaded through an
+  "          autocmd after the ColorScheme event.
 
-  "
   " Standard Vim things
-  "
+  " ---------------------------------------------------------------------------
 
   " Updated highlighting
   highlight clear
@@ -31,12 +29,15 @@ function! personal#custom_colors() " {{{1
   highlight SpellRare  cterm=bold           gui=bold           ctermfg=104 guifg=Purple
   highlight SpellLocal cterm=bold           gui=bold           ctermfg=227 guifg=Green
 
-  "
   " Plugins
-  "
+  " ---------------------------------------------------------------------------
 
   highlight ctrlsfSelectedLine    cterm=bold           gui=bold           ctermfg=39  guifg=#00afff
   highlight OperatorSandwichBuns  cterm=bold           gui=bold           ctermfg=5   guifg=Magenta
+
+  highlight link ALEErrorLine ErrorMsg
+  highlight link ALEWarningLine WarningMsg
+  highlight link ALEInfoLine ModeMsg
 endfunction
 
 " }}}1

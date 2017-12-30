@@ -172,7 +172,6 @@ if !has('nvim')
   set backspace=indent,eol,start
   set wildmenu
   set laststatus=2
-  set smarttab
   set autoindent
   set incsearch
 endif
@@ -244,7 +243,7 @@ set completeopt=longest,menu,preview
 
 " Presentation
 set list
-set listchars=tab:▸\ ,nbsp:%,trail:\ ,extends:,precedes:
+set listchars=tab:▸\ ,nbsp:%,trail:\ ,extends:…,precedes:…
 set fillchars=vert:│,fold:\ ,diff:⣿
 set matchtime=2
 set matchpairs+=<:>
@@ -533,10 +532,6 @@ let g:ale_linters = {
 nmap <silent> <leader>aa <Plug>(ale_lint)
 nmap <silent> <leader>aj <Plug>(ale_next_wrap)
 nmap <silent> <leader>ak <Plug>(ale_previous_wrap)
-
-highlight link ALEErrorLine ErrorMsg
-highlight link ALEWarningLine WarningMsg
-highlight link ALEInfoLine ModeMsg
 
 " }}}2
 " {{{2 plugin: calendar.vim
