@@ -792,7 +792,7 @@ let g:table_mode_auto_align = 0
 " }}}2
 " {{{2 plugin: vim-vebugger
 
-let g:vebugger_leader = '<leader>v'
+let g:vebugger_leader = '<leader>d'
 
 " }}}
 
