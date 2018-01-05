@@ -12,5 +12,3 @@ call vimtex#imaps#add_map({
       \   {'envs' : ['description'], 'rhs' : '\item['},
       \ ],
       \})
-
-" vim: fdm=marker sw=2

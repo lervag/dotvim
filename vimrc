@@ -888,5 +888,3 @@ let g:wiki_file_open = 'personal#wiki#file_open'
 " }}}2
 
 " }}}1
-
-" vim: fdm=marker

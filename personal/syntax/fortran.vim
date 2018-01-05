@@ -550,4 +550,3 @@ let b:current_syntax = "fortran"
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
-" vim: ts=8 tw=132

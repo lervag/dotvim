@@ -160,5 +160,3 @@ endfunction
 " }}}1
 
 let &cpoptions = s:save_cpoptions
-
-" vim: fdm=marker sw=2

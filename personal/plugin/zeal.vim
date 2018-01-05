@@ -25,5 +25,3 @@ augroup zeal
           \ ':silent !zeal ' . s:kwrd . ':<cword> 2>&1 >/dev/null &<cr>'
   endfor
 augroup END
-
-" vim: fdm=marker sw=2

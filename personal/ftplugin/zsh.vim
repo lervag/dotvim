@@ -33,5 +33,3 @@ function! BashFoldLevel()
 endfunction
 
 " }}}1
-
-" vim: fdm=marker
