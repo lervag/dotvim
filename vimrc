@@ -107,13 +107,8 @@ augroup vimrc_autocommands
   autocmd WinEnter,FocusGained * setlocal cursorline
   autocmd WinLeave,FocusLost   * setlocal nocursorline
 
-  " When editing a file, always jump to the last known cursor position.  Don't
-  " do it when the position is invalid or when inside an event handler (happens
-  " when dropping a file on gvim).
-  autocmd BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line('$') |
-        \   execute 'normal! g`"' |
-        \ endif
+  " When editing a file, always jump to the last known cursor position.
+  autocmd BufReadPost * call personal#init#go_to_last_known_position()
 
   " Set keymapping for command window
   autocmd CmdwinEnter * nnoremap <buffer> q <c-c><c-c>
@@ -228,7 +223,7 @@ endif
 if &foldmethod ==# ''
   set foldmethod=syntax
 endif
-set foldlevel=0
+set foldlevelstart=0
 set foldcolumn=0
 set foldtext=personal#fold#foldtext()
 
@@ -285,7 +280,7 @@ else
 endif
 
 " Set colorscheme and custom colors
-autocmd vimrc_autocommands ColorScheme * call personal#custom_colors()
+autocmd vimrc_autocommands ColorScheme * call personal#init#custom_colors()
 silent! colorscheme my_solarized
 
 " Set gui cursor
