@@ -52,7 +52,7 @@ Plug 'tmhedberg/SimpylFold'
 Plug 'luochen1990/rainbow'
 Plug 'machakann/vim-columnmove'
 Plug 'dhruvasagar/vim-table-mode'
-Plug 'idanarye/vim-vebugger'
+Plug 'idanarye/vim-vebugger', { 'branch' : 'develop' }
 Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
 Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
