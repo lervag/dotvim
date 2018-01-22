@@ -867,14 +867,14 @@ let g:wiki_root = '~/documents/wiki'
 " Used for order of projects in weekly/monthly summaries
 let g:wiki_projects = [
       \ 'Diverse',
+      \ 'Tekna',
       \ 'Leiested - Linux',
       \ 'Leiested - FerroCool',
-      \ 'Tekna',
+      \ 'Initiativ: NanoSun',
       \ 'Sommerjobb-administrasjon',
       \ 'FerroCool',
-      \ 'FerroCool 2',
-      \ 'RPT',
-      \ 'Trafo',
+      \ 'Predict-RPT',
+      \ 'TEMpT',
       \ 'ELEGANCY',
       \]
 
