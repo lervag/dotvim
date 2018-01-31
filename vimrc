@@ -326,6 +326,7 @@ nnoremap <c-e>  <c-^>
 nnoremap <c-p>  <c-i>
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
+nnoremap gV     `[V`]
 
 " Buffer navigation
 nnoremap <silent> gb    :bnext<cr>
