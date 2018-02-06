@@ -682,6 +682,7 @@ nnoremap <leader>ha :call personal#hg#abort()<cr>
 " {{{2 plugin: vim-matchup
 
 let g:matchup_matchparen_status_offscreen = 0
+let g:matchup_override_vimtex = 1
 
 " }}}2
 " {{{2 plugin: vim-omnipytent
