@@ -1,7 +1,8 @@
 if exists('b:did_ftplugin_personal') | finish | endif
 let b:did_ftplugin_personal = 1
 
-set textwidth=0
+setlocal textwidth=0
+setlocal wrap=0
 
 call vimtex#imaps#add_map({
       \ 'lhs' : '<m-i>',
