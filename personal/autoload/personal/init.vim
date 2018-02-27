@@ -4,7 +4,9 @@ function! personal#init#go_to_last_known_position() abort " {{{1
   endif
 
   normal! g`"
-  normal! zMzvzz
+  if &foldlevel == 0
+    normal! zMzvzz
+  endif
 endfunction
 
 " }}}1
