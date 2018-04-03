@@ -871,10 +871,10 @@ let g:wiki_root = '~/documents/wiki'
 let g:wiki_projects = [
       \ 'Diverse',
       \ 'Tekna',
+      \ 'Sommerjobb-administrasjon',
       \ 'Leiested - Linux',
       \ 'Leiested - FerroCool',
       \ 'Initiativ: NanoSun',
-      \ 'Sommerjobb-administrasjon',
       \ 'FerroCool',
       \ 'Predict-RPT',
       \ 'TEMpT',
