@@ -47,6 +47,7 @@ Plug 'gisraptor/vim-lilypond-integrator'
 Plug 'davidhalter/jedi-vim'
 Plug 'vim-python/python-syntax'
 Plug 'tmhedberg/SimpylFold'
+Plug 'plasticboy/vim-markdown'
 
 " Miscellaneous
 Plug 'luochen1990/rainbow'
@@ -796,6 +797,15 @@ let g:vebugger_leader = '<leader>d'
 " {{{2 filetype: json
 
 let g:vim_json_syntax_conceal = 0
+
+" }}}2
+" {{{2 filetype: markdown
+
+let g:vim_markdown_folding_style_pythonic = 1
+let g:vim_markdown_follow_anchor = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_new_list_item_indent = 2
+let g:vim_markdown_no_extensions_in_markdown = 1
 
 " }}}2
 " {{{2 filetype: python
