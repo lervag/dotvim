@@ -40,6 +40,7 @@ highlight   MatchParen                               cterm=NONE                g
 highlight   ModeMsg                                  cterm=NONE                gui=NONE                ctermfg=4      guifg=#268bd2
 highlight   MoreMsg                                  cterm=NONE                gui=NONE                ctermfg=4      guifg=#268bd2
 highlight   NonText                                  cterm=NONE                gui=NONE                ctermfg=12     guifg=#839496
+highlight   Whitespace                               cterm=NONE                gui=NONE                ctermfg=12     ctermbg=7       guifg=#839496   guibg=#eee8d5
 highlight   Pmenu                                    cterm=reverse             gui=reverse             ctermfg=11     ctermbg=7       guifg=#657b83   guibg=#eee8d5
 highlight   PmenuSbar                                cterm=reverse             gui=reverse             ctermfg=0      ctermbg=11      guifg=#073642   guibg=#657b83
 highlight   PmenuSel                                 cterm=reverse             gui=reverse             ctermfg=14     ctermbg=0       guifg=#93a1a1   guibg=#073642

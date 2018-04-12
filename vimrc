@@ -263,10 +263,6 @@ if has('gui_running')
   set guioptions=ac
   set guiheadroom=0
 else
-  if &t_Co == 8 && $TERM !~# '^linux'
-    set t_Co=256
-  endif
-
   " Set terminal cursor
   if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\e[6 q\<Esc>\e]12;3\x7\<Esc>\\"
