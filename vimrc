@@ -807,7 +807,9 @@ let g:vim_markdown_no_extensions_in_markdown = 1
 " {{{2 filetype: python
 
 " Note: I should remember to install python-jedi and python2-jedi!
-" Note: See ~/.vim/personal/ftplugin/python.vim for more settings
+" Note: See more settings at:
+"       ~/.vim/personal/ftplugin/python.vim
+"       ~/.vim/personal/after/ftplugin/python.vim
 
 " I prefer to map jedi.vim features manually
 let g:jedi#auto_initialization = 0
