@@ -83,6 +83,7 @@ Plug 'wellle/tmux-complete.vim'
 Plug 'ludovicchabant/vim-lawrencium'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-scriptease'
+Plug 'tommcdo/vim-exchange'
 
 " For improved search highlighting and similar
 Plug 'junegunn/vim-slash'
