@@ -72,13 +72,12 @@ Plug 'tweekmonster/helpful.vim'
 Plug 'andymass/vim-matchup'
 
 " Completion
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+Plug 'Shougo/deoplete.nvim',
+      \ has('nvim') ? { 'do': ':UpdateRemotePlugins' } : {}
+Plug 'roxma/vim-hug-neovim-rpc',
+      \ has('nvim') ? { 'on' : [] } : {}
+Plug 'roxma/nvim-yarp',
+      \ has('nvim') ? { 'on' : [] } : {}
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/neco-syntax'
 Plug 'wellle/tmux-complete.vim'
