@@ -45,6 +45,7 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'elzr/vim-json'
 Plug 'gisraptor/vim-lilypond-integrator'
 Plug 'davidhalter/jedi-vim'
+Plug 'zchee/deoplete-jedi'
 Plug 'vim-python/python-syntax'
 Plug 'tmhedberg/SimpylFold'
 Plug 'plasticboy/vim-markdown'
@@ -71,10 +72,13 @@ Plug 'tweekmonster/helpful.vim'
 Plug 'andymass/vim-matchup'
 
 " Completion
-Plug 'roxma/vim-hug-neovim-rpc',
-      \ !has('nvim') ? {} : { 'on' : [] }
-Plug 'roxma/nvim-completion-manager'
-Plug 'roxma/ncm-github'
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/neco-syntax'
 Plug 'wellle/tmux-complete.vim'
@@ -398,59 +402,27 @@ augroup END
 " }}}2
 " {{{2 feature: completion
 
+let g:deoplete#enable_at_startup = 1
+
+call deoplete#custom#option('smart_case', v:true)
+
+call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
+call deoplete#custom#source('ultisnips', 'rank', 1000)
+
+if !exists('g:deoplete#omni#input_patterns')
+    let g:deoplete#omni#input_patterns = {}
+endif
+let g:deoplete#omni#input_patterns.tex = g:vimtex#re#deoplete
+let g:deoplete#omni#input_patterns.wiki = '\[\[[^]|]*#?'
+let g:deoplete#omni#input_patterns.foam = g:foam#complete#re_refresh_ncm
+
 let g:tmuxcomplete#trigger = ''
 
-let g:cm_sources_override = {
-      \ 'cm-bufkeyword' : {'abbreviation' : 'key'},
-      \ 'cm-ultisnips' : {
-      \   'abbreviation' : 'snip',
-      \   'priority' : 8,
-      \ },
-      \ 'cm-tmux' : {'enable' : 0},
-      \ 'neco-syntax' : {'priority' : 4},
-      \}
-let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
-
-inoremap <expr> <cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
-inoremap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-
-augroup my_cm_setup
-  autocmd!
-  autocmd User CmSetup call cm#register_source({
-        \ 'name' : 'wiki',
-        \ 'priority': 9,
-        \ 'scoping': 1,
-        \ 'scopes': ['wiki'],
-        \ 'abbreviation': 'wiki',
-        \ 'cm_refresh_patterns': ['\[\[[^]|]*#?$'],
-        \ 'cm_refresh': {'omnifunc': 'wiki#complete#omnicomplete'},
-        \ })
-  autocmd User CmSetup call cm#register_source({
-        \ 'name' : 'vimtex',
-        \ 'priority': 8,
-        \ 'scoping': 1,
-        \ 'scopes': ['tex'],
-        \ 'abbreviation': 'tex',
-        \ 'cm_refresh_patterns': g:vimtex#re#ncm,
-        \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
-        \ })
-  autocmd User CmSetup call cm#register_source({
-        \ 'name' : 'foam',
-        \ 'priority': 8,
-        \ 'scoping': 1,
-        \ 'scopes': ['foam'],
-        \ 'abbreviation': 'foam',
-        \ 'cm_refresh_patterns': g:foam#complete#re_refresh_ncm,
-        \ 'cm_refresh': {'omnifunc': 'foam#complete#omnifunc'},
-        \ })
-  autocmd User CmSetup call cm#register_source({
-        \ 'name' : 'tmuxcomplete',
-        \ 'priority': 2,
-        \ 'abbreviation': 'tmux',
-        \ 'cm_refresh': {'omnifunc': 'tmuxcomplete#complete'},
-        \ })
-augroup END
+inoremap <expr><c-h>   deoplete#smart_close_popup() . "\<c-h>"
+inoremap <expr><bs>    deoplete#smart_close_popup() . "\<c-h>"
+inoremap <expr><cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+inoremap <expr><tab>   pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 " }}}2
 
@@ -595,14 +567,13 @@ let g:targets_nl = 'nN'
 " }}}2
 " {{{2 plugin: UltiSnips
 
-let g:UltiSnipsExpandTrigger = '<plug>(ultisnips_expand)'
+let g:UltiSnipsExpandTrigger = '<c-u>'
 let g:UltiSnipsJumpForwardTrigger = '<c-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 let g:UltiSnipsRemoveSelectModeMappings = 0
 let g:UltiSnipsSnippetDirectories = [vimrc#path('UltiSnips')]
 
 nnoremap <leader>es :UltiSnipsEdit!<cr>
-inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<plug>(ultisnips_expand)")<cr>
 
 " }}}2
 " {{{2 plugin: undotree
