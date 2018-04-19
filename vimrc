@@ -409,12 +409,11 @@ call deoplete#custom#option('smart_case', v:true)
 call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#source('ultisnips', 'rank', 1000)
 
-if !exists('g:deoplete#omni#input_patterns')
-    let g:deoplete#omni#input_patterns = {}
-endif
-let g:deoplete#omni#input_patterns.tex = g:vimtex#re#deoplete
-let g:deoplete#omni#input_patterns.wiki = '\[\[[^]|]*#?'
-let g:deoplete#omni#input_patterns.foam = g:foam#complete#re_refresh_ncm
+call deoplete#custom#var('omni', 'input_patterns', {
+      \ 'tex' : g:vimtex#re#deoplete,
+      \ 'wiki' : '\[\[[^]|]*#?',
+      \ 'foam' : g:foam#complete#re_refresh_ncm,
+      \})
 
 let g:tmuxcomplete#trigger = ''
 
