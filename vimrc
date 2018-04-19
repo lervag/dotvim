@@ -12,6 +12,7 @@ call plug#begin(g:vimrc#path_bundles)
 call plug#(g:vimrc#path_lervag . 'vimtex')
 call plug#(g:vimrc#path_lervag . 'file-line')
 call plug#(g:vimrc#path_lervag . 'vim-foam')
+call plug#(g:vimrc#path_lervag . 'vim-rmarkdown')
 if g:vimrc#is_devhost
   call plug#(g:vimrc#path_lervag . 'wiki')
   call plug#(g:vimrc#path_lervag . 'vim-sintef')
