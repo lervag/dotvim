@@ -7,7 +7,7 @@ function! s:log_autocmds_toggle()
 
   let l:date = strftime('%F', localtime())
   let s:activate = get(s:, 'activate', 0) ? 0 : 1
-  if !s:activate 
+  if !s:activate
     call s:log('Stopped autocmd log (' . l:date . ')')
     return
   endif

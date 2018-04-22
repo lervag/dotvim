@@ -412,7 +412,7 @@ call deoplete#custom#source('ultisnips', 'rank', 1000)
 call deoplete#custom#var('omni', 'input_patterns', {
       \ 'tex' : g:vimtex#re#deoplete,
       \ 'wiki' : '\[\[[^]|]*#?',
-      \ 'foam' : g:foam#complete#re_refresh_ncm,
+      \ 'foam' : g:foam#complete#re_refresh_deoplete,
       \})
 
 let g:tmuxcomplete#trigger = ''
