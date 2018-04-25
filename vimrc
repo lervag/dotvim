@@ -405,14 +405,15 @@ augroup END
 let g:deoplete#enable_at_startup = 1
 
 call deoplete#custom#option('smart_case', v:true)
+call deoplete#custom#option('ignore_sources', {'_': ['around']})
 
 call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#source('ultisnips', 'rank', 1000)
 
 call deoplete#custom#var('omni', 'input_patterns', {
-      \ 'tex' : g:vimtex#re#deoplete,
-      \ 'wiki' : '\[\[[^]|]*#?',
       \ 'foam' : g:foam#complete#re_refresh_deoplete,
+      \ 'tex' : g:vimtex#re#deoplete,
+      \ 'wiki' : '\[\[[^]|]{3,}$',
       \})
 
 let g:tmuxcomplete#trigger = ''
