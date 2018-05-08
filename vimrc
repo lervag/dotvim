@@ -187,7 +187,6 @@ set confirm
 set hidden
 set shortmess=aoOtT
 silent! set shortmess+=cI
-silent! set shortmess+=F
 set textwidth=79
 set nowrap
 set linebreak
