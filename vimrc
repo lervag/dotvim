@@ -96,7 +96,6 @@ Plug 'junegunn/vim-slash'
 Plug 'tweekmonster/braceless.vim'
 Plug 'frioux/vim-regedit'
 Plug 'idanarye/vim-omnipytent', { 'branch' : 'develop' }
-Plug 'bergercookie/vim-debugstring'
 
 call plug#end()
 
