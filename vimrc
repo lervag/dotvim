@@ -14,7 +14,7 @@ call plug#(g:vimrc#path_lervag . 'file-line')
 call plug#(g:vimrc#path_lervag . 'vim-foam')
 call plug#(g:vimrc#path_lervag . 'vim-rmarkdown')
 if g:vimrc#is_devhost
-  call plug#(g:vimrc#path_lervag . 'wiki')
+  call plug#(g:vimrc#path_lervag . 'wiki.vim')
   call plug#(g:vimrc#path_lervag . 'vim-sintef')
 endif
 
