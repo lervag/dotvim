@@ -124,8 +124,11 @@ function! s:main(bufnr, active) " {{{1
           \ printf('[%s > %s &tw] ', cn, &textwidth), 'SLAlert', a:active)
   endif
 
-  let stat .= fugitive#head(12)
-  let stat .= ' '
+  try
+    let stat .= fugitive#head(12)
+    let stat .= ' '
+  catch
+  endtry
 
   return stat
 endfunction

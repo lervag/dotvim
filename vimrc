@@ -8,6 +8,8 @@ call vimrc#init()
 
 call plug#begin(g:vimrc#path_bundles)
 
+Plug 'junegunn/vim-plug', { 'on' : [] }
+
 " My own plugins
 call plug#(g:vimrc#path_lervag . 'vimtex')
 call plug#(g:vimrc#path_lervag . 'file-line')
@@ -18,84 +20,88 @@ if g:vimrc#is_devhost
   call plug#(g:vimrc#path_lervag . 'vim-sintef')
 endif
 
-" Essentials
-Plug 'junegunn/vim-plug', { 'on' : [] }
-Plug 'gregsexton/gitv', { 'on' : 'Gitv' }
-Plug 'tpope/vim-fugitive'
+" Plugin: UI
+Plug 'Konfekt/FastFold'
+Plug 'luochen1990/rainbow'
+Plug 'andymass/vim-matchup'
+Plug 'junegunn/vim-slash'
+
+" Plugin: Completion and snippets
+Plug 'Shougo/deoplete.nvim',
+      \ has('nvim') ? { 'do': ':UpdateRemotePlugins' } : {}
+Plug 'roxma/vim-hug-neovim-rpc', has('nvim') ? { 'on' : [] } : {}
+Plug 'roxma/nvim-yarp', has('nvim') ? { 'on' : [] } : {}
+Plug 'Shougo/neco-vim'
+Plug 'Shougo/neco-syntax'
+Plug 'SirVer/ultisnips'
+
+" Plugin: Text objects and similar
 Plug 'wellle/targets.vim'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'junegunn/vim-easy-align'
-Plug 'dyng/ctrlsf.vim'
 Plug 'machakann/vim-sandwich'
+
+" Plugin: Finder, motions, and tags
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'dyng/ctrlsf.vim'
+Plug 'machakann/vim-columnmove'
+
+" Plugin: Linting, debugging, and code runners
+if has('nvim') || v:version >= 800
+  Plug 'w0rp/ale'
+endif
+Plug 'idanarye/vim-omnipytent', { 'branch' : 'develop' }
+Plug 'idanarye/vim-vebugger', { 'branch' : 'develop' }
+
+" Plugin: Editing
+Plug 'junegunn/vim-easy-align'
+Plug 'dhruvasagar/vim-table-mode'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
+
+" Plugin: VCS
+Plug 'gregsexton/gitv', { 'on' : 'Gitv' }
+Plug 'tpope/vim-fugitive'
+Plug 'ludovicchabant/vim-lawrencium'
+
+" Plugin: Tmux (incl. filetype)
+Plug 'whatyouhide/vim-tmux-syntax'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'benmills/vimux'
+
+" Plugin: Various
+Plug 'itchyny/calendar.vim'
+Plug 'tweekmonster/helpful.vim'
 Plug 'junegunn/vader.vim', {
       \ 'on' : ['Vader'],
       \ 'for' : ['vader'],
       \}
-Plug 'SirVer/ultisnips'
-Plug 'Konfekt/FastFold'
-Plug 'itchyny/calendar.vim'
+Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
+Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
+Plug 'tyru/capture.vim', { 'on' : 'Capture' }
+Plug 'tpope/vim-unimpaired'
 
-" Filetype specific
-Plug 'darvelo/vim-systemd'
-Plug 'whatyouhide/vim-tmux-syntax'
-Plug 'gregsexton/MatchTag'
-Plug 'vim-ruby/vim-ruby'
-Plug 'elzr/vim-json'
-Plug 'gisraptor/vim-lilypond-integrator'
+" Filetype: python
 Plug 'davidhalter/jedi-vim'
 Plug 'zchee/deoplete-jedi'
 Plug 'vim-python/python-syntax'
 Plug 'tmhedberg/SimpylFold'
+Plug 'tweekmonster/braceless.vim'
+
+" Filetype: vim
+Plug 'tpope/vim-scriptease'
+
+" Filetype: markdown
 Plug 'plasticboy/vim-markdown'
 
-" Miscellaneous
-Plug 'luochen1990/rainbow'
-Plug 'machakann/vim-columnmove'
-Plug 'dhruvasagar/vim-table-mode'
-Plug 'idanarye/vim-vebugger', { 'branch' : 'develop' }
-Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
-Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
-Plug 'tyru/capture.vim', { 'on' : 'Capture' }
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'benmills/vimux'
-if has('nvim') || v:version >= 800
-  Plug 'w0rp/ale'
-endif
-if !has('nvim')
-  Plug 'nhooyr/neoman.vim'
-endif
-Plug 'tweekmonster/helpful.vim'
-Plug 'andymass/vim-matchup'
-
-" Completion
-Plug 'Shougo/deoplete.nvim',
-      \ has('nvim') ? { 'do': ':UpdateRemotePlugins' } : {}
-Plug 'roxma/vim-hug-neovim-rpc',
-      \ has('nvim') ? { 'on' : [] } : {}
-Plug 'roxma/nvim-yarp',
-      \ has('nvim') ? { 'on' : [] } : {}
-Plug 'Shougo/neco-vim'
-Plug 'Shougo/neco-syntax'
-Plug 'wellle/tmux-complete.vim'
-
-" Uncertain - might replace or remove
-Plug 'ludovicchabant/vim-lawrencium'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-scriptease'
-Plug 'tommcdo/vim-exchange'
-
-" For improved search highlighting and similar
-Plug 'junegunn/vim-slash'
-
-" Testing
-Plug 'tweekmonster/braceless.vim'
-Plug 'frioux/vim-regedit'
-Plug 'idanarye/vim-omnipytent', { 'branch' : 'develop' }
+" Filetype: various
+Plug 'darvelo/vim-systemd'
+Plug 'gregsexton/MatchTag'
+Plug 'vim-ruby/vim-ruby'
+Plug 'elzr/vim-json'
+Plug 'gisraptor/vim-lilypond-integrator'
+Plug 'nhooyr/neoman.vim', has('nvim') ? { 'on' : [] } : {}
 
 call plug#end()
 
@@ -337,11 +343,15 @@ nnoremap gV     `[V`]
 nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
 
-" Utility maps for repeatable quickly change current word
+" Utility maps for repeatable quickly change/delete current word
 nnoremap c*   *``cgn
 nnoremap c#   *``cgN
 nnoremap cg* g*``cgn
 nnoremap cg# g*``cgN
+nnoremap d*   *``dgn
+nnoremap d#   *``dgN
+nnoremap dg* g*``dgn
+nnoremap dg# g*``dgN
 
 " Navigate folds
 nnoremap          zf zMzvzz
@@ -407,19 +417,20 @@ augroup END
 
 let g:deoplete#enable_at_startup = 1
 
-call deoplete#custom#option('smart_case', v:true)
-call deoplete#custom#option('ignore_sources', {'_': ['around']})
+try
+  call deoplete#custom#option('smart_case', v:true)
+  call deoplete#custom#option('ignore_sources', {'_': ['around']})
 
-call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
-call deoplete#custom#source('ultisnips', 'rank', 1000)
+  call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
+  call deoplete#custom#source('ultisnips', 'rank', 1000)
 
-call deoplete#custom#var('omni', 'input_patterns', {
-      \ 'foam' : g:foam#complete#re_refresh_deoplete,
-      \ 'tex' : g:vimtex#re#deoplete,
-      \ 'wiki' : '\[\[[^]|]{3,}$',
-      \})
-
-let g:tmuxcomplete#trigger = ''
+  call deoplete#custom#var('omni', 'input_patterns', {
+        \ 'foam' : g:foam#complete#re_refresh_deoplete,
+        \ 'tex' : g:vimtex#re#deoplete,
+        \ 'wiki' : '\[\[[^]|]{3,}$',
+        \})
+catch
+endtry
 
 inoremap <expr><c-h>   deoplete#smart_close_popup() . "\<c-h>"
 inoremap <expr><bs>    deoplete#smart_close_popup() . "\<c-h>"
@@ -686,67 +697,70 @@ let g:sandwich_no_default_key_mappings = 1
 let g:operator_sandwich_no_default_key_mappings = 1
 let g:textobj_sandwich_no_default_key_mappings = 1
 
-" Surround mappings (similar to surround.vim)
-nmap gs  <plug>(operator-sandwich-add)
-nmap gss <plug>(operator-sandwich-add)iW
-nmap ds  <plug>(operator-sandwich-delete)<plug>(textobj-sandwich-query-a)
-nmap dss <plug>(operator-sandwich-delete)<plug>(textobj-sandwich-auto-a)
-nmap cs  <plug>(operator-sandwich-replace)<plug>(textobj-sandwich-query-a)
-nmap css <plug>(operator-sandwich-replace)<plug>(textobj-sandwich-auto-a)
-xmap sa  <plug>(operator-sandwich-add)
-xmap sd  <plug>(operator-sandwich-delete)
-xmap sr  <plug>(operator-sandwich-replace)
+try
+  " Change some default options
+  call operator#sandwich#set('delete', 'all', 'highlight', 0)
+  call operator#sandwich#set('all', 'all', 'cursor', 'keep')
 
-" Text objects
-xmap is  <plug>(textobj-sandwich-query-i)
-xmap as  <plug>(textobj-sandwich-query-a)
-omap is  <plug>(textobj-sandwich-query-i)
-omap as  <plug>(textobj-sandwich-query-a)
-xmap iss <plug>(textobj-sandwich-auto-i)
-xmap ass <plug>(textobj-sandwich-auto-a)
-omap iss <plug>(textobj-sandwich-auto-i)
-omap ass <plug>(textobj-sandwich-auto-a)
+  " Surround mappings (similar to surround.vim)
+  nmap gs  <plug>(operator-sandwich-add)
+  nmap gss <plug>(operator-sandwich-add)iW
+  nmap ds  <plug>(operator-sandwich-delete)<plug>(textobj-sandwich-query-a)
+  nmap dss <plug>(operator-sandwich-delete)<plug>(textobj-sandwich-auto-a)
+  nmap cs  <plug>(operator-sandwich-replace)<plug>(textobj-sandwich-query-a)
+  nmap css <plug>(operator-sandwich-replace)<plug>(textobj-sandwich-auto-a)
+  xmap sa  <plug>(operator-sandwich-add)
+  xmap sd  <plug>(operator-sandwich-delete)
+  xmap sr  <plug>(operator-sandwich-replace)
 
-" Change some default options
-silent! call operator#sandwich#set('delete', 'all', 'highlight', 0)
-silent! call operator#sandwich#set('all', 'all', 'cursor', 'keep')
+  " Text objects
+  xmap is  <plug>(textobj-sandwich-query-i)
+  xmap as  <plug>(textobj-sandwich-query-a)
+  omap is  <plug>(textobj-sandwich-query-i)
+  omap as  <plug>(textobj-sandwich-query-a)
+  xmap iss <plug>(textobj-sandwich-auto-i)
+  xmap ass <plug>(textobj-sandwich-auto-a)
+  omap iss <plug>(textobj-sandwich-auto-i)
+  omap ass <plug>(textobj-sandwich-auto-a)
 
-" Allow repeats while keeping cursor fixed
-silent! runtime autoload/repeat.vim
-nmap . <plug>(operator-sandwich-predot)<plug>(RepeatDot)
+  " Allow repeats while keeping cursor fixed
+  silent! runtime autoload/repeat.vim
+  nmap . <plug>(operator-sandwich-predot)<plug>(RepeatDot)
 
-" Default recipes
-let g:sandwich#recipes  = deepcopy(g:sandwich#default_recipes)
-let g:sandwich#recipes += [
-      \ {
-      \   'buns' : ['{\s*', '\s*}'],
-      \   'input' : ['}'],
-      \   'kind' : ['delete', 'replace', 'auto', 'query'],
-      \   'regex' : 1,
-      \   'nesting' : 1,
-      \   'match_syntax' : 1,
-      \   'skip_break' : 1,
-      \   'indentkeys-' : '{,},0{,0}'
-      \ },
-      \ {
-      \   'buns' : ['\[\s*', '\s*\]'],
-      \   'input' : [']'],
-      \   'kind' : ['delete', 'replace', 'auto', 'query'],
-      \   'regex' : 1,
-      \   'nesting' : 1,
-      \   'match_syntax' : 1,
-      \   'indentkeys-' : '[,]'
-      \ },
-      \ {
-      \   'buns' : ['(\s*', '\s*)'],
-      \   'input' : [')'],
-      \   'kind' : ['delete', 'replace', 'auto', 'query'],
-      \   'regex' : 1,
-      \   'nesting' : 1,
-      \   'match_syntax' : 1,
-      \   'indentkeys-' : '(,)'
-      \ },
-      \]
+  " Default recipes
+  let g:sandwich#recipes  = deepcopy(g:sandwich#default_recipes)
+  let g:sandwich#recipes += [
+        \ {
+        \   'buns' : ['{\s*', '\s*}'],
+        \   'input' : ['}'],
+        \   'kind' : ['delete', 'replace', 'auto', 'query'],
+        \   'regex' : 1,
+        \   'nesting' : 1,
+        \   'match_syntax' : 1,
+        \   'skip_break' : 1,
+        \   'indentkeys-' : '{,},0{,0}'
+        \ },
+        \ {
+        \   'buns' : ['\[\s*', '\s*\]'],
+        \   'input' : [']'],
+        \   'kind' : ['delete', 'replace', 'auto', 'query'],
+        \   'regex' : 1,
+        \   'nesting' : 1,
+        \   'match_syntax' : 1,
+        \   'indentkeys-' : '[,]'
+        \ },
+        \ {
+        \   'buns' : ['(\s*', '\s*)'],
+        \   'input' : [')'],
+        \   'kind' : ['delete', 'replace', 'auto', 'query'],
+        \   'regex' : 1,
+        \   'nesting' : 1,
+        \   'match_syntax' : 1,
+        \   'indentkeys-' : '(,)'
+        \ },
+        \]
+catch
+endtry
 
 " }}}2
 " {{{2 plugin: vim-slash
@@ -795,7 +809,9 @@ let g:python_highlight_all = 1
 " Folding
 let g:SimpylFold_docstring_preview = 1
 
-" Indent, text object and a couple of nice maps
+" Use Braceless for
+" - indents
+" - text objects (indent blocks ii, ai)
 let g:braceless_block_key = 'i'
 augroup MyBraceless
   autocmd!
