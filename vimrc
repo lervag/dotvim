@@ -27,8 +27,10 @@ Plug 'andymass/vim-matchup'
 Plug 'junegunn/vim-slash'
 
 " Plugin: Completion and snippets
-Plug 'Shougo/deoplete.nvim',
-      \ has('nvim') ? { 'do': ':UpdateRemotePlugins' } : {}
+if has('nvim') || v:version >= 800
+  Plug 'Shougo/deoplete.nvim',
+        \ has('nvim') ? { 'do': ':UpdateRemotePlugins' } : {}
+endif
 Plug 'roxma/vim-hug-neovim-rpc', has('nvim') ? { 'on' : [] } : {}
 Plug 'roxma/nvim-yarp', has('nvim') ? { 'on' : [] } : {}
 Plug 'Shougo/neco-vim'
@@ -42,7 +44,9 @@ Plug 'machakann/vim-sandwich'
 " Plugin: Finder, motions, and tags
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'ludovicchabant/vim-gutentags'
+if has('nvim') || v:version >= 800
+  Plug 'ludovicchabant/vim-gutentags'
+endif
 Plug 'dyng/ctrlsf.vim'
 Plug 'machakann/vim-columnmove'
 
