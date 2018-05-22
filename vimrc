@@ -869,6 +869,7 @@ let g:vimsyn_embed = 'P'
 " {{{2 filetype: wiki
 
 let g:wiki_root = '~/documents/wiki'
+let g:wiki_toc_title = 'Innhald'
 
 " Used for order of projects in weekly/monthly summaries
 let g:wiki_projects = [
