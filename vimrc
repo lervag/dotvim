@@ -686,13 +686,7 @@ nnoremap <silent><leader>rv :OP vader<cr>
 " }}}2
 " {{{2 plugin: vim-plug
 
-let g:plug_window = 'tab new'
-
-nnoremap <silent> <leader>pd :PlugDiff<cr>
-nnoremap <silent> <leader>pi :PlugInstall<cr>
-nnoremap <silent> <leader>pu :PlugUpdate<cr>
-nnoremap <silent> <leader>ps :PlugStatus<cr>
-nnoremap <silent> <leader>pc :PlugClean<cr>
+" See autoload/vimrc.vim
 
 " }}}2
 " {{{2 plugin: vim-sandwich
