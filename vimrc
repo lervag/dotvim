@@ -160,7 +160,9 @@ endif
 set cpoptions+=J
 set tags=tags;~,.tags;~
 set path=.,**
-set fileformat=unix
+if &modifiable
+  set fileformat=unix
+endif
 set wildignore=*.o
 set wildignore+=*~
 set wildignore+=*.pyc
