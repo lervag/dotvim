@@ -874,7 +874,7 @@ let g:wiki_projects = [
       \ 'Sommerjobb-administrasjon',
       \ 'Leiested - Linux',
       \ 'Leiested - FerroCool',
-      \ 'Initiativ: NanoSun',
+      \ 'Initiativ: ',
       \ 'FerroCool',
       \ 'Predict-RPT',
       \ 'TEMpT',
