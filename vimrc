@@ -92,6 +92,7 @@ Plug 'zchee/deoplete-jedi'
 Plug 'vim-python/python-syntax'
 Plug 'tmhedberg/SimpylFold'
 Plug 'tweekmonster/braceless.vim'
+Plug 'jeetsukumaran/vim-pythonsense'
 
 " Filetype: vim
 Plug 'tpope/vim-scriptease'
