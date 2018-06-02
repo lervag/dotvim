@@ -125,7 +125,7 @@ function! s:main(bufnr, active) " {{{1
   endif
 
   try
-    let stat .= fugitive#head(12)
+    let stat .= FugitiveHead(12)
     let stat .= ' '
   catch
   endtry
