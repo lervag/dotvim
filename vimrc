@@ -868,20 +868,6 @@ let g:vimsyn_embed = 'P'
 let g:wiki_root = '~/documents/wiki'
 let g:wiki_toc_title = 'Innhald'
 
-" Used for order of projects in weekly/monthly summaries
-let g:wiki_projects = [
-      \ 'Diverse',
-      \ 'Tekna',
-      \ 'Sommerjobb-administrasjon',
-      \ 'Leiested - Linux',
-      \ 'Leiested - FerroCool',
-      \ 'Initiativ: ',
-      \ 'FerroCool',
-      \ 'Predict-RPT',
-      \ 'TEMpT',
-      \ 'ELEGANCY',
-      \]
-
 let g:wiki_file_open = 'personal#wiki#file_open'
 
 " }}}2
