@@ -211,6 +211,7 @@ set formatlistpat+=\\\|^\\s*\\(\\d\\+\\\|[a-z]\\)[:).]\\s\\+
 set winaltkeys=no
 set mouse=
 set gdefault
+set updatetime=1000
 
 " Completion
 set wildmode=longest:full,full
