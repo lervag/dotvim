@@ -513,7 +513,10 @@ let g:ctrlp_switch_buffer = 'e'
 let g:ctrlp_working_path_mode = 'rc'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 
-if executable('rg')
+if executable('fd')
+  let g:ctrlp_user_command += ['fd --type f --color=never "" %s']
+  let g:ctrlp_use_caching = 0
+elseif executable('rg')
   let g:ctrlp_user_command += ['rg %s --files --color=never --glob ""']
   let g:ctrlp_use_caching = 0
 elseif executable('ag')
