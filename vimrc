@@ -90,10 +90,9 @@ Plug 'tpope/vim-unimpaired'
 Plug 'davidhalter/jedi-vim'
 Plug 'zchee/deoplete-jedi'
 Plug 'vim-python/python-syntax'
-" Plug 'tmhedberg/SimpylFold'
-Plug 'kalekundert/vim-coiled-snake'
-Plug 'tweekmonster/braceless.vim'
-Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'kalekundert/vim-coiled-snake'  " Folding
+Plug 'tweekmonster/braceless.vim'    " Indents
+Plug 'jeetsukumaran/vim-pythonsense' " Text objects and motions
 
 " Filetype: vim
 Plug 'tpope/vim-scriptease'
@@ -811,9 +810,6 @@ let g:jedi#auto_initialization = 0
 
 " Syntax
 let g:python_highlight_all = 1
-
-" Folding
-let g:SimpylFold_docstring_preview = 1
 
 " Use Braceless for
 " - indents
