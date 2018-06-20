@@ -269,6 +269,37 @@ elseif executable('ack-grep')
   set grepprg=ack-grep\ --nocolor
 endif
 
+" Printing
+set printexpr=PrintFile(v:fname_in)
+
+function! PrintFile(fname)
+  let l:pdf = a:fname . '.pdf'
+  call system(printf('ps2pdf %s %s', a:fname, l:pdf))
+
+  echohl ModeMsg
+  let l:reply = input('View file before printing [y/N]? ')
+  echohl None
+  echon "\n"
+  if l:reply =~# '^y'
+    call system('mupdf ' . l:pdf)
+  endif
+
+  echohl ModeMsg
+  let l:reply = input('Send file to printer [y/N]? ')
+  echohl None
+  echon "\n"
+  if l:reply =~# '^y'
+    call system('lp ' . l:pdf)
+    let l:error = v:shell_error
+  else
+    let l:error = 1
+  endif
+
+  call delete(a:fname)
+  call delete(l:pdf)
+  return l:error
+endfunction
+
 " {{{1 Appearance and UI
 
 set background=light
@@ -375,8 +406,11 @@ nnoremap <silent> <leader>ev :execute 'edit' resolve($MYVIMRC)<cr>
 nnoremap <silent> <leader>xv :source $MYVIMRC<cr>
 nnoremap <leader>ez :edit ~/.dotfiles/zshrc<cr>
 
-vnoremap <silent><expr> ++ personal#visual_math#yank_and_analyse()
+xnoremap <silent><expr> ++ personal#visual_math#yank_and_analyse()
 nmap     <silent>       ++ vip++<esc>
+
+nnoremap <leader>pp :hardcopy<cr>
+xnoremap <leader>pp :hardcopy<cr>
 
 " Terminal mappings
 if has('nvim')
@@ -810,6 +844,9 @@ let g:jedi#auto_initialization = 0
 
 " Syntax
 let g:python_highlight_all = 1
+
+" Folding
+let g:coiled_snake_foldtext_flags = []
 
 " Use Braceless for
 " - indents
