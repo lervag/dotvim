@@ -585,7 +585,7 @@ nnoremap <silent> <leader>og       :CtrlPRoot<cr>
 nnoremap <silent> <leader>ov       :CtrlP ~/.vim<cr>
 nnoremap <silent> <leader>op       :call personal#ctrlp#vim_plugs()<cr>
 nnoremap <silent> <leader>ob       :CtrlPBuffer<cr>
-nnoremap <silent> <leader>ow       :CtrlP ~/documents/wiki<cr>
+nnoremap <silent> <leader>ow       :CtrlPWiki<cr>
 nnoremap <silent> <leader>ot       :CtrlPTag<cr>
 nnoremap <silent> <leader><leader>
       \ :call personal#ctrlp#disable_matchfunc('CtrlPMRU')<cr>
