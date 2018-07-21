@@ -1,14 +1,18 @@
-set nowrap
+setlocal nowrap
 
-nnoremap <buffer> q :close<cr>
+command! -bar -range QDeleteLine
+      \ silent call personal#qf#delete_line(<line1>, <line2>)
+
+nnoremap <buffer><silent> q  :close<cr>
+
+nnoremap <buffer><silent> d  :set opfunc=personal#qf#delete_line<cr>g@
+nnoremap <buffer><silent> dd :QDeleteLine<cr>
+xnoremap <buffer><silent> dd :QDeleteLine<cr>
+
+nnoremap <buffer><silent> f  :silent call personal#qf#filter(1)<cr>
+nnoremap <buffer><silent> F  :silent call personal#qf#filter(0)<cr>
 
 augroup quickfix_autocmds
   autocmd!
-  autocmd BufReadPost quickfix set modifiable
-  autocmd BufReadPost quickfix call AdjustWindowHeight(2, 30)
+  autocmd BufReadPost quickfix call personal#qf#adjust_height(2, 30)
 augroup END
-
-function! AdjustWindowHeight(minheight, maxheight)
-  execute max([a:minheight, min([line('$') + 1, a:maxheight])])
-        \ . 'wincmd _'
-endfunction
