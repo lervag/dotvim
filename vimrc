@@ -404,7 +404,7 @@ nnoremap <expr> <cr> empty(&buftype) ? '<c-]>zvzz' : '<cr>'
 " Shortcuts for some files
 nnoremap <silent> <leader>ev :execute 'edit' resolve($MYVIMRC)<cr>
 nnoremap <silent> <leader>xv :source $MYVIMRC<cr>
-nnoremap <leader>ez :edit ~/.dotfiles/zshrc<cr>
+nnoremap <leader>ez :edit ~/.zshrc<cr>
 
 xnoremap <silent><expr> ++ personal#visual_math#yank_and_analyse()
 nmap     <silent>       ++ vip++<esc>
