@@ -4,6 +4,8 @@ augroup help_insert
   autocmd InsertLeave <buffer> setlocal conceallevel=2
 augroup END
 
+setlocal iskeyword+=-
+
 "
 " Only apply the following settings when viewing help files, not when editing
 " them
