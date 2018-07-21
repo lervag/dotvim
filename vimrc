@@ -461,7 +461,10 @@ let g:deoplete#enable_at_startup = 1
 
 try
   call deoplete#custom#option('smart_case', v:true)
-  call deoplete#custom#option('ignore_sources', {'_': ['around']})
+  call deoplete#custom#option('ignore_sources', {
+        \ '_': ['around'],
+        \ 'dagbok': ['syntax'],
+        \})
 
   call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
   call deoplete#custom#source('ultisnips', 'rank', 1000)
@@ -677,12 +680,10 @@ vmap .  <plug>(EasyAlignRepeat)
 
 let g:columnmove_no_default_key_mappings = 1
 
-for s:x in split('ftFT;,wbeWBE', '\zs')
-  silent! call columnmove#utility#map('nxo', s:x, '<m-' . s:x . '>', 'block')
+for s:x in split('ftFT;,wbeWBE', '\zs') + ['ge', 'gE']
+  silent! call columnmove#utility#map('nxo', s:x, 'ø' . s:x, 'block')
 endfor
 unlet s:x
-silent! call columnmove#utility#map('nxo', 'ge', '<m-g>e', 'block')
-silent! call columnmove#utility#map('nxo', 'gE', '<m-g>E', 'block')
 
 " }}}2
 " {{{2 plugin: vim-gutentags
@@ -905,6 +906,7 @@ let g:vimsyn_embed = 'P'
 
 let g:wiki_root = '~/documents/wiki'
 let g:wiki_toc_title = 'Innhald'
+let g:wiki_pdf_viewer = 'zathura'
 
 let g:wiki_file_open = 'personal#wiki#file_open'
 
