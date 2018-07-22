@@ -25,6 +25,13 @@ syn match number  /[0-9]\+\.[0-9]\+\( \w\+\)\?/ contained
 syn match trening /\%>17c.*/                    contained
 
 " Syntax regions
+syn region gullkorn
+      \ matchgroup=entries
+      \ start = /^  Gullkorn\s\+/
+      \ end =   /^  Notat/
+      \ contains=@Spell
+
+" Syntax regions
 syn region notat
       \ matchgroup=entries
       \ start = /^  Notat\s\+/
