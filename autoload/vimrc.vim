@@ -25,6 +25,7 @@ function! vimrc#init() abort " {{{1
   let g:vimrc#bootstrap = !filereadable(vimrc#path('autoload/plug.vim'))
   let g:vimrc#is_devhost = index([
         \ 'yoga',
+        \ 'lotti',
         \ 'vsl136',
         \ 'vsl142',
         \ 'unity.sintef.no',

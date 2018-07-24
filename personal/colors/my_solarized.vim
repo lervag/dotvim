@@ -21,7 +21,7 @@ highlight   Conceal                                  cterm=NONE                g
 highlight   Constant                                 cterm=NONE                gui=NONE                ctermfg=6      guifg=#2aa198
 highlight   Cursor                                   cterm=NONE                gui=NONE                ctermfg=15     ctermbg=11      guifg=#fdf6e3   guibg=#657b83
 highlight   CursorColumn                             cterm=NONE                gui=NONE                ctermbg=7      guibg=#eee8d5
-highlight   CursorLine                               cterm=NONE                gui=NONE                ctermbg=7      guibg=#eee8d5   guisp=#586e75
+highlight   CursorLine                               cterm=NONE                gui=NONE                ctermbg=7      guibg=#eee8d5   guisp=#586e75 guifg=black
 highlight   CursorLineNr                             cterm=NONE                gui=NONE                ctermfg=14     guifg=#93a1a1
 highlight   DiffAdd                                  cterm=NONE                gui=NONE                ctermfg=2      ctermbg=7       guifg=#719e07   guibg=#eee8d5   guisp=#719e07
 highlight   DiffChange                               cterm=NONE                gui=NONE                ctermfg=3      ctermbg=7       guifg=#b58900   guibg=#eee8d5   guisp=#b58900
