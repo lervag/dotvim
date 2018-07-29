@@ -32,10 +32,25 @@ if has('nvim') || v:version >= 800
         \ has('nvim') ? { 'do': ':UpdateRemotePlugins' } : {}
 endif
 Plug 'roxma/vim-hug-neovim-rpc', has('nvim') ? { 'on' : [] } : {}
-Plug 'roxma/nvim-yarp', has('nvim') ? { 'on' : [] } : {}
+Plug 'roxma/nvim-yarp'
+Plug 'Shougo/neoinclude.vim'
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/neco-syntax'
+Plug 'ncm2/ncm2'
+Plug 'ncm2/ncm2-ultisnips'
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-vim'
+Plug 'ncm2/ncm2-syntax'
+Plug 'ncm2/ncm2-jedi'
+Plug 'ncm2/ncm2-neoinclude'
+Plug 'ncm2/ncm2-rst-subscope'
+Plug 'ncm2/ncm2-markdown-subscope'
+Plug 'ncm2/ncm2-html-subscope'
 Plug 'SirVer/ultisnips'
+Plug 'autozimu/LanguageClient-neovim', {
+  \ 'branch': 'next',
+  \ 'do': 'bash install.sh',
+  \}
 
 " Plugin: Text objects and similar
 Plug 'wellle/targets.vim'
@@ -93,6 +108,10 @@ Plug 'vim-python/python-syntax'
 Plug 'kalekundert/vim-coiled-snake'  " Folding
 Plug 'tweekmonster/braceless.vim'    " Indents
 Plug 'jeetsukumaran/vim-pythonsense' " Text objects and motions
+
+let g:LanguageClient_serverCommands = {
+  \ 'python': ['pyls']
+  \ }
 
 " Filetype: vim
 Plug 'tpope/vim-scriptease'
@@ -217,7 +236,7 @@ set updatetime=1000
 set wildmode=longest:full,full
 set wildcharm=<c-z>
 set complete+=U,s,k,kspell,d,]
-set completeopt=longest,menu,preview
+set completeopt=noinsert,menuone,noselect
 
 " Presentation
 set list
@@ -457,7 +476,101 @@ augroup END
 " }}}2
 " {{{2 feature: completion
 
-let g:deoplete#enable_at_startup = 1
+" augroup my_cm_setup
+"   autocmd!
+"   autocmd BufEnter * call ncm2#enable_for_buffer()
+"   autocmd Filetype tex call ncm2#register_source({
+"         \ 'name': 'vimtex',
+"         \ 'priority': 8,
+"         \ 'scope': ['tex'],
+"         \ 'mark': 'tex',
+"         \ 'word_pattern': '\w+',
+"         \ 'complete_pattern': g:vimtex#re#ncm2,
+"         \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+"         \ })
+" augroup END
+
+augroup my_cm_setup
+  autocmd!
+  autocmd BufEnter * call ncm2#enable_for_buffer()
+  autocmd Filetype tex call ncm2#register_source({
+        \ 'name': 'vimtex-cmds',
+        \ 'priority': 8,
+        \ 'complete_length': -1,
+        \ 'scope': ['tex'],
+        \ 'matcher': {'name': 'prefix', 'key': 'word'},
+        \ 'word_pattern': '\w+',
+        \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
+        \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+        \})
+  autocmd Filetype tex call ncm2#register_source({
+        \ 'name': 'vimtex-labels',
+        \ 'priority': 8,
+        \ 'complete_length': -1,
+        \ 'scope': ['tex'],
+        \ 'matcher': {'name': 'combine',
+        \             'matchers': [
+        \               {'name': 'substr', 'key': 'word'},
+        \               {'name': 'substr', 'key': 'menu'},
+        \             ]},
+        \ 'word_pattern': '\w+',
+        \ 'complete_pattern': g:vimtex#re#ncm2#labels,
+        \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+        \})
+  autocmd Filetype tex call ncm2#register_source({
+        \ 'name': 'vimtex-files',
+        \ 'priority': 8,
+        \ 'complete_length': -1,
+        \ 'scope': ['tex'],
+        \ 'matcher': {'name': 'combine',
+        \             'matchers': [
+        \               {'name': 'abbrfuzzy', 'key': 'word'},
+        \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+        \             ]},
+        \ 'word_pattern': '\w+',
+        \ 'complete_pattern': g:vimtex#re#ncm2#files,
+        \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+        \})
+  autocmd Filetype tex call ncm2#register_source({
+        \ 'name': 'bibtex',
+        \ 'priority': 8,
+        \ 'complete_length': -1,
+        \ 'scope': ['tex'],
+        \ 'matcher': {'name': 'combine',
+        \             'matchers': [
+        \               {'name': 'prefix', 'key': 'word'},
+        \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+        \               {'name': 'abbrfuzzy', 'key': 'menu'},
+        \             ]},
+        \ 'word_pattern': '\w+',
+        \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
+        \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+        \})
+  autocmd Filetype wiki call ncm2#register_source({
+        \ 'name': 'wiki',
+        \ 'mark': 'wiki',
+        \ 'priority': 8,
+        \ 'complete_length': -1,
+        \ 'scope': ['wiki'],
+        \ 'matcher': {'name': 'prefix'},
+        \ 'word_pattern': '\w+',
+        \ 'complete_pattern': '\[\[[^]|]{3,}$',
+        \ 'on_complete': ['ncm2#on_complete#omni', 'wiki#complete#omnicomplete'],
+        \})
+  autocmd Filetype foam call ncm2#register_source({
+        \ 'name': 'foam',
+        \ 'mark': 'foam',
+        \ 'priority': 8,
+        \ 'complete_length': -1,
+        \ 'scope': ['foam'],
+        \ 'matcher': {'name': 'prefix'},
+        \ 'word_pattern': '\w+',
+        \ 'complete_pattern': g:foam#complete#re_refresh_ncm,
+        \ 'on_complete': ['ncm2#on_complete#omni', 'foam#complete#omnifunc'],
+        \})
+augroup END
+
+" let g:deoplete#enable_at_startup = 1
 
 try
   call deoplete#custom#option('smart_case', v:true)
@@ -477,11 +590,13 @@ try
 catch
 endtry
 
-inoremap <expr><c-h>   deoplete#smart_close_popup() . "\<c-h>"
-inoremap <expr><bs>    deoplete#smart_close_popup() . "\<c-h>"
+" inoremap <expr><c-h>   deoplete#smart_close_popup() . "\<c-h>"
+" inoremap <expr><bs>    deoplete#smart_close_popup() . "\<c-h>"
 inoremap <expr><cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
 inoremap <expr><tab>   pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+inoremap <silent> <expr> <cr> ncm2_ultisnips#expand_or("\<cr>", 'n')
+let g:UltiSnipsRemoveSelectModeMappings = 0
 
 " }}}2
 
@@ -580,7 +695,6 @@ let g:ctrlp_mruf_exclude = '\v' . join([
       \ '^\/tmp\/',
       \ '^man:\/\/',
       \], '|')
-" let g:ctrlp_custom_ignore = ''
 
 " Mappings
 nnoremap <silent> <leader>oo       :CtrlP<cr>
