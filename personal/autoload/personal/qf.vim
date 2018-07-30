@@ -26,16 +26,19 @@ endfunction
 " }}}1
 function! personal#qf#filter(include) abort " {{{1
   let l:rx = input(a:include ? 'Filter (include): ' : 'Filter (remove): ')
+  let l:oldqf = getqflist({'all': 1})
+
   let l:new = []
-  let l:oldqf = getqflist()
-  for l:entry in l:oldqf
+  for l:entry in l:oldqf.items
     let l:string = bufname(l:entry.bufnr) . ' | ' . l:entry.text
     if (a:include && match(l:string, l:rx) >= 0)
           \ || (!a:include && match(l:string, l:rx) < 0)
       call add(l:new, copy(l:entry))
     endif
   endfor
+
   call setqflist(l:new, 'r')
+  call setqflist([], 'r', {'title': l:oldqf.title})
 endfunction
 
 " }}}1

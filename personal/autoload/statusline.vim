@@ -63,8 +63,7 @@ endfunction
 
 " }}}1
 function! s:quickfix(bufnr, active) " {{{1
-  let text = ' [Quickfix] '
-  let text .= exists('w:quickfix_title') ? w:quickfix_title : ''
+  let text = ' [Quickfix] ' . getqflist({'title':1}).title
   let stat  = s:color(text, 'SLHighlight', a:active)
 
   return stat
