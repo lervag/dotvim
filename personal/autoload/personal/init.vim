@@ -46,6 +46,8 @@ function! personal#init#custom_colors() abort " {{{1
   highlight link ALEErrorLine ErrorMsg
   highlight link ALEWarningLine WarningMsg
   highlight link ALEInfoLine ModeMsg
+
+  highlight illuminatedWord cterm=underline gui=underline
 endfunction
 
 " }}}1

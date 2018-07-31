@@ -25,6 +25,7 @@ Plug 'Konfekt/FastFold'
 Plug 'luochen1990/rainbow'
 Plug 'andymass/vim-matchup'
 Plug 'junegunn/vim-slash'
+Plug 'RRethy/vim-illuminate'
 
 " Plugin: Completion and snippets
 if has('nvim') || v:version >= 800
@@ -811,6 +812,15 @@ let g:gutentags_file_list_command = {
       \   '.hg': 'hg files',
       \ },
       \}
+
+" }}}2
+" {{{2 plugin: vim-illuminate
+
+let g:Illuminate_delay = 0
+let g:Illuminate_ftblacklist = [
+      \ 'dagbok',
+      \ 'wiki',
+      \]
 
 " }}}2
 " {{{2 plugin: vim-lawrencium
