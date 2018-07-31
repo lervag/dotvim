@@ -728,6 +728,7 @@ let g:rainbow_conf = {
       \   'wiki' : 0,
       \   'md' : 0,
       \   'help' : 0,
+      \   'lua' : 0,
       \   'fortran' : {},
       \ }
       \}
