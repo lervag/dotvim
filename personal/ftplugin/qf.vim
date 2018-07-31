@@ -14,5 +14,5 @@ nnoremap <buffer><silent> F  :silent call personal#qf#filter(0)<cr>
 
 augroup quickfix_autocmds
   autocmd!
-  autocmd BufReadPost quickfix call personal#qf#adjust_height(2, 30)
+  autocmd BufReadPost quickfix call personal#qf#adjust_height(2, &lines/2)
 augroup END
