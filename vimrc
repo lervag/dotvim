@@ -79,6 +79,7 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
+Plug 'zirrostig/vim-schlepp'
 
 " Plugin: VCS
 Plug 'gregsexton/gitv', { 'on' : 'Gitv' }
@@ -302,6 +303,14 @@ function! PrintFile(fname)
   echon "\n"
   if l:reply =~# '^y'
     call system('mupdf ' . l:pdf)
+  endif
+
+  echohl ModeMsg
+  let l:reply = input('Save file to $HOME [Y/n]? ')
+  echohl None
+  echon "\n"
+  if empty(l:reply) || l:reply =~# '^n'
+    call system(printf('cp %s ~/vim-hardcopy.pdf', l:pdf))
   endif
 
   echohl ModeMsg
@@ -926,6 +935,14 @@ try
         \]
 catch
 endtry
+
+" }}}2
+" {{{2 plugin: vim-schlepp
+
+vmap <unique> <up>    <Plug>SchleppUp
+vmap <unique> <down>  <Plug>SchleppDown
+vmap <unique> <left>  <Plug>SchleppLeft
+vmap <unique> <right> <Plug>SchleppRight
 
 " }}}2
 " {{{2 plugin: vim-slash
