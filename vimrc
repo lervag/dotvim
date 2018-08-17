@@ -41,7 +41,7 @@ Plug 'ncm2/ncm2'
 Plug 'ncm2/ncm2-ultisnips'
 Plug 'ncm2/ncm2-path'
 Plug 'ncm2/ncm2-vim'
-Plug 'ncm2/ncm2-jedi'
+" Plug 'ncm2/ncm2-jedi'
 Plug 'ncm2/ncm2-neoinclude'
 Plug 'ncm2/ncm2-rst-subscope'
 Plug 'ncm2/ncm2-markdown-subscope'
@@ -404,6 +404,8 @@ nnoremap <c-e>  <c-^>
 nnoremap <c-p>  <c-i>
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
+xnoremap <expr> j v:count ? 'j' : 'gj'
+xnoremap <expr> k v:count ? 'k' : 'gk'
 nnoremap gV     `[V`]
 
 " Buffer navigation
