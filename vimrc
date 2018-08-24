@@ -1051,6 +1051,7 @@ let g:wiki_root = '~/documents/wiki'
 let g:wiki_toc_title = 'Innhald'
 let g:wiki_pdf_viewer = 'zathura'
 
+let g:wiki_toc_depth = 2
 let g:wiki_file_open = 'personal#wiki#file_open'
 
 " }}}2
