@@ -1021,10 +1021,13 @@ let g:vimtex_format_enabled = 1
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_automatic = 0
 let g:vimtex_view_forward_search_on_start = 0
-let g:vimtex_toc_split_pos = 'full'
-let g:vimtex_toc_mode = 2
-let g:vimtex_toc_fold = 1
-let g:vimtex_toc_hotkeys = {'enabled' : 1, 'leader' : ''}
+let g:vimtex_toc_config = {
+      \ 'split_pos' : 'full',
+      \ 'mode' : 2,
+      \ 'fold_enabled' : 1,
+      \ 'hotkeys_enabled' : 1,
+      \ 'hotkeys_leader' : '',
+      \}
 let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_imaps_leader = '\|'
 let g:vimtex_complete_img_use_tail = 1
