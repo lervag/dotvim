@@ -1024,9 +1024,10 @@ let g:vimtex_view_forward_search_on_start = 0
 let g:vimtex_toc_config = {
       \ 'split_pos' : 'full',
       \ 'mode' : 2,
-      \ 'fold_enabled' : 1,
+      \ 'fold_enable' : 1,
       \ 'hotkeys_enabled' : 1,
       \ 'hotkeys_leader' : '',
+      \ 'refresh_always' : 0,
       \}
 let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_imaps_leader = '\|'
