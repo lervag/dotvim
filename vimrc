@@ -246,7 +246,7 @@ set fillchars=vert:│,fold:\ ,diff:⣿
 set matchtime=2
 set matchpairs+=<:>
 set cursorline
-set scrolloff=10
+set scrolloff=5
 set splitbelow
 set splitright
 set previewheight=20
