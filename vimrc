@@ -193,12 +193,7 @@ set wildignore+=.svn/*
 set wildignore+=*.DS_Store
 set wildignore+=CVS/*
 set wildignore+=*.mod
-set diffopt=filler,foldcolumn:0,context:4
-if has('gui_running')
-  set diffopt+=vertical
-else
-  set diffopt+=horizontal
-endif
+set diffopt=filler,vertical,foldcolumn:0,context:4
 
 " Backup, swap and undofile
 set noswapfile
