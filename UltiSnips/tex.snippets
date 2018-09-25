@@ -1,4 +1,20 @@
-extends tex-math, tex-templates
+# Math
+
+snippet equation "Environment: Equation" b
+\begin{equation}
+	${0}
+\end{equation}
+endsnippet
+
+snippet align "Environment: Align"
+\begin{align}
+	${0}
+\end{align}
+endsnippet
+
+snippet frac "Fraction" i
+\frac{${1:numer}}{${2:denom}}${0}
+endsnippet
 
 snippet /\_\_/ "Subscript" riA
 _{$1}$0
@@ -7,6 +23,30 @@ endsnippet
 snippet /\^\^/ "Superscript" riA
 ^{$1}$0
 endsnippet
+
+# Commands and similar
+
+snippet sec
+\section{$1}$0
+endsnippet
+
+snippet sub
+\subsection{$1}$0
+endsnippet
+
+snippet subsub
+\subsubsection{$1}$0
+endsnippet
+
+snippet " "Quotes" A
+\`\`${1:${VISUAL}}''${0}
+endsnippet
+
+snippet KYL "Colored KYL note" i
+{\color{green!50!black}KYL:}${0}
+endsnippet
+
+# Environments
 
 snippet begin
 \begin{${1:name}}
@@ -36,26 +76,15 @@ snippet table
 \begin{table}
 	\centering
 	\caption{$1}
-	\begin{tabular}{$2}
+	\label{tab:$2}
+	\begin{tabular}{$3}
 		\toprule
-		$3
+		$4
 		\midrule
 		$0
 		\bottomrule
 	\end{tabular}
 \end{table}
-endsnippet
-
-snippet sec
-\section{$1}$0
-endsnippet
-
-snippet sub
-\subsection{$1}$0
-endsnippet
-
-snippet subsub
-\subsubsection{$1}$0
 endsnippet
 
 snippet figure
@@ -94,16 +123,44 @@ snippet tikzpicture
 \end{figure}
 endsnippet
 
-snippet " "Quotes" A
-\`\`${1:${VISUAL}}''${0}
+# Document templates
+
+snippet templ-minimal "Template: Minimal" b
+\documentclass{minimal}
+\begin{document}
+
+Hello World!${0}
+
+\end{document}
 endsnippet
 
-snippet align "Environment: Align" b
-\begin{align}
+snippet templ-article "Template: standard article" b
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+${1}
+
+\begin{document}
+
+${0}
+
+\end{document}
+endsnippet
+
+snippet templ-tikz "Template: standalone Tikz figure" b
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\begin{document}
+
+\begin{tikzpicture}
+	[
+		thick
+	]
 	${0}
-\end{align}
-endsnippet
+\end{tikzpicture}
 
-snippet KYL "Colored KYL note" i
-{\color{green!50!black}KYL:}${0}
+\end{document}
 endsnippet
