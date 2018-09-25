@@ -41,16 +41,18 @@ Plug 'ncm2/ncm2'
 Plug 'ncm2/ncm2-ultisnips'
 Plug 'ncm2/ncm2-path'
 Plug 'ncm2/ncm2-vim'
-" Plug 'ncm2/ncm2-jedi'
 Plug 'ncm2/ncm2-neoinclude'
 Plug 'ncm2/ncm2-rst-subscope'
 Plug 'ncm2/ncm2-markdown-subscope'
 Plug 'ncm2/ncm2-html-subscope'
+Plug 'ncm2/ncm2-vim-lsp'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+" Plug 'autozimu/LanguageClient-neovim', {
+"   \ 'branch': 'next',
+"   \ 'do': 'bash install.sh',
+"   \}
 Plug 'SirVer/ultisnips'
-Plug 'autozimu/LanguageClient-neovim', {
-  \ 'branch': 'next',
-  \ 'do': 'bash install.sh',
-  \}
 
 " Plugin: Text objects and similar
 Plug 'wellle/targets.vim'
@@ -109,10 +111,6 @@ Plug 'vim-python/python-syntax'
 Plug 'kalekundert/vim-coiled-snake'  " Folding
 Plug 'tweekmonster/braceless.vim'    " Indents
 Plug 'jeetsukumaran/vim-pythonsense' " Text objects and motions
-
-let g:LanguageClient_serverCommands = {
-  \ 'python': ['pyls']
-  \ }
 
 " Filetype: vim
 Plug 'tpope/vim-scriptease'
@@ -626,6 +624,36 @@ let g:ale_linters = {
 nmap <silent> <leader>aa <Plug>(ale_lint)
 nmap <silent> <leader>aj <Plug>(ale_next_wrap)
 nmap <silent> <leader>ak <Plug>(ale_previous_wrap)
+
+" }}}2
+" {{{2 plugin: LanguageClient / vim-lsp
+
+let g:LanguageClient_serverCommands = {
+  \ 'python': ['pyls']
+  \ }
+let g:LanguageClient_diagnosticsEnable = 0
+let g:LanguageClient_diagnosticsList = 'Location'
+
+" nnoremap <silent> <F4> :call LanguageClient_contextMenu()<cr>
+" nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
+" nnoremap <silent> <F3> :call LanguageClient#textDocument_hover()<cr>
+" nnoremap <silent> <F4> :call LanguageClient#textDocument_definition()<cr>
+
+if executable('pyls')
+  augroup vimrc_lsp
+    autocmd!
+    autocmd User lsp_setup call lsp#register_server({
+          \ 'name': 'pyls',
+          \ 'cmd': {server_info->['pyls']},
+          \ 'whitelist': ['python'],
+          \})
+  augroup END
+endif
+
+nnoremap <silent> <leader>ld :LspDefinition<cr>
+nnoremap <silent> <leader>lr :LspReferences<cr>
+nnoremap <silent> <leader>lR :LspRename<cr>
+nnoremap <silent> <leader>lh :LspHover<cr>
 
 " }}}2
 " {{{2 plugin: calendar.vim
