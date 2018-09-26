@@ -12,6 +12,7 @@ let s:cposet=&cpoptions
 set cpoptions&vim
 
 " Set syntax settings, see ft-fortran-syntax
+let fortran_free_source=1
 let fortran_dialect='f90'
 let fortran_fold=1
 let fortran_fold_conditionals=1
