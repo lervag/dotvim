@@ -19,6 +19,7 @@ if g:vimrc#is_devhost
   call plug#(g:vimrc#path_lervag . 'wiki.vim')
   call plug#(g:vimrc#path_lervag . 'vim-sintef')
 endif
+call plug#(g:vimrc#path_lervag . 'fruzzy')
 
 " Plugin: UI
 Plug 'Konfekt/FastFold'
@@ -677,6 +678,7 @@ elseif executable('ag')
 endif
 
 let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
+" let g:ctrlp_match_func = {'match': 'fruzzy#ctrlp#matcher'}
 let g:ctrlp_tilde_homedir = 1
 let g:ctrlp_match_window = 'top,order:ttb,min:30,max:30'
 let g:ctrlp_status_func = {
@@ -704,6 +706,7 @@ nnoremap <silent> <leader>op       :call personal#ctrlp#vim_plugs()<cr>
 nnoremap <silent> <leader>ob       :CtrlPBuffer<cr>
 nnoremap <silent> <leader>ow       :CtrlPWiki<cr>
 nnoremap <silent> <leader>ot       :CtrlPTag<cr>
+" nnoremap <silent> <leader><leader> :CtrlPMRU<cr>
 nnoremap <silent> <leader><leader>
       \ :call personal#ctrlp#disable_matchfunc('CtrlPMRU')<cr>
 
