@@ -26,6 +26,7 @@ function! vimrc#init() abort " {{{1
   let g:vimrc#is_devhost = index([
         \ 'yoga',
         \ 'lotti',
+        \ 'allegri',
         \ 'vsl136',
         \ 'vsl142',
         \ 'unity.sintef.no',
