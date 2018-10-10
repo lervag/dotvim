@@ -677,7 +677,7 @@ elseif executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
+" let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
 " let g:ctrlp_match_func = {'match': 'fruzzy#ctrlp#matcher'}
 let g:ctrlp_tilde_homedir = 1
 let g:ctrlp_match_window = 'top,order:ttb,min:30,max:30'
@@ -706,9 +706,9 @@ nnoremap <silent> <leader>op       :call personal#ctrlp#vim_plugs()<cr>
 nnoremap <silent> <leader>ob       :CtrlPBuffer<cr>
 nnoremap <silent> <leader>ow       :CtrlPWiki<cr>
 nnoremap <silent> <leader>ot       :CtrlPTag<cr>
-" nnoremap <silent> <leader><leader> :CtrlPMRU<cr>
-nnoremap <silent> <leader><leader>
-      \ :call personal#ctrlp#disable_matchfunc('CtrlPMRU')<cr>
+nnoremap <silent> <leader><leader> :CtrlPMRU<cr>
+" nnoremap <silent> <leader><leader>
+"       \ :call personal#ctrlp#disable_matchfunc('CtrlPMRU')<cr>
 
 " }}}2
 " {{{2 plugin: FastFold
