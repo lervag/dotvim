@@ -19,7 +19,6 @@ if g:vimrc#is_devhost
   call plug#(g:vimrc#path_lervag . 'wiki.vim')
   call plug#(g:vimrc#path_lervag . 'vim-sintef')
 endif
-call plug#(g:vimrc#path_lervag . 'fruzzy')
 
 " Plugin: UI
 Plug 'Konfekt/FastFold'
@@ -58,6 +57,7 @@ Plug 'machakann/vim-sandwich'
 " Plugin: Finder, motions, and tags
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'raghur/fruzzy'
 if has('nvim') || v:version >= 800
   Plug 'ludovicchabant/vim-gutentags'
 endif
@@ -679,6 +679,7 @@ endif
 
 " let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
 " let g:ctrlp_match_func = {'match': 'fruzzy#ctrlp#matcher'}
+let g:fruzzy#usenative = 1
 let g:ctrlp_tilde_homedir = 1
 let g:ctrlp_match_window = 'top,order:ttb,min:30,max:30'
 let g:ctrlp_status_func = {
