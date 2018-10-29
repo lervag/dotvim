@@ -17,6 +17,7 @@ call plug#(g:vimrc#path_lervag . 'vim-foam')
 call plug#(g:vimrc#path_lervag . 'vim-rmarkdown')
 if g:vimrc#is_devhost
   call plug#(g:vimrc#path_lervag . 'wiki.vim')
+  call plug#(g:vimrc#path_lervag . 'wiki-ft.vim')
   call plug#(g:vimrc#path_lervag . 'vim-sintef')
 endif
 
@@ -57,7 +58,7 @@ Plug 'machakann/vim-sandwich'
 " Plugin: Finder, motions, and tags
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'raghur/fruzzy'
+" Plug 'raghur/fruzzy'
 if has('nvim') || v:version >= 800
   Plug 'ludovicchabant/vim-gutentags'
 endif
@@ -679,7 +680,7 @@ endif
 
 " let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
 " let g:ctrlp_match_func = {'match': 'fruzzy#ctrlp#matcher'}
-let g:fruzzy#usenative = 1
+" let g:fruzzy#usenative = 1
 let g:ctrlp_tilde_homedir = 1
 let g:ctrlp_match_window = 'top,order:ttb,min:30,max:30'
 let g:ctrlp_status_func = {
@@ -984,7 +985,8 @@ let g:vim_json_syntax_conceal = 0
 " }}}2
 " {{{2 filetype: markdown
 
-let g:vim_markdown_folding_style_pythonic = 1
+let g:vim_markdown_folding_style_pythonic = 0
+let g:vim_markdown_override_foldtext = 0
 let g:vim_markdown_follow_anchor = 1
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_new_list_item_indent = 2
@@ -1069,6 +1071,7 @@ let g:vimsyn_embed = 'P'
 let g:wiki_root = '~/documents/wiki'
 let g:wiki_toc_title = 'Innhald'
 let g:wiki_pdf_viewer = 'zathura'
+let g:wiki_filetypes = ['wiki', 'md']
 
 let g:wiki_toc_depth = 2
 let g:wiki_file_open = 'personal#wiki#file_open'
