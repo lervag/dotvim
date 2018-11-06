@@ -492,87 +492,87 @@ augroup END
 "         \ })
 " augroup END
 
-augroup my_cm_setup
-  autocmd!
-  autocmd BufEnter * call ncm2#enable_for_buffer()
-  autocmd Filetype tex call ncm2#register_source({
-        \ 'name': 'vimtex-cmds',
-        \ 'priority': 8,
-        \ 'complete_length': -1,
-        \ 'scope': ['tex'],
-        \ 'matcher': {'name': 'prefix', 'key': 'word'},
-        \ 'word_pattern': '\w+',
-        \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
-        \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-        \})
-  autocmd Filetype tex call ncm2#register_source({
-        \ 'name': 'vimtex-labels',
-        \ 'priority': 8,
-        \ 'complete_length': -1,
-        \ 'scope': ['tex'],
-        \ 'matcher': {'name': 'combine',
-        \             'matchers': [
-        \               {'name': 'substr', 'key': 'word'},
-        \               {'name': 'substr', 'key': 'menu'},
-        \             ]},
-        \ 'word_pattern': '\w+',
-        \ 'complete_pattern': g:vimtex#re#ncm2#labels,
-        \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-        \})
-  autocmd Filetype tex call ncm2#register_source({
-        \ 'name': 'vimtex-files',
-        \ 'priority': 8,
-        \ 'complete_length': -1,
-        \ 'scope': ['tex'],
-        \ 'matcher': {'name': 'combine',
-        \             'matchers': [
-        \               {'name': 'abbrfuzzy', 'key': 'word'},
-        \               {'name': 'abbrfuzzy', 'key': 'abbr'},
-        \             ]},
-        \ 'word_pattern': '\w+',
-        \ 'complete_pattern': g:vimtex#re#ncm2#files,
-        \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-        \})
-  autocmd Filetype tex call ncm2#register_source({
-        \ 'name': 'bibtex',
-        \ 'priority': 8,
-        \ 'complete_length': -1,
-        \ 'scope': ['tex'],
-        \ 'matcher': {'name': 'combine',
-        \             'matchers': [
-        \               {'name': 'prefix', 'key': 'word'},
-        \               {'name': 'abbrfuzzy', 'key': 'abbr'},
-        \               {'name': 'abbrfuzzy', 'key': 'menu'},
-        \             ]},
-        \ 'word_pattern': '\w+',
-        \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
-        \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-        \})
-  autocmd Filetype wiki call ncm2#register_source({
-        \ 'name': 'wiki',
-        \ 'mark': 'wiki',
-        \ 'priority': 8,
-        \ 'complete_length': -1,
-        \ 'scope': ['wiki'],
-        \ 'matcher': {'name': 'prefix'},
-        \ 'word_pattern': '\w+',
-        \ 'complete_pattern': '\[\[[^]|]{3,}$',
-        \ 'on_complete': ['ncm2#on_complete#omni', 'wiki#complete#omnicomplete'],
-        \})
-  autocmd Filetype foam call ncm2#register_source({
-        \ 'name': 'foam',
-        \ 'mark': 'foam',
-        \ 'priority': 8,
-        \ 'complete_length': -1,
-        \ 'scope': ['foam'],
-        \ 'matcher': {'name': 'prefix'},
-        \ 'word_pattern': '\w+',
-        \ 'complete_pattern': g:foam#complete#re_refresh_ncm,
-        \ 'on_complete': ['ncm2#on_complete#omni', 'foam#complete#omnifunc'],
-        \})
-augroup END
+" augroup my_cm_setup
+"   autocmd!
+"   autocmd BufEnter * call ncm2#enable_for_buffer()
+"   autocmd Filetype tex call ncm2#register_source({
+"         \ 'name': 'vimtex-cmds',
+"         \ 'priority': 8,
+"         \ 'complete_length': -1,
+"         \ 'scope': ['tex'],
+"         \ 'matcher': {'name': 'prefix', 'key': 'word'},
+"         \ 'word_pattern': '\w+',
+"         \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
+"         \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+"         \})
+"   autocmd Filetype tex call ncm2#register_source({
+"         \ 'name': 'vimtex-labels',
+"         \ 'priority': 8,
+"         \ 'complete_length': -1,
+"         \ 'scope': ['tex'],
+"         \ 'matcher': {'name': 'combine',
+"         \             'matchers': [
+"         \               {'name': 'substr', 'key': 'word'},
+"         \               {'name': 'substr', 'key': 'menu'},
+"         \             ]},
+"         \ 'word_pattern': '\w+',
+"         \ 'complete_pattern': g:vimtex#re#ncm2#labels,
+"         \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+"         \})
+"   autocmd Filetype tex call ncm2#register_source({
+"         \ 'name': 'vimtex-files',
+"         \ 'priority': 8,
+"         \ 'complete_length': -1,
+"         \ 'scope': ['tex'],
+"         \ 'matcher': {'name': 'combine',
+"         \             'matchers': [
+"         \               {'name': 'abbrfuzzy', 'key': 'word'},
+"         \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+"         \             ]},
+"         \ 'word_pattern': '\w+',
+"         \ 'complete_pattern': g:vimtex#re#ncm2#files,
+"         \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+"         \})
+"   autocmd Filetype tex call ncm2#register_source({
+"         \ 'name': 'bibtex',
+"         \ 'priority': 8,
+"         \ 'complete_length': -1,
+"         \ 'scope': ['tex'],
+"         \ 'matcher': {'name': 'combine',
+"         \             'matchers': [
+"         \               {'name': 'prefix', 'key': 'word'},
+"         \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+"         \               {'name': 'abbrfuzzy', 'key': 'menu'},
+"         \             ]},
+"         \ 'word_pattern': '\w+',
+"         \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
+"         \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+"         \})
+"   autocmd Filetype wiki call ncm2#register_source({
+"         \ 'name': 'wiki',
+"         \ 'mark': 'wiki',
+"         \ 'priority': 8,
+"         \ 'complete_length': -1,
+"         \ 'scope': ['wiki'],
+"         \ 'matcher': {'name': 'prefix'},
+"         \ 'word_pattern': '\w+',
+"         \ 'complete_pattern': '\[\[[^]|]{3,}$',
+"         \ 'on_complete': ['ncm2#on_complete#omni', 'wiki#complete#omnicomplete'],
+"         \})
+"   autocmd Filetype foam call ncm2#register_source({
+"         \ 'name': 'foam',
+"         \ 'mark': 'foam',
+"         \ 'priority': 8,
+"         \ 'complete_length': -1,
+"         \ 'scope': ['foam'],
+"         \ 'matcher': {'name': 'prefix'},
+"         \ 'word_pattern': '\w+',
+"         \ 'complete_pattern': g:foam#complete#re_refresh_ncm,
+"         \ 'on_complete': ['ncm2#on_complete#omni', 'foam#complete#omnifunc'],
+"         \})
+" augroup END
 
-" let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 1
 
 try
   call deoplete#custom#option('smart_case', v:true)
@@ -592,13 +592,13 @@ try
 catch
 endtry
 
-" inoremap <expr><c-h>   deoplete#smart_close_popup() . "\<c-h>"
-" inoremap <expr><bs>    deoplete#smart_close_popup() . "\<c-h>"
+inoremap <expr><c-h>   deoplete#smart_close_popup() . "\<c-h>"
+inoremap <expr><bs>    deoplete#smart_close_popup() . "\<c-h>"
 inoremap <expr><cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
 inoremap <expr><tab>   pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-inoremap <silent> <expr> <cr> ncm2_ultisnips#expand_or("\<cr>", 'n')
-let g:UltiSnipsRemoveSelectModeMappings = 0
+" inoremap <silent> <expr> <cr> ncm2_ultisnips#expand_or("\<cr>", 'n')
+" let g:UltiSnipsRemoveSelectModeMappings = 0
 
 " }}}2
 
