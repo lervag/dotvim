@@ -64,6 +64,7 @@ if has('nvim') || v:version >= 800
 endif
 Plug 'dyng/ctrlsf.vim'
 Plug 'machakann/vim-columnmove'
+Plug 'justinmk/vim-sneak'
 
 " Plugin: Linting, debugging, and code runners
 if has('nvim') || v:version >= 800
@@ -960,6 +961,33 @@ vmap <unique> <up>    <Plug>SchleppUp
 vmap <unique> <down>  <Plug>SchleppDown
 vmap <unique> <left>  <Plug>SchleppLeft
 vmap <unique> <right> <Plug>SchleppRight
+
+" }}}2
+" {{{2 plugin: vim-sneak
+
+let g:sneak#prompt = 'Sneak> '
+let g:sneak#s_next = 1
+
+nmap æ <plug>Sneak_s
+xmap æ <plug>Sneak_s
+omap æ <plug>Sneak_s
+nmap Æ <plug>Sneak_S
+xmap Æ <plug>Sneak_S
+omap Æ <plug>Sneak_S
+
+nmap f <plug>Sneak_f
+xmap f <plug>Sneak_f
+omap f <plug>Sneak_f
+nmap F <plug>Sneak_F
+xmap F <plug>Sneak_F
+omap F <plug>Sneak_F
+
+nmap t <plug>Sneak_t
+xmap t <plug>Sneak_t
+omap t <plug>Sneak_t
+nmap T <plug>Sneak_T
+xmap T <plug>Sneak_T
+omap T <plug>Sneak_T
 
 " }}}2
 " {{{2 plugin: vim-slash
