@@ -965,8 +965,7 @@ vmap <unique> <right> <Plug>SchleppRight
 " }}}2
 " {{{2 plugin: vim-sneak
 
-let g:sneak#prompt = 'Sneak> '
-let g:sneak#s_next = 1
+let g:sneak#prompt = 'vim-sneak: '
 
 nmap æ <plug>Sneak_s
 xmap æ <plug>Sneak_s
