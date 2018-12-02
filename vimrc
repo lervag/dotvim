@@ -191,6 +191,9 @@ set wildignore+=*.DS_Store
 set wildignore+=CVS/*
 set wildignore+=*.mod
 set diffopt=filler,vertical,foldcolumn:0,context:4
+if has('patch-8.1.360')
+  set diffopt+=indent-heuristic,algorithm:patience
+endif
 
 " Backup, swap and undofile
 set noswapfile
