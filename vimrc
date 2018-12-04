@@ -1081,6 +1081,7 @@ let g:vimtex_quickfix_autoclose_after_keystrokes = 3
 let g:vimtex_imaps_leader = '\|'
 let g:vimtex_complete_img_use_tail = 1
 let g:vimtex_complete_bib_simple = 1
+let g:vimtex_complete_bib_menu_fmt = '@year, @author_short, @title'
 
 if has('nvim')
   let g:vimtex_compiler_progname = 'nvr'
