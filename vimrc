@@ -71,6 +71,7 @@ if has('nvim') || v:version >= 800
 endif
 Plug 'idanarye/vim-omnipytent', { 'branch' : 'develop' }
 Plug 'idanarye/vim-vebugger', { 'branch' : 'develop' }
+Plug 'sakhnik/nvim-gdb'
 
 " Plugin: Editing
 Plug 'junegunn/vim-easy-align'
