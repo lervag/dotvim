@@ -147,7 +147,7 @@ augroup vimrc_autocommands
   autocmd CmdwinEnter * nnoremap <buffer> q <c-c><c-c>
 
   " Close preview after complete
-  autocmd CompleteDone * pclose
+  " autocmd CompleteDone * pclose
 augroup END
 
 " {{{1 Options
