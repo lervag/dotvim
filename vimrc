@@ -1038,6 +1038,9 @@ let g:tex_flavor = 'latex'
 let g:tex_isk='48-57,a-z,A-Z,192-255,:'
 
 let g:vimtex_fold_enabled = 1
+let g:vimtex_fold_types = {
+      \ 'sections' : {'parse_levels': 1},
+      \}
 let g:vimtex_format_enabled = 1
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_automatic = 0
