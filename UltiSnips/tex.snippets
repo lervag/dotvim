@@ -164,3 +164,21 @@ snippet templ-tikz "Template: standalone Tikz figure" b
 
 \end{document}
 endsnippet
+
+Why
+snippet templ-pdfinclude "Template: Include PDF" b
+\documentclass[a4]{article}
+\usepackage{pdfpages}
+\usepackage{tikz}
+\pagestyle{empty}
+\begin{document}
+
+\includepdf[
+	fitpaper,
+	pages={1},
+	pagecommand={
+		\tikz[overlay, remember picture] {...}
+	}
+]{file.pdf}
+
+\end{document}

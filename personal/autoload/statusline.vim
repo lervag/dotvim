@@ -63,7 +63,18 @@ endfunction
 
 " }}}1
 function! s:quickfix(bufnr, active) " {{{1
-  let text = ' [Quickfix] ' . getqflist({'title':1}).title
+  let l:nr = personal#qf#get_prop('nr')
+  let l:last = personal#qf#get_prop('nr', '$')
+
+  let text = ' ['
+  let text .= personal#qf#is_loc() ? 'Loclist' : 'Quickfix'
+  if l:last > 1
+    let text .= ' ' . l:nr . '/' . l:last
+  endif
+
+  let text .= '] (' . personal#qf#length() . ') '
+
+  let text .= personal#qf#get_prop('title')
   let stat  = s:color(text, 'SLHighlight', a:active)
 
   return stat

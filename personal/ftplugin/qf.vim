@@ -12,7 +12,10 @@ xnoremap <buffer><silent> dd :QDeleteLine<cr>
 nnoremap <buffer><silent> f  :silent call personal#qf#filter(1)<cr>
 nnoremap <buffer><silent> F  :silent call personal#qf#filter(0)<cr>
 
+nnoremap <buffer><silent> <left>  :call personal#qf#older()<cr>
+nnoremap <buffer><silent> <right> :call personal#qf#newer()<cr>
+
 augroup quickfix_autocmds
   autocmd!
-  autocmd BufReadPost quickfix call personal#qf#adjust_height(2, &lines/2)
+  autocmd BufReadPost quickfix call personal#qf#adjust_height()
 augroup END
