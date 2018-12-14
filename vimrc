@@ -124,6 +124,7 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'elzr/vim-json'
 Plug 'gisraptor/vim-lilypond-integrator'
 Plug 'nhooyr/neoman.vim', has('nvim') ? { 'on' : [] } : {}
+Plug 'https://gitlab.com/HiPhish/info.vim'
 
 call plug#end()
 
