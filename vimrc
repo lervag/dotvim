@@ -125,6 +125,7 @@ Plug 'elzr/vim-json'
 Plug 'gisraptor/vim-lilypond-integrator'
 Plug 'nhooyr/neoman.vim', has('nvim') ? { 'on' : [] } : {}
 Plug 'https://gitlab.com/HiPhish/info.vim'
+Plug 'tpope/vim-apathy'
 
 call plug#end()
 
@@ -178,7 +179,7 @@ endif
 " Basic
 set cpoptions+=J
 set tags=tags;~,.tags;~
-set path=.,**
+set path=.,,
 if &modifiable
   set fileformat=unix
 endif
