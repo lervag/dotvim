@@ -741,6 +741,7 @@ let g:rainbow_conf = {
       \   'help' : 0,
       \   'lua' : 0,
       \   'fortran' : {},
+      \   'systemd' : 0,
       \ }
       \}
 
@@ -1063,6 +1064,7 @@ let g:vimtex_complete_bib = {
       \ 'simple' : 1,
       \ 'menu_fmt' : '@year, @author_short, @title',
       \}
+let g:vimtex_echo_verbose_input = 0
 
 if has('nvim')
   let g:vimtex_compiler_progname = 'nvr'
