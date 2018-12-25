@@ -742,6 +742,7 @@ let g:rainbow_conf = {
       \   'lua' : 0,
       \   'fortran' : {},
       \   'systemd' : 0,
+      \   'cfg' : 0,
       \ }
       \}
 
