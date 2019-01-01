@@ -1,5 +1,5 @@
 function! personal#init#go_to_last_known_position() abort " {{{1
-  if line("'\"") < 0 || line("'\"") > line('$')
+  if line("'\"") <= 0 || line("'\"") > line('$')
     return
   endif
 
