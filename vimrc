@@ -239,7 +239,8 @@ set updatetime=1000
 set wildmode=longest:full,full
 set wildcharm=<c-z>
 set complete+=U,s,k,kspell,d,]
-set completeopt=noinsert,menuone,noselect
+set completeopt=menuone
+silent! set completeopt+=noinsert,noselect
 
 " Presentation
 set list
