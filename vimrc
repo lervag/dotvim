@@ -102,9 +102,6 @@ Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
 Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
 Plug 'tpope/vim-unimpaired'
-Plug 'fcpg/vim-osc52'
-
-xnoremap <f7> y:call SendViaOSC52(getreg('"'))<cr>
 
 " Filetype: python
 Plug 'davidhalter/jedi-vim'
@@ -607,8 +604,10 @@ try
 catch
 endtry
 
-inoremap <expr><c-h>   deoplete#smart_close_popup() . "\<c-h>"
-inoremap <expr><bs>    deoplete#smart_close_popup() . "\<c-h>"
+if v:version >= 800
+  inoremap <expr><c-h>   deoplete#smart_close_popup() . "\<c-h>"
+  inoremap <expr><bs>    deoplete#smart_close_popup() . "\<c-h>"
+endif
 inoremap <expr><cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
 inoremap <expr><tab>   pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
@@ -1112,3 +1111,15 @@ let g:wiki_file_open = 'personal#wiki#file_open'
 " }}}2
 
 " }}}1
+
+function! Osc52Yank()
+    let buffer=system('base64 -w0', @0)
+    let buffer=substitute(buffer, "\n$", "", "")
+    let buffer='\e]52;c;'.buffer.'\x07'
+    silent exe "!echo -ne ".shellescape(buffer)." > ".shellescape("/dev/pts/0")
+endfunction
+command! Osc52CopyYank call Osc52Yank()
+augroup Example
+    autocmd!
+    autocmd TextYankPost * if v:event.operator ==# 'y' | call Osc52Yank() | endif
+augroup END
