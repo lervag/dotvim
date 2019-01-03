@@ -616,13 +616,16 @@ inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 " {{{2 plugin: ale
 
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
+let g:ale_set_signs = 0
 
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed = 0
-let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_delay = 0
+
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
 
 let g:ale_statusline_format = ['Errors: %d', 'Warnings: %d', '']
 
@@ -852,6 +855,11 @@ nnoremap <leader>ha :call personal#hg#abort()<cr>
 
 " }}}
 " {{{2 plugin: vim-lsp
+
+" Disable on old Vims
+if v:version < 800
+  let g:lsp_auto_enable = 0
+endif
 
 let g:lsp_log_verbose = 1
 let g:lsp_log_file = '/tmp/vim-lsp.log'
