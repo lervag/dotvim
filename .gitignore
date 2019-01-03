@@ -1,8 +1,4 @@
 view
-backup
-undofiles
 bundle
-minibundle
+autoload/plug.vim
 .netrwhist
-messages.log
-autoload
