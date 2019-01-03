@@ -102,6 +102,9 @@ Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
 Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
 Plug 'tpope/vim-unimpaired'
+Plug 'fcpg/vim-osc52'
+
+xnoremap <f7> y:call SendViaOSC52(getreg('"'))<cr>
 
 " Filetype: python
 Plug 'davidhalter/jedi-vim'
