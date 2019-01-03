@@ -198,15 +198,20 @@ if has('patch-8.1.360')
 endif
 
 " Backup, swap and undofile
-set noswapfile
-set nobackup
 set undofile
 set undolevels=1000
 set undoreload=10000
-set undodir=$HOME/.vim/undofiles
-
+set undodir=$HOME/.cache/vim/undo
+set backupdir=$HOME/.cache/vim/backup
+set directory=$HOME/.cache/vim/swap
 if !isdirectory(&undodir)
-  call mkdir(&undodir)
+  call mkdir(&undodir, 'p')
+endif
+if !isdirectory(&backupdir)
+  call mkdir(&backupdir, 'p')
+endif
+if !isdirectory(&directory)
+  call mkdir(&directory, 'p')
 endif
 
 " Behaviour
