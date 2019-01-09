@@ -754,6 +754,7 @@ let g:rainbow_conf = {
       \   'fortran' : {},
       \   'systemd' : 0,
       \   'cfg' : 0,
+      \   'vim' : 0,
       \ }
       \}
 
