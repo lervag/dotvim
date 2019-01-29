@@ -913,6 +913,17 @@ let g:sandwich_no_default_key_mappings = 1
 let g:operator_sandwich_no_default_key_mappings = 1
 let g:textobj_sandwich_no_default_key_mappings = 1
 
+let g:sandwich_function_patterns = {
+      \ 'python' : [
+      \   {
+      \     'header' : '\<[.[:alnum:]]\+',
+      \     'bra'    : '(',
+      \     'ket'    : ')',
+      \     'footer' : '',
+      \   },
+      \ ],
+      \}
+
 try
   " Change some default options
   call operator#sandwich#set('delete', 'all', 'highlight', 0)
@@ -997,6 +1008,11 @@ noremap <plug>(slash-after) zz
 let g:table_mode_auto_align = 0
 
 " }}}2
+" {{{2 plugin: vim-tmux-navigator
+
+let g:tmux_navigator_disable_when_zoomed = 1
+
+" }}}
 " {{{2 plugin: vim-vebugger
 
 let g:vebugger_leader = '<leader>d'
@@ -1112,18 +1128,3 @@ let g:wiki_file_open = 'personal#wiki#file_open'
 " }}}2
 
 " }}}1
-
-"
-" Testing of OSC 52
-"
-function! Osc52Yank()
-    let buffer=system('base64 -w0', @0)
-    let buffer=substitute(buffer, "\n$", "", "")
-    let buffer='\e]52;c;'.buffer.'\x07'
-    silent exe "!echo -ne ".shellescape(buffer)." > ".shellescape("/dev/pts/0")
-endfunction
-" command! Osc52CopyYank call Osc52Yank()
-" augroup Example
-"     autocmd!
-"     autocmd TextYankPost * if v:event.operator ==# 'y' | call Osc52Yank() | endif
-" augroup END
