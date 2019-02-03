@@ -913,16 +913,16 @@ let g:sandwich_no_default_key_mappings = 1
 let g:operator_sandwich_no_default_key_mappings = 1
 let g:textobj_sandwich_no_default_key_mappings = 1
 
-let g:sandwich_function_patterns = {
-      \ 'python' : [
-      \   {
-      \     'header' : '\<[.[:alnum:]]\+',
-      \     'bra'    : '(',
-      \     'ket'    : ')',
-      \     'footer' : '',
-      \   },
-      \ ],
-      \}
+" Support for python like function names
+let g:sandwich#magicchar#f#patterns = [
+  \   {
+  \     'header' : '\<\%(\h\k*\.\)*\h\k*',
+  \     'bra'    : '(',
+  \     'ket'    : ')',
+  \     'footer' : '',
+  \   },
+  \ ]
+
 
 try
   " Change some default options
