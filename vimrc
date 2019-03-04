@@ -82,7 +82,7 @@ Plug 'tpope/vim-speeddating'
 Plug 'zirrostig/vim-schlepp'
 
 " Plugin: VCS
-Plug 'gregsexton/gitv', { 'on' : 'Gitv' }
+Plug 'rbong/vim-flog'
 Plug 'tpope/vim-fugitive'
 Plug 'ludovicchabant/vim-lawrencium'
 
@@ -470,12 +470,17 @@ let g:loaded_zipPlugin = 1
 
 " {{{2 feature: git
 
-let g:Gitv_WipeAllOnClose = 1
-let g:Gitv_DoNotMapCtrlKey = 1
+nnoremap <silent><leader>gf
+      \ :Flog -all -raw-args=--date=short -format=[%h]\ %ad\ %s\ %d<cr>
+nnoremap <silent><leader>gF
+      \ :execute 'Flog -all -raw-args=--date=short -format=[%h]\ %ad\ %s\ %d -path='
+      \   . expand('%:t')<cr>
 
-nnoremap <silent><leader>gl :Gitv --all<cr>
-nnoremap <silent><leader>gL :Gitv! --all<cr>
-xnoremap <silent><leader>gl :Gitv! --all<cr>
+augroup vimrc_flog
+  autocmd!
+  autocmd FileType floggraph setlocal nolist
+  autocmd FileType floggraph nmap <buffer><silent> q <plug>Flogquit
+augroup END
 
 nnoremap <silent><leader>gs :call personal#git#fugitive_toggle()<cr>
 nnoremap <silent><leader>ge :Gedit<cr>
