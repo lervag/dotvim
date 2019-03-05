@@ -461,10 +461,11 @@ let g:loaded_zipPlugin = 1
 
 " {{{2 feature: git
 
-let g:flog_default_format = "[%h] %ad %d\n          %s"
+let g:flog_default_format = "[%h] %ad%d\n          %s"
+let g:flog_default_date_format = 'format:%Y-%m-%d %H:%M:%S'
 
-nnoremap <silent><leader>gl :Flog -all<cr>
-nnoremap <silent><leader>gL :Flog -all -path=%<cr>
+nnoremap <silent><leader>gl :silent Flog -all<cr>
+nnoremap <silent><leader>gL :silent Flog -all -path=%<cr>
 
 augroup vimrc_flog
   autocmd!
@@ -480,6 +481,7 @@ augroup vimrc_fugitive
   autocmd!
   autocmd BufReadPost fugitive:// setlocal bufhidden=delete
   autocmd FileType git setlocal foldlevel=1
+  autocmd FileType git nnoremap <buffer><silent> q :bwipeout!<cr>
 augroup END
 
 " }}}2
