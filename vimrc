@@ -461,11 +461,10 @@ let g:loaded_zipPlugin = 1
 
 " {{{2 feature: git
 
-nnoremap <silent><leader>gf
-      \ :Flog -all -raw-args=--date=short -format=[%h]\ %ad\ %s\ %d<cr>
-nnoremap <silent><leader>gF
-      \ :execute 'Flog -all -raw-args=--date=short -format=[%h]\ %ad\ %s\ %d -path='
-      \   . expand('%:t')<cr>
+let g:flog_default_format = "[%h] %ad %d\n          %s"
+
+nnoremap <silent><leader>gl :Flog -all<cr>
+nnoremap <silent><leader>gL :Flog -all -path=%<cr>
 
 augroup vimrc_flog
   autocmd!
