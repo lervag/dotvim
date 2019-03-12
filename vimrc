@@ -1018,6 +1018,22 @@ let g:wiki_root = '~/documents/wiki'
 let g:wiki_toc_title = 'Innhald'
 let g:wiki_pdf_viewer = 'zathura'
 let g:wiki_filetypes = ['wiki', 'md']
+let g:wiki_month_names = [
+      \ 'januar',
+      \ 'februar',
+      \ 'mars',
+      \ 'april',
+      \ 'mai',
+      \ 'juni',
+      \ 'juli',
+      \ 'august',
+      \ 'september',
+      \ 'oktober',
+      \ 'november',
+      \ 'desember'
+      \]
+let g:wiki_template_title_week = '# Samandrag veke %(week), %(year)'
+let g:wiki_template_title_month = '# Samandrag frå %(month-name) %(year)'
 
 let g:wiki_toc_depth = 2
 let g:wiki_file_open = 'personal#wiki#file_open'
