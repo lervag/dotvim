@@ -789,11 +789,12 @@ let g:matchup_override_vimtex = 1
 " }}}2
 " {{{2 plugin: vim-omnipytent
 
-let g:omnipytent_filePrefix = '.kyl'
+let g:omnipytent_filePrefix = ''
 let g:omnipytent_defaultPythonVersion = 3
 let g:omnipytent_projectRootMarkers = ['.git', '.hg']
 
 nnoremap         <leader>re :OPedit 
+nnoremap <silent><leader>r<space> :OP 
 nnoremap <silent><leader>rr :OP run<cr>
 nnoremap <silent><leader>rt :OP test<cr>
 nnoremap <silent><leader>rv :OP vader<cr>
