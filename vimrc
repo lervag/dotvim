@@ -794,10 +794,8 @@ let g:omnipytent_defaultPythonVersion = 3
 let g:omnipytent_projectRootMarkers = ['.git', '.hg']
 
 nnoremap         <leader>re :OPedit 
-nnoremap <silent><leader>r<space> :OP 
-nnoremap <silent><leader>rr :OP run<cr>
+nnoremap <silent><leader>rr :OP<cr>
 nnoremap <silent><leader>rt :OP test<cr>
-nnoremap <silent><leader>rv :OP vader<cr>
 
 " }}}2
 " {{{2 plugin: vim-plug
