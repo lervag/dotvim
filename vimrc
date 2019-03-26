@@ -517,6 +517,11 @@ inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 let g:ale_set_signs = 0
 
+if exists('*nvim_buf_set_virtual_text')
+  let g:ale_virtualtext_cursor = 1
+  let g:ale_echo_cursor = 0
+endif
+
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed = 0
 let g:ale_lint_on_text_changed = 'never'
@@ -763,6 +768,7 @@ endif
 
 let g:lsp_log_verbose = 1
 let g:lsp_log_file = '/tmp/vim-lsp.log'
+let g:lsp_diagnostics_enabled = 0
 
 nnoremap <silent> <leader>ld :LspDefinition<cr>
 nnoremap <silent> <leader>lr :LspReferences<cr>
