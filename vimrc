@@ -1021,7 +1021,8 @@ let g:vimsyn_embed = 'P'
 
 let g:wiki_root = '~/documents/wiki'
 let g:wiki_toc_title = 'Innhald'
-let g:wiki_pdf_viewer = 'zathura'
+let g:wiki_viewer = {'pdf': 'zathura'}
+let g:wiki_export = {'from_format': 'gfm'}
 let g:wiki_filetypes = ['wiki', 'md']
 let g:wiki_month_names = [
       \ 'januar',
