@@ -64,25 +64,34 @@ function! personal#qf#newer() abort " {{{1
 endfunction
 
 " }}}1
-function! personal#qf#is_loc() abort " {{{1
-  let l:wininfo = filter(getwininfo(), {i,v -> v.winnr == winnr()})[0]
+function! personal#qf#is_loc(...) abort " {{{1
+  let l:winnr = a:0 > 0 ? a:1 : winnr()
+  let l:wininfo = filter(getwininfo(), {i,v -> v.winnr == l:winnr})[0]
   return l:wininfo.loclist
 endfunction
 
 " }}}1isLast
-function! personal#qf#get_prop(key, ...) abort " {{{1
-  let l:what = {a:key : a:0 ? a:1 : 0}
-  let l:listdict = personal#qf#is_loc()
-        \ ? getloclist(0, l:what) : getqflist(l:what)
-  return get(l:listdict, a:key)
+function! personal#qf#get_prop(cfg) abort " {{{1
+  let l:cfg = extend({
+        \ 'winnr': winnr(),
+        \ 'val': 0,
+        \}, a:cfg)
+
+  let l:what = {l:cfg.key : l:cfg.val}
+
+  let l:listdict = personal#qf#is_loc(l:cfg.winnr)
+        \ ? getloclist(l:cfg.winnr, l:what) : getqflist(l:what)
+  return get(l:listdict, l:cfg.key)
 endfunction
 
 " }}}1
-function! personal#qf#length() abort " {{{1
+function! personal#qf#length(...) abort " {{{1
+  let l:winnr = a:0 > 0 ? a:1 : winnr()
+
   if empty(getqflist({'size':0}))
-    return len(personal#qf#is_loc() ? getloclist(0) : getqflist())
+    return len(personal#qf#is_loc(l:winnr) ? getloclist(l:winnr) : getqflist())
   else
-    return personal#qf#get_prop('size')
+    return personal#qf#get_prop({'winnr': l:winnr, 'key': 'size'})
   endif
 endfunction
 

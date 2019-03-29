@@ -40,7 +40,7 @@ function! statusline#main(winnr) " {{{1
   if l:buftype ==# 'help'
     return s:help(l:bufnr, l:active)
   elseif l:buftype ==# 'quickfix'
-    return s:quickfix(l:bufnr, l:active)
+    return s:quickfix(l:bufnr, l:active, a:winnr)
   elseif l:filetype ==# 'wiki'
     return s:wiki(l:bufnr, l:active)
   elseif l:filetype ==# 'man'
@@ -62,19 +62,29 @@ function! s:help(bufnr, active) " {{{1
 endfunction
 
 " }}}1
-function! s:quickfix(bufnr, active) " {{{1
-  let l:nr = personal#qf#get_prop('nr')
-  let l:last = personal#qf#get_prop('nr', '$')
+function! s:quickfix(bufnr, active, winnr) " {{{1
+  let l:nr = personal#qf#get_prop({
+        \ 'winnr': a:winnr,
+        \ 'key': 'nr',
+        \})
+  let l:last = personal#qf#get_prop({
+        \ 'winnr': a:winnr,
+        \ 'key': 'nr',
+        \ 'val': '$',
+        \})
 
   let text = ' ['
-  let text .= personal#qf#is_loc() ? 'Loclist' : 'Quickfix'
+  let text .= personal#qf#is_loc(a:winnr) ? 'Loclist' : 'Quickfix'
   if l:last > 1
     let text .= ' ' . l:nr . '/' . l:last
   endif
 
-  let text .= '] (' . personal#qf#length() . ') '
+  let text .= '] (' . personal#qf#length(a:winnr) . ') '
 
-  let text .= personal#qf#get_prop('title')
+  let text .= personal#qf#get_prop({
+        \ 'winnr': a:winnr,
+        \ 'key': 'title',
+        \})
   let stat  = s:color(text, 'SLHighlight', a:active)
 
   return stat
