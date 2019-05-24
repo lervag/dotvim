@@ -222,6 +222,7 @@ set winaltkeys=no
 set mouse=
 set gdefault
 set updatetime=1000
+set nowrapscan
 
 " Completion
 set wildmode=longest:full,full
@@ -372,8 +373,6 @@ call statusline#init_tabline()
 "
 "   Q
 "   U
-"   ctrl-h
-"   ctrl-j
 "   ctrl-s
 "   ctrl-space
 "
