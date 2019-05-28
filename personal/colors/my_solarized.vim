@@ -23,10 +23,10 @@ highlight   Cursor                                   cterm=NONE                g
 highlight   CursorColumn                             cterm=NONE                gui=NONE                ctermbg=7      guibg=#eee8d5
 highlight   CursorLine                               cterm=NONE                gui=NONE                ctermbg=7      guibg=#eee8d5   guisp=#586e75 guifg=black
 highlight   CursorLineNr                             cterm=NONE                gui=NONE                ctermfg=14     guifg=#93a1a1
-highlight   DiffAdd                                  cterm=NONE                gui=NONE                ctermfg=2      ctermbg=7       guifg=#719e07   guibg=#eee8d5   guisp=#719e07
-highlight   DiffChange                               cterm=NONE                gui=NONE                ctermfg=3      ctermbg=7       guifg=#b58900   guibg=#eee8d5   guisp=#b58900
-highlight   DiffDelete                               cterm=NONE                gui=NONE                ctermfg=1      ctermbg=7       guifg=#dc322f   guibg=#eee8d5
-highlight   DiffText                                 cterm=NONE                gui=NONE                ctermfg=4      ctermbg=7       guifg=#268bd2   guibg=#eee8d5   guisp=#268bd2
+highlight   DiffAdd                                  cterm=NONE                gui=NONE                ctermfg=NONE   ctermbg=193     guifg=NONE   guibg=#ebe8c1   guisp=#719e07
+highlight   DiffChange                               cterm=NONE                gui=NONE                ctermfg=NONE   ctermbg=7       guifg=NONE   guibg=#ecdbab   guisp=#b58900
+highlight   DiffDelete                               cterm=NONE                gui=NONE                ctermfg=NONE   ctermbg=217     guifg=NONE   guibg=#f7cfbf
+highlight   DiffText                                 cterm=NONE                gui=NONE                ctermfg=NONE   ctermbg=193     guifg=NONE   guibg=#d2e1e0   guisp=#268bd2
 highlight   Directory                                cterm=NONE                gui=NONE                ctermfg=4      guifg=#268bd2
 highlight   Error                                    cterm=NONE                gui=NONE                ctermfg=1      ctermbg=NONE    guifg=#dc322f   guibg=#fdf6e3
 highlight   ErrorMsg                                 cterm=reverse             gui=reverse             ctermfg=1      ctermbg=NONE    guifg=#dc322f   guibg=NONE
