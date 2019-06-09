@@ -75,6 +75,7 @@ Plug 'zirrostig/vim-schlepp'
 " Plugin: VCS
 Plug 'rbong/vim-flog'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'ludovicchabant/vim-lawrencium'
 
 " Plugin: Tmux (incl. filetype)
