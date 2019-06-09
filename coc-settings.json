@@ -1,0 +1,8 @@
+{
+  "coc.source.omni.filetypes": ["foam", "wiki"],
+  "coc.source.vimtex.priority": 99,
+  "suggest.enablePreview": true,
+  "diagnostic.displayByAle": true,
+  "codeLens.enable": true,
+  "python.jediEnabled": false,
+}

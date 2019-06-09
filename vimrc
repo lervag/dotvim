@@ -29,17 +29,7 @@ Plug 'junegunn/vim-slash'
 Plug 'RRethy/vim-illuminate'
 
 " Plugin: Completion and snippets
-if has('nvim') || v:version >= 800
-  Plug 'Shougo/deoplete.nvim',
-        \ has('nvim') ? { 'do': ':UpdateRemotePlugins' } : {}
-endif
-Plug 'roxma/vim-hug-neovim-rpc', has('nvim') ? { 'on' : [] } : {}
-Plug 'roxma/nvim-yarp'
-Plug 'Shougo/neoinclude.vim'
-Plug 'Shougo/neco-vim'
-Plug 'Shougo/neco-syntax'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
 Plug 'SirVer/ultisnips'
 
 " Plugin: Text objects and similar
@@ -141,7 +131,7 @@ augroup vimrc_autocommands
   autocmd CmdwinEnter * nnoremap <buffer> q <c-c><c-c>
 
   " Close preview after complete
-  " autocmd CompleteDone * pclose
+  autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
 augroup END
 
 " {{{1 Options
@@ -222,7 +212,7 @@ set formatlistpat+=\\\|^\\s*\\(\\d\\+\\\|[a-z]\\)[:).]\\s\\+
 set winaltkeys=no
 set mouse=
 set gdefault
-set updatetime=1000
+set updatetime=500
 set nowrapscan
 
 " Completion
@@ -483,35 +473,52 @@ augroup vimrc_fugitive
 augroup END
 
 " }}}2
-" {{{2 feature: completion
+" {{{2 feature: completion and language server client
 
-let g:deoplete#enable_at_startup = 1
+" See also: coc-settings.json
 
-try
-  call deoplete#custom#option('smart_case', v:true)
-  call deoplete#custom#option('ignore_sources', {
-        \ '_': ['around'],
-        \ 'dagbok': ['syntax'],
-        \})
+let g:coc_global_extensions = [
+      \ 'coc-vimtex',
+      \ 'coc-omni',
+      \ 'coc-snippets',
+      \ 'coc-python',
+      \ 'coc-json',
+      \ 'coc-yaml',
+      \]
 
-  call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
-  call deoplete#custom#source('ultisnips', 'rank', 1000)
-
-  call deoplete#custom#var('omni', 'input_patterns', {
-        \ 'foam' : g:foam#complete#re_refresh_deoplete,
-        \ 'tex' : g:vimtex#re#deoplete,
-        \ 'wiki' : '\[\[[^]|]{3,}$',
-        \})
-catch
-endtry
-
-if v:version >= 800
-  inoremap <expr><c-h>   deoplete#smart_close_popup() . "\<c-h>"
-  inoremap <expr><bs>    deoplete#smart_close_popup() . "\<c-h>"
-endif
 inoremap <expr><cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
 inoremap <expr><tab>   pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+nmap <silent> <leader>ld <plug>(coc-definition)
+nmap <silent> <leader>lt <plug>(coc-type-definition)
+nmap <silent> <leader>li <plug>(coc-implementation)
+nmap <silent> <leader>lf <plug>(coc-references)
+nmap          <leader>lr <plug>(coc-rename)
+
+nmap <silent> <leader>lp <plug>(coc-diagnostic-prev)
+nmap <silent> <leader>ln <plug>(coc-diagnostic-next)
+
+nnoremap <silent> K :call <sid>show_documentation()<cr>
+function! s:show_documentation()
+  if &filetype ==# 'vim'
+    execute 'help ' . expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+augroup coc_settings
+  autocmd!
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup END
+
+call coc#config('coc.preferences', {
+    \ 'timeout': 1000,
+    \ 'hoverTarget': 'echo',
+    \ 'java.trace.server': 'verbose',
+    \ 'snippetIndicator': '[+] ',
+    \})
 
 " }}}2
 
@@ -761,34 +768,6 @@ nnoremap <leader>hr :call personal#hg#wrapper('Hgvrecord')<cr>
 nnoremap <leader>ha :call personal#hg#abort()<cr>
 
 " }}}
-" {{{2 plugin: vim-lsp
-
-" Disable on old Vims
-if v:version < 800
-  let g:lsp_auto_enable = 0
-endif
-
-let g:lsp_log_verbose = 1
-let g:lsp_log_file = '/tmp/vim-lsp.log'
-let g:lsp_diagnostics_enabled = 0
-
-nnoremap <silent> <leader>ld :LspDefinition<cr>
-nnoremap <silent> <leader>lr :LspReferences<cr>
-nnoremap <silent> <leader>lR :LspRename<cr>
-nnoremap <silent> <leader>lh :LspHover<cr>
-
-if executable('pyls')
-  augroup vimrc_lsp
-    autocmd!
-    autocmd User lsp_setup call lsp#register_server({
-          \ 'name': 'pyls',
-          \ 'cmd': {server_info->['pyls']},
-          \ 'whitelist': ['python'],
-          \})
-  augroup END
-endif
-
-" }}}2
 " {{{2 plugin: vim-matchup
 
 let g:matchup_matchparen_status_offscreen = 0
