@@ -508,17 +508,12 @@ function! s:show_documentation()
   endif
 endfunction
 
-augroup coc_settings
-  autocmd!
-  autocmd CursorHold * silent call CocActionAsync('highlight')
-augroup END
-
-call coc#config('coc.preferences', {
-    \ 'timeout': 1000,
-    \ 'hoverTarget': 'echo',
-    \ 'java.trace.server': 'verbose',
-    \ 'snippetIndicator': '[+] ',
-    \})
+if exists('*CocActionAsync')
+  augroup coc_settings
+    autocmd!
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+  augroup END
+endif
 
 " }}}2
 

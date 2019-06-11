@@ -4,4 +4,7 @@
   "diagnostic.displayByAle": true,
   "codeLens.enable": true,
   "python.jediEnabled": false,
+  "suggest.timeout": 1000,
+  "python.trace.server": "verbose",
+  "suggest.snippetIndicator": "[+] ",
 }
