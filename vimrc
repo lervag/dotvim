@@ -30,6 +30,10 @@ Plug 'RRethy/vim-illuminate'
 
 " Plugin: Completion and snippets
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+Plug 'Shougo/neco-vim'
+Plug 'Shougo/neoinclude.vim'
+Plug 'neoclide/coc-neco'
+Plug 'jsfaint/coc-neoinclude'
 Plug 'SirVer/ultisnips'
 
 " Plugin: Text objects and similar
