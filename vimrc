@@ -70,6 +70,7 @@ Plug 'zirrostig/vim-schlepp'
 Plug 'rbong/vim-flog'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
+Plug 'rhysd/git-messenger.vim'
 Plug 'ludovicchabant/vim-lawrencium'
 
 " Plugin: Tmux (incl. filetype)
