@@ -92,7 +92,6 @@ Plug 'tpope/vim-unimpaired'
 
 " Filetype: python
 Plug 'davidhalter/jedi-vim'
-Plug 'zchee/deoplete-jedi'
 Plug 'vim-python/python-syntax'
 Plug 'kalekundert/vim-coiled-snake'  " Folding
 Plug 'tweekmonster/braceless.vim'    " Indents
