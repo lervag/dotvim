@@ -778,7 +778,6 @@ let g:matchup_override_vimtex = 1
 let g:omnipytent_filePrefix = ''
 let g:omnipytent_defaultPythonVersion = 3
 let g:omnipytent_projectRootMarkers = ['.git', '.hg']
-let g:omnipytent_selectionUI = 'ctrlp'
 
 nnoremap         <leader>re :OPedit 
 nnoremap <silent><leader>rr :OP<cr>
