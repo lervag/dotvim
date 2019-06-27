@@ -13,6 +13,7 @@ setlocal iskeyword+=-
 if &modifiable | finish | endif
 
 setlocal nohlsearch
+setlocal foldmethod=marker
 
 noremap <silent><buffer> q     :bwipeout<cr>
 noremap <silent><buffer> <cr>  
