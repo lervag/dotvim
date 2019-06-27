@@ -39,13 +39,13 @@ function! statusline#main(winnr) " {{{1
 
   " Try to call buffer type specific functions
   try
-    return s:{l:buftype}(l:bufnr, l:active)
+    return s:{l:buftype}(l:bufnr, l:active, l:winnr)
   catch /E117: Unknown function/
   endtry
 
   " Try to call filetype specific functions
   try
-    return s:{l:filetype}(l:bufnr, l:active)
+    return s:{l:filetype}(l:bufnr, l:active, l:winnr)
   catch /E117: Unknown function/
   endtry
 
@@ -106,7 +106,7 @@ endfunction
 "
 " Buffer type functions
 "
-function! s:help(bufnr, active) " {{{1
+function! s:help(bufnr, active, winnr) " {{{1
   let l:name = bufname(a:bufnr)
   return s:color(' ' . fnamemodify(l:name, ':t:r') . ' %= HELP ',
         \ 'SLHighlight', a:active)
@@ -146,7 +146,7 @@ endfunction
 "
 " Filetype functions
 "
-function! s:wiki(bufnr, active) " {{{1
+function! s:wiki(bufnr, active, winnr) " {{{1
   let stat  = s:color(' wiki: ', 'SLAlert', a:active)
   let stat .= s:color(fnamemodify(bufname(a:bufnr), ':t:r'),
         \ 'SLHighlight', a:active)
@@ -164,7 +164,7 @@ function! s:wiki(bufnr, active) " {{{1
 endfunction
 
 " }}}1
-function! s:fzf(bufnr, active) " {{{1
+function! s:fzf(bufnr, active, winnr) " {{{1
   let stat  = s:color(' FZF:', 'SLAlert', a:active)
   let stat .= s:color(' %F%<', 'SLHighlight', a:active)
 
@@ -172,7 +172,7 @@ function! s:fzf(bufnr, active) " {{{1
 endfunction
 
 " }}}1
-function! s:manpage(bufnr, active) " {{{1
+function! s:manpage(bufnr, active, winnr) " {{{1
   return s:color(' %<%f', 'SLHighlight', a:active)
 endfunction
 

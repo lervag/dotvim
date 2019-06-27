@@ -385,7 +385,8 @@ nnoremap J      mzJ`z
 nnoremap dp     dp]c
 nnoremap do     do]c
 nnoremap '      `
-nnoremap <c-e>  <c-^>
+nnoremap <c-e>       <c-^>
+nnoremap <c-w><c-e>  <c-w><c-^>
 nnoremap <c-p>  <c-i>
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
