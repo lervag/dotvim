@@ -124,6 +124,9 @@ if g:vimrc#bootstrap | finish | endif
 augroup vimrc_autocommands
   autocmd!
 
+  " Specify some maps for filenames to filetypes
+  autocmd BufNewFile,BufRead *pylintrc set filetype=cfg
+
   " Only use cursorline for current window
   autocmd WinEnter,FocusGained * setlocal cursorline
   autocmd WinLeave,FocusLost   * setlocal nocursorline
