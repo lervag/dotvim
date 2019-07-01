@@ -41,8 +41,8 @@ Plug 'wellle/targets.vim'
 Plug 'machakann/vim-sandwich'
 
 " Plugin: Finder, motions, and tags
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 " Plug 'raghur/fruzzy'
 if has('nvim') || v:version >= 800
   Plug 'ludovicchabant/vim-gutentags'
@@ -585,64 +585,48 @@ nnoremap <silent><leader>fu :CtrlSFUpdate<cr>
 vmap     <silent><leader>f  <Plug>CtrlSFVwordExec
 
 " }}}2
-" {{{2 plugin: CtrlP
-
-let g:ctrlp_map = ''
-let g:ctrlp_switch_buffer = 'e'
-let g:ctrlp_working_path_mode = 'rc'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
-
-if executable('fd')
-  let g:ctrlp_user_command += ['fd --type f --color=never "" %s']
-  let g:ctrlp_use_caching = 0
-elseif executable('rg')
-  let g:ctrlp_user_command += ['rg %s --files --color=never --glob ""']
-  let g:ctrlp_use_caching = 0
-elseif executable('ag')
-  let g:ctrlp_user_command += ['ag %s -l --nocolor -g ""']
-  let g:ctrlp_use_caching = 0
-endif
-
-" let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
-" let g:ctrlp_match_func = {'match': 'fruzzy#ctrlp#matcher'}
-" let g:fruzzy#usenative = 1
-let g:ctrlp_tilde_homedir = 1
-let g:ctrlp_match_window = 'top,order:ttb,min:30,max:30'
-let g:ctrlp_status_func = {
-      \ 'main' : 'statusline#ctrlp',
-      \ 'prog' : 'statusline#ctrlp',
-      \}
-let g:ctrlp_follow_symlinks = 1
-let g:ctrlp_mruf_exclude = '\v' . join([
-      \ '\/\.%(git|hg)\/',
-      \ '\.wiki$',
-      \ '\.snip$',
-      \ '\.vim\/vimrc$',
-      \ '\/vim\/.*\/doc\/.*txt$',
-      \ '_%(LOCAL|REMOTE)_',
-      \ '\~record$',
-      \ '^\/tmp\/',
-      \ '^man:\/\/',
-      \], '|')
-
-" Mappings
-nnoremap <silent> <leader>oo       :CtrlP<cr>
-nnoremap <silent> <leader>og       :CtrlPRoot<cr>
-nnoremap <silent> <leader>ov       :CtrlP ~/.vim<cr>
-nnoremap <silent> <leader>op       :call personal#ctrlp#vim_plugs()<cr>
-nnoremap <silent> <leader>ob       :CtrlPBuffer<cr>
-nnoremap <silent> <leader>ow       :CtrlPWiki<cr>
-nnoremap <silent> <leader>ot       :CtrlPTag<cr>
-nnoremap <silent> <leader><leader> :CtrlPMRU<cr>
-" nnoremap <silent> <leader><leader>
-"       \ :call personal#ctrlp#disable_matchfunc('CtrlPMRU')<cr>
-
-" }}}2
 " {{{2 plugin: FastFold
 
 nmap <sid>(DisableFastFoldUpdate) <plug>(FastFoldUpdate)
 let g:fastfold_fold_command_suffixes =  ['x','X']
 let g:fastfold_fold_movement_commands = []
+
+" }}}2
+" {{{2 plugin: Fzf
+
+nnoremap <silent> <leader>oo       :Files<cr>
+nnoremap <silent> <leader>ov       :Files ~/.vim<cr>
+nnoremap <silent> <leader>op       :Files ~/.vim/bundle<cr>
+nnoremap <silent> <leader>ob       :Buffers<cr>
+nnoremap <silent> <leader>ot       :Tags<cr>
+nnoremap <silent> <leader><leader> :History<cr>
+nnoremap <silent> <leader>ow       :Files ~/documents/wiki<cr>
+
+let g:fzf_layout = { 'window': 'enew' }
+
+let g:fzf_colors = {
+      \ 'fg':      ['fg', 'Normal'],
+      \ 'bg':      ['bg', 'Normal'],
+      \ 'hl':      ['fg', 'Comment'],
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+      \ 'hl+':     ['fg', 'Statement'],
+      \ 'info':    ['fg', 'PreProc'],
+      \ 'border':  ['fg', 'Ignore'],
+      \ 'prompt':  ['fg', 'Conditional'],
+      \ 'pointer': ['fg', 'Exception'],
+      \ 'marker':  ['fg', 'Keyword'],
+      \ 'spinner': ['fg', 'Label'],
+      \ 'header':  ['fg', 'Comment'],
+      \}
+
+augroup my_fzf_config
+  autocmd!
+  autocmd User FzfStatusLine call s:nothing()
+augroup END
+
+function! s:nothing()
+endfunction
 
 " }}}2
 " {{{2 plugin: rainbow

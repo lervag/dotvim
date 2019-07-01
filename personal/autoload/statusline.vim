@@ -165,10 +165,7 @@ endfunction
 
 " }}}1
 function! s:fzf(bufnr, active, winnr) " {{{1
-  let stat  = s:color(' FZF:', 'SLAlert', a:active)
-  let stat .= s:color(' %F%<', 'SLHighlight', a:active)
-
-  return stat
+  return s:color(' %= < fzf ', 'SLHighlight', a:active)
 endfunction
 
 " }}}1
