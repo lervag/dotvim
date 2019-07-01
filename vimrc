@@ -220,7 +220,6 @@ set winaltkeys=no
 set mouse=
 set gdefault
 set updatetime=500
-set nowrapscan
 
 " Completion
 set wildmode=longest:full,full
@@ -528,11 +527,6 @@ endif
 " {{{2 plugin: ale
 
 let g:ale_set_signs = 0
-
-if exists('*nvim_buf_set_virtual_text')
-  let g:ale_virtualtext_cursor = 1
-  let g:ale_echo_cursor = 0
-endif
 
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed = 0
