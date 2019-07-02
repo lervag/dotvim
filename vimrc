@@ -605,6 +605,19 @@ nnoremap <silent> <leader>ot       :Tags<cr>
 nnoremap <silent> <leader><leader> :History<cr>
 nnoremap <silent> <leader>ow       :Files ~/documents/wiki<cr>
 
+" return fzf#run(
+"   s:wrap(a:name, merged, bang))
+
+" \ 'source':  s:all_files(),
+"   \ 'options': ['-m', '--header-lines', !empty(expand('%')), '--prompt', 'Hist> ']
+
+" return fzf#vim#_uniq(
+" map(
+"   \ filter([expand('%')], 'len(v:val)')
+"   \   + filter(map(s:buflisted_sorted(), 'bufname(v:val)'), 'len(v:val)')
+"   \   + filter(copy(v:oldfiles), "filereadable(fnamemodify(v:val, ':p'))"),
+"   \ 'fnamemodify(v:val, ":~:.")'))
+
 let g:fzf_layout = { 'up': '60%' }
 
 let g:fzf_colors = {
