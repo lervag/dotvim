@@ -41,7 +41,10 @@ Plug 'wellle/targets.vim'
 Plug 'machakann/vim-sandwich'
 
 " Plugin: Finder, motions, and tags
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', {
+      \ 'dir': '~/.fzf',
+      \ 'do': './install --all --no-update-rc',
+      \}
 Plug 'junegunn/fzf.vim'
 " Plug 'raghur/fruzzy'
 if has('nvim') || v:version >= 800
@@ -602,7 +605,7 @@ nnoremap <silent> <leader>ot       :Tags<cr>
 nnoremap <silent> <leader><leader> :History<cr>
 nnoremap <silent> <leader>ow       :Files ~/documents/wiki<cr>
 
-let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_layout = { 'up': '60%' }
 
 let g:fzf_colors = {
       \ 'fg':      ['fg', 'Normal'],
@@ -620,13 +623,14 @@ let g:fzf_colors = {
       \ 'header':  ['fg', 'Comment'],
       \}
 
+function! s:nothing()
+endfunction
+
 augroup my_fzf_config
   autocmd!
   autocmd User FzfStatusLine call s:nothing()
+  autocmd FileType fzf silent! tunmap <esc>
 augroup END
-
-function! s:nothing()
-endfunction
 
 " }}}2
 " {{{2 plugin: rainbow
