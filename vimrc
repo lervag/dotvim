@@ -907,7 +907,7 @@ let g:vim_json_syntax_conceal = 0
 " }}}2
 " {{{2 filetype: markdown
 
-let g:vim_markdown_folding_style_pythonic = 0
+let g:vim_markdown_folding_style_pythonic = 1
 let g:vim_markdown_override_foldtext = 0
 let g:vim_markdown_follow_anchor = 1
 let g:vim_markdown_frontmatter = 1
