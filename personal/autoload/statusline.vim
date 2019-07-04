@@ -18,6 +18,7 @@ function! statusline#init() " {{{1
   highlight StatusLineNC ctermfg=10 ctermbg=8   guifg=#839496 guibg=#eee8d5
   highlight SLHighlight  ctermbg=10 ctermfg=220 guibg=#657b83 guifg=#ffe055
   highlight SLAlert      ctermbg=10 ctermfg=202 guibg=#657b83 guifg=#ff8888
+  highlight SLFZF                   ctermfg=2                 guifg=#719e07
 endfunction
 
 " }}}1
@@ -165,7 +166,7 @@ endfunction
 
 " }}}1
 function! s:fzf(bufnr, active, winnr) " {{{1
-  return s:color(' %= < fzf ', 'SLHighlight', a:active)
+  return s:color(repeat('⋯', winwidth(0)), 'SLFZF', a:active)
 endfunction
 
 " }}}1

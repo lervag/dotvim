@@ -597,29 +597,7 @@ let g:fastfold_fold_movement_commands = []
 " }}}2
 " {{{2 plugin: Fzf
 
-nnoremap <silent> <leader>oo       :Files<cr>
-nnoremap <silent> <leader>ov       :Files ~/.vim<cr>
-nnoremap <silent> <leader>op       :Files ~/.vim/bundle<cr>
-nnoremap <silent> <leader>ob       :Buffers<cr>
-nnoremap <silent> <leader>ot       :Tags<cr>
-nnoremap <silent> <leader><leader> :History<cr>
-nnoremap <silent> <leader>ow       :Files ~/documents/wiki<cr>
-
-" return fzf#run(
-"   s:wrap(a:name, merged, bang))
-
-" \ 'source':  s:all_files(),
-"   \ 'options': ['-m', '--header-lines', !empty(expand('%')), '--prompt', 'Hist> ']
-
-" return fzf#vim#_uniq(
-" map(
-"   \ filter([expand('%')], 'len(v:val)')
-"   \   + filter(map(s:buflisted_sorted(), 'bufname(v:val)'), 'len(v:val)')
-"   \   + filter(copy(v:oldfiles), "filereadable(fnamemodify(v:val, ':p'))"),
-"   \ 'fnamemodify(v:val, ":~:.")'))
-
 let g:fzf_layout = { 'up': '60%' }
-
 let g:fzf_colors = {
       \ 'fg':      ['fg', 'Normal'],
       \ 'bg':      ['bg', 'Normal'],
@@ -636,6 +614,8 @@ let g:fzf_colors = {
       \ 'header':  ['fg', 'Comment'],
       \}
 
+let $FZF_DEFAULT_OPTS = '--reverse --inline-info'
+
 function! s:nothing()
 endfunction
 
@@ -644,6 +624,38 @@ augroup my_fzf_config
   autocmd User FzfStatusLine call s:nothing()
   autocmd FileType fzf silent! tunmap <esc>
 augroup END
+
+nnoremap <silent> <leader>oo       :call Browse()<cr>
+nnoremap <silent> <leader>ov       :Files ~/.vim<cr>
+nnoremap <silent> <leader>op       :Files ~/.vim/bundle<cr>
+nnoremap <silent> <leader>ob       :Buffers<cr>
+nnoremap <silent> <leader>ot       :Tags<cr>
+nnoremap <silent> <leader>ow       :Files ~/documents/wiki<cr>
+nnoremap <silent> <leader><leader> :call History()<cr>
+
+function! Browse() abort
+  let l:path = expand('%:p:h')
+  if FugitiveIsGitDir(l:path)
+    GitFiles
+  else
+    execute 'Files' fnameescape(l:path)
+  endif
+endfunction
+
+function! History() abort
+  return fzf#run(fzf#wrap({
+        \ 'source': fzf#vim#_uniq(map(
+        \   filter([expand('%')], 'len(v:val)')
+        \     + filter(copy(v:oldfiles), "filereadable(fnamemodify(v:val, ':p'))"),
+        \   'fnamemodify(v:val, ":~:.")')),
+        \ 'options': [
+        \   '-m',
+        \   '--header-lines', !empty(expand('%')),
+        \   '--prompt', 'History > '
+        \  ],
+        \}))
+"   \   + filter(map(s:buflisted_sorted(), 'bufname(v:val)'), 'len(v:val)')
+endfunction
 
 " }}}2
 " {{{2 plugin: rainbow
