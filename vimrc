@@ -650,6 +650,7 @@ function! History() abort
         \   'fnamemodify(v:val, ":~:.")')),
         \ 'options': [
         \   '-m',
+        \   '--tiebreak', 'index',
         \   '--header-lines', !empty(expand('%')),
         \   '--prompt', 'History > '
         \  ],
