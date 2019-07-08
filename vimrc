@@ -513,7 +513,7 @@ nnoremap <silent> K :call <sid>show_documentation()<cr>
 function! s:show_documentation()
   if &filetype ==# 'vim'
     execute 'help ' . expand('<cword>')
-  else
+  elseif index(['tex'], &filetype) < 0
     call CocAction('doHover')
   endif
 endfunction

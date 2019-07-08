@@ -5,6 +5,8 @@
   "diagnostic.displayByAle": true,
   "python.jediEnabled": false,
   "python.trace.server": "verbose",
+  "python.linting.enabled": false,
+  "python.linting.pylintEnabled": false,
   "suggest.enablePreview": true,
   "suggest.minTriggerInputLength": 2,
   "suggest.snippetIndicator": "[+] ",
