@@ -75,6 +75,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'rhysd/git-messenger.vim'
 Plug 'ludovicchabant/vim-lawrencium'
+Plug 'airblade/vim-rooter'
 
 " Plugin: Tmux (incl. filetype)
 Plug 'whatyouhide/vim-tmux-syntax'
@@ -161,6 +162,9 @@ if !has('nvim')
   set laststatus=2
   set autoindent
   set incsearch
+  set viminfo='300,<100,s300,h
+else
+  set shada=!,'300,<100,s300,h
 endif
 
 " Neovim specific options
@@ -597,7 +601,7 @@ let g:fastfold_fold_movement_commands = []
 " }}}2
 " {{{2 plugin: Fzf
 
-let g:fzf_layout = { 'up': '60%' }
+let g:fzf_layout = { 'window': 'enew' }
 let g:fzf_colors = {
       \ 'fg':      ['fg', 'Normal'],
       \ 'bg':      ['bg', 'Normal'],
@@ -625,22 +629,19 @@ augroup my_fzf_config
   autocmd FileType fzf silent! tunmap <esc>
 augroup END
 
-nnoremap <silent> <leader>oo       :call Browse()<cr>
+nnoremap <silent> <leader>oo       :call fzf#run(fzf#wrap({
+      \ 'dir': FindRootDirectory(),
+      \ 'options': [
+      \   '-m',
+      \   '--prompt', 'Files > '
+      \ ],
+      \}))<cr>
 nnoremap <silent> <leader>ov       :Files ~/.vim<cr>
 nnoremap <silent> <leader>op       :Files ~/.vim/bundle<cr>
 nnoremap <silent> <leader>ob       :Buffers<cr>
 nnoremap <silent> <leader>ot       :Tags<cr>
 nnoremap <silent> <leader>ow       :Files ~/documents/wiki<cr>
 nnoremap <silent> <leader><leader> :call History()<cr>
-
-function! Browse() abort
-  let l:path = expand('%:p:h')
-  if FugitiveIsGitDir(l:path)
-    GitFiles
-  else
-    execute 'Files' fnameescape(l:path)
-  endif
-endfunction
 
 function! History() abort
   return fzf#run(fzf#wrap({
@@ -910,6 +911,11 @@ let g:tmux_navigator_disable_when_zoomed = 1
 " {{{2 plugin: vim-vebugger
 
 let g:vebugger_leader = '<leader>d'
+
+" }}}
+" {{{2 plugin: vim-rooter
+
+let g:rooter_manual_only = 1
 
 " }}}
 
