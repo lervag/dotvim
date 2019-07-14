@@ -29,7 +29,7 @@ Plug 'junegunn/vim-slash'
 Plug 'RRethy/vim-illuminate'
 
 " Plugin: Completion and snippets
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/neoinclude.vim'
 Plug 'neoclide/coc-neco'
