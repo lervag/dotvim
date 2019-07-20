@@ -504,6 +504,8 @@ inoremap <expr><cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
 inoremap <expr><tab>   pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
+imap <silent> <c-u>      <plug>(coc-snippets-expand)
+
 nmap <silent> <leader>ld <plug>(coc-definition)
 nmap <silent> <leader>lt <plug>(coc-type-definition)
 nmap <silent> <leader>li <plug>(coc-implementation)
