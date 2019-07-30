@@ -55,7 +55,7 @@ Plug 'machakann/vim-columnmove'
 
 " Plugin: Linting, debugging, and code runners
 if has('nvim') || v:version >= 800
-  Plug 'w0rp/ale'
+  Plug 'dense-analysis/ale'
 endif
 Plug 'idanarye/vim-omnipytent', { 'branch' : 'develop' }
 Plug 'idanarye/vim-vebugger', { 'branch' : 'develop' }
@@ -519,7 +519,9 @@ nnoremap <silent> K :call <sid>show_documentation()<cr>
 function! s:show_documentation()
   if &filetype ==# 'vim'
     execute 'help ' . expand('<cword>')
-  elseif index(['tex'], &filetype) < 0
+  elseif &filetype ==# 'tex'
+    VimtexDocPackage
+  else
     call CocAction('doHover')
   endif
 endfunction
