@@ -25,7 +25,6 @@ endif
 Plug 'Konfekt/FastFold'
 Plug 'luochen1990/rainbow'
 Plug 'andymass/vim-matchup'
-Plug 'junegunn/vim-slash'
 Plug 'RRethy/vim-illuminate'
 
 " Plugin: Completion and snippets
@@ -407,16 +406,6 @@ nnoremap gV     `[V`]
 nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
 
-" Utility maps for repeatable quickly change/delete current word
-nnoremap c*   *``cgn
-nnoremap c#   *``cgN
-nnoremap cg* g*``cgn
-nnoremap cg# g*``cgN
-nnoremap d*   *``dgn
-nnoremap d#   *``dgN
-nnoremap dg* g*``dgn
-nnoremap dg# g*``dgN
-
 " Navigate folds
 nnoremap          zf zMzvzz
 nnoremap <silent> zj :silent! normal! zc<cr>zjzvzz
@@ -442,6 +431,29 @@ if has('nvim')
   nnoremap <c-c><c-c> :split term://zsh<cr>i
   tnoremap <esc>      <c-\><c-n>
 endif
+
+" Utility maps for repeatable quickly change/delete current word
+nnoremap c*   *``cgn
+nnoremap c#   *``cgN
+nnoremap cg* g*``cgn
+nnoremap cg# g*``cgN
+nnoremap d*   *``dgn
+nnoremap d#   *``dgN
+nnoremap dg* g*``dgn
+nnoremap dg# g*``dgN
+
+" Improved search related mappings
+cmap <expr> <cr> personal#search#wrap("\<cr>", {'after': 'zz'})
+map  <expr> n    personal#search#wrap('n', {'after': 'zz'})
+map  <expr> N    personal#search#wrap('N', {'after': 'zz'})
+map  <expr> gd   personal#search#wrap('gd', {'after': 'zz'})
+map  <expr> gD   personal#search#wrap('gD', {'after': 'zz'})
+map  <expr> *    personal#search#wrap('*', {'immobile': 1})
+map  <expr> #    personal#search#wrap('#', {'immobile': 1})
+map  <expr> g*   personal#search#wrap('g*', {'immobile': 1})
+map  <expr> g#   personal#search#wrap('g#', {'immobile': 1})
+xmap <expr> *    personal#search#wrap_visual('/')
+xmap <expr> #    personal#search#wrap_visual('?')
 
 " {{{1 Configure plugins
 
@@ -896,11 +908,6 @@ vmap <unique> <up>    <Plug>SchleppUp
 vmap <unique> <down>  <Plug>SchleppDown
 vmap <unique> <left>  <Plug>SchleppLeft
 vmap <unique> <right> <Plug>SchleppRight
-
-" }}}2
-" {{{2 plugin: vim-slash
-
-noremap <plug>(slash-after) zz
 
 " }}}2
 " {{{2 plugin: vim-table-mode
