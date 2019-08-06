@@ -141,7 +141,7 @@ augroup vimrc_autocommands
   autocmd CmdwinEnter * nnoremap <buffer> q <c-c><c-c>
 
   " Close preview after complete
-  autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
+  autocmd CompleteDone * if pumvisible() == 0 | silent! pclose | endif
 augroup END
 
 " {{{1 Options
@@ -408,8 +408,8 @@ nnoremap <silent> gB    :bprevious<cr>
 
 " Navigate folds
 nnoremap          zf zMzvzz
-nnoremap <silent> zj :silent! normal! zc<cr>zjzvzz
-nnoremap <silent> zk :silent! normal! zc<cr>zkzvzz[z
+nnoremap <silent> zj zcjzOzz
+nnoremap <silent> zk zckzOzz
 
 " Backspace and return for improved navigation
 nnoremap        <bs> <c-o>zvzz
