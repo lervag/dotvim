@@ -130,9 +130,10 @@ augroup vimrc_autocommands
   " Specify some maps for filenames to filetypes
   autocmd BufNewFile,BufRead *pylintrc set filetype=cfg
 
-  " Only use cursorline for current window
-  autocmd WinEnter,FocusGained * setlocal cursorline
-  autocmd WinLeave,FocusLost   * setlocal nocursorline
+  " Only use cursorline for current window, except when in diff mode
+  autocmd WinEnter,FocusGained * if !&diff | setlocal cursorline | endif
+  autocmd WinLeave,FocusLost   * if !&diff | setlocal nocursorline | endif
+  autocmd OptionSet diff call personal#init#toggle_diff()
 
   " When editing a file, always jump to the last known cursor position.
   autocmd BufReadPost * call personal#init#go_to_last_known_position()
@@ -240,7 +241,9 @@ set listchars=tab:▸\ ,nbsp:%,trail:\ ,extends:…,precedes:…
 set fillchars=vert:│,fold:\ ,diff:⣿
 set matchtime=2
 set matchpairs+=<:>
-set cursorline
+if !&diff
+  set cursorline
+endif
 set scrolloff=5
 set splitbelow
 set splitright

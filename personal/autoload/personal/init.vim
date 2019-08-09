@@ -51,3 +51,13 @@ function! personal#init#custom_colors() abort " {{{1
 endfunction
 
 " }}}1
+
+function! personal#init#toggle_diff() abort " {{{1
+  if v:option_new
+    set nocursorline
+  else
+    set cursorline
+  endif
+endfunction
+
+" }}}1
