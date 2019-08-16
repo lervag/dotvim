@@ -513,6 +513,7 @@ let g:coc_global_extensions = [
       \ 'coc-python',
       \ 'coc-json',
       \ 'coc-yaml',
+      \ 'coc-rls',
       \]
 
 inoremap <expr><cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
