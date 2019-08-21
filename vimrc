@@ -478,7 +478,7 @@ let g:loaded_zipPlugin = 1
 " {{{2 feature: git
 
 let g:flog_default_arguments = {}
-let g:flog_default_arguments.format = "[%h] %s\n          %ad%d"
+let g:flog_default_arguments.format = "[%h] %ad%d\n          %s"
 let g:flog_default_arguments.date = 'format:%Y-%m-%d %H:%M:%S'
 
 nnoremap <silent><leader>gl :silent Flog -all<cr>
