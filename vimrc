@@ -430,9 +430,12 @@ nnoremap <leader>pp :hardcopy<cr>
 xnoremap <leader>pp :hardcopy<cr>
 
 " Terminal mappings
+tnoremap <esc> <c-\><c-n>
 if has('nvim')
-  nnoremap <c-c><c-c> :split term://zsh<cr>i
-  tnoremap <esc>      <c-\><c-n>
+  nnoremap <silent> <c-c><c-c> :split term://zsh<cr>i
+  tnoremap <c-w>    <c-\><c-n><c-w>
+else
+  nnoremap <silent> <c-c><c-c> :terminal<cr>
 endif
 
 " Utility maps for repeatable quickly change/delete current word
