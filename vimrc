@@ -92,6 +92,7 @@ Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
 Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
 Plug 'tpope/vim-unimpaired'
+Plug 'cespare/vim-toml'
 
 " Filetype: python
 Plug 'davidhalter/jedi-vim'
