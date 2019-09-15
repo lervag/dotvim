@@ -717,7 +717,7 @@ let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab lB Ar aB Ab AB rr l
 " }}}2
 " {{{2 plugin: UltiSnips
 
-let g:UltiSnipsExpandTrigger = '<c-u>'
+let g:UltiSnipsExpandTrigger = '<nop>'
 let g:UltiSnipsJumpForwardTrigger = '<c-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 let g:UltiSnipsRemoveSelectModeMappings = 0
