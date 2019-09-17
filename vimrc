@@ -140,7 +140,8 @@ augroup vimrc_autocommands
   autocmd BufReadPost * call personal#init#go_to_last_known_position()
 
   " Set keymapping for command window
-  autocmd CmdwinEnter * nnoremap <buffer> q <c-c><c-c>
+  autocmd CmdwinEnter * nnoremap <buffer> q     <c-c>
+  autocmd CmdwinEnter * nnoremap <buffer> <c-q> <c-c><c-c>
 
   " Close preview after complete
   autocmd CompleteDone * if pumvisible() == 0 | silent! pclose | endif
