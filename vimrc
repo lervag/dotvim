@@ -503,7 +503,7 @@ augroup vimrc_fugitive
   autocmd!
   autocmd BufReadPost fugitive:// setlocal bufhidden=delete
   autocmd FileType git setlocal foldlevel=1
-  autocmd FileType git nnoremap <buffer><silent> q :bwipeout!<cr>
+  autocmd FileType git,fugitive nnoremap <buffer><silent> q :bwipeout!<cr>
 augroup END
 
 " }}}2
