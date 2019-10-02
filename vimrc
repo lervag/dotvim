@@ -777,8 +777,11 @@ unlet s:x
 " }}}2
 " {{{2 plugin: vim-gutentags
 
-let g:gutentags_ctags_tagfile = '.tags'
-let g:gutentags_generate_on_new = 0
+let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
+let g:gutentags_ctags_extra_args = [
+      \ '--tag-relative=yes',
+      \ '--fields=+aimS',
+      \ ]
 let g:gutentags_file_list_command = {
       \ 'markers': {
       \   '.git': 'git ls-files',
@@ -953,6 +956,7 @@ let g:vim_markdown_follow_anchor = 1
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_new_list_item_indent = 2
 let g:vim_markdown_no_extensions_in_markdown = 1
+let g:vim_markdown_conceal_code_blocks = 0
 
 " }}}2
 " {{{2 filetype: python
