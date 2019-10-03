@@ -666,7 +666,7 @@ nnoremap <silent> <leader>ov       :Files ~/.vim<cr>
 nnoremap <silent> <leader>op       :Files ~/.vim/bundle<cr>
 nnoremap <silent> <leader>ob       :Buffers<cr>
 nnoremap <silent> <leader>ot       :Tags<cr>
-nnoremap <silent> <leader>ow       :Files ~/documents/wiki<cr>
+nnoremap <silent> <leader>ow       :WikiFzfPages<cr>
 nnoremap <silent> <leader><leader> :call History()<cr>
 
 function! History() abort
