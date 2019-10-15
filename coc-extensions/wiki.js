@@ -16,7 +16,7 @@ exports.activate = async context => {
     for (let item of list) {
       res.push(Object.assign({
         word: item,
-        menu: '[W]',
+        menu: '[wiki]',
       }))
     }
     return res
@@ -25,7 +25,7 @@ exports.activate = async context => {
   let source = {
     name: 'wiki',
     enable: config.get('enable', true),
-    priority: config.get('priority', 2),
+    priority: config.get('priority', 100),
     shortcut: 'test',
     filetypes: ['wiki'],
     sourceType: SourceType.Remote,
