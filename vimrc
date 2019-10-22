@@ -84,10 +84,6 @@ Plug 'benmills/vimux'
 " Plugin: Various
 Plug 'itchyny/calendar.vim'
 Plug 'tweekmonster/helpful.vim'
-Plug 'junegunn/vader.vim', {
-      \ 'on' : ['Vader'],
-      \ 'for' : ['vader'],
-      \}
 Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
 Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
 Plug 'tyru/capture.vim', { 'on' : 'Capture' }
