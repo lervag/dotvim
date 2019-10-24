@@ -45,7 +45,7 @@ Plug 'junegunn/fzf', {
       \ 'do': './install --all --no-update-rc',
       \}
 Plug 'junegunn/fzf.vim'
-" Plug 'raghur/fruzzy'
+Plug 'pbogut/fzf-mru.vim'
 if has('nvim') || v:version >= 800
   Plug 'ludovicchabant/vim-gutentags'
 endif
@@ -640,6 +640,11 @@ let g:fzf_colors = {
       \ 'header':  ['fg', 'Comment'],
       \}
 
+let g:fzf_mru_no_sort = 1
+" let g:fzf_mru_relative = 1
+" let g:fzf_mru_include
+" let g:fzf_mru_exclude
+
 let $FZF_DEFAULT_OPTS = '--reverse --inline-info'
 
 function! s:nothing()
@@ -663,23 +668,7 @@ nnoremap <silent> <leader>op       :Files ~/.vim/bundle<cr>
 nnoremap <silent> <leader>ob       :Buffers<cr>
 nnoremap <silent> <leader>ot       :Tags<cr>
 nnoremap <silent> <leader>ow       :WikiFzfPages<cr>
-nnoremap <silent> <leader><leader> :call History()<cr>
-
-function! History() abort
-  return fzf#run(fzf#wrap({
-        \ 'source': fzf#vim#_uniq(map(
-        \   filter([expand('%')], 'len(v:val)')
-        \     + filter(copy(v:oldfiles), "filereadable(fnamemodify(v:val, ':p'))"),
-        \   'fnamemodify(v:val, ":~:.")')),
-        \ 'options': [
-        \   '-m',
-        \   '--tiebreak', 'index',
-        \   '--header-lines', !empty(expand('%')),
-        \   '--prompt', 'History > '
-        \  ],
-        \}))
-"   \   + filter(map(s:buflisted_sorted(), 'bufname(v:val)'), 'len(v:val)')
-endfunction
+nnoremap <silent> <leader><leader> :FZFMru --prompt "MRU > "<cr>
 
 " }}}2
 " {{{2 plugin: rainbow
