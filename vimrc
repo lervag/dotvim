@@ -109,7 +109,6 @@ Plug 'gregsexton/MatchTag'
 Plug 'vim-ruby/vim-ruby'
 Plug 'elzr/vim-json'
 Plug 'gisraptor/vim-lilypond-integrator'
-Plug 'nhooyr/neoman.vim', has('nvim') ? { 'on' : [] } : {}
 Plug 'https://gitlab.com/HiPhish/info.vim'
 Plug 'tpope/vim-apathy'
 
@@ -235,7 +234,7 @@ silent! set completeopt+=noinsert,noselect
 
 " Presentation
 set list
-set listchars=tab:▸\ ,nbsp:%,trail:\ ,extends:…,precedes:…
+set listchars=tab:▸\ ,nbsp:␣,trail:\ ,extends:…,precedes:…
 set fillchars=vert:│,fold:\ ,diff:⣿
 set matchtime=2
 set matchpairs+=<:>
@@ -668,7 +667,7 @@ nnoremap <silent> <leader>op       :Files ~/.vim/bundle<cr>
 nnoremap <silent> <leader>ob       :Buffers<cr>
 nnoremap <silent> <leader>ot       :Tags<cr>
 nnoremap <silent> <leader>ow       :WikiFzfPages<cr>
-nnoremap <silent> <leader><leader> :FZFMru --prompt "MRU > "<cr>
+nnoremap <silent> <leader><leader> :FZFFreshMru --prompt "History > "<cr>
 
 " }}}2
 " {{{2 plugin: rainbow
@@ -689,6 +688,7 @@ let g:rainbow_conf = {
       \   'systemd' : 0,
       \   'cfg' : 0,
       \   'vim' : 0,
+      \   'toml' : 0,
       \ }
       \}
 
