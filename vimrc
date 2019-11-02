@@ -592,6 +592,10 @@ augroup vimrc_calendar
   autocmd FileType calendar
         \ nnoremap <silent><buffer> <cr>
         \ :<c-u>call personal#wiki#open_diary()<cr>
+  autocmd FileType calendar
+        \ nnoremap <silent><buffer> <c-e> <c-^>
+  autocmd FileType calendar
+        \ nnoremap <silent><buffer> <c-u> :WinBufDelete<cr>
 augroup END
 
 " }}}2
