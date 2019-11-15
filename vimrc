@@ -253,9 +253,6 @@ if !has('gui_running')
 endif
 
 " Folding
-if &foldmethod ==# ''
-  set foldmethod=syntax
-endif
 set foldlevelstart=0
 set foldcolumn=0
 set foldtext=personal#fold#foldtext()
@@ -401,13 +398,15 @@ nnoremap <expr> k v:count ? 'k' : 'gk'
 xnoremap <expr> j v:count ? 'j' : 'gj'
 xnoremap <expr> k v:count ? 'k' : 'gk'
 nnoremap gV     `[V`]
+nnoremap <c-f> Lzt
+nnoremap <c-b> Hzb
 
 " Buffer navigation
 nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
 
 " Navigate folds
-nnoremap          zf zMzvzz
+nnoremap          zv zMzvzz
 nnoremap <silent> zj zcjzOzz
 nnoremap <silent> zk zckzOzz
 
