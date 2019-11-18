@@ -406,7 +406,7 @@ nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
 
 " Navigate folds
-nnoremap          zv zMzvzz
+nnoremap          zv zMzvzczOzt
 nnoremap <silent> zj zcjzOzz
 nnoremap <silent> zk zckzOzz
 
