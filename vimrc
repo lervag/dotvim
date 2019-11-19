@@ -989,6 +989,7 @@ let g:tex_isk='48-57,a-z,A-Z,192-255,:'
 
 let g:vimtex_fold_enabled = 1
 let g:vimtex_fold_types = {
+      \ 'markers' : {'enabled': 0},
       \ 'sections' : {'parse_levels': 1},
       \}
 let g:vimtex_format_enabled = 1
