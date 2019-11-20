@@ -271,6 +271,7 @@ set ignorecase
 set smartcase
 set infercase
 set showmatch
+set tagcase=match
 
 set display=lastline
 set virtualedit=block
