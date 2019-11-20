@@ -50,7 +50,7 @@ function! statusline#main(winnr) " {{{1
   catch /E117: Unknown function/
   endtry
 
-  return s:main(l:bufnr, l:active)
+  return s:main(l:bufnr, l:active, l:winnr)
 endfunction
 
 " }}}1
@@ -58,7 +58,7 @@ endfunction
 "
 " Main statusline function
 "
-function! s:main(bufnr, active) " {{{1
+function! s:main(bufnr, active, winnr) " {{{1
   let stat  = s:color(' %<%f', 'SLHighlight', a:active)
   let stat .= getbufvar(a:bufnr, '&modifiable')
         \ ? '' : s:color(' [Locked]', 'SLAlert', a:active)
@@ -85,6 +85,12 @@ function! s:main(bufnr, active) " {{{1
 
   " Change to right-hand side
   let stat .= '%='
+
+  " Previewwindows don't need more details
+  if getwinvar(a:winnr, '&previewwindow')
+    let stat .= s:color(' [preview]', 'SLAlert', a:active) . ' '
+    return stat
+  endif
 
   " Add column number if above textwidth
   let cn = virtcol('$') - 1
