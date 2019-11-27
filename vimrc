@@ -92,7 +92,11 @@ Plug 'cespare/vim-toml'
 
 " Filetype: python
 Plug 'davidhalter/jedi-vim'
-Plug 'vim-python/python-syntax'
+if has('nvim')
+  Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+else
+  Plug 'vim-python/python-syntax'
+endif
 Plug 'kalekundert/vim-coiled-snake'  " Folding
 Plug 'tweekmonster/braceless.vim'    " Indents
 Plug 'jeetsukumaran/vim-pythonsense' " Text objects and motions
@@ -407,7 +411,7 @@ nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
 
 " Navigate folds
-nnoremap          zv zMzvzczOzt
+nnoremap          zv zMzvzz
 nnoremap <silent> zj zcjzOzz
 nnoremap <silent> zk zckzOzz
 
@@ -619,8 +623,8 @@ vmap     <silent><leader>f  <Plug>CtrlSFVwordExec
 " }}}2
 " {{{2 plugin: FastFold
 
-nmap <sid>(DisableFastFoldUpdate) <plug>(FastFoldUpdate)
-let g:fastfold_fold_command_suffixes =  ['x','X']
+" nmap <sid>(DisableFastFoldUpdate) <plug>(FastFoldUpdate)
+let g:fastfold_fold_command_suffixes =  []
 let g:fastfold_fold_movement_commands = []
 
 " }}}2
@@ -785,6 +789,7 @@ let g:Illuminate_delay = 0
 let g:Illuminate_ftblacklist = [
       \ 'dagbok',
       \ 'wiki',
+      \ 'python',
       \]
 
 " }}}2
@@ -954,6 +959,11 @@ let g:vim_markdown_conceal_code_blocks = 0
 " Note: See more settings at:
 "       ~/.vim/personal/ftplugin/python.vim
 "       ~/.vim/personal/after/ftplugin/python.vim
+
+" let g:semshi#excluded_hl_groups = []
+let g:semshi#mark_selected_nodes = 2
+let g:semshi#simplify_markup = 1
+let g:semshi#error_sign = 0
 
 " I prefer to map jedi.vim features manually
 let g:jedi#auto_initialization = 0

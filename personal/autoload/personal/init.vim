@@ -48,6 +48,16 @@ function! personal#init#custom_colors() abort " {{{1
   highlight link ALEInfoLine ModeMsg
 
   highlight illuminatedWord cterm=underline gui=underline
+
+  highlight link semshiUnresolved Normal
+  highlight link semshiImported Include
+  highlight link semshiBuiltin Function
+  highlight semshiGlobal          ctermfg=magenta
+  highlight semshiParameter       ctermfg=101
+  highlight semshiParameterUnused ctermfg=100
+  highlight semshiFree            ctermfg=darkmagenta
+  highlight semshiAttribute       ctermfg=lightblue
+  highlight semshiSelected        cterm=underline
 endfunction
 
 " }}}1
