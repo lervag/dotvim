@@ -56,7 +56,6 @@ Plug 'machakann/vim-columnmove'
 if has('nvim') || v:version >= 800
   Plug 'dense-analysis/ale'
 endif
-Plug 'idanarye/vim-omnipytent', { 'branch' : 'develop' }
 Plug 'idanarye/vim-vebugger', { 'branch' : 'develop' }
 Plug 'sakhnik/nvim-gdb'
 
@@ -806,17 +805,6 @@ nnoremap <leader>ha :call personal#hg#abort()<cr>
 
 let g:matchup_matchparen_status_offscreen = 0
 let g:matchup_override_vimtex = 1
-
-" }}}2
-" {{{2 plugin: vim-omnipytent
-
-let g:omnipytent_filePrefix = ''
-let g:omnipytent_defaultPythonVersion = 3
-let g:omnipytent_projectRootMarkers = ['.git', '.hg']
-
-nnoremap         <leader>re :OPedit 
-nnoremap <silent><leader>rr :OP<cr>
-nnoremap <silent><leader>rt :OP test<cr>
 
 " }}}2
 " {{{2 plugin: vim-plug
