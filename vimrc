@@ -91,14 +91,13 @@ Plug 'tpope/vim-unimpaired'
 Plug 'cespare/vim-toml'
 
 " Filetype: python
-Plug 'davidhalter/jedi-vim'
 if has('nvim')
   Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 else
   Plug 'vim-python/python-syntax'
 endif
 Plug 'kalekundert/vim-coiled-snake'  " Folding
-Plug 'tweekmonster/braceless.vim'    " Indents
+Plug 'Vimjas/vim-python-pep8-indent' " Indents
 Plug 'jeetsukumaran/vim-pythonsense' " Text objects and motions
 
 " Filetype: vim
@@ -537,7 +536,7 @@ nmap <silent> <leader>ln <plug>(coc-diagnostic-next)
 
 nnoremap <silent> K :call <sid>show_documentation()<cr>
 function! s:show_documentation()
-  if &filetype ==# 'vim'
+  if index(['vim','help'], &filetype) >= 0
     execute 'help ' . expand('<cword>')
   elseif &filetype ==# 'tex'
     VimtexDocPackage
@@ -955,7 +954,6 @@ let g:vim_markdown_conceal_code_blocks = 0
 " }}}2
 " {{{2 filetype: python
 
-" Note: I should remember to install python-jedi and python2-jedi!
 " Note: See more settings at:
 "       ~/.vim/personal/ftplugin/python.vim
 "       ~/.vim/personal/after/ftplugin/python.vim
@@ -965,25 +963,11 @@ let g:semshi#mark_selected_nodes = 2
 let g:semshi#simplify_markup = 1
 let g:semshi#error_sign = 0
 
-" I prefer to map jedi.vim features manually
-let g:jedi#auto_initialization = 0
-
 " Syntax
 let g:python_highlight_all = 1
 
 " Folding
 let g:coiled_snake_foldtext_flags = []
-
-" Use Braceless for
-" - indents
-" - text objects (indent blocks ii, ai)
-let g:braceless_block_key = 'i'
-augroup MyBraceless
-  autocmd!
-  autocmd User BracelessInit nunmap J
-  autocmd User BracelessInit iunmap <cr>
-  autocmd FileType python BracelessEnable +indent
-augroup END
 
 " }}}2
 " {{{2 filetype: ruby
@@ -1066,6 +1050,11 @@ let g:wiki_template_title_month = '# Samandrag frå %(month-name) %(year)'
 
 let g:wiki_toc_depth = 2
 let g:wiki_file_open = 'personal#wiki#file_open'
+
+augroup MyWikiAutocmds
+  autocmd!
+  autocmd User WikiLinkOpened normal! zt
+augroup END
 
 " }}}2
 
