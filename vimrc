@@ -8,7 +8,7 @@ call vimrc#init()
 
 call plug#begin(g:vimrc#path_bundles)
 
-Plug 'junegunn/vim-plug', { 'on' : [] }
+Plug 'junegunn/vim-plug', {'on' : []}
 
 " My own plugins
 call plug#(g:vimrc#path_lervag . 'vimtex')
@@ -56,7 +56,7 @@ Plug 'machakann/vim-columnmove'
 if has('nvim') || v:version >= 800
   Plug 'dense-analysis/ale'
 endif
-Plug 'idanarye/vim-vebugger', { 'branch' : 'develop' }
+Plug 'idanarye/vim-vebugger', {'branch' : 'develop'}
 Plug 'sakhnik/nvim-gdb'
 
 " Plugin: Editing
@@ -83,16 +83,18 @@ Plug 'benmills/vimux'
 " Plugin: Various
 Plug 'itchyny/calendar.vim'
 Plug 'tweekmonster/helpful.vim'
-Plug 'Shougo/vimproc', { 'do' : 'make -f make_unix.mak' }
-Plug 'mbbill/undotree', { 'on' : 'UndotreeToggle' }
-Plug 'tyru/capture.vim', { 'on' : 'Capture' }
+Plug 'Shougo/vimproc', {'do' : 'make -f make_unix.mak'}
+Plug 'mbbill/undotree', {'on' : 'UndotreeToggle'}
+Plug 'tyru/capture.vim', {'on' : 'Capture'}
 Plug 'tpope/vim-unimpaired'
 Plug 'cespare/vim-toml'
 
 " Filetype: python
 if has('nvim')
   Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+  Plug 'vim-python/python-syntax', {'on', []}
 else
+  Plug 'numirias/semshi', {'on', []}
   Plug 'vim-python/python-syntax'
 endif
 Plug 'kalekundert/vim-coiled-snake'  " Folding
