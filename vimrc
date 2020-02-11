@@ -526,7 +526,7 @@ inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 imap <silent> <c-u>      <plug>(coc-snippets-expand)
 
-nmap <silent> <leader>ld <plug>(coc-definition)
+nmap <silent> <leader>ld <plug>(coc-definition)zv
 nmap <silent> <leader>lt <plug>(coc-type-definition)
 nmap <silent> <leader>li <plug>(coc-implementation)
 nmap <silent> <leader>lf <plug>(coc-references)
@@ -630,7 +630,7 @@ let g:fastfold_fold_movement_commands = []
 " }}}2
 " {{{2 plugin: Fzf
 
-let g:fzf_layout = { 'window': {'width': 1, 'height': 0.85} }
+let g:fzf_layout = {'window': {'width': 0.9, 'height': 0.85} }
 let g:fzf_colors = {
       \ 'fg':      ['fg', 'Normal'],
       \ 'bg':      ['bg', 'Normal'],

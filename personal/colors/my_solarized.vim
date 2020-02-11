@@ -41,10 +41,10 @@ highlight   ModeMsg                                  cterm=NONE                g
 highlight   MoreMsg                                  cterm=NONE                gui=NONE                ctermfg=4      guifg=#268bd2
 highlight   NonText                                  cterm=NONE                gui=NONE                ctermfg=12     guifg=#839496
 highlight   Whitespace                               cterm=NONE                gui=NONE                ctermfg=12     ctermbg=7       guifg=#839496   guibg=#eee8d5
-highlight   Pmenu                                    cterm=reverse             gui=reverse             ctermfg=11     ctermbg=7       guifg=#657b83   guibg=#eee8d5
-highlight   PmenuSbar                                cterm=reverse             gui=reverse             ctermfg=0      ctermbg=11      guifg=#073642   guibg=#657b83
-highlight   PmenuSel                                 cterm=reverse             gui=reverse             ctermfg=14     ctermbg=0       guifg=#93a1a1   guibg=#073642
-highlight   PmenuThumb                               cterm=reverse             gui=reverse             ctermfg=11     ctermbg=15      guifg=#657b83   guibg=#fdf6e3
+highlight   Pmenu                                    cterm=NONE                gui=NONE                ctermfg=11     ctermbg=255     guifg=#657b83   guibg=#eee8d5
+highlight   PmenuSbar                                cterm=NONE                gui=NONE                ctermfg=0      ctermbg=11      guifg=#073642   guibg=#657b83
+highlight   PmenuSel                                 cterm=NONE                gui=NONE                ctermfg=14     ctermbg=0       guifg=#93a1a1   guibg=#073642
+highlight   PmenuThumb                               cterm=NONE                gui=NONE                ctermfg=11     ctermbg=15      guifg=#657b83   guibg=#fdf6e3
 highlight   PreProc                                  cterm=NONE                gui=NONE                ctermfg=9      guifg=#cb4b16
 highlight   Question                                 cterm=NONE                gui=NONE                ctermfg=6      guifg=#2aa198
 highlight   Search                                   cterm=reverse             gui=reverse             ctermfg=3      ctermbg=NONE    guifg=#b58900   guibg=NONE
