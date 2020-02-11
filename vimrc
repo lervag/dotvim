@@ -630,7 +630,7 @@ let g:fastfold_fold_movement_commands = []
 " }}}2
 " {{{2 plugin: Fzf
 
-let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_layout = { 'window': {'width': 1, 'height': 0.85} }
 let g:fzf_colors = {
       \ 'fg':      ['fg', 'Normal'],
       \ 'bg':      ['bg', 'Normal'],
