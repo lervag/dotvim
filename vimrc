@@ -174,7 +174,6 @@ if has('nvim')
 endif
 
 " Basic
-set cpoptions+=J
 set tags=tags;~,.tags;~
 set path=.,,
 if &modifiable
