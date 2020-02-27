@@ -1,4 +1,4 @@
-# Math
+extends tex-templates
 
 global !p
 texMathZones = ['texMathZone'+x for x in ['A', 'AS', 'B', 'BS', 'C', 'CS', 'D', 'DS', 'E', 'ES', 'F', 'FS', 'G', 'GS', 'H', 'HS', 'I', 'IS', 'J', 'JS', 'K', 'KS', 'L', 'LS', 'DS', 'V', 'W', 'X', 'Y', 'Z']]
@@ -149,64 +149,4 @@ snippet frame "\begin{frame}/\end{frame}" bA
 \begin{frame}{${1:Title}}
 	${0}
 \end{frame}
-endsnippet
-
-# Document templates
-
-snippet templ-minimal "Template: Minimal" b
-\documentclass{minimal}
-\begin{document}
-
-Hello World!${0}
-
-\end{document}
-endsnippet
-
-snippet templ-article "Template: standard article" b
-\documentclass{article}
-\usepackage[utf8]{inputenc}
-\usepackage{graphicx}
-${1}
-
-\begin{document}
-
-${0}
-
-\end{document}
-endsnippet
-
-snippet templ-tikz "Template: standalone Tikz figure" b
-\documentclass{standalone}
-\usepackage{tikz}
-\usetikzlibrary{arrows}
-\usetikzlibrary{positioning}
-\usetikzlibrary{calc}
-\begin{document}
-
-\begin{tikzpicture}
-	[
-		thick
-	]
-	${0}
-\end{tikzpicture}
-
-\end{document}
-endsnippet
-
-snippet templ-pdfinclude "Template: Include PDF" b
-\documentclass[a4]{article}
-\usepackage{pdfpages}
-\usepackage{tikz}
-\pagestyle{empty}
-\begin{document}
-
-\includepdf[
-	fitpaper,
-	pages={1},
-	pagecommand={
-		\tikz[overlay, remember picture] {...}
-	}
-]{$0}
-
-\end{document}
 endsnippet

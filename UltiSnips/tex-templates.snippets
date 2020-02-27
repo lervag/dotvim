@@ -1,0 +1,132 @@
+snippet templ-minimal "Template: Minimal" b
+\documentclass{minimal}
+\begin{document}
+
+Hello World!${0}
+
+\end{document}
+endsnippet
+
+snippet templ-article "Template: standard article" b
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+${1}
+
+\begin{document}
+
+${0}
+
+\end{document}
+endsnippet
+
+snippet templ-tikz "Template: standalone Tikz figure" b
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\begin{document}
+
+\begin{tikzpicture}
+	[
+		thick
+	]
+	${0}
+\end{tikzpicture}
+
+\end{document}
+endsnippet
+
+snippet templ-pdfinclude "Template: Include PDF" b
+\documentclass[a4]{article}
+\usepackage{pdfpages}
+\usepackage{tikz}
+\pagestyle{empty}
+\begin{document}
+
+\includepdf[
+	fitpaper,
+	pages={1},
+	pagecommand={
+		\tikz[overlay, remember picture] {...}
+	}
+]{$0}
+
+\end{document}
+endsnippet
+
+snippet templ-sintefmemo "Template: SINTEF Memo" b
+% TeX program = lualatex
+\documentclass[english]{sintefmemo}
+\usepackage{siunitx}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{csquotes}
+\usepackage[
+	backref=true,
+	bibstyle=numeric,
+	citestyle=numeric-comp,
+	giveninits=true,
+	maxbibnames=99,
+	sorting=none,
+	isbn=false,
+	url=false,
+	]{biblatex}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage[
+	margin=10pt,
+	font=small,
+	labelfont=bf,
+	]{caption}
+
+% SINTEF Memo title page
+\title{$1}
+\author{$2}
+\date{\today}
+\recipient[${3:comments, agreed, attention, information}]{$4}
+\project{$5}
+
+% Set up siunitx
+\sisetup{range-phrase = --}
+\sisetup{range-units = single}
+
+% Set up hyperref
+\hypersetup{
+	colorlinks=true,
+	linkcolor=black,
+	urlcolor=cyan,
+	citecolor=black,
+}
+
+% Set up cleveref
+\crefname{equation}{Eq.}{Eqs.}
+\crefname{section}{Sec.}{Secs.}
+\crefname{table}{Tab.}{Tabs.}
+\crefname{listing}{Listing}{Listings}
+\crefname{figure}{Fig.}{Figs.}
+\crefname{subfigure}{Fig.}{Figs.}
+\newcommand{\crefrangeconjunction}{--}
+
+% Set up graphics-related things
+\graphicspath{{./figures/}}
+
+% Options for biblatex
+\addbibresource{references.bib}
+
+\begin{document}
+
+\frontmatter
+
+\section{Introduction}
+$0
+
+\section{Conclusion}
+
+% Fakesection: Bibliography
+\printbibliography
+
+\end{document}
+endsnippet
