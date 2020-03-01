@@ -50,8 +50,8 @@ function! personal#init#custom_colors() abort " {{{1
   highlight illuminatedWord cterm=underline gui=underline
 
   highlight link semshiUnresolved Normal
-  highlight link semshiImported Include
   highlight link semshiBuiltin Function
+  highlight semshiImported        ctermfg=black
   highlight semshiGlobal          ctermfg=magenta
   highlight semshiParameter       ctermfg=101
   highlight semshiParameterUnused ctermfg=100
