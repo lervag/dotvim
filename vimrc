@@ -664,6 +664,13 @@ augroup my_fzf_config
   autocmd FileType fzf silent! tunmap <esc>
 augroup END
 
+command! -bang Zotero call fzf#run(fzf#wrap(
+            \ 'zotero',
+            \ { 'source':  'fd -t f -e pdf . ~/.local/zotero/',
+            \   'sink':    'silent !zathura --fork',
+            \   'options': '-m -d / --with-nth=-1' },
+            \ <bang>0))
+
 nnoremap <silent> <leader>oo       :call fzf#run(fzf#wrap({
       \ 'dir': FindRootDirectory(),
       \ 'options': [
@@ -677,6 +684,7 @@ nnoremap <silent> <leader>ob       :Buffers<cr>
 nnoremap <silent> <leader>ot       :Tags<cr>
 nnoremap <silent> <leader>ow       :WikiFzfPages<cr>
 nnoremap <silent> <leader><leader> :FZFFreshMru --prompt "History > "<cr>
+nnoremap <silent> <leader>oz       :Zotero<cr>
 
 " }}}2
 " {{{2 plugin: rainbow
