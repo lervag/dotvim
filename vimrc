@@ -706,6 +706,7 @@ let g:rainbow_conf = {
       \   'cfg' : 0,
       \   'vim' : 0,
       \   'toml' : 0,
+      \   'qf' : 0,
       \ }
       \}
 
