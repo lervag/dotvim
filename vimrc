@@ -26,6 +26,7 @@ Plug 'Konfekt/FastFold'
 Plug 'luochen1990/rainbow'
 Plug 'andymass/vim-matchup'
 Plug 'RRethy/vim-illuminate'
+Plug 'wellle/context.vim'
 
 " Plugin: Completion and snippets
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -602,6 +603,21 @@ augroup vimrc_calendar
   autocmd FileType calendar
         \ nnoremap <silent><buffer> <c-u> :WinBufDelete<cr>
 augroup END
+
+" }}}2
+" {{{2 plugin: context.vim
+
+let g:context_filetype_blacklist = ['wiki']
+let g:context_highlight_normal = 'PMenu'
+let g:context_border_char = ' '
+let g:context_add_mappings = 0
+
+nnoremap <silent>        <c-y> <c-y>:call context#update('c-y')<cr>
+nnoremap <silent>        zz     zzzz:call context#update('zz')<cr>
+nnoremap <silent>        zb     zbzb:call context#update('zb')<cr>
+nnoremap <silent> <expr> zt               context#mapping#zt()
+nnoremap <silent> <expr> k                context#mapping#k()
+nnoremap <silent> <expr> H                context#mapping#h()
 
 " }}}2
 " {{{2 plugin: CtrlFS
