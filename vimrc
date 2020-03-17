@@ -607,17 +607,36 @@ augroup END
 " }}}2
 " {{{2 plugin: context.vim
 
-let g:context_filetype_blacklist = ['wiki']
+" let g:context_filetype_blacklist = ['wiki']
 let g:context_highlight_normal = 'PMenu'
-let g:context_border_char = ' '
+let g:context_border_char = '  '
 let g:context_add_mappings = 0
+let g:context_skip_regex = '^\s*$'
 
-nnoremap <silent>        <c-y> <c-y>:call context#update('c-y')<cr>
-nnoremap <silent>        zz     zzzz:call context#update('zz')<cr>
-nnoremap <silent>        zb     zbzb:call context#update('zb')<cr>
-nnoremap <silent> <expr> zt               context#mapping#zt()
+" nnoremap <silent>        <c-y> <c-y>:call context#update('c-y')<cr>
+" nnoremap <silent>        zz     zzzz:call context#update('zz')<cr>
+" nnoremap <silent>        zb     zbzb:call context#update('zb')<cr>
+" nnoremap <silent> <expr> zt               context#mapping#zt()
 nnoremap <silent> <expr> k                context#mapping#k()
 nnoremap <silent> <expr> H                context#mapping#h()
+
+function MyContext(line)
+  if index(['markdown', 'wiki'], &filetype) >= 0
+    let indent = indent(a:line)
+    if indent < 0 | return indent | endif
+
+    let line = getline(a:line)
+    let headings = match(line, '^#\+\zs\s')+1
+    if headings <= 0
+      let headings = 5
+    endif
+
+    return indent+headings
+  else
+    return indent(a:line)
+  endif
+endfunction
+let g:Context_indent = funcref('MyContext')
 
 " }}}2
 " {{{2 plugin: CtrlFS
