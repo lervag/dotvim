@@ -613,13 +613,12 @@ let g:context_highlight_normal = 'PMenu'
 let g:context_border_char = '  '
 let g:context_add_mappings = 0
 let g:context_skip_regex = '^\s*$'
+let g:context_nvim_no_redraw = 0
 
-" nnoremap <silent>        <c-y> <c-y>:call context#update('c-y')<cr>
-" nnoremap <silent>        zz     zzzz:call context#update('zz')<cr>
-" nnoremap <silent>        zb     zbzb:call context#update('zb')<cr>
-" nnoremap <silent> <expr> zt               context#mapping#zt()
-nnoremap <silent> <expr> k                context#mapping#k()
-nnoremap <silent> <expr> H                context#mapping#h()
+nnoremap <silent> zz       zz:call context#update('zz')<CR>
+nnoremap <silent> zb       zb:call context#update('zb')<CR>
+nnoremap <silent> <expr> zt context#util#map_zt()
+nnoremap <silent> <expr> H  context#util#map_H()
 
 function MyContext(line)
   if index(['markdown', 'wiki'], &filetype) >= 0
