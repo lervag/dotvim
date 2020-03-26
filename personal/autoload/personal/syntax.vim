@@ -18,6 +18,8 @@ command! VimColorTest call personal#syntax#colortest('vim-color-test.tmp', 256)
 function! personal#syntax#color_code_blocks() abort " {{{1
   " This is based on an idea from reddit:
   " https://www.reddit.com/r/vim/comments/fob3sg/different_background_color_for_markdown_code/
+  setlocal signcolumn=no
+
   highlight codeBlockBackground ctermbg=231
   sign define codeblock linehl=codeBlockBackground
 
@@ -39,11 +41,14 @@ function! s:place_signs() abort " {{{1
 
   for l:lnum in range(1, line('$'))
     let l:line = getline(l:lnum)
-    if l:continue || l:line =~# '^\s*```.*$'
+    if l:continue || l:line =~# '^\s*```'
       execute printf('sign place %d line=%d name=codeblock file=%s',
             \ l:lnum, l:lnum, l:file)
-      let l:continue = l:line !~# '^\s*```$'
     endif
+
+    let l:continue = l:continue
+          \ ? l:line !~# '^\s*```$'
+          \ : l:line =~# '^\s*```'
   endfor
 endfunction
 
