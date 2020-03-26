@@ -77,3 +77,5 @@ function! CreateNotes() abort " {{{1
 endfunction
 
 " }}}1
+
+call personal#syntax#color_code_blocks()
