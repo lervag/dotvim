@@ -613,7 +613,7 @@ let g:context_highlight_normal = 'PMenu'
 let g:context_border_char = '  '
 let g:context_add_mappings = 0
 let g:context_skip_regex = '^\s*$'
-let g:context_nvim_no_redraw = 0
+let g:context_nvim_no_redraw = 1
 
 nnoremap <silent> zz       zz:call context#update('zz')<CR>
 nnoremap <silent> zb       zb:call context#update('zb')<CR>
@@ -1091,7 +1091,7 @@ let g:wiki_file_open = 'personal#wiki#file_open'
 
 augroup MyWikiAutocmds
   autocmd!
-  autocmd User WikiLinkOpened normal! zt
+  autocmd User WikiLinkOpened normal! zz
 augroup END
 
 " }}}2
