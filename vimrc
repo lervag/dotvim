@@ -609,8 +609,10 @@ augroup END
 " {{{2 plugin: context.vim
 
 " let g:context_filetype_blacklist = ['wiki']
+" let g:context_border_char = '  '
+" let g:context_highlight_tag = '<hide>'
 let g:context_highlight_normal = 'PMenu'
-let g:context_border_char = '  '
+let g:context_highlight_border = '<hide>'
 let g:context_add_mappings = 0
 let g:context_skip_regex = '^\s*$'
 let g:context_nvim_no_redraw = 1
