@@ -8,7 +8,7 @@ exports.activate = async context => {
       priority: 100,
       triggerPatterns: [
         /\[\[[^\]\|]{2,}$/,
-        /zot:\w+$/
+        /(zot:|@)\w+$/
       ],
       doComplete: async opt => {
         let { nvim } = workspace
