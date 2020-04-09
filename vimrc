@@ -89,6 +89,7 @@ Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'tyru/capture.vim', {'on': 'Capture'}
 Plug 'tpope/vim-unimpaired'
 Plug 'cespare/vim-toml'
+Plug 'chrisbra/Colorizer'
 
 " Filetype: python
 if has('nvim')
