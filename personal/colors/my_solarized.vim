@@ -1,16 +1,10 @@
-"
 " My own, customized, light Solarized theme
 " Based on: Romain Lafourcade's 'flattened_light'
-"
 
 highlight clear
-
-if exists('syntax_on')
-  syntax reset
-endif
+if exists('syntax_on') | syntax reset | endif
 
 let colors_name = 'my_solarized'
-
 set background=light
 
 highlight   Normal                                   cterm=NONE                gui=NONE                ctermfg=11     ctermbg=15      guifg=#657b83   guibg=#fdf6e3
@@ -36,7 +30,7 @@ highlight   HelpExample                              cterm=NONE                g
 highlight   Identifier                               cterm=NONE                gui=NONE                ctermfg=4      guifg=#268bd2
 highlight   IncSearch                                cterm=standout            gui=standout            ctermfg=9      guifg=#cb4b16
 highlight   LineNr                                   cterm=NONE                gui=NONE                ctermfg=14     ctermbg=7       guifg=#93a1a1   guibg=#eee8d5
-highlight   MatchParen                               cterm=NONE                gui=NONE                ctermfg=1      ctermbg=14      guifg=#dc322f   guibg=#93a1a1
+highlight MatchParen cterm=bold           gui=bold           ctermfg=33  guifg=Blue
 highlight   ModeMsg                                  cterm=NONE                gui=NONE                ctermfg=4      guifg=#268bd2
 highlight   MoreMsg                                  cterm=NONE                gui=NONE                ctermfg=4      guifg=#268bd2
 highlight   NonText                                  cterm=NONE                gui=NONE                ctermfg=12     guifg=#839496
@@ -47,14 +41,14 @@ highlight   PmenuSel                                 cterm=NONE                g
 highlight   PmenuThumb                               cterm=NONE                gui=NONE                ctermfg=11     ctermbg=15      guifg=#657b83   guibg=#fdf6e3
 highlight   PreProc                                  cterm=NONE                gui=NONE                ctermfg=9      guifg=#cb4b16
 highlight   Question                                 cterm=NONE                gui=NONE                ctermfg=6      guifg=#2aa198
-highlight   Search                                   cterm=reverse             gui=reverse             ctermfg=3      ctermbg=NONE    guifg=#b58900   guibg=NONE
+highlight Search     cterm=bold,underline gui=bold,underline ctermfg=201 guifg=Magenta
 highlight   SignColumn                               cterm=NONE                gui=NONE                ctermfg=11     ctermbg=7       guifg=#657b83   guibg=#eee8d5
 highlight   Special                                  cterm=NONE                gui=NONE                ctermfg=1      guifg=#dc322f
 highlight   SpecialKey                               cterm=NONE                gui=NONE                ctermfg=12     ctermbg=7       guifg=#839496   guibg=#eee8d5
-highlight   SpellBad                                 cterm=undercurl           gui=undercurl           ctermfg=NONE   ctermbg=NONE    guisp=#dc322f
-highlight   SpellCap                                 cterm=undercurl           gui=undercurl           ctermfg=NONE   ctermbg=NONE    guisp=#6c71c4
-highlight   SpellLocal                               cterm=undercurl           gui=undercurl           ctermfg=NONE   ctermbg=NONE    guisp=#b58900
-highlight   SpellRare                                cterm=undercurl           gui=undercurl           ctermfg=NONE   ctermbg=NONE    guisp=#2aa198
+highlight SpellBad   cterm=bold           gui=bold           ctermfg=124 guifg=Red
+highlight SpellCap   cterm=bold           gui=bold           ctermfg=33  guifg=Blue
+highlight SpellRare  cterm=bold           gui=bold           ctermfg=104 guifg=Purple
+highlight SpellLocal cterm=bold           gui=bold           ctermfg=227 guifg=Green
 highlight   Statement                                cterm=NONE                gui=NONE                ctermfg=2      guifg=#719e07
 highlight   StatusLine                               cterm=reverse             gui=reverse             ctermfg=10     ctermbg=15      guifg=#586e75   guibg=#fdf6e3
 highlight   StatusLineNC                             cterm=reverse             gui=reverse             ctermfg=12     ctermbg=7       guifg=#839496   guibg=#eee8d5
@@ -294,21 +288,33 @@ highlight clear helpLeadBlank
 highlight clear helpNormal
 highlight clear pandocTableStructure
 
-if has('nvim')
-  let g:terminal_color_0  = '#eee8d5'
-  let g:terminal_color_1  = '#dc322f'
-  let g:terminal_color_2  = '#859900'
-  let g:terminal_color_3  = '#b58900'
-  let g:terminal_color_4  = '#268bd2'
-  let g:terminal_color_5  = '#d33682'
-  let g:terminal_color_6  = '#2aa198'
-  let g:terminal_color_7  = '#073642'
-  let g:terminal_color_8  = '#fdf6e3'
-  let g:terminal_color_9  = '#cb4b16'
-  let g:terminal_color_10 = '#93a1a1'
-  let g:terminal_color_11 = '#839496'
-  let g:terminal_color_12 = '#657b83'
-  let g:terminal_color_13 = '#6c71c4'
-  let g:terminal_color_14 = '#586e75'
-  let g:terminal_color_15 = '#002b36'
-endif
+highlight iCursor guibg=#b58900
+highlight rCursor guibg=#dc322f
+highlight vCursor guibg=#d33682
+
+highlight ctrlsfSelectedLine    cterm=bold           gui=bold           ctermfg=39  guifg=#00afff
+highlight OperatorSandwichBuns  cterm=bold           gui=bold           ctermfg=5   guifg=Magenta
+
+highlight link ALEErrorLine ErrorMsg
+highlight link ALEWarningLine WarningMsg
+highlight link ALEInfoLine ModeMsg
+
+highlight illuminatedWord cterm=underline gui=underline
+
+highlight link semshiUnresolved Normal
+highlight link semshiBuiltin Function
+highlight semshiImported        ctermfg=black
+highlight semshiGlobal          ctermfg=magenta
+highlight semshiParameter       ctermfg=101
+highlight semshiParameterUnused ctermfg=100
+highlight semshiFree            ctermfg=darkmagenta
+highlight semshiAttribute       ctermfg=lightblue
+highlight semshiSelected        cterm=underline
+
+highlight SLHighlight  ctermbg=10 ctermfg=220 guibg=#657b83 guifg=#ffe055
+highlight SLAlert      ctermbg=10 ctermfg=202 guibg=#657b83 guifg=#ff8888
+highlight SLFZF                   ctermfg=2                 guifg=#719e07
+
+highlight TabLine cterm=none ctermbg=12 ctermfg=8 gui=none guibg=#657b83 guifg=#eee8d5 guisp=#657b83
+highlight TabLineSel cterm=none ctermbg=12 ctermfg=15 gui=none guibg=#657b83 guifg=#ffe055 guisp=#657b83
+highlight TabLineFill cterm=none ctermbg=12 ctermfg=8 gui=none guibg=#657b83 guifg=#eee8d5 guisp=#657b83

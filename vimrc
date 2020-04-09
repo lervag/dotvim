@@ -328,8 +328,6 @@ endfunction
 " {{{1 Appearance and UI
 
 set winwidth=70
-
-autocmd vimrc_autocommands ColorScheme * call personal#init#custom_colors()
 silent! colorscheme my_solarized
 
 call personal#init#cursor()
