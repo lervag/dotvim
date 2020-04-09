@@ -328,6 +328,9 @@ endfunction
 " {{{1 Appearance and UI
 
 set winwidth=70
+if has('termguicolors')
+  set termguicolors
+endif
 silent! colorscheme my_solarized
 
 call personal#init#cursor()
