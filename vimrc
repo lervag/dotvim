@@ -327,49 +327,14 @@ endfunction
 
 " {{{1 Appearance and UI
 
-set background=light
 set winwidth=70
 
-if has('gui_running')
-  set lines=50
-  set guifont=Inconsolata-g\ for\ Powerline\ Medium\ 9
-  set guioptions=ac
-  set guiheadroom=0
-else
-  " This is necessary for Vim
-  if &t_Co == 8 && $TERM !~# '^linux'
-    set t_Co=256
-  endif
-
-  " Set terminal cursor
-  if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\e[6 q\<Esc>\e]12;3\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\e]12;14\x7\<Esc>\\"
-  else
-    let &t_SI = "\e[6 q\e]12;3\x7"
-    let &t_EI = "\e[2 q\e]12;14\x7"
-    silent !echo -ne "\e[2 q\e]12;14\x7"
-    autocmd vimrc_autocommands VimLeave *
-          \ silent !echo -ne "\e[2 q\e]112\x7"
-  endif
-endif
-
-" Set colorscheme and custom colors
 autocmd vimrc_autocommands ColorScheme * call personal#init#custom_colors()
 silent! colorscheme my_solarized
 
-" Set gui cursor
-set guicursor=a:block
-set guicursor+=n:Cursor
-set guicursor+=o-c:iCursor
-set guicursor+=v:vCursor
-set guicursor+=i-ci-sm:ver30-iCursor
-set guicursor+=r-cr:hor20-rCursor
-set guicursor+=a:blinkon0
-
-" Initialize statusline and tabline
-call statusline#init()
-call statusline#init_tabline()
+call personal#init#cursor()
+call personal#init#statusline()
+call personal#init#tabline()
 
 " {{{1 Mappings
 

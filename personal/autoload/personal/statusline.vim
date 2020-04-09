@@ -6,32 +6,16 @@
 " - http://www.blaenkdenum.com/posts/a-simpler-vim-statusline/
 "
 
-function! statusline#init() " {{{1
-  augroup statusline
-    autocmd!
-    autocmd VimEnter,WinEnter,BufWinEnter   * call statusline#refresh()
-    autocmd FileType,VimResized             * call statusline#refresh()
-    autocmd BufHidden,BufWinLeave,BufUnload * call statusline#refresh()
-  augroup END
-
-  highlight StatusLine   ctermfg=10 ctermbg=15  guifg=#657b83 guibg=#eee8d5
-  highlight StatusLineNC ctermfg=10 ctermbg=8   guifg=#839496 guibg=#eee8d5
-  highlight SLHighlight  ctermbg=10 ctermfg=220 guibg=#657b83 guifg=#ffe055
-  highlight SLAlert      ctermbg=10 ctermfg=202 guibg=#657b83 guifg=#ff8888
-  highlight SLFZF                   ctermfg=2                 guifg=#719e07
-endfunction
-
-" }}}1
-function! statusline#refresh() " {{{1
+function! personal#statusline#refresh() " {{{1
   for nr in range(1, winnr('$'))
     if !s:ignored(nr)
-      call setwinvar(nr, '&statusline', '%!statusline#main(' . nr . ')')
+      call setwinvar(nr, '&statusline', '%!personal#statusline#main(' . nr . ')')
     endif
   endfor
 endfunction
 
 "}}}1
-function! statusline#main(winnr) " {{{1
+function! personal#statusline#main(winnr) " {{{1
   let l:winnr = winbufnr(a:winnr) == -1 ? 1 : a:winnr
   let l:active = l:winnr == winnr()
   let l:bufnr = winbufnr(l:winnr)
@@ -55,9 +39,6 @@ endfunction
 
 " }}}1
 
-"
-" Main statusline function
-"
 function! s:main(bufnr, active, winnr) " {{{1
   let stat  = s:color(' %<%f', 'SLHighlight', a:active)
   let stat .= getbufvar(a:bufnr, '&modifiable')
@@ -110,9 +91,7 @@ endfunction
 
 " }}}1
 
-"
 " Buffer type functions
-"
 function! s:help(bufnr, active, winnr) " {{{1
   let l:name = bufname(a:bufnr)
   return s:color(' ' . fnamemodify(l:name, ':t:r') . ' %= HELP ',
@@ -150,9 +129,7 @@ endfunction
 
 " }}}1
 
-"
 " Filetype functions
-"
 function! s:wiki(bufnr, active, winnr) " {{{1
   let stat  = s:color(' wiki: ', 'SLAlert', a:active)
   let stat .= s:color(fnamemodify(bufname(a:bufnr), ':t:r'),
@@ -182,10 +159,8 @@ endfunction
 
 " }}}1
 
-"
 " CtrlP statusline
-"
-function! statusline#ctrlp(...) " {{{1
+function! personal#statusline#ctrlp(...) " {{{1
   let l:info = a:0 > 1
         \ ? a:4 . ' < %#SLHighlight#' . a:5 . '%* > ' . a:6
         \ : a:1
@@ -197,58 +172,7 @@ endfunction
 
 " }}}1
 
-"
-" Tabline
-"
-function! statusline#init_tabline() " {{{1
-  set tabline=%!statusline#get_tabline()
-  highlight TabLine
-        \ cterm=none ctermbg=12 ctermfg=8
-        \ gui=none guibg=#657b83 guifg=#eee8d5 guisp=#657b83
-  highlight TabLineSel
-        \ cterm=none ctermbg=12 ctermfg=15
-        \ gui=none guibg=#657b83 guifg=#ffe055 guisp=#657b83
-  highlight TabLineFill
-        \ cterm=none ctermbg=12 ctermfg=8
-        \ gui=none guibg=#657b83 guifg=#eee8d5 guisp=#657b83
-endfunction
-
-" }}}1
-function! statusline#get_tabline() " {{{1
-  let s = ' '
-  for i in range(1, tabpagenr('$'))
-    let s .= s:color('%{statusline#get_tablabel(' . i . ')} ',
-          \ 'TabLineSel', i == tabpagenr())
-  endfor
-
-  return s
-endfunction
-
-" }}}1
-function! statusline#get_tablabel(n) " {{{1
-  let buflist = tabpagebuflist(a:n)
-  let winnr = tabpagewinnr(a:n)
-
-  let name = bufname(buflist[winnr - 1])
-  if name !=# ''
-    let label = fnamemodify(name, ':t')
-  else
-    let type = getbufvar(buflist[winnr - 1], '&buftype')
-    if type !=# ''
-      let label = '[' . type . ']'
-    else
-      let label = '[No Name]'
-    endif
-  endif
-
-  return printf('%1s %-15s', a:n, label)
-endfunction
-
-" }}}1
-
-"
 " Utilities
-"
 function! s:color(content, group, active) " {{{1
   if a:active
     return '%#' . a:group . '#' . a:content . '%*'
