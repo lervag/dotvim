@@ -16,4 +16,5 @@
   "python.linting.enabled": false,
   "python.linting.pylintEnabled": false,
   "python.analysis.diagnosticEnabled": false,
+  "coc.preferences.useQuickfixForLocations": true,
 }
