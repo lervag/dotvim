@@ -33,3 +33,13 @@ function! personal#tabline#get_tablabel(n) " {{{1
 endfunction
 
 " }}}1
+
+function! s:color(content, group, active) " {{{1
+  if a:active
+    return '%#' . a:group . '#' . a:content . '%*'
+  else
+    return a:content
+  endif
+endfunction
+
+" }}}1

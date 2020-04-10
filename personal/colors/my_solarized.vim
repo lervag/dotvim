@@ -128,11 +128,6 @@ call s:highlight('SpellCap',   {'fg': 'custom07', 'bg': 'NONE', 'sp': 'color01',
 call s:highlight('SpellLocal', {'fg': 'custom08', 'bg': 'NONE', 'sp': 'color01', 'style': 'bold'})
 call s:highlight('SpellRare',  {'fg': 'custom09', 'bg': 'NONE', 'sp': 'color01', 'style': 'bold'})
 call s:highlight('Statement', {'fg': 'color02', 'style': 'NONE'})
-call s:highlight('Statusline', {'fg': 'color10', 'bg': 'color15', 'style': 'reverse'})
-call s:highlight('StatuslineNC', {'fg': 'color10', 'bg': 'color08', 'style': 'reverse'})
-call s:highlight('TabLine', {'fg': 'color08', 'bg': 'color12', 'sp': 'color11', 'style': 'NONE'})
-call s:highlight('TabLineFill', {'fg': 'color08', 'color12': 'color07', 'sp': 'color11', 'style': 'underline'})
-call s:highlight('TabLineSel', {'fg': 'color15', 'bg': 'color12', 'sp': 'color11', 'style': 'underline,reverse'})
 call s:highlight('TermCursor', {'style': 'bold'})
 call s:highlight('Title', {'fg': 'color09', 'style': 'bold'})
 call s:highlight('Todo', {'fg': 'color05', 'bg': 'NONE', 'style': 'bold'})
@@ -144,13 +139,21 @@ call s:highlight('VisualNOS', {'bg': 'color07', 'style': 'reverse'})
 call s:highlight('WarningMsg', {'fg': 'color09'})
 call s:highlight('WildMenu', {'fg': 'color00', 'bg': 'color07', 'style': 'reverse'})
 call s:highlight('Whitespace', {'fg': 'color12', 'bg': 'color07'})
-call s:highlight('iCursor', {'fg': 'color03'})
-call s:highlight('rCursor', {'fg': 'color01'})
-call s:highlight('vCursor', {'fg': 'color05'})
+
+" Statusline and tabline
+call s:highlight('Statusline', {'fg': 'color15', 'bg': 'color10', 'style': 'NONE'})
+call s:highlight('StatuslineNC', {'fg': 'color08', 'bg': 'color10', 'style': 'NONE'})
 call s:highlight('SLHighlight', {'fg': 'custom10', 'bg': 'color10'})
 call s:highlight('SLAlert', {'fg': 'custom11', 'bg': 'color10'})
 call s:highlight('SLFZF', {'fg': 'color02'})
+call s:highlight('TabLine', {'fg': 'color08', 'bg': 'color10', 'sp': 'color11', 'style': 'NONE'})
+call s:highlight('TabLineFill', {'fg': 'color08', 'bg': 'color10', 'sp': 'color11', 'style': 'NONE'})
+call s:highlight('TabLineSel', {'fg': 'custom10', 'bg': 'color10', 'sp': 'color11', 'style': 'NONE'})
 
+" Cursor colors
+call s:highlight('iCursor', {'bg': 'color03'})
+call s:highlight('rCursor', {'bg': 'color01'})
+call s:highlight('vCursor', {'bg': 'color05'})
 highlight link lCursor        Cursor
 
 highlight link Boolean        Constant

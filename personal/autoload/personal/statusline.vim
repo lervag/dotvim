@@ -193,4 +193,3 @@ function! s:ignored(winnr) " {{{1
 endfunction
 
 " }}}1
-
