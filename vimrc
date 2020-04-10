@@ -458,7 +458,7 @@ nnoremap <silent><leader>gL :silent Flog -all -path=%<cr>
 augroup vimrc_flog
   autocmd!
   autocmd FileType floggraph setlocal nolist
-  autocmd FileType floggraph nmap <buffer><silent> q <plug>FlogQuit
+  autocmd FileType floggraph nmap <buffer><silent> q <plug>(FlogQuit)
 augroup END
 
 nnoremap <silent><leader>gs :call personal#git#fugitive_toggle()<cr>
