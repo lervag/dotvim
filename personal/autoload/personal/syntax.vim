@@ -20,7 +20,6 @@ function! personal#syntax#color_code_blocks() abort " {{{1
   " https://www.reddit.com/r/vim/comments/fob3sg/different_background_color_for_markdown_code/
   setlocal signcolumn=no
 
-  highlight codeBlockBackground ctermbg=231
   sign define codeblock linehl=codeBlockBackground
 
   augroup code_block_background

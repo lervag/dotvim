@@ -1,6 +1,12 @@
 " My own, customized, light Solarized theme
 " Based on: Romain Lafourcade's 'flattened_light'
 
+" This can be used for dynamic reloading
+" augroup my_solarized
+"   au!
+"   au InsertLeave,TextChanged my_solarized.vim silent update | colorscheme my_solarized | echo 'reloaded'
+" augroup END
+
 highlight clear
 if exists('syntax_on') | syntax reset | endif
 
@@ -88,7 +94,7 @@ call s:highlight('Comment', {'fg': 'color14', 'style': 'italic'})
 call s:highlight('Conceal', {'fg': 'color04', 'bg': 'NONE'})
 call s:highlight('Constant', {'fg': 'color06'})
 call s:highlight('Cursor', {'fg': 'color15', 'bg': 'color11'})
-call s:highlight('CursorColumn', {'bg': 'color07'})
+call s:highlight('CursorColumn', {'bg': 'color07', 'style': 'NONE'})
 call s:highlight('CursorLine', {'bg': 'color07', 'sp': 'color10', 'style': 'NONE'})
 call s:highlight('CursorLineNr', {'fg': 'color14', 'style': 'NONE'})
 call s:highlight('DiffAdd', {'bg': 'custom01', 'sp': 'custom02'})
@@ -96,8 +102,8 @@ call s:highlight('DiffChange', {'bg': 'color07', 'sp': 'color03'})
 call s:highlight('DiffDelete', {'fg': 'NONE', 'bg': 'custom03', 'style': 'NONE'})
 call s:highlight('DiffText', {'bg': 'custom04', 'sp': 'color04', 'style': 'NONE'})
 call s:highlight('Directory', {'fg': 'color04'})
-call s:highlight('Error', {'fg': 'color01', 'bg': 'color15'})
-call s:highlight('ErrorMsg', {'fg': 'color01', 'bg': 'NONE', 'style': 'reverse'})
+call s:highlight('Error', {'fg': 'color01', 'bg': 'NONE', 'style': 'bold'})
+call s:highlight('ErrorMsg', {'fg': 'color01', 'bg': 'NONE', 'style': 'bold'})
 call s:highlight('FoldColumn', {'fg': 'color11', 'bg': 'color07'})
 call s:highlight('Folded', {'fg': 'color11', 'bg': 'color07', 'sp': 'color15', 'style': 'underline'})
 call s:highlight('Identifier', {'fg': 'color04'})
@@ -117,7 +123,7 @@ call s:highlight('PreProc', {'fg': 'color09'})
 call s:highlight('Question', {'fg': 'color06', 'style': 'NONE'})
 call s:highlight('RedrawDebugClear', {'bg': 'color11'})
 call s:highlight('RedrawDebugComposed', {'bg': 'color02'})
-call s:highlight('RedrawDebugNormal', {'style': 'reversed'})
+call s:highlight('RedrawDebugNormal', {'style': 'reverse'})
 call s:highlight('RedrawDebugRecompose', {'bg': 'color09'})
 call s:highlight('Search', {'fg': 'custom05', 'bg': 'NONE', 'style': 'bold,underline'})
 call s:highlight('SignColumn', {'fg': 'color11', 'bg': 'color07'})
@@ -191,7 +197,9 @@ highlight link ALEErrorLine ErrorMsg
 highlight link ALEWarningLine WarningMsg
 highlight link ALEInfoLine ModeMsg
 
-call s:highlight('illuminatedWord', {'style': 'unerline'})
+call s:highlight('illuminatedWord', {'style': 'underline'})
+
+call s:highlight('codeBlockBackground', {'bg': 'custom17'})
 
 " }}}1
 " {{{1 Highlight: Various filetypes
