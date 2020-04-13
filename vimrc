@@ -713,6 +713,7 @@ let g:rainbow_conf = {
       \   'toml' : 0,
       \   'qf' : 0,
       \   'javascript' : 0,
+      \   'man' : 0,
       \ }
       \}
 
