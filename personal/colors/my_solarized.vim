@@ -246,7 +246,7 @@ highlight link vimUserFunc Function
 highlight link vipmVar     Identifier
 
 " }}}1
-" {{{1 Highlight: Filetype Vimdoc
+" {{{1 Highlight: Filetype Vim help
 
 call s:highlight('helpExample', {'fg': 'color08'})
 call s:highlight('helpHyperTextEntry', {'fg': 'color02'})
@@ -254,9 +254,11 @@ call s:highlight('helpHyperTextJump', {'fg': 'color04', 'style': 'underline'})
 call s:highlight('helpNote', {'fg': 'color05'})
 call s:highlight('helpOption', {'fg': 'color06'})
 call s:highlight('helpVim', {'fg': 'color05'})
-highlight link  helpSpecial Special
-highlight clear helpLeadBlank
-highlight clear helpNormal
+highlight link helpSpecial  Special
+highlight link helpIgnore   Special
+highlight link helpBacktick Special
+highlight link helpBar      Special
+highlight link helpStar     Special
 
 " }}}1
 " {{{1 Highlight: Filetype pandoc
