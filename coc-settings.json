@@ -6,7 +6,6 @@
   "suggest.snippetIndicator": "[+] ",
   "suggest.timeout": 1000,
   "suggest.removeDuplicateItems": true,
-  "signature.floatMaxWidth": 12,
   "list.maxHeight": 18,
   "coc.source.ultisnips.enable": false,
   "coc.source.omni.filetypes": ["foam"],
