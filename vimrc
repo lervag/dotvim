@@ -789,6 +789,7 @@ unlet s:x
 " }}}2
 " {{{2 plugin: vim-gutentags
 
+let g:gutentags_define_advanced_commands = 1
 let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
 let g:gutentags_ctags_extra_args = [
       \ '--tag-relative=yes',
@@ -950,6 +951,11 @@ let g:rooter_manual_only = 1
 let g:vim_json_syntax_conceal = 0
 
 " }}}2
+" {{{2 filetype: man
+
+let g:man_hardwrap = 1
+
+" }}}2
 " {{{2 filetype: markdown
 
 let g:vim_markdown_folding_style_pythonic = 1
@@ -1039,7 +1045,6 @@ let g:wiki_root = '~/documents/wiki'
 let g:wiki_toc_title = 'Innhald'
 let g:wiki_viewer = {'pdf': 'zathura'}
 let g:wiki_export = {
-      \ 'from_format': 'gfm',
       \ 'output': 'printed',
       \}
 let g:wiki_filetypes = ['wiki', 'md']

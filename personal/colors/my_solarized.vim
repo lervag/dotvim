@@ -55,6 +55,7 @@ let s:colordict = {
       \ 'custom16': {'num': 101, 'hex': '#87875f', 'name': 'army2'},
       \ 'custom17': {'num': 59,  'hex': '#e0dac9', 'name': 'darkbase3'},
       \ 'custom18': {'num': 231, 'hex': '#fffbf2', 'name': 'whitebase3'},
+      \ 'custom19': {'num': 145, 'hex': '#bfbaac', 'name': 'darkerbase3'},
       \}
 
 " }}}1
@@ -146,6 +147,7 @@ call s:highlight('VisualNOS', {'bg': 'color07', 'style': 'reverse'})
 call s:highlight('WarningMsg', {'fg': 'color09'})
 call s:highlight('WildMenu', {'fg': 'color00', 'bg': 'color07', 'style': 'reverse'})
 call s:highlight('Whitespace', {'fg': 'color12', 'bg': 'color07'})
+call s:highlight('EndOfBuffer', {'fg': 'custom19', 'bg': 'color15'})
 
 " Statusline and tabline
 call s:highlight('Statusline', {'fg': 'color15', 'bg': 'color10', 'style': 'NONE'})
