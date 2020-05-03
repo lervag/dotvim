@@ -120,7 +120,7 @@ call s:highlight('NvimInternalError', {'fg': 'color09', 'bg': 'color01'})
 call s:highlight('Pmenu', {'fg': 'color11', 'bg': 'custom17'})
 call s:highlight('PmenuSbar', {'fg': 'color00', 'bg': 'color11'})
 call s:highlight('PmenuSel', {'fg': 'color14', 'bg': 'color00'})
-call s:highlight('PmenuThumb', {'fg': 'color11', 'bg': 'color15'})
+call s:highlight('PmenuThumb', {'fg': 'color11'})
 call s:highlight('PreProc', {'fg': 'color09'})
 call s:highlight('Question', {'fg': 'color06', 'style': 'NONE'})
 call s:highlight('RedrawDebugClear', {'bg': 'color11'})
@@ -142,12 +142,12 @@ call s:highlight('Todo', {'fg': 'color05', 'bg': 'NONE', 'style': 'bold'})
 call s:highlight('Type', {'fg': 'color03', 'style': 'NONE'})
 call s:highlight('Underlined', {'fg': 'color13', 'style': 'NONE'})
 call s:highlight('VertSplit', {'fg': 'color12', 'bg': 'color12', 'style': 'NONE'})
-call s:highlight('Visual', {'fg': 'color14', 'bg': 'color15', 'style': 'reverse'})
+call s:highlight('Visual', {'fg': 'color15', 'bg': 'color14', 'style': 'NONE'})
 call s:highlight('VisualNOS', {'bg': 'color07', 'style': 'reverse'})
 call s:highlight('WarningMsg', {'fg': 'color09'})
 call s:highlight('WildMenu', {'fg': 'color00', 'bg': 'color07', 'style': 'reverse'})
 call s:highlight('Whitespace', {'fg': 'color12', 'bg': 'color07'})
-call s:highlight('EndOfBuffer', {'fg': 'custom19', 'bg': 'color15'})
+call s:highlight('EndOfBuffer', {'fg': 'custom19'})
 
 " Statusline and tabline
 call s:highlight('Statusline', {'fg': 'color15', 'bg': 'color10', 'style': 'NONE'})
@@ -191,6 +191,42 @@ highlight link Tag            Special
 highlight link Typedef        Type
 
 " }}}1
+
+" {{{1 Highlight: Plugin CoC.nvim
+
+highlight link CocErrorSign   Error
+highlight link CocWarningSign WarningMsg
+highlight link CocInfoSign    ModeMsg
+highlight link CocHintSign    Question
+highlight link CocCodeLens    codeBlockBackground
+
+" Linked:
+"   highlight default link CocErrorVirtualText   CocErrorSign
+"   highlight default link CocWarningVirtualText CocWarningSign
+"   highlight default link CocInfoVirtualText    CocInfoSign
+"   highlight default link CocHintVirtualText    CocHintSign
+"   highlight default link CocErrorHighlight     CocUnderline
+"   highlight default link CocWarningHighlight   CocUnderline
+"   highlight default link CocInfoHighlight      CocUnderline
+"   highlight default link CocHintHighlight      CocUnderline
+"   highlight default link CocHighlightText      CursorColumn
+"   highlight default link CocHighlightRead      CocHighlightText
+"   highlight default link CocHighlightWrite     CocHighlightText
+"   highlight default link CocFloating           Pmenu
+"   highlight default link CocErrorFloat         CocErrorSign
+"   highlight default link CocWarningFloat       CocWarningSign
+"   highlight default link CocInfoFloat          CocInfoSign
+"   highlight default link CocHintFloat          CocHintSign
+"   highlight default link CocCursorRange        Search
+"   highlight default link CocHoverRange         Search
+
+" Undefined:
+"   CocErrorLine
+"   CocWarningLine
+"   CocInfoLine
+"   CocHintLine
+
+" }}}1
 " {{{ Highlight: Various plugins
 
 call s:highlight('ctrlsfSelectedLine', {'fg': 'custom12', 'style': 'bold'})
@@ -205,30 +241,7 @@ call s:highlight('illuminatedWord', {'style': 'underline'})
 call s:highlight('codeBlockBackground', {'bg': 'custom18'})
 
 " }}}1
-" {{{1 Highlight: Various filetypes
 
-call s:highlight('cPreCondit', {'fg': 'color09'})
-
-call s:highlight('htmlArg',            {'fg': 'color12'})
-call s:highlight('htmlEndTag',         {'fg': 'color14'})
-call s:highlight('htmlSpecialTagName', {'fg': 'color04', 'style': 'italic'})
-call s:highlight('htmlTag',            {'fg': 'color14'})
-call s:highlight('htmlTagN',           {'fg': 'color10'})
-call s:highlight('htmlTagName',        {'fg': 'color04'})
-
-call s:highlight('javaScript', {'fg': 'color03'})
-
-call s:highlight('perlHereDoc',           {'fg': 'color10', 'bg': 'color15'})
-call s:highlight('perlStatementFileDesc', {'fg': 'color06', 'bg': 'color15'})
-call s:highlight('perlVarPlain',          {'fg': 'color03', 'bg': 'color15'})
-
-call s:highlight('rubyDefine', {'fg': 'color10', 'bg': 'color15'})
-
-call s:highlight('texMathMatcher', {'fg': 'color03'})
-highlight link texStatement Number
-highlight link texCmdArgs   Identifier
-
-" }}}1
 " {{{1 Highlight: Filetype Vimscript
 
 call s:highlight('vimCmdSep', {'fg': 'color04'})
@@ -241,9 +254,9 @@ call s:highlight('vimIsCommand', {'fg': 'color12'})
 call s:highlight('vimSynMtchOpt', {'fg': 'color03'})
 call s:highlight('vimSynType', {'fg': 'color06'})
 
+" highlight link vimSet      Normal
+" highlight link vimSetEqual Normal
 highlight link vimFunc     Function
-highlight link vimSet      Normal
-highlight link vimSetEqual Normal
 highlight link vimUserFunc Function
 highlight link vipmVar     Identifier
 
@@ -340,7 +353,7 @@ call s:highlight('pandocSuperscriptTable',                 {'fg': 'color04'})
 call s:highlight('pandocTable',                            {'fg': 'color04'})
 call s:highlight('pandocTableStructure',                   {'fg': 'color04'})
 call s:highlight('pandocTableZebraDark',                   {'fg': 'color04', 'bg':    'color07'})
-call s:highlight('pandocTableZebraLight',                  {'fg': 'color04', 'bg':    'color15'})
+call s:highlight('pandocTableZebraLight',                  {'fg': 'color04'})
 call s:highlight('pandocTitleBlock',                       {'fg': 'color04'})
 call s:highlight('pandocTitleBlockTitle',                  {'fg': 'color04'})
 call s:highlight('pandocTitleComment',                     {'fg': 'color04'})
@@ -434,6 +447,30 @@ call s:highlight('semshiAttribute',       {'fg': 'custom14'})
 call s:highlight('semshiSelected',        {'style': 'underline'})
 highlight link semshiUnresolved Normal
 highlight link semshiBuiltin Function
+
+" }}}1
+" {{{1 Highlight: Various filetypes
+
+call s:highlight('cPreCondit', {'fg': 'color09'})
+
+call s:highlight('htmlArg',            {'fg': 'color12'})
+call s:highlight('htmlEndTag',         {'fg': 'color14'})
+call s:highlight('htmlSpecialTagName', {'fg': 'color04', 'style': 'italic'})
+call s:highlight('htmlTag',            {'fg': 'color14'})
+call s:highlight('htmlTagN',           {'fg': 'color10'})
+call s:highlight('htmlTagName',        {'fg': 'color04'})
+
+call s:highlight('javaScript', {'fg': 'color03'})
+
+call s:highlight('perlHereDoc',           {'fg': 'color10'})
+call s:highlight('perlStatementFileDesc', {'fg': 'color06'})
+call s:highlight('perlVarPlain',          {'fg': 'color03'})
+
+call s:highlight('rubyDefine', {'fg': 'color10'})
+
+call s:highlight('texMathMatcher', {'fg': 'color03'})
+highlight link texStatement Number
+highlight link texCmdArgs   Identifier
 
 " }}}1
 
