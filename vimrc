@@ -233,7 +233,7 @@ set updatetime=500
 " Completion
 set wildmode=longest:full,full
 set wildcharm=<c-z>
-set complete+=U,s,k,kspell,d,]
+set complete+=U,s,k,kspell,]
 set completeopt=menuone
 silent! set completeopt+=noinsert,noselect
 

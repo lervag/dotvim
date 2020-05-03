@@ -4,7 +4,7 @@ function! personal#wiki#file_open(...) abort dict " {{{1
     return 1
   endif
 
-  if self.path =~# 'png$'
+  if self.path =~# '\v(png|jpg)$'
     silent execute '!feh -.' fnameescape(self.path) '&'
     return 1
   endif
