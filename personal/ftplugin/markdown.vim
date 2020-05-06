@@ -1,7 +1,14 @@
-let s:file = fnameescape(expand('<sfile>'))
+if exists('b:ft_personal_markdown') | finish | endif
+let b:did_personal_markdown = 1
 
+set conceallevel=2
+
+let s:file = fnameescape(expand('<sfile>'))
 execute 'nnoremap <space>ar :source' s:file . "\<cr>"
+
 nmap <silent> <space>aa <space>ar:call CreateNotes()<cr>
+
+call personal#syntax#color_code_blocks()
 
 function! CreateNotes() abort " {{{1
   " Create notes from list of question/answers
@@ -77,5 +84,3 @@ function! CreateNotes() abort " {{{1
 endfunction
 
 " }}}1
-
-call personal#syntax#color_code_blocks()

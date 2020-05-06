@@ -459,6 +459,7 @@ call s:highlight('htmlSpecialTagName', {'fg': 'color04', 'style': 'italic'})
 call s:highlight('htmlTag',            {'fg': 'color14'})
 call s:highlight('htmlTagN',           {'fg': 'color10'})
 call s:highlight('htmlTagName',        {'fg': 'color04'})
+call s:highlight('htmlStrike',         {'fg': 'custom17'})
 
 call s:highlight('javaScript', {'fg': 'color03'})
 
