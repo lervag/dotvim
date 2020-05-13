@@ -147,7 +147,6 @@ call s:highlight('VisualNOS', {'bg': 'color07', 'style': 'reverse'})
 call s:highlight('WarningMsg', {'fg': 'color09'})
 call s:highlight('WildMenu', {'fg': 'color00', 'bg': 'color07', 'style': 'reverse'})
 call s:highlight('Whitespace', {'fg': 'color12', 'bg': 'color07'})
-call s:highlight('EndOfBuffer', {'fg': 'custom19'})
 
 " Statusline and tabline
 call s:highlight('Statusline', {'fg': 'color15', 'bg': 'color10', 'style': 'NONE'})
