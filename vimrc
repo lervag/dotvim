@@ -373,6 +373,9 @@ nnoremap gV     `[V`]
 nnoremap <c-f> Lzt
 nnoremap <c-b> Hzb
 
+nnoremap <c-w>-     <c-w>s
+nnoremap <c-w><bar> <c-w>v
+
 " Buffer navigation
 nnoremap <silent> gb    :bnext<cr>
 nnoremap <silent> gB    :bprevious<cr>
