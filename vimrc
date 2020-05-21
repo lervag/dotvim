@@ -511,7 +511,7 @@ nmap <silent> <leader>lk :<c-u>call CocAction('doHover')<cr>
 
 nnoremap <silent> K :call <sid>show_documentation()<cr>
 function! s:show_documentation()
-  if index(['vim','help'], &filetype) >= 0
+  if index(['vim', 'help'], &filetype) >= 0
     execute 'help ' . expand('<cword>')
   elseif &filetype ==# 'tex'
     VimtexDocPackage
