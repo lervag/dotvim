@@ -9,6 +9,11 @@ function! personal#wiki#file_open(...) abort dict " {{{1
     return 1
   endif
 
+  if self.path =~# '\v(svg)$'
+    silent execute '!display -.' fnameescape(self.path) '&'
+    return 1
+  endif
+
   if self.path =~# '\v(doc|xls|ppt)x?$'
     silent execute '!libreoffice' fnameescape(self.path) '&'
     return 1

@@ -67,6 +67,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
 Plug 'zirrostig/vim-schlepp'
+Plug 'AndrewRadev/splitjoin.vim'
 
 " Plugin: VCS
 Plug 'rbong/vim-flog'
@@ -90,6 +91,7 @@ Plug 'tyru/capture.vim', {'on': 'Capture'}
 Plug 'tpope/vim-unimpaired'
 Plug 'cespare/vim-toml'
 Plug 'chrisbra/Colorizer'
+Plug 'RRethy/vim-hexokinase', {'do': 'make hexokinase'}
 
 " Filetype: python
 if has('nvim')
@@ -788,6 +790,12 @@ for s:x in split('ftFT;,wbeWBE', '\zs') + ['ge', 'gE']
   silent! call columnmove#utility#map('nxo', s:x, 'ø' . s:x, 'block')
 endfor
 unlet s:x
+
+" }}}2
+" {{{2 plugin: vim-hexokinase
+
+let g:Hexokinase_highlighters = ['backgroundfull']
+let g:Hexokinase_ftEnabled = ['css', 'html']
 
 " }}}2
 " {{{2 plugin: vim-gutentags
