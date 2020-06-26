@@ -502,10 +502,9 @@ inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 imap <silent> <c-u>      <plug>(coc-snippets-expand)
 
 nmap <silent> <leader>ld <plug>(coc-definition)zv
+nmap <silent> <leader>lr <plug>(coc-references)
 nmap <silent> <leader>lt <plug>(coc-type-definition)
 nmap <silent> <leader>li <plug>(coc-implementation)
-nmap <silent> <leader>lf <plug>(coc-references)
-nmap          <leader>lr <plug>(coc-rename)
 
 nmap <silent> <leader>lp <plug>(coc-diagnostic-prev)
 nmap <silent> <leader>ln <plug>(coc-diagnostic-next)
