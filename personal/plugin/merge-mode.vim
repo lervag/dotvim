@@ -13,8 +13,8 @@ function! s:setup_merge_mode() " {{{1
   nnoremap <silent> <leader>q :xa!<cr>
 
   " Add some more complex mapppings
-  let l:sid = matchstr(expand('<sfile>'), '\zs<SNR>\d\+_\ze.*$')
-  execute 'nnoremap <silent> u :call ' . l:sid . 'undo()<cr>'
+  " let l:sid = matchstr(expand('<sfile>'), '\zs<SNR>\d\+_\ze.*$')
+  " execute 'nnoremap <silent> u :call ' . l:sid . 'undo()<cr>'
 
   " Set buffer options (local file)
   1wincmd w
