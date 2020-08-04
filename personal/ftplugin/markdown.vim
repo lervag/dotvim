@@ -10,13 +10,19 @@ nmap <silent> <space>aa <space>ar:call CreateNotes()<cr>
 
 call personal#syntax#color_code_blocks()
 
+if expand('%:p') ==# expand('~/notes.md')
+  ALEDisableBuffer
+endif
+
 function! CreateNotes() abort " {{{1
   " Create notes from list of question/answers
   "
   " <category>
   " tags: list (default = category)
   " Q: ...
+  " ...
   " A: ...
+  " ...
   " tags: new list
   " Q: ...
   " A: ...
@@ -58,15 +64,29 @@ function! CreateNotes() abort " {{{1
       continue
     endif
 
-    if empty(l:current)
+    if l:line =~# '^Q:'
+      if !empty(l:current)
+        call add(l:list, l:current)
+        let l:current = {}
+      endif
       let l:current.tags = l:tags
-      let l:current.q = matchstr(l:line, '^Q: \zs.*')
+      let l:current.q = [matchstr(l:line, '^Q: \zs.*')]
+      let l:current.pointer = l:current.q
+    elseif l:line =~# '^A:'
+      let l:current.a = [matchstr(l:line, '^A: \zs.*')]
+      let l:current.pointer = l:current.a
     else
-      let l:current.a = matchstr(l:line, '^A: \zs.*')
-      call add(l:list, l:current)
-      let l:current = {}
+      let l:current.pointer += [l:line]
     endif
   endfor
+
+  if !empty(l:current)
+    call add(l:list, l:current)
+  endif
+
+  if line('$') == l:lnum_end
+    call append(line('$'), '')
+  endif
 
   " Remove existing lines
   execute l:lnum_start . ',' . l:lnum_end 'd'
@@ -75,10 +95,12 @@ function! CreateNotes() abort " {{{1
   for l:e in l:list
     let l:new = copy(l:template)
     let l:new = substitute(l:new, '{tags}', l:e.tags, 'g')
-    let l:new = substitute(l:new, '{q}', l:e.q, 'g')
-    let l:new = substitute(l:new, '{a}', l:e.a, 'g')
+    let l:new = substitute(l:new, '{q}', join(l:e.q, "\n"), 'g')
+    let l:new = substitute(l:new, '{a}', join(l:e.a, "\n"), 'g')
+    let l:new = substitute(l:new, "  \n", "\n\n", 'g')
     call append(line('.')-1, split(l:new, "\n") + [''])
   endfor
+  execute line('.') . 'd'
 
   keepjumps call cursor(l:lnum_start, 1)
 endfunction
