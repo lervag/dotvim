@@ -2,7 +2,7 @@
   "diagnostic.displayByAle": true,
   "diagnostic.refreshAfterSave": true,
   "suggest.enablePreview": true,
-  "suggest.minTriggerInputLength": 1,
+  "suggest.minTriggerInputLength": 3,
   "suggest.snippetIndicator": "[+] ",
   "suggest.timeout": 1000,
   "suggest.removeDuplicateItems": true,
@@ -15,5 +15,6 @@
   "python.linting.enabled": false,
   "python.linting.pylintEnabled": false,
   "python.analysis.diagnosticEnabled": false,
-  "coc.preferences.useQuickfixForLocations": true
+  "coc.preferences.useQuickfixForLocations": true,
+  "rust-analyzer.serverPath": "rust-analyzer"
 }
