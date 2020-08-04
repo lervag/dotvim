@@ -589,8 +589,8 @@ let g:context_add_mappings = 0
 let g:context_skip_regex = '^\s*$'
 let g:context_nvim_no_redraw = 1
 
-nnoremap <silent> zz       zz:call context#update('zz')<CR>
-nnoremap <silent> zb       zb:call context#update('zb')<CR>
+nnoremap <silent> <expr> zz context#util#map('zz')
+nnoremap <silent> <expr> zb context#util#map('zb')
 nnoremap <silent> <expr> zt context#util#map_zt()
 nnoremap <silent> <expr> H  context#util#map_H()
 
@@ -953,6 +953,7 @@ let g:vebugger_leader = '<leader>d'
 " {{{2 plugin: vim-rooter
 
 let g:rooter_manual_only = 1
+let g:rooter_patterns = ['.git', '.hg', '.bzr', '.svn']
 
 " }}}
 
@@ -1078,6 +1079,7 @@ let g:wiki_month_names = [
       \]
 let g:wiki_template_title_week = '# Samandrag veke %(week), %(year)'
 let g:wiki_template_title_month = '# Samandrag frå %(month-name) %(year)'
+let g:wiki_write_on_nav = 1
 
 let g:wiki_toc_depth = 2
 let g:wiki_file_open = 'personal#wiki#file_open'
@@ -1085,6 +1087,8 @@ let g:wiki_file_open = 'personal#wiki#file_open'
 augroup MyWikiAutocmds
   autocmd!
   autocmd User WikiLinkOpened normal! zz
+  autocmd User WikiBufferInitialized
+        \ nmap <buffer> gf <plug>(wiki-link-open)
 augroup END
 
 " }}}2
