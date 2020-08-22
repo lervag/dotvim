@@ -677,6 +677,22 @@ augroup my_fzf_config
   autocmd FileType fzf silent! tunmap <esc>
 augroup END
 
+function! MyFiles(...) abort
+  let l:dir = a:0 > 0 ? a:1 : FindRootDirectory()
+  if empty(l:dir)
+    let l:dir = getcwd()
+  endif
+
+  let l:prompt_dir = len(l:dir) > 15 ? pathshorten(l:dir) : l:dir
+
+  call fzf#vim#files(l:dir, {
+      \ 'options': [
+      \   '-m',
+      \   '--prompt', 'Files ' . l:prompt_dir . '::'
+      \ ],
+      \})
+endfunction
+
 command! -bang Zotero call fzf#run(fzf#wrap(
             \ 'zotero',
             \ { 'source':  'fd -t f -e pdf . ~/.local/zotero/',
@@ -684,20 +700,20 @@ command! -bang Zotero call fzf#run(fzf#wrap(
             \   'options': '-m -d / --with-nth=-1' },
             \ <bang>0))
 
-nnoremap <silent> <leader>oo       :call fzf#run(fzf#wrap({
-      \ 'dir': FindRootDirectory(),
-      \ 'options': [
-      \   '-m',
-      \   '--prompt', 'Files > '
-      \ ],
-      \}))<cr>
-nnoremap <silent> <leader>ov       :Files ~/.vim<cr>
-nnoremap <silent> <leader>op       :Files ~/.vim/bundle<cr>
+nnoremap <silent> <leader><leader> :FZFFreshMru --prompt "History > "<cr>
 nnoremap <silent> <leader>ob       :Buffers<cr>
 nnoremap <silent> <leader>ot       :Tags<cr>
 nnoremap <silent> <leader>ow       :WikiFzfPages<cr>
-nnoremap <silent> <leader><leader> :FZFFreshMru --prompt "History > "<cr>
 nnoremap <silent> <leader>oz       :Zotero<cr>
+nnoremap <silent> <leader>oo       :call MyFiles()<cr>
+nnoremap <silent> <leader>op       :call MyFiles('~/.vim/bundle')<cr>
+nnoremap <silent> <leader>ov       :call fzf#run(fzf#wrap({
+      \ 'dir': '~/.vim',
+      \ 'source': 'git ls-files --exclude-standard --others --cached',
+      \ 'options': [
+      \   '--prompt', 'Files ~/.vim::',
+      \ ],
+      \}))<cr>
 
 " }}}2
 " {{{2 plugin: rainbow
