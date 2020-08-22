@@ -119,6 +119,7 @@ Plug 'elzr/vim-json'
 Plug 'gisraptor/vim-lilypond-integrator'
 Plug 'https://gitlab.com/HiPhish/info.vim'
 Plug 'tpope/vim-apathy'
+Plug 'rust-lang/rust.vim'
 
 call plug#end()
 
@@ -489,7 +490,7 @@ let g:coc_global_extensions = [
       \ 'coc-python',
       \ 'coc-json',
       \ 'coc-yaml',
-      \ 'coc-rls',
+      \ 'coc-rust-analyzer',
       \ 'coc-vimlsp',
       \]
 
