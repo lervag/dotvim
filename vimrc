@@ -68,6 +68,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
 Plug 'zirrostig/vim-schlepp'
 Plug 'AndrewRadev/splitjoin.vim'
+Plug 'brianrodri/vim-sort-folds'
 
 " Plugin: VCS
 Plug 'rbong/vim-flog'
@@ -936,6 +937,11 @@ vmap <unique> <left>  <Plug>SchleppLeft
 vmap <unique> <right> <Plug>SchleppRight
 
 " }}}2
+" {{{2 plugin: vim-sort-folds
+
+xnoremap <silent> <leader>s :call sortfolds#SortFolds()<cr>
+
+" }}}
 " {{{2 plugin: vim-table-mode
 
 let g:table_mode_auto_align = 0
