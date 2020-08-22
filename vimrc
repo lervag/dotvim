@@ -661,9 +661,9 @@ let g:fzf_colors = {
 let g:fzf_mru_no_sort = 1
 let g:fzf_mru_exclude = '\v' . join([
       \ '\.git/',
+      \ '^/tmp/',
+      \ 'documents/wiki/',
       \], '|')
-" let g:fzf_mru_relative = 1
-" let g:fzf_mru_include
 
 let $FZF_DEFAULT_OPTS = '--reverse --inline-info'
 
