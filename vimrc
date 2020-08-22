@@ -753,23 +753,14 @@ let g:undotree_SetFocusWhenToggle = 1
 nnoremap <f5> :UndotreeToggle<cr>
 
 " }}}2
-" {{{2 plugin: vimux
+" {{{2 plugin: vim-columnmove
 
-let g:VimuxOrientation = 'h'
-let g:VimuxHeight = '50'
-let g:VimuxResetSequence = ''
+let g:columnmove_no_default_key_mappings = 1
 
-" Open and manage panes/runners
-nnoremap <leader>io :call VimuxOpenRunner()<cr>
-nnoremap <leader>iq :VimuxCloseRunner<cr>
-nnoremap <leader>ip :VimuxPromptCommand<cr>
-nnoremap <leader>in :VimuxInspectRunner<cr>
-
-" Send commands
-nnoremap <leader>ii  :call VimuxSendText("jkk\n")<cr>
-nnoremap <leader>is  :set opfunc=personal#vimux#operator<cr>g@
-nnoremap <leader>iss :call VimuxRunCommand(getline('.'))<cr>
-xnoremap <leader>is  "vy :call VimuxSendText(@v)<cr>
+for s:x in split('ftFT;,wbeWBE', '\zs') + ['ge', 'gE']
+  silent! call columnmove#utility#map('nxo', s:x, 'ø' . s:x, 'block')
+endfor
+unlet s:x
 
 " }}}2
 " {{{2 plugin: vim-easy-align
@@ -781,22 +772,6 @@ vmap ga <plug>(LiveEasyAlign)
 nmap gA <plug>(EasyAlign)
 vmap gA <plug>(EasyAlign)
 vmap .  <plug>(EasyAlignRepeat)
-
-" }}}2
-" {{{2 plugin: vim-columnmove
-
-let g:columnmove_no_default_key_mappings = 1
-
-for s:x in split('ftFT;,wbeWBE', '\zs') + ['ge', 'gE']
-  silent! call columnmove#utility#map('nxo', s:x, 'ø' . s:x, 'block')
-endfor
-unlet s:x
-
-" }}}2
-" {{{2 plugin: vim-hexokinase
-
-let g:Hexokinase_highlighters = ['backgroundfull']
-let g:Hexokinase_ftEnabled = ['css', 'html']
 
 " }}}2
 " {{{2 plugin: vim-gutentags
@@ -813,6 +788,12 @@ let g:gutentags_file_list_command = {
       \   '.hg': 'hg files',
       \ },
       \}
+
+" }}}2
+" {{{2 plugin: vim-hexokinase
+
+let g:Hexokinase_highlighters = ['backgroundfull']
+let g:Hexokinase_ftEnabled = ['css', 'html']
 
 " }}}2
 " {{{2 plugin: vim-illuminate
@@ -846,6 +827,12 @@ let g:matchup_override_vimtex = 1
 " See autoload/vimrc.vim
 
 " }}}2
+" {{{2 plugin: vim-rooter
+
+let g:rooter_manual_only = 1
+let g:rooter_patterns = ['.git', '.hg', '.bzr', '.svn']
+
+" }}}
 " {{{2 plugin: vim-sandwich
 
 let g:sandwich_no_default_key_mappings = 1
@@ -957,12 +944,25 @@ let g:tmux_navigator_disable_when_zoomed = 1
 let g:vebugger_leader = '<leader>d'
 
 " }}}
-" {{{2 plugin: vim-rooter
+" {{{2 plugin: vimux
 
-let g:rooter_manual_only = 1
-let g:rooter_patterns = ['.git', '.hg', '.bzr', '.svn']
+let g:VimuxOrientation = 'h'
+let g:VimuxHeight = '50'
+let g:VimuxResetSequence = ''
 
-" }}}
+" Open and manage panes/runners
+nnoremap <leader>io :call VimuxOpenRunner()<cr>
+nnoremap <leader>iq :VimuxCloseRunner<cr>
+nnoremap <leader>ip :VimuxPromptCommand<cr>
+nnoremap <leader>in :VimuxInspectRunner<cr>
+
+" Send commands
+nnoremap <leader>ii  :call VimuxSendText("jkk\n")<cr>
+nnoremap <leader>is  :set opfunc=personal#vimux#operator<cr>g@
+nnoremap <leader>iss :call VimuxRunCommand(getline('.'))<cr>
+xnoremap <leader>is  "vy :call VimuxSendText(@v)<cr>
+
+" }}}2
 
 " {{{2 filetype: json
 
