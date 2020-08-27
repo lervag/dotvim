@@ -682,6 +682,7 @@ function! MyFiles(...) abort
   if empty(l:dir)
     let l:dir = getcwd()
   endif
+  let l:dir = substitute(fnamemodify(l:dir, ':p'), '\/$', '', '')
 
   let l:prompt_dir = len(l:dir) > 15 ? pathshorten(l:dir) : l:dir
 
