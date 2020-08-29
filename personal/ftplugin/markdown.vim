@@ -122,7 +122,7 @@ function! PrepareImage() abort " {{{1
   redraw!
 
   let l:filename = l:newname . '.' . fnamemodify(l:file, ':e')
-  let l:link = printf('[%s](%s)', l:newname, l:filename)
+  let l:link = printf('![%s](%s)', l:newname, l:filename)
   let l:destination = fnamemodify(
         \ (!empty($APY_BASE) ? $APY_BASE
         \   : '~/documents/anki/lervag/collection.media/') . l:filename, ':p')
