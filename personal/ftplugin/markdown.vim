@@ -3,16 +3,17 @@ let b:did_personal_markdown = 1
 
 set conceallevel=2
 
-let s:file = fnameescape(expand('<sfile>'))
-execute 'nnoremap <space>ar :source' s:file . "\<cr>"
-
-nmap <silent> <space>aa <space>ar:call CreateNotes()<cr>
-
 call personal#syntax#color_code_blocks()
 
 if expand('%:p') ==# expand('~/notes.md')
   ALEDisableBuffer
 endif
+
+let s:file = fnameescape(expand('<sfile>'))
+execute 'nnoremap <silent><buffer> <space>ar :source' s:file . "\<cr>"
+
+nnoremap <silent><buffer> <space>aa :call CreateNotes()<cr>
+nnoremap <silent><buffer> <space>ai :call PrepareImage()<cr>
 
 function! CreateNotes() abort " {{{1
   " Create notes from list of question/answers
@@ -103,6 +104,55 @@ function! CreateNotes() abort " {{{1
   execute line('.') . 'd'
 
   keepjumps call cursor(l:lnum_start, 1)
+endfunction
+
+" }}}1
+function! PrepareImage() abort " {{{1
+  " Get origin file
+  let l:file = fnamemodify(expand('<cfile>'), ':p')
+  let l:cursor = filereadable(l:file)
+  if !l:cursor
+    let l:file = input('File: ', '', 'file')
+    if empty(l:file) || !filereadable(l:file) | return | endif
+  endif
+
+  " Specify destination file name
+  let l:newname = input('Name: ', fnamemodify(l:file, ':t:r'))
+  if empty(l:newname) | return | endif
+  redraw!
+
+  let l:filename = l:newname . '.' . fnamemodify(l:file, ':e')
+  let l:link = printf('[%s](%s)', l:newname, l:filename)
+  let l:destination = fnamemodify(
+        \ (!empty($APY_BASE) ? $APY_BASE
+        \   : '~/documents/anki/lervag/collection.media/') . l:filename, ':p')
+
+  " Check if destination already exists
+  if filereadable(l:destination)
+    echo 'Destination file exists!'
+    echo l:destination
+    if input('Overwrite? ') !~? 'y\%[es]\s*$'
+      return
+    endif
+  endif
+
+  " Move file to destination
+  let l:status = rename(l:file, fnameescape(l:destination))
+  if l:status != 0
+    echo 'Error: File was not renamed'
+    echo ' ' l:file
+    echo ' ' l:destination
+    return
+  endif
+
+  " Add link text
+  if l:cursor
+    call search('\f\+', 'bc')
+    normal! v
+    call search('\f\+', 'ce')
+    normal! "_x
+  endif
+  execute 'silent normal!' "i\<c-r>=l:link\<cr>"
 endfunction
 
 " }}}1
