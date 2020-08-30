@@ -14,6 +14,7 @@ execute 'nnoremap <silent><buffer> <space>ar :source' s:file . "\<cr>"
 
 nnoremap <silent><buffer> <space>aa :call CreateNotes()<cr>
 nnoremap <silent><buffer> <space>ai :call PrepareImage()<cr>
+nnoremap <silent><buffer> <space>aI :call ViewImage()<cr>
 
 function! CreateNotes() abort " {{{1
   " Create notes from list of question/answers
@@ -123,9 +124,10 @@ function! PrepareImage() abort " {{{1
 
   let l:filename = l:newname . '.' . fnamemodify(l:file, ':e')
   let l:link = printf('![%s](%s)', l:newname, l:filename)
-  let l:destination = fnamemodify(
-        \ (!empty($APY_BASE) ? $APY_BASE
-        \   : '~/documents/anki/lervag/collection.media/') . l:filename, ':p')
+  let l:root = !empty($APY_BASE)
+        \ ? $APY_BASE
+        \ : '~/documents/anki/lervag/collection.media'
+  let l:destination = fnamemodify(l:root . '/' . l:filename, ':p')
 
   " Check if destination already exists
   if filereadable(l:destination)
@@ -153,6 +155,59 @@ function! PrepareImage() abort " {{{1
     normal! "_x
   endif
   execute 'silent normal!' "i\<c-r>=l:link\<cr>"
+endfunction
+
+" }}}1
+function! ViewImage() abort " {{{1
+  let l:filename = expand('<cfile>')
+  let l:root = !empty($APY_BASE)
+        \ ? $APY_BASE
+        \ : '~/documents/anki/lervag/collection.media'
+  let l:files = filter(map([
+        \   l:filename,
+        \   l:root . '/' . l:filename,
+        \ ],
+        \ {_, x -> fnamemodify(x, ':p')}),
+        \ {_, x -> filereadable(x)})
+
+  if empty(l:files)
+    echohl WarningMsg
+    echo 'Image not found: '
+    echohl None
+    echon l:filename
+    return
+  endif
+
+  let l:file = s:choose(l:files)
+  redraw!
+
+  silent execute '!feh' l:file '&'
+endfunction
+
+" }}}1
+
+function! s:choose(list) abort " {{{1
+  if len(a:list) == 1 | return a:list[0] | endif
+
+  while 1
+    redraw!
+    echohl ModeMsg
+    unsilent echo 'choice?'
+    echohl None
+
+    let l:choice = 0
+    for l:x in a:list
+      let l:choice += 1
+      unsilent echo printf('%d: %s', l:choice, l:x)
+    endfor
+
+    try
+      let l:choice = str2nr(input('> ')) - 1
+      if l:choice >= 0 && l:choice < len(a:list)
+        return a:list[l:choice]
+      endif
+    endtry
+  endwhile
 endfunction
 
 " }}}1
