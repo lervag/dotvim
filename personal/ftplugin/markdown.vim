@@ -31,6 +31,9 @@ function! CreateNotes() abort " {{{1
   "
   if getline('.') =~# '^\s*$' | return | endif
 
+  " Save file if necessary
+  update
+
   let l:template = join([
         \ '# Note',
         \ 'model: Basic',
@@ -55,8 +58,9 @@ function! CreateNotes() abort " {{{1
 
   let l:lines = getline(l:lnum_start, l:lnum_end)
 
-  let l:tags = remove(l:lines, 0)
-  let l:template = substitute(l:template, '{category}', l:tags, 'g')
+  let l:category = remove(l:lines, 0)
+  let l:template = substitute(l:template, '{category}', l:category, 'g')
+  let l:tags = substitute(trim(split(l:category, '/')[0]), ' ', '-', '')
 
   let l:current = {}
   let l:list = []
@@ -91,7 +95,7 @@ function! CreateNotes() abort " {{{1
   endif
 
   " Remove existing lines
-  execute l:lnum_start . ',' . l:lnum_end 'd'
+  silent execute l:lnum_start . ',' . l:lnum_end 'd'
 
   " Add new notes
   for l:e in l:list
@@ -102,7 +106,7 @@ function! CreateNotes() abort " {{{1
     let l:new = substitute(l:new, "  \n", "\n\n", 'g')
     call append(line('.')-1, split(l:new, "\n") + [''])
   endfor
-  execute line('.') . 'd'
+  silent execute line('.') . 'd'
 
   keepjumps call cursor(l:lnum_start, 1)
 endfunction
