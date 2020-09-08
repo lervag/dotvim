@@ -551,6 +551,7 @@ let g:ale_statusline_format = ['Errors: %d', 'Warnings: %d', '']
 let g:ale_linters = {
       \ 'tex': [],
       \ 'python': ['pylint'],
+      \ 'markdown': [],
       \}
 
 nmap <silent> <leader>aa <Plug>(ale_lint)
@@ -597,19 +598,17 @@ nnoremap <silent> <expr> zt context#util#map_zt()
 nnoremap <silent> <expr> H  context#util#map_H()
 
 function MyContext(line)
-  if index(['markdown', 'wiki'], &filetype) >= 0
-    let indent = indent(a:line)
-    if indent < 0 | return indent | endif
+  let l:indent = indent(a:line)
 
-    let line = getline(a:line)
-    let headings = match(line, '^#\+\zs\s')+1
-    if headings <= 0
-      let headings = 5
+  if l:indent >= 0 && index(['markdown', 'wiki'], &filetype) >= 0
+    let l:headings = match(getline(a:line), '^#\+\zs\s')+1
+    if l:headings <= 0
+      let l:headings = 5
     endif
 
-    return indent+headings
+    return [l:indent+l:headings, l:indent]
   else
-    return indent(a:line)
+    return [l:indent, l:indent]
   endif
 endfunction
 let g:Context_indent = funcref('MyContext')
@@ -658,6 +657,7 @@ let g:fzf_colors = {
       \ 'spinner': ['fg', 'Label'],
       \ 'header':  ['fg', 'Comment'],
       \}
+let g:fzf_preview_window = ''
 
 let g:fzf_mru_no_sort = 1
 let g:fzf_mru_exclude = '\v' . join([
@@ -697,7 +697,7 @@ endfunction
 command! -bang Zotero call fzf#run(fzf#wrap(
             \ 'zotero',
             \ { 'source':  'fd -t f -e pdf . ~/.local/zotero/',
-            \   'sink':    'silent !zathura --fork',
+            \   'sink':    {x -> system(['zathura', '--fork', x])},
             \   'options': '-m -d / --with-nth=-1' },
             \ <bang>0))
 
