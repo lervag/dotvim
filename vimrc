@@ -374,8 +374,6 @@ nnoremap <expr> k v:count ? 'k' : 'gk'
 xnoremap <expr> j v:count ? 'j' : 'gj'
 xnoremap <expr> k v:count ? 'k' : 'gk'
 nnoremap gV     `[V`]
-nnoremap <c-f> Lzt
-nnoremap <c-b> Hzb
 
 nnoremap <c-w>-     <c-w>s
 nnoremap <c-w><bar> <c-w>v
@@ -391,7 +389,6 @@ nnoremap <silent> zk zckzOzz
 
 " Backspace and return for improved navigation
 nnoremap        <bs> <c-o>zvzz
-nnoremap <expr> <cr> empty(&buftype) ? '<c-]>zvzz' : '<cr>'
 
 " Shortcuts for some files
 nnoremap <silent> <leader>ev :execute 'edit' resolve($MYVIMRC)<cr>
@@ -784,10 +781,10 @@ unlet s:x
 
 let g:easy_align_bypass_fold = 1
 
-nmap ga <plug>(LiveEasyAlign)
-vmap ga <plug>(LiveEasyAlign)
-nmap gA <plug>(EasyAlign)
-vmap gA <plug>(EasyAlign)
+nmap <leader>ea <plug>(LiveEasyAlign)
+vmap <leader>ea <plug>(LiveEasyAlign)
+nmap <leader>eA <plug>(EasyAlign)
+vmap <leader>eA <plug>(EasyAlign)
 vmap .  <plug>(EasyAlignRepeat)
 
 " }}}2
