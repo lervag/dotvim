@@ -503,6 +503,8 @@ nmap <silent> <leader>ld <plug>(coc-definition)zv
 nmap <silent> <leader>lr <plug>(coc-references)
 nmap <silent> <leader>lt <plug>(coc-type-definition)
 nmap <silent> <leader>li <plug>(coc-implementation)
+nmap <silent> <leader>la <plug>(coc-codeaction-selected)
+xmap <silent> <leader>la <plug>(coc-codeaction-selected)
 
 nmap <silent> <leader>lp <plug>(coc-diagnostic-prev)
 nmap <silent> <leader>ln <plug>(coc-diagnostic-next)
@@ -994,7 +996,6 @@ let g:ruby_fold=1
 " }}}2
 " {{{2 filetype: tex
 
-let g:tex_stylish = 1
 let g:tex_conceal = ''
 let g:tex_flavor = 'latex'
 let g:tex_isk='48-57,a-z,A-Z,192-255,:'
@@ -1026,9 +1027,17 @@ let g:vimtex_complete_bib = {
       \}
 let g:vimtex_echo_verbose_input = 0
 
+let g:vimtex_syntax_alpha = 1
+
 if has('nvim')
   let g:vimtex_compiler_progname = 'nvr'
 endif
+
+set spelllang=en_gb
+let g:vimtex_grammar_vlty = {
+      \ 'lt_directory': '~/.local/share/languagetool/',
+      \ 'show_suggestions': 1,
+      \}
 
 "
 " NOTE: See also ~/.vim/personal/ftplugin/tex.vim
