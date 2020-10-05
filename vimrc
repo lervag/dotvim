@@ -26,7 +26,6 @@ Plug 'Konfekt/FastFold'
 Plug 'luochen1990/rainbow'
 Plug 'andymass/vim-matchup'
 Plug 'RRethy/vim-illuminate'
-Plug 'wellle/context.vim'
 
 " Plugin: Completion and snippets
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -576,39 +575,6 @@ augroup vimrc_calendar
   autocmd FileType calendar
         \ nnoremap <silent><buffer> <c-u> :WinBufDelete<cr>
 augroup END
-
-" }}}2
-" {{{2 plugin: context.vim
-
-" let g:context_filetype_blacklist = ['wiki']
-" let g:context_border_char = '  '
-" let g:context_highlight_tag = '<hide>'
-let g:context_highlight_normal = 'PMenu'
-let g:context_highlight_border = '<hide>'
-let g:context_add_mappings = 0
-let g:context_skip_regex = '^\s*$'
-let g:context_nvim_no_redraw = 1
-
-nnoremap <silent> <expr> zz context#util#map('zz')
-nnoremap <silent> <expr> zb context#util#map('zb')
-nnoremap <silent> <expr> zt context#util#map_zt()
-nnoremap <silent> <expr> H  context#util#map_H()
-
-function MyContext(line)
-  let l:indent = indent(a:line)
-
-  if l:indent >= 0 && index(['markdown', 'wiki'], &filetype) >= 0
-    let l:headings = match(getline(a:line), '^#\+\zs\s')+1
-    if l:headings <= 0
-      let l:headings = 5
-    endif
-
-    return [l:indent+l:headings, l:indent]
-  else
-    return [l:indent, l:indent]
-  endif
-endfunction
-let g:Context_indent = funcref('MyContext')
 
 " }}}2
 " {{{2 plugin: CtrlFS
