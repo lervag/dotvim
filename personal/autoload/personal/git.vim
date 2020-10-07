@@ -1,9 +1,9 @@
-function! personal#git#fugitive_toggle()
+function! personal#git#fugitive_toggle() " {{{1
   if buflisted(bufname('.git/index'))
     bd .git/index
   else
     try
-      Gstatus
+      Git
       normal gg
     catch /Vim.*E492/
       echo 'Sorry: Not in a Git repo.'
@@ -11,3 +11,4 @@ function! personal#git#fugitive_toggle()
   endif
 endfunction
 
+" }}}1

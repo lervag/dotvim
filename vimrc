@@ -470,9 +470,12 @@ nnoremap <silent><leader>gd :Gdiff<cr>
 
 augroup vimrc_fugitive
   autocmd!
+  autocmd WinEnter index call fugitive#ReloadStatus(-1, 0)
   autocmd BufReadPost fugitive:// setlocal bufhidden=delete
   autocmd FileType git setlocal foldlevel=1
   autocmd FileType git,fugitive nnoremap <buffer><silent> q :bwipeout!<cr>
+  autocmd FileType fugitive
+        \ nnoremap <buffer><silent> <f5> :call fugitive#ReloadStatus(-1, 0)<cr>
 augroup END
 
 " }}}2
@@ -1009,6 +1012,7 @@ let g:vimtex_format_enabled = 1
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_automatic = 0
 let g:vimtex_view_forward_search_on_start = 0
+let g:vimtex_context_pdf_viewer = 'mupdf'
 let g:vimtex_toc_config = {
       \ 'split_pos' : 'full',
       \ 'mode' : 2,
@@ -1035,7 +1039,7 @@ endif
 
 set spelllang=en_gb
 let g:vimtex_grammar_vlty = {
-      \ 'lt_directory': '~/.local/share/languagetool/',
+      \ 'lt_command': 'languagetool',
       \ 'show_suggestions': 1,
       \}
 
