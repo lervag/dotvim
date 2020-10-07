@@ -22,7 +22,6 @@ nnoremap <silent> <leader>q  :WinResize<cr>
 " Main functions
 function! s:remove_all_but_current() " {{{1
   silent! wincmd o
-  WinResize
 
   for bfr in getbufinfo()
     if bfr.hidden && !bfr.changed
