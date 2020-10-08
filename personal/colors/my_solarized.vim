@@ -67,11 +67,12 @@ function! s:highlight(group, opts) abort " {{{1
     let l:cmd .= ' gui=' . a:opts.style
   endif
 
+  let l:special = ['NONE', 'bg', 'background', 'fg', 'foreground']
   for l:x in ['fg', 'bg']
     if has_key(a:opts, l:x)
-      if a:opts[l:x] ==# 'NONE'
-        let l:cmd .= ' cterm' . l:x . '=NONE'
-        let l:cmd .= ' gui' . l:x . '=NONE'
+      if index(l:special, a:opts[l:x]) >= 0
+        let l:cmd .= ' cterm' . l:x . '=' . a:opts[l:x]
+        let l:cmd .= ' gui' . l:x . '=' . a:opts[l:x]
       else
         let l:cmd .= ' cterm' . l:x . '=' . s:colordict[a:opts[l:x]].num
         let l:cmd .= ' gui' . l:x . '=' . s:colordict[a:opts[l:x]].hex
