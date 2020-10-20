@@ -707,6 +707,7 @@ let g:rainbow_conf = {
       \   'qf' : 0,
       \   'javascript' : 0,
       \   'man' : 0,
+      \   'tex' : 0,
       \ }
       \}
 
@@ -1012,7 +1013,7 @@ let g:vimtex_format_enabled = 1
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_automatic = 0
 let g:vimtex_view_forward_search_on_start = 0
-let g:vimtex_context_pdf_viewer = 'mupdf'
+let g:vimtex_context_pdf_viewer = 'qpdfview'
 let g:vimtex_toc_config = {
       \ 'split_pos' : 'full',
       \ 'mode' : 2,
