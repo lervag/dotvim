@@ -239,6 +239,7 @@ set wildcharm=<c-z>
 set complete+=U,s,k,kspell,]
 set completeopt=menuone
 silent! set completeopt+=noinsert,noselect
+silent! set pumwidth=35
 
 " Presentation
 set list
@@ -1031,8 +1032,6 @@ let g:vimtex_complete_bib = {
       \ 'menu_fmt' : '@year, @author_short, @title',
       \}
 let g:vimtex_echo_verbose_input = 0
-
-let g:vimtex_syntax_alpha = 1
 
 if has('nvim')
   let g:vimtex_compiler_progname = 'nvr'
