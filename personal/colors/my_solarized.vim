@@ -469,10 +469,6 @@ call s:highlight('perlVarPlain',          {'fg': 'color03'})
 
 call s:highlight('rubyDefine', {'fg': 'color10'})
 
-call s:highlight('texMathMatcher', {'fg': 'color03'})
-highlight link texStatement Number
-highlight link texCmdArgs   Identifier
-
 " }}}1
 
 " {{{1 Set terminal color palette
