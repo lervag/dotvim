@@ -99,10 +99,13 @@ function! CreateNotes() abort " {{{1
 
   " Add new notes
   for l:e in l:list
+    let l:q = escape(join(l:e.q, "\n"), '\')
+    let l:a = escape(join(l:e.a, "\n"), '\')
+
     let l:new = copy(l:template)
     let l:new = substitute(l:new, '{tags}', l:e.tags, 'g')
-    let l:new = substitute(l:new, '{q}', join(l:e.q, "\n"), 'g')
-    let l:new = substitute(l:new, '{a}', join(l:e.a, "\n"), 'g')
+    let l:new = substitute(l:new, '{q}', l:q, 'g')
+    let l:new = substitute(l:new, '{a}', l:a, 'g')
     let l:new = substitute(l:new, "  \n", "\n\n", 'g')
     call append(line('.')-1, split(l:new, "\n") + [''])
   endfor
