@@ -31,8 +31,8 @@ function! CreateNotes() abort " {{{1
   "
   if getline('.') =~# '^\s*$' | return | endif
 
-  " Save file if necessary
-  update
+  " Avoid folds messing things up
+  setlocal nofoldenable
 
   let l:template = join([
         \ '# Note',
@@ -112,6 +112,8 @@ function! CreateNotes() abort " {{{1
   silent execute line('.') . 'd'
 
   keepjumps call cursor(l:lnum_start, 1)
+
+  update
 endfunction
 
 " }}}1
