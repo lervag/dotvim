@@ -11,7 +11,7 @@ call plug#begin(g:vimrc#path_bundles)
 Plug 'junegunn/vim-plug', {'on': []}
 
 " My own plugins
-call plug#(g:vimrc#path_lervag . 'vimtex')
+call plug#(g:vimrc#path_lervag . 'vimtex', {'branch': 'feat/syntax'})
 call plug#(g:vimrc#path_lervag . 'file-line')
 call plug#(g:vimrc#path_lervag . 'vim-foam')
 call plug#(g:vimrc#path_lervag . 'vim-rmarkdown')
@@ -1010,6 +1010,7 @@ let g:vimtex_fold_types = {
       \ 'markers' : {'enabled': 0},
       \ 'sections' : {'parse_levels': 1},
       \}
+let g:vimtex_syntax_conceal = 0
 let g:vimtex_format_enabled = 1
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_automatic = 0
