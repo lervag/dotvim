@@ -21,41 +21,41 @@ set background=light
 " the terminal colors are set correctly. The custom colors are calibrated to
 " look similar in 256 colors and truecolors.
 let s:colordict = {
-      \ 'color00':  {'num': 0,   'hex': '#073642', 'name': 'base02'},
-      \ 'color01':  {'num': 1,   'hex': '#dc322f', 'name': 'red'},
-      \ 'color02':  {'num': 2,   'hex': '#859900', 'name': 'green'},
-      \ 'color03':  {'num': 3,   'hex': '#b58900', 'name': 'yellow'},
-      \ 'color04':  {'num': 4,   'hex': '#268bd2', 'name': 'blue'},
-      \ 'color05':  {'num': 5,   'hex': '#d33682', 'name': 'magenta'},
-      \ 'color06':  {'num': 6,   'hex': '#2aa198', 'name': 'cyan'},
-      \ 'color07':  {'num': 7,   'hex': '#eee8d5', 'name': 'base2'},
-      \ 'color08':  {'num': 8,   'hex': '#002b36', 'name': 'base03'},
-      \ 'color09':  {'num': 9,   'hex': '#cb4b16', 'name': 'orange'},
-      \ 'color10':  {'num': 10,  'hex': '#586e75', 'name': 'base01'},
-      \ 'color11':  {'num': 11,  'hex': '#657b83', 'name': 'base00'},
-      \ 'color12':  {'num': 12,  'hex': '#839496', 'name': 'base0'},
-      \ 'color13':  {'num': 13,  'hex': '#6c71c4', 'name': 'violet'},
-      \ 'color14':  {'num': 14,  'hex': '#93a1a1', 'name': 'base1'},
-      \ 'color15':  {'num': 15,  'hex': '#fdf6e3', 'name': 'base3'},
-      \ 'custom01': {'num': 193, 'hex': '#d7ffaf', 'name': 'lightgreen'},
-      \ 'custom02': {'num': 64,  'hex': '#719e07', 'name': 'green'},
-      \ 'custom03': {'num': 217, 'hex': '#f7cfbf', 'name': 'pink'},
-      \ 'custom04': {'num': 253, 'hex': '#d2e1e0', 'name': 'lightgray'},
-      \ 'custom05': {'num': 201, 'hex': '#ff00ff', 'name': 'magenta'},
-      \ 'custom06': {'num': 124, 'hex': '#af0000', 'name': 'darkred'},
-      \ 'custom07': {'num': 33,  'hex': '#0087ff', 'name': 'blue1'},
-      \ 'custom08': {'num': 104, 'hex': '#8787d7', 'name': 'bluepurple'},
-      \ 'custom09': {'num': 227, 'hex': '#ffff5f', 'name': 'yellow'},
-      \ 'custom10': {'num': 220, 'hex': '#ffe055', 'name': 'gold'},
-      \ 'custom11': {'num': 202, 'hex': '#ff5f00', 'name': 'orangered'},
-      \ 'custom12': {'num': 39,  'hex': '#00afff', 'name': 'blue2'},
-      \ 'custom13': {'num': 90,  'hex': '#8b008b', 'name': 'darkmagenta'},
-      \ 'custom14': {'num': 117, 'hex': '#add8e6', 'name': 'lightblue'},
-      \ 'custom15': {'num': 100, 'hex': '#878700', 'name': 'army1'},
-      \ 'custom16': {'num': 101, 'hex': '#87875f', 'name': 'army2'},
-      \ 'custom17': {'num': 59,  'hex': '#e0dac9', 'name': 'darkbase3'},
-      \ 'custom18': {'num': 231, 'hex': '#fffbf2', 'name': 'whitebase3'},
-      \ 'custom19': {'num': 145, 'hex': '#bfbaac', 'name': 'darkerbase3'},
+      \ 'color00':   {'hex': '#073642', 'num': 0,   'name': 'base02'},
+      \ 'color01':   {'hex': '#dc322f', 'num': 1,   'name': 'red'},
+      \ 'color02':   {'hex': '#859900', 'num': 2,   'name': 'green'},
+      \ 'color03':   {'hex': '#b58900', 'num': 3,   'name': 'yellow'},
+      \ 'color04':   {'hex': '#268bd2', 'num': 4,   'name': 'blue'},
+      \ 'color05':   {'hex': '#d33682', 'num': 5,   'name': 'magenta'},
+      \ 'color06':   {'hex': '#2aa198', 'num': 6,   'name': 'cyan'},
+      \ 'color07':   {'hex': '#eee8d5', 'num': 7,   'name': 'base2'},
+      \ 'color07d':  {'hex': '#e8e2ce', 'num': 188, 'name': 'base2v91'},
+      \ 'color08':   {'hex': '#002b36', 'num': 8,   'name': 'base03'},
+      \ 'color09':   {'hex': '#cb4b16', 'num': 9,   'name': 'orange'},
+      \ 'color10':   {'hex': '#586e75', 'num': 10,  'name': 'base01'},
+      \ 'color11':   {'hex': '#657b83', 'num': 11,  'name': 'base00'},
+      \ 'color12':   {'hex': '#839496', 'num': 12,  'name': 'base0'},
+      \ 'color13':   {'hex': '#6c71c4', 'num': 13,  'name': 'violet'},
+      \ 'color14':   {'hex': '#93a1a1', 'num': 14,  'name': 'base1'},
+      \ 'color15':   {'hex': '#fdf6e3', 'num': 15,  'name': 'base3'},
+      \ 'color15d':  {'hex': '#e0dac9', 'num': 59,  'name': 'base3v88'},
+      \ 'color15w':  {'hex': '#fffaed', 'num': 231, 'name': 'base3v100s7'},
+      \ 'army1':     {'hex': '#878700', 'num': 100},
+      \ 'army2':     {'hex': '#87875f', 'num': 101},
+      \ 'blue1':     {'hex': '#0087ff', 'num': 33},
+      \ 'blue2':     {'hex': '#00afff', 'num': 39},
+      \ 'blue3':     {'hex': '#add8e6', 'num': 117},
+      \ 'gold1':     {'hex': '#ffe055', 'num': 220},
+      \ 'gray1':     {'hex': '#d2e1e0', 'num': 253},
+      \ 'green1':    {'hex': '#719e07', 'num': 64},
+      \ 'green2':    {'hex': '#d7ffaf', 'num': 193},
+      \ 'magenta1':  {'hex': '#ff00ff', 'num': 201},
+      \ 'magenta1d': {'hex': '#8b008b', 'num': 90},
+      \ 'orange1':   {'hex': '#ff5f00', 'num': 202},
+      \ 'pink1':     {'hex': '#f7cfbf', 'num': 217},
+      \ 'purple1':   {'hex': '#8787d7', 'num': 104},
+      \ 'red1':      {'hex': '#af0000', 'num': 124},
+      \ 'yellow1':   {'hex': '#ffff5f', 'num': 227},
       \}
 
 " }}}1
@@ -89,28 +89,23 @@ endfunction
 
 " }}}1
 
-" {{{1 Highlight: Default/Internal groups
+" {{{1 Highlight: Internal groups
 
 call s:highlight('Normal', {'fg': 'color11', 'bg': 'color15'})
 call s:highlight('ColorColumn', {'bg': 'color07'})
-call s:highlight('Comment', {'fg': 'color14', 'style': 'italic'})
 call s:highlight('Conceal', {'fg': 'color04', 'bg': 'NONE'})
-call s:highlight('Constant', {'fg': 'color06'})
 call s:highlight('Cursor', {'fg': 'color15', 'bg': 'color11'})
 call s:highlight('CursorColumn', {'bg': 'color07', 'style': 'NONE'})
 call s:highlight('CursorLine', {'bg': 'color07', 'sp': 'color10', 'style': 'NONE'})
 call s:highlight('CursorLineNr', {'fg': 'color14', 'style': 'NONE'})
-call s:highlight('DiffAdd', {'bg': 'custom01', 'sp': 'custom02'})
+call s:highlight('DiffAdd', {'bg': 'green2', 'sp': 'green1'})
 call s:highlight('DiffChange', {'bg': 'color07', 'sp': 'color03'})
-call s:highlight('DiffDelete', {'fg': 'NONE', 'bg': 'custom03', 'style': 'NONE'})
-call s:highlight('DiffText', {'bg': 'custom04', 'sp': 'color04', 'style': 'NONE'})
+call s:highlight('DiffDelete', {'fg': 'NONE', 'bg': 'pink1', 'style': 'NONE'})
+call s:highlight('DiffText', {'bg': 'gray1', 'sp': 'color04', 'style': 'NONE'})
 call s:highlight('Directory', {'fg': 'color04'})
-call s:highlight('Error', {'fg': 'color01', 'bg': 'NONE', 'style': 'bold'})
 call s:highlight('ErrorMsg', {'fg': 'color01', 'bg': 'NONE', 'style': 'bold'})
 call s:highlight('FoldColumn', {'fg': 'color11', 'bg': 'color07'})
-call s:highlight('Folded', {'fg': 'color11', 'bg': 'color07', 'sp': 'color15', 'style': 'underline'})
-call s:highlight('Identifier', {'fg': 'color04'})
-call s:highlight('Ignore', {'fg': 'color15'})
+call s:highlight('Folded', {'fg': 'color11', 'bg': 'color07d', 'sp': 'color15', 'style': 'underline'})
 call s:highlight('IncSearch', {'fg': 'color09', 'style': 'standout'})
 call s:highlight('LineNr', {'fg': 'color14', 'bg': 'color07'})
 call s:highlight('MatchParen', {'fg': 'color04', 'bg': 'NONE', 'style': 'bold'})
@@ -118,30 +113,24 @@ call s:highlight('ModeMsg', {'fg': 'color04', 'style': 'NONE'})
 call s:highlight('MoreMsg', {'fg': 'color04', 'style': 'NONE'})
 call s:highlight('NonText', {'fg': 'color12', 'style': 'NONE'})
 call s:highlight('NvimInternalError', {'fg': 'color09', 'bg': 'color01'})
-call s:highlight('Pmenu', {'fg': 'color11', 'bg': 'custom17'})
+call s:highlight('Pmenu', {'fg': 'color11', 'bg': 'color15d'})
 call s:highlight('PmenuSbar', {'fg': 'color00', 'bg': 'color11'})
 call s:highlight('PmenuSel', {'fg': 'color14', 'bg': 'color00'})
 call s:highlight('PmenuThumb', {'fg': 'color11'})
-call s:highlight('PreProc', {'fg': 'color09'})
 call s:highlight('Question', {'fg': 'color06', 'style': 'NONE'})
 call s:highlight('RedrawDebugClear', {'bg': 'color11'})
 call s:highlight('RedrawDebugComposed', {'bg': 'color02'})
 call s:highlight('RedrawDebugNormal', {'style': 'reverse'})
 call s:highlight('RedrawDebugRecompose', {'bg': 'color09'})
-call s:highlight('Search', {'fg': 'custom05', 'bg': 'NONE', 'style': 'bold,underline'})
+call s:highlight('Search', {'fg': 'magenta1', 'bg': 'NONE', 'style': 'bold,underline'})
 call s:highlight('SignColumn', {'fg': 'color11', 'bg': 'color07'})
-call s:highlight('Special', {'fg': 'color01'})
 call s:highlight('SpecialKey', {'fg': 'color12', 'bg': 'color07'})
-call s:highlight('SpellBad',   {'fg': 'custom06', 'bg': 'NONE', 'sp': 'color01', 'style': 'bold'})
-call s:highlight('SpellCap',   {'fg': 'custom07', 'bg': 'NONE', 'sp': 'color01', 'style': 'bold'})
-call s:highlight('SpellLocal', {'fg': 'custom08', 'bg': 'NONE', 'sp': 'color01', 'style': 'bold'})
-call s:highlight('SpellRare',  {'fg': 'custom09', 'bg': 'NONE', 'sp': 'color01', 'style': 'bold'})
-call s:highlight('Statement', {'fg': 'color02', 'style': 'NONE'})
+call s:highlight('SpellBad',   {'fg': 'red1', 'bg': 'NONE', 'sp': 'color01', 'style': 'bold'})
+call s:highlight('SpellCap',   {'fg': 'blue1', 'bg': 'NONE', 'sp': 'color01', 'style': 'bold'})
+call s:highlight('SpellLocal', {'fg': 'purple1', 'bg': 'NONE', 'sp': 'color01', 'style': 'bold'})
+call s:highlight('SpellRare',  {'fg': 'yellow1', 'bg': 'NONE', 'sp': 'color01', 'style': 'bold'})
 call s:highlight('TermCursor', {'style': 'bold'})
 call s:highlight('Title', {'fg': 'color09', 'style': 'bold'})
-call s:highlight('Todo', {'fg': 'color05', 'bg': 'NONE', 'style': 'bold'})
-call s:highlight('Type', {'fg': 'color03', 'style': 'NONE'})
-call s:highlight('Underlined', {'fg': 'color13', 'style': 'NONE'})
 call s:highlight('VertSplit', {'fg': 'color12', 'bg': 'color12', 'style': 'NONE'})
 call s:highlight('Visual', {'fg': 'color15', 'bg': 'color14', 'style': 'NONE'})
 call s:highlight('VisualNOS', {'bg': 'color07', 'style': 'reverse'})
@@ -152,12 +141,12 @@ call s:highlight('Whitespace', {'fg': 'color12', 'bg': 'color07'})
 " Statusline and tabline
 call s:highlight('Statusline', {'fg': 'color15', 'bg': 'color10', 'style': 'NONE'})
 call s:highlight('StatuslineNC', {'fg': 'color08', 'bg': 'color10', 'style': 'NONE'})
-call s:highlight('SLHighlight', {'fg': 'custom10', 'bg': 'color10'})
-call s:highlight('SLAlert', {'fg': 'custom11', 'bg': 'color10'})
+call s:highlight('SLHighlight', {'fg': 'gold1', 'bg': 'color10'})
+call s:highlight('SLAlert', {'fg': 'orange1', 'bg': 'color10'})
 call s:highlight('SLFZF', {'fg': 'color02'})
 call s:highlight('TabLine', {'fg': 'color08', 'bg': 'color10', 'sp': 'color11', 'style': 'NONE'})
 call s:highlight('TabLineFill', {'fg': 'color08', 'bg': 'color10', 'sp': 'color11', 'style': 'NONE'})
-call s:highlight('TabLineSel', {'fg': 'custom10', 'bg': 'color10', 'sp': 'color11', 'style': 'NONE'})
+call s:highlight('TabLineSel', {'fg': 'gold1', 'bg': 'color10', 'sp': 'color11', 'style': 'NONE'})
 
 " Cursor colors
 call s:highlight('iCursor', {'bg': 'color03'})
@@ -165,29 +154,44 @@ call s:highlight('rCursor', {'bg': 'color01'})
 call s:highlight('vCursor', {'bg': 'color05'})
 highlight link lCursor        Cursor
 
+" }}}1
+" {{{1 Highlight: Default syntax groups (:help group-names)
+
+call s:highlight('Comment', {'fg': 'color14', 'style': 'italic'})
+call s:highlight('Constant', {'fg': 'color06'})
+call s:highlight('Error', {'fg': 'color01', 'bg': 'NONE', 'style': 'bold'})
+call s:highlight('Identifier', {'fg': 'color04'})
+call s:highlight('Ignore', {'fg': 'color15'})
+call s:highlight('PreProc', {'fg': 'color09'})
+call s:highlight('Special', {'fg': 'color01'})
+call s:highlight('Statement', {'fg': 'color02', 'style': 'NONE'})
+call s:highlight('Todo', {'fg': 'color05', 'bg': 'NONE', 'style': 'bold'})
+call s:highlight('Type', {'fg': 'color03', 'style': 'NONE'})
+call s:highlight('Underlined', {'fg': 'color13', 'style': 'NONE'})
+
 highlight link Boolean        Constant
 highlight link Character      Constant
-highlight link Conditional    Statement
-highlight link Debug          Special
-highlight link Define         PreProc
-highlight link Delimiter      Special
-highlight link Exception      Statement
-highlight link Float          Number
-highlight link Function       Identifier
-highlight link Include        PreProc
-highlight link Keyword        Statement
-highlight link Label          Statement
-highlight link Macro          PreProc
+highlight link Float          Constant
 highlight link Number         Constant
-highlight link Operator       Statement
+highlight link String         Constant
+highlight link Function       Identifier
+highlight link Define         PreProc
+highlight link Include        PreProc
+highlight link Macro          PreProc
 highlight link PreCondit      PreProc
-highlight link Repeat         Statement
+highlight link Debug          Special
+highlight link Delimiter      Special
 highlight link SpecialChar    Special
 highlight link SpecialComment Special
-highlight link StorageClass   Type
-highlight link String         Constant
-highlight link Structure      Type
 highlight link Tag            Special
+highlight link Conditional    Statement
+highlight link Exception      Statement
+highlight link Keyword        Statement
+highlight link Label          Statement
+highlight link Operator       Statement
+highlight link Repeat         Statement
+highlight link StorageClass   Type
+highlight link Structure      Type
 highlight link Typedef        Type
 
 " }}}1
@@ -229,7 +233,7 @@ highlight link CocCodeLens    codeBlockBackground
 " }}}1
 " {{{ Highlight: Various plugins
 
-call s:highlight('ctrlsfSelectedLine', {'fg': 'custom12', 'style': 'bold'})
+call s:highlight('ctrlsfSelectedLine', {'fg': 'blue2', 'style': 'bold'})
 call s:highlight('OperatorSandwichBuns', {'fg': 'color05', 'style': 'bold'})
 
 highlight link ALEErrorLine ErrorMsg
@@ -238,7 +242,7 @@ highlight link ALEInfoLine ModeMsg
 
 call s:highlight('illuminatedWord', {'style': 'underline'})
 
-call s:highlight('codeBlockBackground', {'bg': 'custom18'})
+call s:highlight('codeBlockBackground', {'bg': 'color15w'})
 
 " }}}1
 
@@ -440,10 +444,10 @@ highlight link diffRemoved   WarningMsg
 
 call s:highlight('semshiImported',        {'fg': 'color08'})
 call s:highlight('semshiGlobal',          {'fg': 'color05'})
-call s:highlight('semshiParameter',       {'fg': 'custom16'})
-call s:highlight('semshiParameterUnused', {'fg': 'custom15'})
-call s:highlight('semshiFree',            {'fg': 'custom13'})
-call s:highlight('semshiAttribute',       {'fg': 'custom14'})
+call s:highlight('semshiParameter',       {'fg': 'army2'})
+call s:highlight('semshiParameterUnused', {'fg': 'army1'})
+call s:highlight('semshiFree',            {'fg': 'magenta1d'})
+call s:highlight('semshiAttribute',       {'fg': 'blue3'})
 call s:highlight('semshiSelected',        {'style': 'underline'})
 highlight link semshiUnresolved Normal
 highlight link semshiBuiltin Function
@@ -459,7 +463,7 @@ call s:highlight('htmlSpecialTagName', {'fg': 'color04', 'style': 'italic'})
 call s:highlight('htmlTag',            {'fg': 'color14'})
 call s:highlight('htmlTagN',           {'fg': 'color10'})
 call s:highlight('htmlTagName',        {'fg': 'color04'})
-call s:highlight('htmlStrike',         {'fg': 'custom17'})
+call s:highlight('htmlStrike',         {'fg': 'color15d'})
 
 call s:highlight('javaScript', {'fg': 'color03'})
 
