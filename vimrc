@@ -25,7 +25,6 @@ endif
 Plug 'Konfekt/FastFold'
 Plug 'luochen1990/rainbow'
 Plug 'andymass/vim-matchup'
-Plug 'RRethy/vim-illuminate'
 
 " Plugin: Completion and snippets
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -781,16 +780,6 @@ let g:gutentags_file_list_command = {
 
 let g:Hexokinase_highlighters = ['backgroundfull']
 let g:Hexokinase_ftEnabled = ['css', 'html']
-
-" }}}2
-" {{{2 plugin: vim-illuminate
-
-let g:Illuminate_delay = 0
-let g:Illuminate_ftblacklist = [
-      \ 'dagbok',
-      \ 'wiki',
-      \ 'python',
-      \]
 
 " }}}2
 " {{{2 plugin: vim-lawrencium
