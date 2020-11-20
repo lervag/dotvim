@@ -990,8 +990,6 @@ let g:ruby_fold=1
 " }}}2
 " {{{2 filetype: tex
 
-let g:tex_conceal = ''
-let g:tex_flavor = 'latex'
 let g:tex_isk='48-57,a-z,A-Z,192-255,:'
 
 let g:vimtex_fold_enabled = 1
@@ -999,7 +997,7 @@ let g:vimtex_fold_types = {
       \ 'markers' : {'enabled': 0},
       \ 'sections' : {'parse_levels': 1},
       \}
-let g:vimtex_syntax_conceal = 0
+let g:vimtex_syntax_conceal_default = 1
 let g:vimtex_format_enabled = 1
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_automatic = 0
