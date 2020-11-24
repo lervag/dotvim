@@ -11,7 +11,7 @@ call plug#begin(g:vimrc#path_bundles)
 Plug 'junegunn/vim-plug', {'on': []}
 
 " My own plugins
-call plug#(g:vimrc#path_lervag . 'vimtex', {'branch': 'feat/syntax'})
+call plug#(g:vimrc#path_lervag . 'vimtex')
 call plug#(g:vimrc#path_lervag . 'file-line')
 call plug#(g:vimrc#path_lervag . 'vim-foam')
 call plug#(g:vimrc#path_lervag . 'vim-rmarkdown')
@@ -355,7 +355,6 @@ call personal#init#tabline()
 " Disable some mappings
 noremap  <f1>   <nop>
 inoremap <f1>   <nop>
-inoremap <esc>  <nop>
 nnoremap Q      <nop>
 
 " Some general/standard remappings
@@ -990,19 +989,23 @@ let g:ruby_fold=1
 " }}}2
 " {{{2 filetype: tex
 
-let g:tex_isk='48-57,a-z,A-Z,192-255,:'
-
+let g:vimtex_complete_bib = {
+      \ 'simple' : 1,
+      \ 'menu_fmt' : '@year, @author_short, @title',
+      \}
+let g:vimtex_complete_img_use_tail = 1
+let g:vimtex_context_pdf_viewer = 'qpdfview'
+let g:vimtex_echo_verbose_input = 0
 let g:vimtex_fold_enabled = 1
 let g:vimtex_fold_types = {
       \ 'markers' : {'enabled': 0},
       \ 'sections' : {'parse_levels': 1},
       \}
-let g:vimtex_syntax_conceal_default = 1
 let g:vimtex_format_enabled = 1
-let g:vimtex_view_method = 'zathura'
-let g:vimtex_view_automatic = 0
-let g:vimtex_view_forward_search_on_start = 0
-let g:vimtex_context_pdf_viewer = 'qpdfview'
+let g:vimtex_imaps_enabled = 0
+let g:vimtex_quickfix_autoclose_after_keystrokes = 3
+let g:vimtex_quickfix_open_on_warning = 0
+let g:vimtex_syntax_conceal_default = 0
 let g:vimtex_toc_config = {
       \ 'split_pos' : 'full',
       \ 'mode' : 2,
@@ -1011,19 +1014,9 @@ let g:vimtex_toc_config = {
       \ 'hotkeys_leader' : '',
       \ 'refresh_always' : 0,
       \}
-let g:vimtex_quickfix_open_on_warning = 0
-let g:vimtex_quickfix_autoclose_after_keystrokes = 3
-let g:vimtex_imaps_enabled = 1
-let g:vimtex_complete_img_use_tail = 1
-let g:vimtex_complete_bib = {
-      \ 'simple' : 1,
-      \ 'menu_fmt' : '@year, @author_short, @title',
-      \}
-let g:vimtex_echo_verbose_input = 0
-
-if has('nvim')
-  let g:vimtex_compiler_progname = 'nvr'
-endif
+let g:vimtex_view_automatic = 0
+let g:vimtex_view_forward_search_on_start = 0
+let g:vimtex_view_method = 'zathura'
 
 set spelllang=en_gb
 let g:vimtex_grammar_vlty = {
