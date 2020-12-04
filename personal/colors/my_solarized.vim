@@ -23,15 +23,23 @@ set background=light
 let s:colordict = {
       \ 'color00':   {'hex': '#073642', 'num': 0,   'name': 'base02'},
       \ 'color01':   {'hex': '#dc322f', 'num': 1,   'name': 'red'},
+      \ 'color01d':  {'hex': '#801c1b', 'num': 1,   'name': 'redv50'},
+      \ 'color01l':  {'hex': '#ff3936', 'num': 1,   'name': 'redv100'},
       \ 'color02':   {'hex': '#859900', 'num': 2,   'name': 'green'},
+      \ 'color02d':  {'hex': '#586600', 'num': 2,   'name': 'greenv40'},
+      \ 'color02l':  {'hex': '#b1cc00', 'num': 2,   'name': 'greenv80'},
       \ 'color03':   {'hex': '#b58900', 'num': 3,   'name': 'yellow'},
+      \ 'color03d':  {'hex': '#4d3800', 'num': 3,   'name': 'yellowv30'},
+      \ 'color03l':  {'hex': '#f2b600', 'num': 3,   'name': 'yellowv95'},
       \ 'color04':   {'hex': '#268bd2', 'num': 4,   'name': 'blue'},
+      \ 'color04d':  {'hex': '#175480', 'num': 4,   'name': 'bluev50'},
       \ 'color05':   {'hex': '#d33682', 'num': 5,   'name': 'magenta'},
       \ 'color06':   {'hex': '#2aa198', 'num': 6,   'name': 'cyan'},
       \ 'color07':   {'hex': '#eee8d5', 'num': 7,   'name': 'base2'},
       \ 'color07d':  {'hex': '#e8e2ce', 'num': 188, 'name': 'base2v91'},
       \ 'color08':   {'hex': '#002b36', 'num': 8,   'name': 'base03'},
       \ 'color09':   {'hex': '#cb4b16', 'num': 9,   'name': 'orange'},
+      \ 'color09l':  {'hex': '#e66b32', 'num': 9,   'name': 'orange'},
       \ 'color10':   {'hex': '#586e75', 'num': 10,  'name': 'base01'},
       \ 'color11':   {'hex': '#657b83', 'num': 11,  'name': 'base00'},
       \ 'color12':   {'hex': '#839496', 'num': 12,  'name': 'base0'},
@@ -42,9 +50,11 @@ let s:colordict = {
       \ 'color15w':  {'hex': '#fffaed', 'num': 231, 'name': 'base3v100s7'},
       \ 'army1':     {'hex': '#878700', 'num': 100},
       \ 'army2':     {'hex': '#87875f', 'num': 101},
+      \ 'black':     {'hex': '#000000', 'num': 0},
       \ 'blue1':     {'hex': '#0087ff', 'num': 33},
       \ 'blue2':     {'hex': '#00afff', 'num': 39},
       \ 'blue3':     {'hex': '#add8e6', 'num': 117},
+      \ 'blue4':     {'hex': '#2222aa', 'num': 117},
       \ 'gold1':     {'hex': '#ffe055', 'num': 220},
       \ 'gray1':     {'hex': '#d2e1e0', 'num': 253},
       \ 'green1':    {'hex': '#719e07', 'num': 64},
@@ -162,7 +172,7 @@ call s:highlight('Constant', {'fg': 'color06'})
 call s:highlight('Error', {'fg': 'color01', 'bg': 'NONE', 'style': 'bold'})
 call s:highlight('Identifier', {'fg': 'color04'})
 call s:highlight('Ignore', {'fg': 'color15'})
-call s:highlight('PreProc', {'fg': 'color09'})
+call s:highlight('PreProc', {'fg': 'color08'})
 call s:highlight('Special', {'fg': 'color01'})
 call s:highlight('Statement', {'fg': 'color02', 'style': 'NONE'})
 call s:highlight('Todo', {'fg': 'color05', 'bg': 'NONE', 'style': 'bold'})
@@ -267,12 +277,13 @@ highlight link vipmVar     Identifier
 " }}}1
 " {{{1 Highlight: Filetype Vim help
 
-call s:highlight('helpExample', {'fg': 'color08'})
 call s:highlight('helpHyperTextEntry', {'fg': 'color02'})
 call s:highlight('helpHyperTextJump', {'fg': 'color04', 'style': 'underline'})
 call s:highlight('helpNote', {'fg': 'color05'})
 call s:highlight('helpOption', {'fg': 'color06'})
 call s:highlight('helpVim', {'fg': 'color05'})
+highlight link helpExample  PreProc
+highlight link helpHeader   Special
 highlight link helpSpecial  Special
 highlight link helpIgnore   Special
 highlight link helpBacktick Special
@@ -451,6 +462,29 @@ call s:highlight('semshiAttribute',       {'fg': 'blue3'})
 call s:highlight('semshiSelected',        {'style': 'underline'})
 highlight link semshiUnresolved Normal
 highlight link semshiBuiltin Function
+
+" }}}1
+" {{{1 Highlight: Filetype tex
+
+call s:highlight('texArgNew', {'fg': 'color05'})
+call s:highlight('texEnvArgName', {'fg': 'color09l'})
+call s:highlight('texFootnoteArg', {'fg': 'color14', 'style': 'italic'})
+call s:highlight('texMathCmd', {'fg': 'color01d'})
+call s:highlight('texMathDelim', {'fg': 'color01l'})
+call s:highlight('texMathRegion', {'fg': 'color01'})
+call s:highlight('texPartArgTitle', {'fg': 'color03d'})
+call s:highlight('texRefArg', {'fg': 'color00'})
+call s:highlight('texMathOper', {'fg': 'color03'})
+call s:highlight('texTitleArg', {'fg': 'color03d', 'style': 'bold'})
+
+highlight link texAuthorArg texArg
+highlight link texCmdBooktabs texEnvArgName
+highlight link texCmdItem texEnvArgName
+highlight link texNewenvArgName texArgNew
+highlight link texPgfType texCmd
+highlight link texMathEnvArgName texMathCmd
+highlight link texSymbol texArg
+highlight link texTabularChar texMathOper
 
 " }}}1
 " {{{1 Highlight: Various filetypes
