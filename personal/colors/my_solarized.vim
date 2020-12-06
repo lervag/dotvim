@@ -170,7 +170,7 @@ highlight link lCursor        Cursor
 call s:highlight('Comment', {'fg': 'color14', 'style': 'italic'})
 call s:highlight('Constant', {'fg': 'color06'})
 call s:highlight('Error', {'fg': 'color01', 'bg': 'NONE', 'style': 'bold'})
-call s:highlight('Identifier', {'fg': 'color04'})
+call s:highlight('Identifier', {'fg': 'color04', 'style': 'NONE'})
 call s:highlight('Ignore', {'fg': 'color15'})
 call s:highlight('PreProc', {'fg': 'color08'})
 call s:highlight('Special', {'fg': 'color01'})
@@ -467,10 +467,12 @@ highlight link semshiBuiltin Function
 " {{{1 Highlight: Filetype tex
 
 call s:highlight('texArgNew', {'fg': 'color05'})
+call s:highlight('texCmdPart', {'fg': 'color03'})
+call s:highlight('texCmdRef', {'fg': 'color03'})
 call s:highlight('texEnvArgName', {'fg': 'color09l'})
 call s:highlight('texFootnoteArg', {'fg': 'color14', 'style': 'italic'})
 call s:highlight('texMathCmd', {'fg': 'color01d'})
-call s:highlight('texMathDelim', {'fg': 'color01l'})
+call s:highlight('texMathDelim', {'fg': 'color08'})
 call s:highlight('texMathRegion', {'fg': 'color01'})
 call s:highlight('texPartArgTitle', {'fg': 'color03d'})
 call s:highlight('texRefArg', {'fg': 'color00'})
@@ -482,6 +484,7 @@ highlight link texCmdBooktabs texEnvArgName
 highlight link texCmdItem texEnvArgName
 highlight link texNewenvArgName texArgNew
 highlight link texPgfType texCmd
+highlight link texMathSymbol texMathCmd
 highlight link texMathEnvArgName texMathCmd
 highlight link texSymbol texArg
 highlight link texTabularChar texMathOper
