@@ -466,28 +466,31 @@ highlight link semshiBuiltin Function
 " }}}1
 " {{{1 Highlight: Filetype tex
 
-call s:highlight('texArgNew', {'fg': 'color05'})
-call s:highlight('texCmdPart', {'fg': 'color03'})
-call s:highlight('texCmdRef', {'fg': 'color03'})
-call s:highlight('texEnvArgName', {'fg': 'color09l'})
-call s:highlight('texFootnoteArg', {'fg': 'color14', 'style': 'italic'})
-call s:highlight('texMathCmd', {'fg': 'color01d'})
-call s:highlight('texMathDelim', {'fg': 'color08'})
-call s:highlight('texMathZone', {'fg': 'color01'})
+call s:highlight('texArg',          {'fg': 'color00'})
+call s:highlight('texArgNew',       {'fg': 'color05'})
+call s:highlight('texCmdPart',      {'fg': 'color03'})
+call s:highlight('texCmdRef',       {'fg': 'color03'})
+call s:highlight('texEnvArgName',   {'fg': 'color09l'})
+call s:highlight('texFootnoteArg',  {'fg': 'color14',  'style': 'italic'})
+call s:highlight('texMathCmd',      {'fg': 'color01d'})
+call s:highlight('texMathDelim',    {'fg': 'color08'})
+call s:highlight('texMathOper',     {'fg': 'color03'})
+call s:highlight('texMathZone',     {'fg': 'color01'})
+call s:highlight('texOpt',          {'fg': 'color04d'})
 call s:highlight('texPartArgTitle', {'fg': 'color03d'})
-call s:highlight('texRefArg', {'fg': 'color00'})
-call s:highlight('texMathOper', {'fg': 'color03'})
-call s:highlight('texTitleArg', {'fg': 'color03d', 'style': 'bold'})
+call s:highlight('texRefArg',       {'fg': 'color00'})
+call s:highlight('texSymbol',       {'fg': 'color00'})
+call s:highlight('texTitleArg',     {'fg': 'color03d', 'style': 'bold'})
 
-highlight link texAuthorArg texArg
-highlight link texCmdBooktabs texEnvArgName
-highlight link texCmdItem texEnvArgName
-highlight link texNewenvArgName texArgNew
-highlight link texPgfType texCmd
-highlight link texMathSymbol texMathCmd
+highlight link texAuthorArg      texArg
+highlight link texCmdBooktabs    texEnvArgName
+highlight link texCmdItem        texEnvArgName
 highlight link texMathEnvArgName texMathCmd
-highlight link texSymbol texArg
-highlight link texTabularChar texMathOper
+highlight link texMathSymbol     texMathCmd
+highlight link texNewenvArgName  texArgNew
+highlight link texPgfType        texCmd
+highlight link texSpecialChar    texSymbol
+highlight link texTabularChar    texMathOper
 
 " }}}1
 " {{{1 Highlight: Various filetypes
