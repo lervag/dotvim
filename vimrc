@@ -1002,7 +1002,17 @@ let g:vimtex_fold_types = {
       \ 'sections' : {'parse_levels': 1},
       \}
 let g:vimtex_format_enabled = 1
-let g:vimtex_imaps_enabled = 0
+let g:vimtex_imaps_leader = '¨'
+let g:vimtex_imaps_list = [
+      \ { 'lhs' : 'ii', 'rhs' : '\item ', 'leader'  : '',
+      \   'wrapper' : 'vimtex#imaps#wrap_environment',
+      \   'context' : ['itemize', 'enumerate', 'description'] },
+      \ { 'lhs' : '.',  'rhs' : '\cdot' },
+      \ { 'lhs' : '*',  'rhs' : '\times' },
+      \ { 'lhs' : 'a',  'rhs' : '\alpha' },
+      \ { 'lhs' : 'r',  'rhs' : '\rho' },
+      \ { 'lhs' : 'p',  'rhs' : '\varphi' },
+      \]
 let g:vimtex_quickfix_autoclose_after_keystrokes = 3
 let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_syntax_conceal_default = 0
