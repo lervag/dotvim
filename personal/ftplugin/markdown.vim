@@ -1,9 +1,7 @@
 if exists('b:ft_personal_markdown') | finish | endif
 let b:did_personal_markdown = 1
 
-set conceallevel=2
-
-call personal#syntax#color_code_blocks()
+call personal#markdown#init()
 
 if expand('%:p') ==# expand('~/notes.md')
   ALEDisableBuffer

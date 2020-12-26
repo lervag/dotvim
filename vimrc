@@ -951,8 +951,7 @@ let g:man_hardwrap = 1
 " }}}2
 " {{{2 filetype: markdown
 
-let g:vim_markdown_folding_style_pythonic = 1
-let g:vim_markdown_override_foldtext = 0
+let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_follow_anchor = 1
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_toml_frontmatter = 1
