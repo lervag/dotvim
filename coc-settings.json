@@ -1,12 +1,10 @@
 {
   "diagnostic.displayByAle": true,
-  "diagnostic.refreshAfterSave": true,
   "suggest.enablePreview": true,
   "suggest.minTriggerInputLength": 3,
   "suggest.snippetIndicator": "[+] ",
   "suggest.timeout": 1000,
   "suggest.removeDuplicateItems": true,
-  "list.maxHeight": 18,
   "coc.source.ultisnips.enable": false,
   "coc.source.omni.filetypes": ["foam"],
   "coc.source.neco.shortcut": "VIM",
