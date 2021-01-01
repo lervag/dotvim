@@ -28,10 +28,15 @@ syn match trening /\%>17c.*/                    contained
 syn region gullkorn
       \ matchgroup=entries
       \ start = /^  Gullkorn\s\+/
-      \ end =   /^\ze  Notat/
+      \ end =   /^\ze  \w\+/
       \ contains=@Spell
 
-" Syntax regions
+syn region snop
+      \ matchgroup=entries
+      \ start = /^  Snop\s\+/
+      \ end =   /^\ze  \w\+/
+      \ contains=@Spell
+
 syn region notat
       \ matchgroup=entries
       \ start = /^  Notat\s\+/
