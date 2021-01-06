@@ -484,7 +484,7 @@ call s:highlight('texTitleArg',     {'fg': 'color03d', 'style': 'bold'})
 
 highlight link texAuthorArg      texArg
 highlight link texCmdBooktabs    texEnvArgName
-highlight link texCmdItem        texEnvArgName
+highlight link texCmdItem        texArg
 highlight link texMathEnvArgName texMathCmd
 highlight link texMathSymbol     texMathCmd
 highlight link texNewenvArgName  texArgNew
