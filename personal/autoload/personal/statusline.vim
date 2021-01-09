@@ -24,7 +24,7 @@ function! personal#statusline#main(winnr) " {{{1
 
   " Try to call buffer type specific functions
   try
-    return s:{l:buftype}(l:bufnr, l:active, l:winnr)
+    return s:bt_{l:buftype}(l:bufnr, l:active, l:winnr)
   catch /E117: Unknown function/
   endtry
 
@@ -75,7 +75,7 @@ function! s:main(bufnr, active, winnr) " {{{1
 
   " Add column number if above textwidth
   let cn = virtcol('$') - 1
-  if cn > &textwidth
+  if &textwidth > 0 && cn > &textwidth
     let stat .= s:color(
           \ printf('[%s > %s &tw] ', cn, &textwidth), 'SLAlert', a:active)
   endif
@@ -92,14 +92,14 @@ endfunction
 " }}}1
 
 " Buffer type functions
-function! s:help(bufnr, active, winnr) " {{{1
+function! s:bt_help(bufnr, active, winnr) " {{{1
   let l:name = bufname(a:bufnr)
   return s:color(' ' . fnamemodify(l:name, ':t:r') . ' %= HELP ',
         \ 'SLHighlight', a:active)
 endfunction
 
 " }}}1
-function! s:quickfix(bufnr, active, winnr) " {{{1
+function! s:bt_quickfix(bufnr, active, winnr) " {{{1
   let l:nr = personal#qf#get_prop({
         \ 'winnr': a:winnr,
         \ 'key': 'nr',
@@ -130,6 +130,15 @@ endfunction
 " }}}1
 
 " Filetype functions
+function! s:tex(bufnr, active, winnr) " {{{1
+  let l:stat = vimtex#compiler#is_running() > 0
+        \ ? s:color('[latexmk running] ', 'SLInfo', a:active)
+        \ : s:color('[latexmk stopped] ', 'SLAlert', a:active)
+
+  return s:main(a:bufnr, a:active, a:winnr) . l:stat
+endfunction
+
+" }}}1
 function! s:wiki(bufnr, active, winnr) " {{{1
   let stat  = s:color(' wiki: ', 'SLAlert', a:active)
   let stat .= s:color(fnamemodify(bufname(a:bufnr), ':t:r'),
