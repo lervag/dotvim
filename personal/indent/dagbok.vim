@@ -35,7 +35,7 @@ function GetDagbokIndent()
   endif
 
   " Indent 18 for continuation of notes
-  if pline =~# '^\s\+Notat'
+  if pline =~# '^\s\+\%(Notat\|Snop\)'
     return 18
   elseif pline =~# '^\d\+'
     return 2
