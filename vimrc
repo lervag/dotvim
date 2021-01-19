@@ -114,7 +114,6 @@ Plug 'plasticboy/vim-markdown'
 Plug 'darvelo/vim-systemd'
 Plug 'gregsexton/MatchTag'
 Plug 'vim-ruby/vim-ruby'
-Plug 'elzr/vim-json'
 Plug 'gisraptor/vim-lilypond-integrator'
 Plug 'https://gitlab.com/HiPhish/info.vim'
 Plug 'tpope/vim-apathy'
@@ -632,8 +631,6 @@ let g:fzf_mru_exclude = '\v' . join([
       \ '^/tmp/',
       \ 'documents/wiki/',
       \], '|')
-
-let $FZF_DEFAULT_OPTS = '--reverse --inline-info'
 
 function! s:nothing()
 endfunction

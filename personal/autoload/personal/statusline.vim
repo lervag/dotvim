@@ -135,7 +135,9 @@ function! s:tex(bufnr, active, winnr) " {{{1
         \ ? s:color('[latexmk running] ', 'SLInfo', a:active)
         \ : s:color('[latexmk stopped] ', 'SLAlert', a:active)
 
-  return s:main(a:bufnr, a:active, a:winnr) . l:stat
+  let l:main = split(s:main(a:bufnr, a:active, a:winnr), '%=')
+
+  return l:main[0] . '%=' . l:stat . '%=' . l:main[1]
 endfunction
 
 " }}}1
