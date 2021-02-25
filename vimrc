@@ -1043,7 +1043,7 @@ let g:vimsyn_embed = 'P'
 " }}}2
 " {{{2 filetype: wiki
 
-let g:wiki_root = '~/wiki'
+let g:wiki_root = '~/.local/wiki'
 let g:wiki_toc_title = 'Innhald'
 let g:wiki_viewer = {'pdf': 'zathura'}
 let g:wiki_export = {
