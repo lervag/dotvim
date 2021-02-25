@@ -15,6 +15,7 @@ call plug#(g:vimrc#path_lervag . 'vimtex')
 call plug#(g:vimrc#path_lervag . 'file-line')
 call plug#(g:vimrc#path_lervag . 'vim-foam')
 call plug#(g:vimrc#path_lervag . 'vim-rmarkdown')
+call plug#(g:vimrc#path_lervag . 'vim-rainbow-lists')
 if g:vimrc#is_devhost
   call plug#(g:vimrc#path_lervag . 'wiki.vim')
   call plug#(g:vimrc#path_lervag . 'wiki-ft.vim')
@@ -629,7 +630,6 @@ let g:fzf_mru_no_sort = 1
 let g:fzf_mru_exclude = '\v' . join([
       \ '\.git/',
       \ '^/tmp/',
-      \ 'documents/wiki/',
       \], '|')
 
 function! s:nothing()
@@ -1043,7 +1043,7 @@ let g:vimsyn_embed = 'P'
 " }}}2
 " {{{2 filetype: wiki
 
-let g:wiki_root = '~/documents/wiki'
+let g:wiki_root = '~/wiki'
 let g:wiki_toc_title = 'Innhald'
 let g:wiki_viewer = {'pdf': 'zathura'}
 let g:wiki_export = {
