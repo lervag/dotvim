@@ -12,6 +12,14 @@ def env(name):
 	return x != '0' and x != '0'
 endglobal
 
+snippet nom "\nomenclature"
+\nomenclature[${1:A}]{${2:short}}{${3:long}}${0}
+endsnippet
+
+snippet SI "\SI{}{}"
+\SI{${1:number}}{${2:unit}}${0}
+endsnippet
+
 snippet equation "Environment: Equation" b
 \begin{equation}
 	${0}
