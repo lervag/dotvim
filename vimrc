@@ -111,6 +111,9 @@ Plug 'tpope/vim-scriptease'
 " Filetype: markdown
 Plug 'plasticboy/vim-markdown'
 
+" Filetype: Lua
+Plug 'tbastos/vim-lua'
+
 " Filetype: various
 Plug 'darvelo/vim-systemd'
 Plug 'gregsexton/MatchTag'
@@ -939,6 +942,11 @@ xnoremap <leader>is  "vy :call VimuxSendText(@v)<cr>
 " {{{2 filetype: json
 
 let g:vim_json_syntax_conceal = 0
+
+" }}}2
+" {{{2 filetype: lua
+
+let g:lua_syntax_nofold = 1
 
 " }}}2
 " {{{2 filetype: man
