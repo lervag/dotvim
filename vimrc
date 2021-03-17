@@ -519,6 +519,10 @@ nnoremap <silent> K :call <sid>show_documentation()<cr>
 function! s:show_documentation()
   if index(['vim', 'help'], &filetype) >= 0
     execute 'help ' . expand('<cword>')
+  elseif &filetype ==# 'neomuttrc'
+    let l:cword = expand('<cword>')
+    Man neomuttrc
+    call search(l:cword)
   elseif &filetype ==# 'tex'
     VimtexDocPackage
   else
@@ -630,8 +634,11 @@ let g:fzf_colors = {
 let g:fzf_preview_window = ''
 
 let g:fzf_mru_no_sort = 1
+let g:fzf_mru_max = 1000
 let g:fzf_mru_exclude = '\v' . join([
       \ '\.git/',
+      \ '\.local/wiki',
+      \ '\.cache/',
       \ '^/tmp/',
       \], '|')
 
@@ -997,7 +1004,6 @@ let g:vimtex_complete_bib = {
       \ 'simple' : 1,
       \ 'menu_fmt' : '@year, @author_short, @title',
       \}
-let g:vimtex_complete_img_use_tail = 1
 let g:vimtex_context_pdf_viewer = 'qpdfview'
 let g:vimtex_echo_verbose_input = 0
 let g:vimtex_fold_enabled = 1
