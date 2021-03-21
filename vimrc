@@ -56,8 +56,7 @@ Plug 'machakann/vim-columnmove'
 if has('nvim') || v:version >= 800
   Plug 'dense-analysis/ale'
 endif
-Plug 'idanarye/vim-vebugger', {'branch': 'develop'}
-Plug 'sakhnik/nvim-gdb'
+Plug 'puremourning/vimspector'
 
 " Plugin: Editing
 Plug 'junegunn/vim-easy-align'
@@ -921,9 +920,35 @@ let g:table_mode_auto_align = 0
 let g:tmux_navigator_disable_when_zoomed = 1
 
 " }}}
-" {{{2 plugin: vim-vebugger
+" {{{2 plugin: vimspector
 
-let g:vebugger_leader = '<leader>d'
+let g:vimspector_base_dir = expand('$HOME/.config/vimspector-config')
+
+nmap     <leader>da  <plug>VimspectorContinue
+nmap     <leader>d_  <plug>VimspectorRestart
+nnoremap <leader>dx  :call vimspector#Reset()<cr>
+nnoremap <leader>dL  :call vimspector#ToggleLog()<cr>
+
+nmap     <leader>drc <plug>VimspectorRunToCursor
+nmap     <leader>dk  <plug>VimspectorStepOut
+nmap     <leader>dl  <plug>VimspectorStepInto
+nmap     <leader>dj  <plug>VimspectorStepOver
+nmap     <leader>df  <plug>VimspectorUpFrame
+nmap     <leader>dF  <plug>VimspectorDownFrame
+nmap     <leader>di  <plug>VimspectorBalloonEval
+xmap     <leader>di  <plug>VimspectorBalloonEval
+nnoremap <leader>dw :call vimspector#AddWatch(expand("<cexpr>"))<CR>
+
+nmap     <leader>dbb <plug>VimspectorToggleBreakpoint
+nmap     <leader>dbc <plug>VimspectorToggleConditionalBreakpoint
+nnoremap <leader>dbx :call vimspector#ClearBreakpoints()<cr>
+nnoremap <leader>dbl :call vimspector#ListBreakpoints()<cr>
+
+nnoremap <leader>d1 :call win_gotoid(g:vimspector_session_windows.code)<cr>
+nnoremap <leader>d2 :call win_gotoid(g:vimspector_session_windows.variables)<cr>
+nnoremap <leader>d3 :call win_gotoid(g:vimspector_session_windows.watches)<cr>
+nnoremap <leader>d4 :call win_gotoid(g:vimspector_session_windows.stack_trace)<cr>
+nnoremap <leader>d5 :call win_gotoid(g:vimspector_session_windows.output)<cr>
 
 " }}}
 " {{{2 plugin: vimux

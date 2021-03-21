@@ -34,6 +34,11 @@ function! personal#statusline#main(winnr) " {{{1
   catch /E117: Unknown function/
   endtry
 
+  " Handle vimspector buffers
+  if bufname(l:bufnr) =~# '^vimspector\.'
+    return s:vimspector(l:bufnr, l:active, l:winnr)
+  endif
+
   return s:main(l:bufnr, l:active, l:winnr)
 endfunction
 
@@ -166,6 +171,17 @@ endfunction
 " }}}1
 function! s:manpage(bufnr, active, winnr) " {{{1
   return s:color(' %<%f', 'SLHighlight', a:active)
+endfunction
+
+" }}}1
+
+" Vimspector
+function! s:vimspector(bufnr, active, winnr) " {{{1
+  return
+        \ ' %#' . (a:active ? 'SLHighlight' : 'Statusline') . '#'
+        \ . substitute(
+        \     bufname(a:bufnr), '^vimspector.', 'Vimspector: ', '')
+        \ . '%*'
 endfunction
 
 " }}}1
