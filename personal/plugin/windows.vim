@@ -110,17 +110,20 @@ endfunction
 
 " Utility functions
 function! s:get_target_width() " {{{1
-  let l:column_width = 82
+  let l:heights = map(filter(split(winrestcmd(), '|'),
+        \ {_, x -> x =~# '^:\?\d'}),
+        \ {_, x -> matchstr(x, '\d\+$')})
+
   let l:total_height = 0
-  let l:heights = map(filter(split(winrestcmd(),'|')[0:-1],
-        \                  'v:val =~# ''^\d'''),
-        \           'matchstr(v:val, ''\d\+$'')')
   for l:h in l:heights
     let l:total_height += l:h
   endfor
+  if has('nvim')
+    let l:total_height /= 2
+  endif
 
-  let l:count = float2nr(ceil(l:total_height / (1.0*&lines)))
-  return l:count*l:column_width + l:count - 1
+  let l:count = float2nr(ceil(l:total_height/(1.0*&lines)))
+  return l:count*82 + l:count - 1
 endfunction
 
 " }}}1
