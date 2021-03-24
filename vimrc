@@ -26,6 +26,7 @@ endif
 Plug 'Konfekt/FastFold'
 Plug 'luochen1990/rainbow'
 Plug 'andymass/vim-matchup'
+Plug 'szw/vim-maximizer'
 
 " Plugin: Completion and snippets
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -920,13 +921,23 @@ let g:table_mode_auto_align = 0
 let g:tmux_navigator_disable_when_zoomed = 1
 
 " }}}
-" {{{2 plugin: vimspector
+" {{{2 plugin: maximizer
+
+function! GoMaxWindow(id)
+  call win_gotoid(a:id)
+  MaximizerToggle
+endfunction
+
+nnoremap <leader>m :MaximizerToggle!<cr>
+
+" }}}
+" {{{2 plugin: vimspector / maximizer
 
 let g:vimspector_base_dir = expand('$HOME/.config/vimspector-config')
 
-nmap     <leader>da  <plug>VimspectorContinue
+nmap     <leader>dd  <plug>VimspectorContinue
+nnoremap <leader>de  :call vimspector#Reset()<cr>
 nmap     <leader>d_  <plug>VimspectorRestart
-nnoremap <leader>dx  :call vimspector#Reset()<cr>
 nnoremap <leader>dL  :call vimspector#ToggleLog()<cr>
 
 nmap     <leader>drc <plug>VimspectorRunToCursor
@@ -937,18 +948,20 @@ nmap     <leader>df  <plug>VimspectorUpFrame
 nmap     <leader>dF  <plug>VimspectorDownFrame
 nmap     <leader>di  <plug>VimspectorBalloonEval
 xmap     <leader>di  <plug>VimspectorBalloonEval
-nnoremap <leader>dw :call vimspector#AddWatch(expand("<cexpr>"))<CR>
+nnoremap <leader>da :call vimspector#AddWatch(expand("<cexpr>"))<CR>
 
 nmap     <leader>dbb <plug>VimspectorToggleBreakpoint
 nmap     <leader>dbc <plug>VimspectorToggleConditionalBreakpoint
 nnoremap <leader>dbx :call vimspector#ClearBreakpoints()<cr>
 nnoremap <leader>dbl :call vimspector#ListBreakpoints()<cr>
+" nnoremap <leader>dtcb :call vimspector#CleanLineBreakpoint()<CR>
 
-nnoremap <leader>d1 :call win_gotoid(g:vimspector_session_windows.code)<cr>
-nnoremap <leader>d2 :call win_gotoid(g:vimspector_session_windows.variables)<cr>
-nnoremap <leader>d3 :call win_gotoid(g:vimspector_session_windows.watches)<cr>
-nnoremap <leader>d4 :call win_gotoid(g:vimspector_session_windows.stack_trace)<cr>
-nnoremap <leader>d5 :call win_gotoid(g:vimspector_session_windows.output)<cr>
+nnoremap <leader>dc :call GoMaxWindow(g:vimspector_session_windows.code)<CR>
+nnoremap <leader>dt :call GoMaxWindow(g:vimspector_session_windows.tagpage)<CR>
+nnoremap <leader>dv :call GoMaxWindow(g:vimspector_session_windows.variables)<CR>
+nnoremap <leader>dw :call GoMaxWindow(g:vimspector_session_windows.watches)<CR>
+nnoremap <leader>ds :call GoMaxWindow(g:vimspector_session_windows.stack_trace)<CR>
+nnoremap <leader>do :call GoMaxWindow(g:vimspector_session_windows.output)<CR>
 
 " }}}
 " {{{2 plugin: vimux

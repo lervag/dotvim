@@ -98,9 +98,9 @@ endfunction
 
 " Buffer type functions
 function! s:bt_help(bufnr, active, winnr) " {{{1
-  let l:name = bufname(a:bufnr)
-  return s:color(' ' . fnamemodify(l:name, ':t:r') . ' %= HELP ',
-        \ 'SLHighlight', a:active)
+  return s:color(
+        \ ' vimdoc: ' . fnamemodify(bufname(a:bufnr), ':t:r'),
+        \ 'SLInfo', a:active)
 endfunction
 
 " }}}1
