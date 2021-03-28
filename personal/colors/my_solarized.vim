@@ -468,6 +468,7 @@ highlight link semshiBuiltin Function
 " {{{1 Highlight: Filetype tex
 
 call s:highlight('texArg',          {'fg': 'color00'})
+call s:highlight('texTodoArg',      {'fg': 'color01'})
 call s:highlight('texArgNew',       {'fg': 'color05'})
 call s:highlight('texCmdPart',      {'fg': 'color03'})
 call s:highlight('texCmdRef',       {'fg': 'color03'})
