@@ -609,7 +609,7 @@ vmap     <silent><leader>f  <Plug>CtrlSFVwordExec
 " {{{2 plugin: FastFold
 
 " nmap <sid>(DisableFastFoldUpdate) <plug>(FastFoldUpdate)
-let g:fastfold_fold_command_suffixes =  []
+let g:fastfold_fold_command_suffixes =  ['x', 'X', 'M', 'R']
 let g:fastfold_fold_movement_commands = []
 
 " }}}2
@@ -977,7 +977,7 @@ nnoremap <leader>ip :VimuxPromptCommand<cr>
 nnoremap <leader>in :VimuxInspectRunner<cr>
 
 " Send commands
-nnoremap <leader>ii  :call VimuxSendText("jkk\n")<cr>
+nnoremap <leader>ii  :VimuxRunCommand 'jkk'<cr>
 nnoremap <leader>is  :set opfunc=personal#vimux#operator<cr>g@
 nnoremap <leader>iss :call VimuxRunCommand(getline('.'))<cr>
 xnoremap <leader>is  "vy :call VimuxSendText(@v)<cr>
@@ -1042,7 +1042,7 @@ let g:vimtex_complete_bib = {
       \ 'simple' : 1,
       \ 'menu_fmt' : '@year, @author_short, @title',
       \}
-let g:vimtex_context_pdf_viewer = 'qpdfview'
+let g:vimtex_context_pdf_viewer = 'zathura'
 let g:vimtex_echo_verbose_input = 0
 let g:vimtex_fold_enabled = 1
 let g:vimtex_fold_types = {
@@ -1063,7 +1063,7 @@ let g:vimtex_imaps_list = [
       \]
 let g:vimtex_quickfix_autoclose_after_keystrokes = 3
 let g:vimtex_quickfix_open_on_warning = 0
-let g:vimtex_syntax_conceal_default = 0
+let g:vimtex_syntax_conceal_disable = 1
 let g:vimtex_toc_config = {
       \ 'split_pos' : 'full',
       \ 'mode' : 2,
