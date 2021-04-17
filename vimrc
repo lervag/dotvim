@@ -422,11 +422,12 @@ nnoremap dg* g*``dgn
 nnoremap dg# g*``dgN
 
 " Improved search related mappings
-cmap <expr> <cr> personal#search#wrap("\<cr>", {'after': 'zz'})
-map  <expr> n    personal#search#wrap('n', {'after': 'zz'})
-map  <expr> N    personal#search#wrap('N', {'after': 'zz'})
-map  <expr> gd   personal#search#wrap('gd', {'after': 'zz'})
-map  <expr> gD   personal#search#wrap('gD', {'after': 'zz'})
+call personal#search#init()
+cmap <expr> <cr> personal#search#wrap("\<cr>")
+map  <expr> n    personal#search#wrap('n')
+map  <expr> N    personal#search#wrap('N')
+map  <expr> gd   personal#search#wrap('gd')
+map  <expr> gD   personal#search#wrap('gD')
 map  <expr> *    personal#search#wrap('*', {'immobile': 1})
 map  <expr> #    personal#search#wrap('#', {'immobile': 1})
 map  <expr> g*   personal#search#wrap('g*', {'immobile': 1})
