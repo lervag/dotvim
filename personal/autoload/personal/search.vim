@@ -10,31 +10,6 @@ endfunction
 
 " }}}1
 
-function! s:check_hlsearch() " {{{1
-  if exists('s:search_motion')
-    unlet! s:search_motion
-
-    if foldclosed('.') != -1
-      normal! zMzvzz
-    else
-      normal! zz
-    endif
-
-    if exists('s:winline')
-      let l:sdiff = winline() - s:winline
-      unlet s:winline
-      if l:sdiff > 0
-        execute 'normal!' l:sdiff . "\<c-e>"
-      elseif l:sdiff < 0
-        execute 'normal!' -l:sdiff . "\<c-y>"
-      endif
-    endif
-  else
-    set nohlsearch
-  endif
-endfunction
-
-" }}}1
 function! personal#search#wrap(seq, ...) " {{{1
   let l:opts = a:0 > 0 ? a:1 : {}
 
@@ -42,12 +17,14 @@ function! personal#search#wrap(seq, ...) " {{{1
     return a:seq
   endif
 
-  let s:search_motion = 1
+  echo ''
   set hlsearch
+  let s:search_motion = 1 + get(s:, 'search_motion_visual')
+  let s:search_motion_visual = 0
 
   if get(l:opts, 'immobile')
-    let s:winline = winline()
-    let s:cur_line = line('.')
+    let s:search_motion += 1
+    let s:curpos = getcurpos()
     return a:seq . "\<plug>(hl-trailer-return)"
   endif
 
@@ -56,6 +33,7 @@ endfunction
 
 " }}}1
 function! personal#search#wrap_visual(search_cmd) abort " {{{1
+  let s:search_motion_visual = 1
   let s:search_cmd = a:search_cmd
   return "y\<plug>(hl-trailer-visual)"
 endfunction
@@ -63,27 +41,40 @@ endfunction
 " }}}1
 
 
-function! s:trailer_visual() " {{{1
-  let seq = s:search_cmd . '\V'
-  let seq .= substitute(escape(@", '\' . s:search_cmd), "\n", '\\n', 'g')
-  let seq .= "\<plug>(hl-cr)"
-  return personal#search#wrap(seq, {'immobile': 1})
+function! s:check_hlsearch() " {{{1
+  if s:search_motion > 0
+    let s:search_motion -= 1
+
+    if s:search_motion == 0
+      if foldclosed('.') != -1
+        normal! zvzz
+      else
+        normal! zz
+      endif
+    endif
+  else
+    set nohlsearch
+  endif
 endfunction
+
+let s:search_motion = 0
 
 " }}}1
 function! s:trailer_return() " {{{1
-  if s:cur_line != line('.')
-    return "\<plug>(hl-co)"
-  endif
-
-  return ''
+  echo ''
+  return s:curpos != getcurpos() ? "''" : ''
 endfunction
 
+map <silent><expr> <plug>(hl-trailer-return) <sid>trailer_return()
+
 " }}}1
+function! s:trailer_visual() " {{{1
+  let l:seq = s:search_cmd . '\V'
+  let l:seq .= substitute(escape(@", '\' . s:search_cmd), "\n", '\\n', 'g')
+  let l:seq .= "\<cr>"
+  return personal#search#wrap(l:seq, {'immobile': 1})
+endfunction
 
 map <silent><expr> <plug>(hl-trailer-visual)  <sid>trailer_visual()
-map <silent><expr> <plug>(hl-trailer-return)  <sid>trailer_return()
 
-" Ensure default maps are used
-cnoremap <plug>(hl-cr) <cr>
-noremap  <plug>(hl-co) <c-o>
+" }}}1
