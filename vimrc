@@ -1062,7 +1062,7 @@ let g:vimtex_imaps_list = [
       \]
 let g:vimtex_quickfix_autoclose_after_keystrokes = 3
 let g:vimtex_quickfix_open_on_warning = 0
-let g:vimtex_syntax_conceal_disable = 1
+let g:vimtex_syntax_conceal_default = 0
 let g:vimtex_toc_config = {
       \ 'split_pos' : 'full',
       \ 'mode' : 2,
@@ -1120,13 +1120,13 @@ let g:wiki_template_title_month = '# Samandrag frå %(month-name) %(year)'
 let g:wiki_write_on_nav = 1
 
 let g:wiki_toc_depth = 2
-let g:wiki_file_open = 'personal#wiki#file_open'
+let g:wiki_file_handler = 'personal#wiki#file_handler'
 
 augroup MyWikiAutocmds
   autocmd!
-  autocmd User WikiLinkOpened normal! zz
+  autocmd User WikiLinkFollowed normal! zz
   autocmd User WikiBufferInitialized
-        \ nmap <buffer> gf <plug>(wiki-link-open)
+        \ nmap <buffer> gf <plug>(wiki-link-follow)
 augroup END
 
 " }}}2

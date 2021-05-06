@@ -1,4 +1,4 @@
-function! personal#wiki#file_open(...) abort dict " {{{1
+function! personal#wiki#file_handler(...) abort dict " {{{1
   if self.path =~# 'pdf$'
     silent execute '!zathura' fnameescape(self.path) '&'
     return 1
