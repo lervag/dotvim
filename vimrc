@@ -493,6 +493,7 @@ let g:coc_global_extensions = [
       \ 'coc-yaml',
       \ 'coc-rust-analyzer',
       \ 'coc-vimlsp',
+      \ 'coc-sh',
       \]
 
 inoremap <silent><expr> <c-space> coc#refresh()
