@@ -1,7 +1,7 @@
-if exists('g:windows')
+if exists('g:windows_loaded')
   finish
 endif
-let g:windows = 1
+let g:windows_loaded = 1
 
 let s:save_cpoptions = &cpoptions
 set cpoptions&vim

@@ -914,6 +914,7 @@ xnoremap <silent> <leader>s :call sortfolds#SortFolds()<cr>
 " {{{2 plugin: vim-table-mode
 
 let g:table_mode_auto_align = 0
+let g:table_mode_corner = '|'
 
 " }}}2
 " {{{2 plugin: vim-tmux-navigator
