@@ -203,7 +203,11 @@ silent! set diffopt+=hiddenoff
 " Backup, swap and undofile
 set noswapfile
 set undofile
-set undodir=$HOME/.cache/vim/undo
+if has('nvim')
+  set undodir=$HOME/.cache/vim/undo
+else
+  set undodir=$HOME/.cache/vim/undo-vim
+endif
 set backup
 set backupdir=$HOME/.cache/vim/backup
 if !isdirectory(&undodir)
