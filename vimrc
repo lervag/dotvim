@@ -16,6 +16,7 @@ call plug#(g:vimrc#path_lervag . 'file-line')
 call plug#(g:vimrc#path_lervag . 'vim-foam')
 call plug#(g:vimrc#path_lervag . 'vim-rmarkdown')
 call plug#(g:vimrc#path_lervag . 'vim-rainbow-lists')
+call plug#(g:vimrc#path_lervag . 'lists.vim')
 if g:vimrc#is_devhost
   call plug#(g:vimrc#path_lervag . 'wiki.vim')
   call plug#(g:vimrc#path_lervag . 'wiki-ft.vim')
@@ -367,7 +368,6 @@ nnoremap do     do]c
 nnoremap '      `
 nnoremap <c-e>       <c-^>
 nnoremap <c-w><c-e>  <c-w><c-^>
-nnoremap <c-p>  <c-i>
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 xnoremap <expr> j v:count ? 'j' : 'gj'
@@ -689,6 +689,11 @@ nnoremap <silent> <leader>ov       :call fzf#run(fzf#wrap({
       \   '--prompt', 'Files ~/.vim::',
       \ ],
       \}))<cr>
+
+" }}}2
+" {{{2 plugin: lists.vim
+
+let g:lists_filetypes = ['markdown', 'wiki', 'help', 'text']
 
 " }}}2
 " {{{2 plugin: rainbow
