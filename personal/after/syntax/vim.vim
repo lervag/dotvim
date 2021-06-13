@@ -1,4 +1,7 @@
-syn region vimSet
+if exists('b:did_after_syntax_vim') | finish | endif
+let b:did_after_syntax_vim = 1
+
+syntax region vimSet
       \ matchgroup=vimCommand
       \ start="\<CompilerSet\!\?\>"
       \ end="$"
