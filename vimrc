@@ -1029,6 +1029,10 @@ let g:vim_markdown_strikethrough = 1
 "       ~/.vim/personal/ftplugin/python.vim
 "       ~/.vim/personal/after/ftplugin/python.vim
 
+" For neovim: specify the python host
+let g:loaded_python_provider = 0
+let g:python3_host_prog = '~/.local/venvs/nvim/bin/python'
+
 " let g:semshi#excluded_hl_groups = []
 let g:semshi#mark_selected_nodes = 2
 let g:semshi#simplify_markup = 1
