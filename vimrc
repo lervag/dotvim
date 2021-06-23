@@ -48,14 +48,14 @@ Plug 'junegunn/fzf', {
       \}
 Plug 'junegunn/fzf.vim'
 Plug 'pbogut/fzf-mru.vim'
-if has('nvim') || v:version >= 800
+if v:version >= 800
   Plug 'ludovicchabant/vim-gutentags'
 endif
 Plug 'dyng/ctrlsf.vim'
 Plug 'machakann/vim-columnmove'
 
 " Plugin: Linting, debugging, and code runners
-if has('nvim') || v:version >= 800
+if v:version >= 800
   Plug 'dense-analysis/ale'
 endif
 Plug 'puremourning/vimspector'
@@ -95,13 +95,7 @@ Plug 'chrisbra/Colorizer'
 Plug 'RRethy/vim-hexokinase', {'do': 'make hexokinase'}
 
 " Filetype: python
-if has('nvim')
-  Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-  Plug 'vim-python/python-syntax', {'on': []}
-else
-  Plug 'numirias/semshi', {'on': []}
-  Plug 'vim-python/python-syntax'
-endif
+Plug 'vim-python/python-syntax'
 Plug 'kalekundert/vim-coiled-snake'  " Folding
 Plug 'Vimjas/vim-python-pep8-indent' " Indents
 Plug 'jeetsukumaran/vim-pythonsense' " Text objects and motions
@@ -156,30 +150,20 @@ augroup END
 
 " {{{1 Options
 
-" Vim specific options
-if !has('nvim')
-  set history=10000
-  set nrformats-=octal
-  if has('patch-7.4.399')
-    set cryptmethod=blowfish2
-  else
-    set cryptmethod=blowfish
-  endif
-  set autoread
-  set backspace=indent,eol,start
-  set wildmenu
-  set laststatus=2
-  set autoindent
-  set incsearch
-  set viminfo='300,<100,s300,h
+set history=10000
+set nrformats-=octal
+if has('patch-7.4.399')
+  set cryptmethod=blowfish2
 else
-  set shada=!,'300,<100,s300,h
+  set cryptmethod=blowfish
 endif
-
-" Neovim specific options
-if has('nvim')
-  set inccommand=nosplit
-endif
+set autoread
+set backspace=indent,eol,start
+set wildmenu
+set laststatus=2
+set autoindent
+set incsearch
+set viminfo='300,<100,s300,h
 
 " Basic
 set tags=tags;~,.tags;~
@@ -203,11 +187,7 @@ silent! set diffopt+=hiddenoff
 " Backup, swap and undofile
 set noswapfile
 set undofile
-if has('nvim')
-  set undodir=$HOME/.cache/vim/undo
-else
-  set undodir=$HOME/.cache/vim/undo-vim
-endif
+set undodir=$HOME/.cache/vim/undo
 set backup
 set backupdir=$HOME/.cache/vim/backup
 if !isdirectory(&undodir)
@@ -406,12 +386,7 @@ xnoremap <leader>pp :hardcopy<cr>
 
 " Terminal mappings
 tnoremap <esc> <c-\><c-n>
-if has('nvim')
-  nnoremap <silent> <c-c><c-c> :split term://zsh<cr>i
-  tnoremap <c-w>    <c-\><c-n><c-w>
-else
-  nnoremap <silent> <c-c><c-c> :terminal<cr>
-endif
+nnoremap <silent> <c-c><c-c> :terminal<cr>
 
 " Utility maps for repeatable quickly change/delete current word
 nnoremap c*   *``cgn
@@ -1028,15 +1003,6 @@ let g:vim_markdown_strikethrough = 1
 " Note: See more settings at:
 "       ~/.vim/personal/ftplugin/python.vim
 "       ~/.vim/personal/after/ftplugin/python.vim
-
-" For neovim: specify the python host
-let g:loaded_python_provider = 0
-let g:python3_host_prog = '~/.local/venvs/nvim/bin/python'
-
-" let g:semshi#excluded_hl_groups = []
-let g:semshi#mark_selected_nodes = 2
-let g:semshi#simplify_markup = 1
-let g:semshi#error_sign = 0
 
 " Syntax
 let g:python_highlight_all = 1

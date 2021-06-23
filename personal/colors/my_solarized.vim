@@ -122,7 +122,6 @@ call s:highlight('MatchParen', {'fg': 'color04', 'bg': 'NONE', 'style': 'bold'})
 call s:highlight('ModeMsg', {'fg': 'color04', 'style': 'NONE'})
 call s:highlight('MoreMsg', {'fg': 'color04', 'style': 'NONE'})
 call s:highlight('NonText', {'fg': 'color12', 'style': 'NONE'})
-call s:highlight('NvimInternalError', {'fg': 'color09', 'bg': 'color01'})
 call s:highlight('Pmenu', {'fg': 'color11', 'bg': 'color15d'})
 call s:highlight('PmenuSbar', {'fg': 'color00', 'bg': 'color11'})
 call s:highlight('PmenuSel', {'fg': 'color14', 'bg': 'color00'})
@@ -519,45 +518,24 @@ call s:highlight('rubyDefine', {'fg': 'color10'})
 
 " {{{1 Set terminal color palette
 
-" See documentation here:
-" * neovim:  help terminal-configuration
-" * Vim:     help g:terminal_ansi_colors
+" See :help g:terminal_ansi_colors
 
-if has('nvim')
-  let g:terminal_color_0  = s:colordict['color00'].hex
-  let g:terminal_color_1  = s:colordict['color01'].hex
-  let g:terminal_color_2  = s:colordict['color02'].hex
-  let g:terminal_color_3  = s:colordict['color03'].hex
-  let g:terminal_color_4  = s:colordict['color04'].hex
-  let g:terminal_color_5  = s:colordict['color05'].hex
-  let g:terminal_color_6  = s:colordict['color06'].hex
-  let g:terminal_color_7  = s:colordict['color07'].hex
-  let g:terminal_color_8  = s:colordict['color08'].hex
-  let g:terminal_color_9  = s:colordict['color09'].hex
-  let g:terminal_color_10 = s:colordict['color10'].hex
-  let g:terminal_color_11 = s:colordict['color11'].hex
-  let g:terminal_color_12 = s:colordict['color12'].hex
-  let g:terminal_color_13 = s:colordict['color13'].hex
-  let g:terminal_color_14 = s:colordict['color14'].hex
-  let g:terminal_color_15 = s:colordict['color15'].hex
-else
-  let g:terminal_ansi_colors = []
-  let g:terminal_ansi_colors += [s:colordict['color00'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color01'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color02'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color03'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color04'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color05'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color06'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color07'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color08'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color09'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color10'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color11'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color12'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color13'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color14'].hex]
-  let g:terminal_ansi_colors += [s:colordict['color15'].hex]
-endif
+let g:terminal_ansi_colors = []
+let g:terminal_ansi_colors += [s:colordict['color00'].hex]
+let g:terminal_ansi_colors += [s:colordict['color01'].hex]
+let g:terminal_ansi_colors += [s:colordict['color02'].hex]
+let g:terminal_ansi_colors += [s:colordict['color03'].hex]
+let g:terminal_ansi_colors += [s:colordict['color04'].hex]
+let g:terminal_ansi_colors += [s:colordict['color05'].hex]
+let g:terminal_ansi_colors += [s:colordict['color06'].hex]
+let g:terminal_ansi_colors += [s:colordict['color07'].hex]
+let g:terminal_ansi_colors += [s:colordict['color08'].hex]
+let g:terminal_ansi_colors += [s:colordict['color09'].hex]
+let g:terminal_ansi_colors += [s:colordict['color10'].hex]
+let g:terminal_ansi_colors += [s:colordict['color11'].hex]
+let g:terminal_ansi_colors += [s:colordict['color12'].hex]
+let g:terminal_ansi_colors += [s:colordict['color13'].hex]
+let g:terminal_ansi_colors += [s:colordict['color14'].hex]
+let g:terminal_ansi_colors += [s:colordict['color15'].hex]
 
 " }}}1

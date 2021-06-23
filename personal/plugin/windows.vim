@@ -118,9 +118,6 @@ function! s:get_target_width() " {{{1
   for l:h in l:heights
     let l:total_height += l:h
   endfor
-  if has('nvim')
-    let l:total_height /= 2
-  endif
 
   let l:count = float2nr(ceil(l:total_height/(1.0*&lines)))
   return l:count*82 + l:count - 1

@@ -1,16 +1,14 @@
 function! personal#init#cursor() abort " {{{1
   " Set terminal cursor
-  if !has('nvim')
-    if exists('$TMUX')
-      let &t_SI = "\<Esc>Ptmux;\<Esc>\e[6 q\<Esc>\e]12;3\x7\<Esc>\\"
-      let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\e]12;14\x7\<Esc>\\"
-    else
-      let &t_SI = "\e[6 q\e]12;3\x7"
-      let &t_EI = "\e[2 q\e]12;14\x7"
-      silent !echo -ne "\e[2 q\e]12;14\x7"
-      autocmd vimrc_autocommands VimLeave *
-            \ silent !echo -ne "\e[2 q\e]112\x7"
-    endif
+  if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\e[6 q\<Esc>\e]12;3\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\e]12;14\x7\<Esc>\\"
+  else
+    let &t_SI = "\e[6 q\e]12;3\x7"
+    let &t_EI = "\e[2 q\e]12;14\x7"
+    silent !echo -ne "\e[2 q\e]12;14\x7"
+    autocmd vimrc_autocommands VimLeave *
+          \ silent !echo -ne "\e[2 q\e]112\x7"
   endif
 
   " Set gui cursor
