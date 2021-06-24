@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
 
+target="$HOME/.local/plugged/vim-plug"
+destination="$(dirname "$0")/autoload/plug.vim"
+
+
 echo -n "Fetching vim-plug ... "
-if [ -d ~/.vim/bundle/vim-plug ]; then
+if [ -d "$target" ]; then
   echo "already fetched."
 else
   echo "done!"
-  git clone --depth 1 https://github.com/junegunn/vim-plug.git ~/.vim/bundle/vim-plug
+  mkdir -p "$(dirname "$target")"
+  git clone --depth 1 https://github.com/junegunn/vim-plug.git "$target"
 fi
 
 echo -n "Installing vim-plug ... "
-if [ -e ~/.vim/autoload/plug.vim ]; then
+if [ -e "$destination" ]; then
   echo "already installed."
 else
   echo "done!"
-  mkdir -p ~/.vim/autoload
-  ln -s ../bundle/vim-plug/plug.vim ~/.vim/autoload/plug.vim
+  mkdir -p "$(dirname "$destination")"
+  ln -s "$target/plug.vim" "$destination"
 fi
