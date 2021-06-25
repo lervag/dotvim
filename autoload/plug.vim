@@ -1,1 +1,1 @@
-../bundle/vim-plug/plug.vim
+../../.local/plugged/vim-plug/plug.vim
