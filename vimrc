@@ -30,11 +30,8 @@ Plug 'andymass/vim-matchup'
 Plug 'szw/vim-maximizer'
 
 " Plugin: Completion and snippets
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/neoinclude.vim'
-Plug 'neoclide/coc-neco'
-Plug 'jsfaint/coc-neoinclude'
 Plug 'SirVer/ultisnips'
 
 " Plugin: Text objects and similar
@@ -55,9 +52,6 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'machakann/vim-columnmove'
 
 " Plugin: Linting, debugging, and code runners
-if v:version >= 800
-  Plug 'dense-analysis/ale'
-endif
 Plug 'puremourning/vimspector'
 
 " Plugin: Editing
@@ -92,7 +86,6 @@ Plug 'tyru/capture.vim', {'on': 'Capture'}
 Plug 'tpope/vim-unimpaired'
 Plug 'cespare/vim-toml'
 Plug 'chrisbra/Colorizer'
-Plug 'RRethy/vim-hexokinase', {'do': 'make hexokinase'}
 
 " Filetype: python
 Plug 'vim-python/python-syntax'
@@ -459,92 +452,7 @@ augroup vimrc_fugitive
 augroup END
 
 " }}}2
-" {{{2 feature: completion and language server client
 
-" See also: coc-settings.json
-
-let g:coc_global_extensions = [
-      \ 'coc-vimtex',
-      \ 'coc-omni',
-      \ 'coc-snippets',
-      \ 'coc-python',
-      \ 'coc-json',
-      \ 'coc-yaml',
-      \ 'coc-rust-analyzer',
-      \ 'coc-vimlsp',
-      \ 'coc-sh',
-      \]
-
-inoremap <silent><expr> <c-space> coc#refresh()
-
-inoremap <expr><cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
-inoremap <expr><tab>   pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-
-imap <silent> <c-u>      <plug>(coc-snippets-expand)
-
-nmap <silent> <leader>ld <plug>(coc-definition)zv
-nmap <silent> <leader>lr <plug>(coc-references)
-nmap <silent> <leader>lt <plug>(coc-type-definition)
-nmap <silent> <leader>li <plug>(coc-implementation)
-nmap <silent> <leader>la <plug>(coc-codeaction-selected)
-xmap <silent> <leader>la <plug>(coc-codeaction-selected)
-
-nmap <silent> <leader>lp <plug>(coc-diagnostic-prev)
-nmap <silent> <leader>ln <plug>(coc-diagnostic-next)
-nmap <silent> <leader>lk :<c-u>call CocAction('doHover')<cr>
-
-nnoremap <silent> K :call <sid>show_documentation()<cr>
-function! s:show_documentation()
-  if index(['vim', 'help'], &filetype) >= 0
-    execute 'help ' . expand('<cword>')
-  elseif &filetype ==# 'neomuttrc'
-    let l:cword = expand('<cword>')
-    Man neomuttrc
-    call search(l:cword)
-  elseif &filetype ==# 'tex'
-    VimtexDocPackage
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-if exists('*CocActionAsync')
-  augroup coc_settings
-    autocmd!
-    autocmd CursorHold * silent call CocActionAsync('highlight')
-  augroup END
-endif
-
-" }}}2
-
-" {{{2 plugin: ale
-
-let g:ale_set_signs = 0
-
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_filetype_changed = 0
-let g:ale_lint_delay = 0
-
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
-
-let g:ale_statusline_format = ['Errors: %d', 'Warnings: %d', '']
-
-let g:ale_linters = {
-      \ 'tex': [],
-      \ 'python': ['pylint'],
-      \ 'markdown': [],
-      \}
-
-nmap <silent> <leader>aa <Plug>(ale_lint)
-nmap <silent> <leader>aj <Plug>(ale_next_wrap)
-nmap <silent> <leader>ak <Plug>(ale_previous_wrap)
-
-" }}}2
 " {{{2 plugin: calendar.vim
 
 let g:calendar_first_day = 'monday'
