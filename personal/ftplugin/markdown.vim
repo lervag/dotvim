@@ -3,10 +3,6 @@ let b:did_personal_markdown = 1
 
 call personal#markdown#init()
 
-if expand('%:p') ==# expand('~/notes.md')
-  ALEDisableBuffer
-endif
-
 let s:file = fnameescape(expand('<sfile>'))
 execute 'nnoremap <silent><buffer> <space>ar :source' s:file . "\<cr>"
 
