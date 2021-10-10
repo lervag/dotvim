@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-target="$HOME/.local/plugged/vim-plug"
+target="$HOME/.vim/bundle/vim-plug"
 destination="$(dirname "$0")/autoload/plug.vim"
 
 
