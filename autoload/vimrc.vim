@@ -30,7 +30,7 @@ function! vimrc#init() abort " {{{1
         \ 'unity.sintef.no',
         \], hostname()) >= 0
 
-  let g:vimrc#path_bundles = '~/.local/plugged'
+  let g:vimrc#path_bundles = '~/.vim/bundle'
   let g:vimrc#path_lervag = g:vimrc#is_devhost
         \ ? 'git@github.com:lervag/'
         \ : 'lervag/'

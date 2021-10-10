@@ -10,106 +10,30 @@ call plug#begin(g:vimrc#path_bundles)
 
 Plug 'junegunn/vim-plug', {'on': []}
 
-" My own plugins
-call plug#(g:vimrc#path_lervag . 'vimtex')
 call plug#(g:vimrc#path_lervag . 'file-line')
-call plug#(g:vimrc#path_lervag . 'vim-foam')
-call plug#(g:vimrc#path_lervag . 'vim-rmarkdown')
-call plug#(g:vimrc#path_lervag . 'vim-rainbow-lists')
 call plug#(g:vimrc#path_lervag . 'lists.vim')
-if g:vimrc#is_devhost
-  call plug#(g:vimrc#path_lervag . 'wiki.vim')
-  call plug#(g:vimrc#path_lervag . 'wiki-ft.vim')
-  call plug#(g:vimrc#path_lervag . 'vim-sintef')
-endif
 
-" Plugin: UI
-Plug 'Konfekt/FastFold'
-Plug 'luochen1990/rainbow'
-Plug 'andymass/vim-matchup'
-Plug 'szw/vim-maximizer'
-
-" Plugin: Completion and snippets
-Plug 'Shougo/neco-vim'
-Plug 'Shougo/neoinclude.vim'
-Plug 'SirVer/ultisnips'
-
-" Plugin: Text objects and similar
-Plug 'wellle/targets.vim'
-Plug 'machakann/vim-sandwich'
-
-" Plugin: Finder, motions, and tags
+Plug 'airblade/vim-rooter'
+Plug 'benmills/vimux'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'dyng/ctrlsf.vim'
 Plug 'junegunn/fzf', {
       \ 'dir': '~/.fzf',
       \ 'do': './install --all --no-update-rc',
       \}
 Plug 'junegunn/fzf.vim'
+Plug 'machakann/vim-sandwich'
 Plug 'pbogut/fzf-mru.vim'
-if v:version >= 800
-  Plug 'ludovicchabant/vim-gutentags'
-endif
-Plug 'dyng/ctrlsf.vim'
-Plug 'machakann/vim-columnmove'
-
-" Plugin: Linting, debugging, and code runners
-Plug 'puremourning/vimspector'
-
-" Plugin: Editing
-Plug 'junegunn/vim-easy-align'
-Plug 'dhruvasagar/vim-table-mode'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-speeddating'
-Plug 'zirrostig/vim-schlepp'
-Plug 'AndrewRadev/splitjoin.vim'
-Plug 'brianrodri/vim-sort-folds'
-
-" Plugin: VCS
 Plug 'rbong/vim-flog'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'
-Plug 'rhysd/git-messenger.vim'
-Plug 'ludovicchabant/vim-lawrencium'
-Plug 'airblade/vim-rooter'
-
-" Plugin: Tmux (incl. filetype)
-Plug 'whatyouhide/vim-tmux-syntax'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'benmills/vimux'
-
-" Plugin: Various
-Plug 'itchyny/calendar.vim'
-Plug 'tweekmonster/helpful.vim'
-Plug 'Shougo/vimproc', {'do': 'make -f make_unix.mak'}
-Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
-Plug 'tyru/capture.vim', {'on': 'Capture'}
-Plug 'tpope/vim-unimpaired'
-Plug 'cespare/vim-toml'
-Plug 'chrisbra/Colorizer'
-
-" Filetype: python
-Plug 'vim-python/python-syntax'
-Plug 'kalekundert/vim-coiled-snake'  " Folding
-Plug 'Vimjas/vim-python-pep8-indent' " Indents
-Plug 'jeetsukumaran/vim-pythonsense' " Text objects and motions
-
-" Filetype: vim
-Plug 'tpope/vim-scriptease'
-
-" Filetype: markdown
-Plug 'plasticboy/vim-markdown'
-
-" Filetype: Lua
-Plug 'tbastos/vim-lua'
-
-" Filetype: various
-Plug 'darvelo/vim-systemd'
-Plug 'gregsexton/MatchTag'
-Plug 'vim-ruby/vim-ruby'
-Plug 'gisraptor/vim-lilypond-integrator'
-Plug 'https://gitlab.com/HiPhish/info.vim'
 Plug 'tpope/vim-apathy'
-Plug 'rust-lang/rust.vim'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-scriptease'
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-unimpaired'
+Plug 'wellle/targets.vim'
 
 call plug#end()
 
@@ -420,6 +344,9 @@ let g:loaded_tarPlugin = 1
 let g:loaded_vimballPlugin = 1
 let g:loaded_zipPlugin = 1
 
+" Internal vim plugin
+let g:vimsyn_embed = 'P'
+
 " }}}2
 
 " {{{2 feature: git
@@ -453,28 +380,6 @@ augroup END
 
 " }}}2
 
-" {{{2 plugin: calendar.vim
-
-let g:calendar_first_day = 'monday'
-let g:calendar_date_endian = 'big'
-let g:calendar_frame = 'space'
-let g:calendar_week_number = 1
-
-nnoremap <silent> <leader>c :Calendar -position=here<cr>
-
-" Connect to diary
-augroup vimrc_calendar
-  autocmd!
-  autocmd FileType calendar
-        \ nnoremap <silent><buffer> <cr>
-        \ :<c-u>call personal#wiki#open_diary()<cr>
-  autocmd FileType calendar
-        \ nnoremap <silent><buffer> <c-e> <c-^>
-  autocmd FileType calendar
-        \ nnoremap <silent><buffer> <c-u> :WinBufDelete<cr>
-augroup END
-
-" }}}2
 " {{{2 plugin: CtrlFS
 
 let g:ctrlsf_indent = 2
@@ -555,20 +460,11 @@ function! MyFiles(...) abort
       \})
 endfunction
 
-command! -bang Zotero call fzf#run(fzf#wrap(
-            \ 'zotero',
-            \ { 'source':  'fd -t f -e pdf . ~/.local/zotero/',
-            \   'sink':    {x -> system(['zathura', '--fork', x])},
-            \   'options': '-m -d / --with-nth=-1' },
-            \ <bang>0))
-
 nnoremap <silent> <leader><leader> :FZFFreshMru --prompt "History > "<cr>
 nnoremap <silent> <leader>ob       :Buffers<cr>
 nnoremap <silent> <leader>ot       :Tags<cr>
-nnoremap <silent> <leader>ow       :WikiFzfPages<cr>
-nnoremap <silent> <leader>oz       :Zotero<cr>
 nnoremap <silent> <leader>oo       :call MyFiles()<cr>
-nnoremap <silent> <leader>op       :call MyFiles('~/.local/plugged')<cr>
+nnoremap <silent> <leader>op       :call MyFiles('~/.vim/bundle')<cr>
 nnoremap <silent> <leader>ov       :call fzf#run(fzf#wrap({
       \ 'dir': '~/.vim',
       \ 'source': 'git ls-files --exclude-standard --others --cached',
@@ -583,122 +479,12 @@ nnoremap <silent> <leader>ov       :call fzf#run(fzf#wrap({
 let g:lists_filetypes = ['markdown', 'wiki', 'help', 'text']
 
 " }}}2
-" {{{2 plugin: rainbow
-
-let g:rainbow_active = 1
-let g:rainbow_conf = {
-      \ 'guifgs': ['#f92672', '#00afff', '#268bd2', '#93a1a1', '#dc322f',
-      \   '#6c71c4', '#b58900', '#657b83', '#d33682', '#719e07', '#2aa198'],
-      \ 'ctermfgs': ['9', '127', '4', '1', '3', '12', '5', '2', '6', '33',
-      \   '104', '124', '7', '39'],
-      \ 'separately' : {
-      \   'gitconfig' : 0,
-      \   'wiki' : 0,
-      \   'md' : 0,
-      \   'help' : 0,
-      \   'lua' : 0,
-      \   'fortran' : {},
-      \   'systemd' : 0,
-      \   'cfg' : 0,
-      \   'vim' : 0,
-      \   'toml' : 0,
-      \   'qf' : 0,
-      \   'javascript' : 0,
-      \   'man' : 0,
-      \   'tex' : 0,
-      \ }
-      \}
-
-" }}}2
 " {{{2 plugin: targets.vim
 
 let g:targets_argOpening = '[({[]'
 let g:targets_argClosing = '[]})]'
 let g:targets_separators = ', . ; : + - = ~ _ * # / | \ &'
 let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab lB Ar aB Ab AB rr ll rb al rB Al bb aa bB Aa BB AA'
-
-" }}}2
-" {{{2 plugin: UltiSnips
-
-let g:UltiSnipsExpandTrigger = '<nop>'
-let g:UltiSnipsJumpForwardTrigger = '<c-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
-let g:UltiSnipsRemoveSelectModeMappings = 0
-let g:UltiSnipsSnippetDirectories = [vimrc#path('UltiSnips')]
-
-nnoremap <leader>es :UltiSnipsEdit!<cr>
-
-" }}}2
-" {{{2 plugin: undotree
-
-let g:undotree_WindowLayout = 2
-let g:undotree_SetFocusWhenToggle = 1
-
-nnoremap <f5> :UndotreeToggle<cr>
-
-" }}}2
-" {{{2 plugin: vim-columnmove
-
-let g:columnmove_no_default_key_mappings = 1
-
-for s:x in split('ftFT;,wbeWBE', '\zs') + ['ge', 'gE']
-  silent! call columnmove#utility#map('nxo', s:x, 'ø' . s:x, 'block')
-endfor
-unlet s:x
-
-" }}}2
-" {{{2 plugin: vim-easy-align
-
-let g:easy_align_bypass_fold = 1
-
-nmap <leader>ea <plug>(LiveEasyAlign)
-vmap <leader>ea <plug>(LiveEasyAlign)
-nmap <leader>eA <plug>(EasyAlign)
-vmap <leader>eA <plug>(EasyAlign)
-vmap .  <plug>(EasyAlignRepeat)
-
-" }}}2
-" {{{2 plugin: vim-gutentags
-
-let g:gutentags_define_advanced_commands = 1
-let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
-let g:gutentags_ctags_extra_args = [
-      \ '--tag-relative=yes',
-      \ '--fields=+aimS',
-      \ ]
-let g:gutentags_file_list_command = {
-      \ 'markers': {
-      \   '.git': 'git ls-files',
-      \   '.hg': 'hg files',
-      \ },
-      \}
-
-" }}}2
-" {{{2 plugin: vim-hexokinase
-
-let g:Hexokinase_highlighters = ['backgroundfull']
-let g:Hexokinase_ftEnabled = ['css', 'html']
-
-" }}}2
-" {{{2 plugin: vim-lawrencium
-
-nnoremap <leader>hs :Hgstatus<cr>
-nnoremap <leader>hl :Hglog<cr>
-nnoremap <leader>hL :Hglogthis<cr>
-nnoremap <leader>hd :call personal#hg#wrapper('Hgvdiff')<cr>
-nnoremap <leader>hr :call personal#hg#wrapper('Hgvrecord')<cr>
-nnoremap <leader>ha :call personal#hg#abort()<cr>
-
-" }}}
-" {{{2 plugin: vim-matchup
-
-let g:matchup_matchparen_status_offscreen = 0
-let g:matchup_override_vimtex = 1
-
-" }}}2
-" {{{2 plugin: vim-plug
-
-" See autoload/vimrc.vim
 
 " }}}2
 " {{{2 plugin: vim-rooter
@@ -790,71 +576,9 @@ catch
 endtry
 
 " }}}2
-" {{{2 plugin: vim-schlepp
-
-vmap <unique> <up>    <Plug>SchleppUp
-vmap <unique> <down>  <Plug>SchleppDown
-vmap <unique> <left>  <Plug>SchleppLeft
-vmap <unique> <right> <Plug>SchleppRight
-
-" }}}2
-" {{{2 plugin: vim-sort-folds
-
-xnoremap <silent> <leader>s :call sortfolds#SortFolds()<cr>
-
-" }}}
-" {{{2 plugin: vim-table-mode
-
-let g:table_mode_auto_align = 0
-let g:table_mode_corner = '|'
-
-" }}}2
 " {{{2 plugin: vim-tmux-navigator
 
 let g:tmux_navigator_disable_when_zoomed = 1
-
-" }}}
-" {{{2 plugin: maximizer
-
-function! GoMaxWindow(id)
-  call win_gotoid(a:id)
-  MaximizerToggle
-endfunction
-
-nnoremap <leader>m :MaximizerToggle!<cr>
-
-" }}}
-" {{{2 plugin: vimspector / maximizer
-
-let g:vimspector_base_dir = expand('$HOME/.config/vimspector-config')
-
-nmap     <leader>dd  <plug>VimspectorContinue
-nnoremap <leader>de  :call vimspector#Reset()<cr>
-nmap     <leader>d_  <plug>VimspectorRestart
-nnoremap <leader>dL  :call vimspector#ToggleLog()<cr>
-
-nmap     <leader>drc <plug>VimspectorRunToCursor
-nmap     <leader>dk  <plug>VimspectorStepOut
-nmap     <leader>dl  <plug>VimspectorStepInto
-nmap     <leader>dj  <plug>VimspectorStepOver
-nmap     <leader>df  <plug>VimspectorUpFrame
-nmap     <leader>dF  <plug>VimspectorDownFrame
-nmap     <leader>di  <plug>VimspectorBalloonEval
-xmap     <leader>di  <plug>VimspectorBalloonEval
-nnoremap <leader>da :call vimspector#AddWatch(expand("<cexpr>"))<CR>
-
-nmap     <leader>dbb <plug>VimspectorToggleBreakpoint
-nmap     <leader>dbc <plug>VimspectorToggleConditionalBreakpoint
-nnoremap <leader>dbx :call vimspector#ClearBreakpoints()<cr>
-nnoremap <leader>dbl :call vimspector#ListBreakpoints()<cr>
-" nnoremap <leader>dtcb :call vimspector#CleanLineBreakpoint()<CR>
-
-nnoremap <leader>dc :call GoMaxWindow(g:vimspector_session_windows.code)<CR>
-nnoremap <leader>dt :call GoMaxWindow(g:vimspector_session_windows.tagpage)<CR>
-nnoremap <leader>dv :call GoMaxWindow(g:vimspector_session_windows.variables)<CR>
-nnoremap <leader>dw :call GoMaxWindow(g:vimspector_session_windows.watches)<CR>
-nnoremap <leader>ds :call GoMaxWindow(g:vimspector_session_windows.stack_trace)<CR>
-nnoremap <leader>do :call GoMaxWindow(g:vimspector_session_windows.output)<CR>
 
 " }}}
 " {{{2 plugin: vimux
@@ -874,149 +598,6 @@ nnoremap <leader>ii  :VimuxRunCommand 'jkk'<cr>
 nnoremap <leader>is  :set opfunc=personal#vimux#operator<cr>g@
 nnoremap <leader>iss :call VimuxRunCommand(getline('.'))<cr>
 xnoremap <leader>is  "vy :call VimuxSendText(@v)<cr>
-
-" }}}2
-
-" {{{2 filetype: json
-
-let g:vim_json_syntax_conceal = 0
-
-" }}}2
-" {{{2 filetype: lua
-
-let g:lua_syntax_nofold = 1
-
-" }}}2
-" {{{2 filetype: man
-
-let g:man_hardwrap = 1
-
-" }}}2
-" {{{2 filetype: markdown
-
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_follow_anchor = 1
-let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_toml_frontmatter = 1
-let g:vim_markdown_new_list_item_indent = 2
-let g:vim_markdown_no_extensions_in_markdown = 1
-let g:vim_markdown_conceal = 2
-let g:vim_markdown_conceal_code_blocks = 0
-let g:vim_markdown_math = 1
-let g:vim_markdown_strikethrough = 1
-
-" }}}2
-" {{{2 filetype: python
-
-" Note: See more settings at:
-"       ~/.vim/personal/ftplugin/python.vim
-"       ~/.vim/personal/after/ftplugin/python.vim
-
-" Syntax
-let g:python_highlight_all = 1
-
-" Folding
-let g:coiled_snake_foldtext_flags = []
-
-" }}}2
-" {{{2 filetype: ruby
-
-let g:ruby_fold=1
-
-" }}}2
-" {{{2 filetype: tex
-
-let g:vimtex_complete_bib = {
-      \ 'simple' : 1,
-      \ 'menu_fmt' : '@year, @author_short, @title',
-      \}
-let g:vimtex_context_pdf_viewer = 'zathura'
-let g:vimtex_echo_verbose_input = 0
-let g:vimtex_fold_enabled = 1
-let g:vimtex_fold_types = {
-      \ 'markers' : {'enabled': 0},
-      \ 'sections' : {'parse_levels': 1},
-      \}
-let g:vimtex_format_enabled = 1
-let g:vimtex_imaps_leader = '¨'
-let g:vimtex_imaps_list = [
-      \ { 'lhs' : 'ii', 'rhs' : '\item ', 'leader'  : '',
-      \   'wrapper' : 'vimtex#imaps#wrap_environment',
-      \   'context' : ['itemize', 'enumerate', 'description'] },
-      \ { 'lhs' : '.',  'rhs' : '\cdot' },
-      \ { 'lhs' : '*',  'rhs' : '\times' },
-      \ { 'lhs' : 'a',  'rhs' : '\alpha' },
-      \ { 'lhs' : 'r',  'rhs' : '\rho' },
-      \ { 'lhs' : 'p',  'rhs' : '\varphi' },
-      \]
-let g:vimtex_quickfix_autoclose_after_keystrokes = 3
-let g:vimtex_quickfix_open_on_warning = 0
-let g:vimtex_syntax_conceal_default = 0
-let g:vimtex_toc_config = {
-      \ 'split_pos' : 'full',
-      \ 'mode' : 2,
-      \ 'fold_enable' : 1,
-      \ 'hotkeys_enabled' : 1,
-      \ 'hotkeys_leader' : '',
-      \ 'refresh_always' : 0,
-      \}
-let g:vimtex_view_automatic = 0
-let g:vimtex_view_forward_search_on_start = 0
-let g:vimtex_view_method = 'zathura'
-
-set spelllang=en_gb
-let g:vimtex_grammar_vlty = {
-      \ 'lt_command': 'languagetool',
-      \ 'show_suggestions': 1,
-      \}
-
-"
-" NOTE: See also ~/.vim/personal/ftplugin/tex.vim
-"
-
-" }}}2
-" {{{2 filetype: vim
-
-" Internal vim plugin
-let g:vimsyn_embed = 'P'
-
-" }}}2
-" {{{2 filetype: wiki
-
-let g:wiki_root = '~/.local/wiki'
-let g:wiki_toc_title = 'Innhald'
-let g:wiki_viewer = {'pdf': 'zathura'}
-let g:wiki_export = {
-      \ 'output': 'printed',
-      \}
-let g:wiki_filetypes = ['wiki', 'md']
-let g:wiki_month_names = [
-      \ 'januar',
-      \ 'februar',
-      \ 'mars',
-      \ 'april',
-      \ 'mai',
-      \ 'juni',
-      \ 'juli',
-      \ 'august',
-      \ 'september',
-      \ 'oktober',
-      \ 'november',
-      \ 'desember'
-      \]
-let g:wiki_template_title_week = '# Samandrag veke %(week), %(year)'
-let g:wiki_template_title_month = '# Samandrag frå %(month-name) %(year)'
-let g:wiki_write_on_nav = 1
-
-let g:wiki_toc_depth = 2
-let g:wiki_file_handler = 'personal#wiki#file_handler'
-
-augroup MyWikiAutocmds
-  autocmd!
-  autocmd User WikiLinkFollowed normal! zz
-  autocmd User WikiBufferInitialized
-        \ nmap <buffer> gf <plug>(wiki-link-follow)
-augroup END
 
 " }}}2
 
