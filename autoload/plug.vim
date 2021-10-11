@@ -1,1 +1,1 @@
-/home/vsl175/a/lervag/.vim/bundle/vim-plug/plug.vim
+../bundle/vim-plug/plug.vim
