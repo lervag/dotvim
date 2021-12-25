@@ -1,3 +1,0 @@
-"
-" Various personal stuff
-"

@@ -32,11 +32,6 @@ function! personal#init#statusline() abort " {{{1
 endfunction
 
 " }}}1
-function! personal#init#tabline() " {{{1
-  set tabline=%!personal#tabline#get_tabline()
-endfunction
-
-" }}}1
 
 function! personal#init#go_to_last_known_position() abort " {{{1
   if line("'\"") <= 0 || line("'\"") > line('$')

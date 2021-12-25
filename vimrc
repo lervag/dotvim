@@ -1,53 +1,14 @@
-" Vim configuration
-"
-" Author: Karl Yngve Lervåg
+" Use space as leader key
+nnoremap <space> <nop>
+let g:mapleader = "\<space>"
 
-call vimrc#init()
-
-" {{{1 Load plugins
-
-call plug#begin(g:vimrc#path_bundles)
-
-Plug 'junegunn/vim-plug', {'on': []}
-
-call plug#(g:vimrc#path_lervag . 'file-line')
-call plug#(g:vimrc#path_lervag . 'lists.vim')
-
-Plug 'airblade/vim-rooter'
-Plug 'benmills/vimux'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'dyng/ctrlsf.vim'
-Plug 'junegunn/fzf', {
-      \ 'dir': '~/.fzf',
-      \ 'do': './install --all --no-update-rc',
-      \}
-Plug 'junegunn/fzf.vim'
-Plug 'machakann/vim-sandwich'
-Plug 'pbogut/fzf-mru.vim'
-Plug 'rbong/vim-flog'
-Plug 'tpope/vim-apathy'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-rhubarb'
-Plug 'tpope/vim-scriptease'
-Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-unimpaired'
-Plug 'wellle/targets.vim'
-
-call plug#end()
-
-" }}}1
-
-if g:vimrc#bootstrap | finish | endif
+" Add personal files to runtimepath
+set runtimepath^=~/.vim/personal
 
 " {{{1 Autocommands
 
 augroup vimrc_autocommands
   autocmd!
-
-  " Specify some maps for filenames to filetypes
-  autocmd BufNewFile,BufRead *pylintrc set filetype=cfg
 
   " Only use cursorline for current window, except when in diff mode
   autocmd WinEnter,FocusGained * if !&diff | setlocal cursorline | endif
@@ -60,9 +21,6 @@ augroup vimrc_autocommands
   " Set keymapping for command window
   autocmd CmdwinEnter * nnoremap <buffer> q     <c-c><c-c>
   autocmd CmdwinEnter * nnoremap <buffer> <c-f> <c-c>
-
-  " Close preview after complete
-  autocmd CompleteDone * if pumvisible() == 0 | silent! pclose | endif
 augroup END
 
 " {{{1 Options
@@ -194,43 +152,7 @@ elseif executable('ack-grep')
 endif
 
 " Printing
-set printexpr=PrintFile(v:fname_in)
-
-function! PrintFile(fname)
-  let l:pdf = a:fname . '.pdf'
-  call system(printf('ps2pdf %s %s', a:fname, l:pdf))
-
-  echohl ModeMsg
-  let l:reply = input('View file before printing [y/N]? ')
-  echohl None
-  echon "\n"
-  if l:reply =~# '^y'
-    call system('mupdf ' . l:pdf)
-  endif
-
-  echohl ModeMsg
-  let l:reply = input('Save file to $HOME [Y/n]? ')
-  echohl None
-  echon "\n"
-  if empty(l:reply) || l:reply =~# '^n'
-    call system(printf('cp %s ~/vim-hardcopy.pdf', l:pdf))
-  endif
-
-  echohl ModeMsg
-  let l:reply = input('Send file to printer [y/N]? ')
-  echohl None
-  echon "\n"
-  if l:reply =~# '^y'
-    call system('lp ' . l:pdf)
-    let l:error = v:shell_error
-  else
-    let l:error = 1
-  endif
-
-  call delete(a:fname)
-  call delete(l:pdf)
-  return l:error
-endfunction
+set printexpr=personal#print_file(v:fname_in)
 
 " {{{1 Appearance and UI
 
@@ -242,18 +164,8 @@ silent! colorscheme my_solarized
 
 call personal#init#cursor()
 call personal#init#statusline()
-call personal#init#tabline()
 
 " {{{1 Mappings
-
-"
-" Available for mapping
-"
-"   Q
-"   U
-"   ctrl-s
-"   ctrl-space
-"
 
 " Disable some mappings
 noremap  <f1>   <nop>
@@ -295,9 +207,6 @@ nnoremap <silent> <leader>ev :execute 'edit' resolve($MYVIMRC)<cr>
 nnoremap <silent> <leader>xv :source $MYVIMRC<cr>
 nnoremap <leader>ez :edit ~/.zshrc<cr>
 
-xnoremap <silent><expr> ++ personal#visual_math#yank_and_analyse()
-nmap     <silent>       ++ vip++<esc>
-
 nnoremap <leader>pp :hardcopy<cr>
 xnoremap <leader>pp :hardcopy<cr>
 
@@ -315,23 +224,7 @@ nnoremap d#   *``dgN
 nnoremap dg* g*``dgn
 nnoremap dg# g*``dgN
 
-" Improved search related mappings
-call personal#search#init()
-cmap <expr> <cr> personal#search#wrap("\<cr>")
-map  <expr> n    personal#search#wrap('n')
-map  <expr> N    personal#search#wrap('N')
-map  <expr> gd   personal#search#wrap('gd')
-map  <expr> gD   personal#search#wrap('gD')
-map  <expr> *    personal#search#wrap('*', {'immobile': 1})
-map  <expr> #    personal#search#wrap('#', {'immobile': 1})
-map  <expr> g*   personal#search#wrap('g*', {'immobile': 1})
-map  <expr> g#   personal#search#wrap('g#', {'immobile': 1})
-xmap <expr> *    personal#search#wrap_visual('/')
-xmap <expr> #    personal#search#wrap_visual('?')
-
 " {{{1 Configure plugins
-
-" {{{2 internal
 
 " Disable a lot of unnecessary internal plugins
 let g:loaded_2html_plugin = 1
@@ -343,262 +236,5 @@ let g:loaded_spellfile_plugin = 1
 let g:loaded_tarPlugin = 1
 let g:loaded_vimballPlugin = 1
 let g:loaded_zipPlugin = 1
-
-" Internal vim plugin
-let g:vimsyn_embed = 'P'
-
-" }}}2
-
-" {{{2 feature: git
-
-let g:flog_default_arguments = {}
-let g:flog_default_arguments.format = '[%h] %s%d'
-let g:flog_default_arguments.date = 'format:%Y-%m-%d %H:%M:%S'
-
-nnoremap <silent><leader>gl :silent Flog -all<cr>
-nnoremap <silent><leader>gL :silent Flog -all -path=%<cr>
-
-augroup vimrc_flog
-  autocmd!
-  autocmd FileType floggraph setlocal nolist
-  autocmd FileType floggraph nmap <buffer><silent> q <plug>(FlogQuit)
-augroup END
-
-nnoremap <silent><leader>gs :call personal#git#fugitive_toggle()<cr>
-nnoremap <silent><leader>ge :Gedit<cr>
-nnoremap <silent><leader>gd :Gdiff<cr>
-
-augroup vimrc_fugitive
-  autocmd!
-  autocmd WinEnter index call fugitive#ReloadStatus(-1, 0)
-  autocmd BufReadPost fugitive:// setlocal bufhidden=delete
-  autocmd FileType git setlocal foldlevel=1
-  autocmd FileType git,fugitive nnoremap <buffer><silent> q :bwipeout!<cr>
-  autocmd FileType fugitive
-        \ nnoremap <buffer><silent> <f5> :call fugitive#ReloadStatus(-1, 0)<cr>
-augroup END
-
-" }}}2
-
-" {{{2 plugin: CtrlFS
-
-let g:ctrlsf_indent = 2
-let g:ctrlsf_regex_pattern = 1
-let g:ctrlsf_position = 'bottom'
-let g:ctrlsf_context = '-B 2'
-let g:ctrlsf_default_root = 'project+fw'
-let g:ctrlsf_populate_qflist = 1
-if executable('rg')
-  let g:ctrlsf_ackprg = 'rg'
-endif
-
-nnoremap         <leader>ff :CtrlSF 
-nnoremap <silent><leader>ft :CtrlSFToggle<cr>
-nnoremap <silent><leader>fu :CtrlSFUpdate<cr>
-vmap     <silent><leader>f  <Plug>CtrlSFVwordExec
-
-" }}}2
-" {{{2 plugin: FastFold
-
-" nmap <sid>(DisableFastFoldUpdate) <plug>(FastFoldUpdate)
-let g:fastfold_fold_command_suffixes =  ['x', 'X', 'M', 'R']
-let g:fastfold_fold_movement_commands = []
-
-" }}}2
-" {{{2 plugin: Fzf
-
-let g:fzf_layout = {'window': {'width': 0.9, 'height': 0.85} }
-let g:fzf_colors = {
-      \ 'fg':      ['fg', 'Normal'],
-      \ 'bg':      ['bg', 'Normal'],
-      \ 'hl':      ['fg', 'Comment'],
-      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-      \ 'hl+':     ['fg', 'Statement'],
-      \ 'info':    ['fg', 'PreProc'],
-      \ 'border':  ['fg', 'Ignore'],
-      \ 'prompt':  ['fg', 'Conditional'],
-      \ 'pointer': ['fg', 'Exception'],
-      \ 'marker':  ['fg', 'Keyword'],
-      \ 'spinner': ['fg', 'Label'],
-      \ 'header':  ['fg', 'Comment'],
-      \}
-let g:fzf_preview_window = ''
-
-let g:fzf_mru_no_sort = 1
-let g:fzf_mru_max = 1000
-let g:fzf_mru_exclude = '\v' . join([
-      \ '\.git/',
-      \ '\.local/wiki',
-      \ '\.cache/',
-      \ '^/tmp/',
-      \], '|')
-
-function! s:nothing()
-endfunction
-
-augroup my_fzf_config
-  autocmd!
-  autocmd User FzfStatusLine call s:nothing()
-  autocmd FileType fzf silent! tunmap <esc>
-augroup END
-
-function! MyFiles(...) abort
-  let l:dir = a:0 > 0 ? a:1 : FindRootDirectory()
-  if empty(l:dir)
-    let l:dir = getcwd()
-  endif
-  let l:dir = substitute(fnamemodify(l:dir, ':p'), '\/$', '', '')
-
-  let l:prompt_dir = len(l:dir) > 15 ? pathshorten(l:dir) : l:dir
-
-  call fzf#vim#files(l:dir, {
-      \ 'options': [
-      \   '-m',
-      \   '--prompt', 'Files ' . l:prompt_dir . '::'
-      \ ],
-      \})
-endfunction
-
-nnoremap <silent> <leader><leader> :FZFFreshMru --prompt "History > "<cr>
-nnoremap <silent> <leader>ob       :Buffers<cr>
-nnoremap <silent> <leader>ot       :Tags<cr>
-nnoremap <silent> <leader>oo       :call MyFiles()<cr>
-nnoremap <silent> <leader>op       :call MyFiles('~/.vim/bundle')<cr>
-nnoremap <silent> <leader>ov       :call fzf#run(fzf#wrap({
-      \ 'dir': '~/.vim',
-      \ 'source': 'git ls-files --exclude-standard --others --cached',
-      \ 'options': [
-      \   '--prompt', 'Files ~/.vim::',
-      \ ],
-      \}))<cr>
-
-" }}}2
-" {{{2 plugin: lists.vim
-
-let g:lists_filetypes = ['markdown', 'wiki', 'help', 'text']
-
-" }}}2
-" {{{2 plugin: targets.vim
-
-let g:targets_argOpening = '[({[]'
-let g:targets_argClosing = '[]})]'
-let g:targets_separators = ', . ; : + - = ~ _ * # / | \ &'
-let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab lB Ar aB Ab AB rr ll rb al rB Al bb aa bB Aa BB AA'
-
-" }}}2
-" {{{2 plugin: vim-rooter
-
-let g:rooter_manual_only = 1
-let g:rooter_patterns = ['.git', '.hg', '.bzr', '.svn']
-
-" }}}
-" {{{2 plugin: vim-sandwich
-
-let g:sandwich_no_default_key_mappings = 1
-let g:operator_sandwich_no_default_key_mappings = 1
-let g:textobj_sandwich_no_default_key_mappings = 1
-
-" Support for python like function names
-let g:sandwich#magicchar#f#patterns = [
-  \   {
-  \     'header' : '\<\%(\h\k*\.\)*\h\k*',
-  \     'bra'    : '(',
-  \     'ket'    : ')',
-  \     'footer' : '',
-  \   },
-  \ ]
-
-
-try
-  " Change some default options
-  call operator#sandwich#set('delete', 'all', 'highlight', 0)
-  call operator#sandwich#set('all', 'all', 'cursor', 'keep')
-
-  " Surround mappings (similar to surround.vim)
-  nmap gs  <plug>(operator-sandwich-add)
-  nmap gss <plug>(operator-sandwich-add)iW
-  nmap ds  <plug>(operator-sandwich-delete)<plug>(textobj-sandwich-query-a)
-  nmap dss <plug>(operator-sandwich-delete)<plug>(textobj-sandwich-auto-a)
-  nmap cs  <plug>(operator-sandwich-replace)<plug>(textobj-sandwich-query-a)
-  nmap css <plug>(operator-sandwich-replace)<plug>(textobj-sandwich-auto-a)
-  xmap sa  <plug>(operator-sandwich-add)
-  xmap sd  <plug>(operator-sandwich-delete)
-  xmap sr  <plug>(operator-sandwich-replace)
-
-  " Text objects
-  xmap is  <plug>(textobj-sandwich-query-i)
-  xmap as  <plug>(textobj-sandwich-query-a)
-  omap is  <plug>(textobj-sandwich-query-i)
-  omap as  <plug>(textobj-sandwich-query-a)
-  xmap iss <plug>(textobj-sandwich-auto-i)
-  xmap ass <plug>(textobj-sandwich-auto-a)
-  omap iss <plug>(textobj-sandwich-auto-i)
-  omap ass <plug>(textobj-sandwich-auto-a)
-
-  " Allow repeats while keeping cursor fixed
-  silent! runtime autoload/repeat.vim
-  nmap . <plug>(operator-sandwich-predot)<plug>(RepeatDot)
-
-  " Default recipes
-  let g:sandwich#recipes  = deepcopy(g:sandwich#default_recipes)
-  let g:sandwich#recipes += [
-        \ {
-        \   'buns' : ['{\s*', '\s*}'],
-        \   'input' : ['}'],
-        \   'kind' : ['delete', 'replace', 'auto', 'query'],
-        \   'regex' : 1,
-        \   'nesting' : 1,
-        \   'match_syntax' : 1,
-        \   'skip_break' : 1,
-        \   'indentkeys-' : '{,},0{,0}'
-        \ },
-        \ {
-        \   'buns' : ['\[\s*', '\s*\]'],
-        \   'input' : [']'],
-        \   'kind' : ['delete', 'replace', 'auto', 'query'],
-        \   'regex' : 1,
-        \   'nesting' : 1,
-        \   'match_syntax' : 1,
-        \   'indentkeys-' : '[,]'
-        \ },
-        \ {
-        \   'buns' : ['(\s*', '\s*)'],
-        \   'input' : [')'],
-        \   'kind' : ['delete', 'replace', 'auto', 'query'],
-        \   'regex' : 1,
-        \   'nesting' : 1,
-        \   'match_syntax' : 1,
-        \   'indentkeys-' : '(,)'
-        \ },
-        \]
-catch
-endtry
-
-" }}}2
-" {{{2 plugin: vim-tmux-navigator
-
-let g:tmux_navigator_disable_when_zoomed = 1
-
-" }}}
-" {{{2 plugin: vimux
-
-let g:VimuxOrientation = 'h'
-let g:VimuxHeight = '50'
-let g:VimuxResetSequence = ''
-
-" Open and manage panes/runners
-nnoremap <leader>io :call VimuxOpenRunner()<cr>
-nnoremap <leader>iq :VimuxCloseRunner<cr>
-nnoremap <leader>ip :VimuxPromptCommand<cr>
-nnoremap <leader>in :VimuxInspectRunner<cr>
-
-" Send commands
-nnoremap <leader>ii  :VimuxRunCommand 'jkk'<cr>
-nnoremap <leader>is  :set opfunc=personal#vimux#operator<cr>g@
-nnoremap <leader>iss :call VimuxRunCommand(getline('.'))<cr>
-xnoremap <leader>is  "vy :call VimuxSendText(@v)<cr>
-
-" }}}2
 
 " }}}1
